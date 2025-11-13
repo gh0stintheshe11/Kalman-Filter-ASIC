@@ -116,7 +116,7 @@ module sequencer (
 
   // ROM
   wire [15:0] instr;
-  rom_256x16 UROM (
+  rom_256x16 ROM (
     .clk(clk),
     .addr(pc),
     .dout(instr),

@@ -54,11 +54,11 @@ module mem_reg
   input rq_we, input [W-1:0] rq_d, output [W-1:0] rq_q,
   input rd_we, input [W-1:0] rd_d, output [W-1:0] rd_q
 );
-  data_bank #(.W(W), .DEPTH(DEPTH), .ADDRW(ADDRW), .FORWARD(FORWARD)) u_db (
+  data_bank #(.W(W), .DEPTH(DEPTH), .ADDRW(ADDRW), .FORWARD(FORWARD)) Data_Bank (
     .clk(clk), .we(db_we), .waddr(db_waddr), .wdata(db_wdata),
     .raddr_a(db_raddr_a), .raddr_b(db_raddr_b),
     .rdata_a(db_rdata_a), .rdata_b(db_rdata_b)
   );
-  reg_we #(.W(W)) u_rq (.clk(clk), .we(rq_we), .d(rq_d), .q(rq_q));
-  reg_we #(.W(W)) u_rd (.clk(clk), .we(rd_we), .d(rd_d), .q(rd_q));
+  reg_we #(.W(W)) RQ (.clk(clk), .we(rq_we), .d(rq_d), .q(rq_q));
+  reg_we #(.W(W)) RD (.clk(clk), .we(rd_we), .d(rd_d), .q(rd_q));
 endmodule

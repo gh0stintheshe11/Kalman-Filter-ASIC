@@ -152,7 +152,7 @@ module au
   reg          recip_start;
   reg          recip_start_reg;  // Registered version for proper timing
 
-  recip_unit #(.W(W), .FRAC(FRAC)) U_RECI (
+  recip_unit #(.W(W), .FRAC(FRAC)) Mult_Inv (
     .clk   (clk),
     .start (recip_start_reg),
     .den_mag(S_mag == { (W-1){1'b0} } ? {{(W-2){1'b1}},1'b0} : S_mag), // avoid zero: clamp to tiny

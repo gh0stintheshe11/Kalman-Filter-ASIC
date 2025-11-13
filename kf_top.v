@@ -30,7 +30,7 @@ module kf_top
   wire [1:0]  ctl_e;      // Additional control
   wire        continue_i; // AU done signal to sequencer
   
-  sequencer u_sequencer (
+  sequencer Sequencer (
     .clk        (clk),
     .rst_n      (rst_n),
     .start      (start),
@@ -92,14 +92,15 @@ module kf_top
   wire [1:0]  op_sel     = ctl_d[1:0];
   wire [1:0]  mul_y_sel  = 2'b00; // Y = S (could be extended)
   
-  wire        au_start   = ctl_e[1];
-  wire        write_en   = ctl_e[0];
-  
   // RQ/RD write control
-  // Write to RQ when e1e0=11 (both au_start and write_en asserted is invalid for AU, so reuse)
-  // Write to RD when sel_data=10 (ZERO source) and write_en=1
+  // Write to RQ when e1e0=11 (reuse invalid AU+WR combination)
+  // Write to RD when sel_data=10 (ZERO source) and write_en=1 and not writing to RQ
   wire        rq_we      = (ctl_e == 2'b11);
-  wire        rd_we      = (sel_data == 2'b10) && write_en && !rq_we;
+  wire        rd_we      = (sel_data == 2'b10) && ctl_e[0] && !rq_we;
+  
+  // AU and write enables - disable when writing to RQ/RD
+  wire        au_start   = ctl_e[1] && !rq_we && !rd_we;
+  wire        write_en   = ctl_e[0] && !rq_we && !rd_we;
   
   // ========== Router A ==========
   wire [W-1:0]     ra_data;
@@ -118,7 +119,7 @@ module kf_top
   wire [W-1:0] db_rdata_a, db_rdata_b;
   wire [W-1:0] rq_q, rd_q;
   
-  mem_reg #(.W(W), .DEPTH(NR), .ADDRW(ADDRW), .FORWARD(1)) u_mem (
+  mem_reg #(.W(W), .DEPTH(NR), .ADDRW(ADDRW), .FORWARD(1)) Memory_Registers (
     .clk        (clk),
     // Data Bank
     .db_we      (ra_we && !rq_we && !rd_we),  // Only write to DB if not writing to RQ/RD
@@ -140,7 +141,7 @@ module kf_top
   // ========== Router B ==========
   wire [W-1:0] R_bus, S_bus, I_bus;
   
-  router_b #(.W(W)) u_router_b (
+  router_b #(.W(W)) Router_B (
     .A_data (db_rdata_a),
     .B_data (db_rdata_b),
     .RQ     (rq_q),
@@ -160,7 +161,7 @@ module kf_top
   // ========== Arithmetic Unit ==========
   wire au_busy;
   
-  au #(.W(W), .FRAC(FRAC)) u_au (
+  au #(.W(W), .FRAC(FRAC)) AU (
     .clk       (clk),
     .start     (au_start),
     .R_in      (R_bus),

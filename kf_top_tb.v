@@ -148,7 +148,7 @@ module kf_top_tb;
     // Cycle 2: PC→0, ROM[0] instruction visible
     @(posedge clk);
     #1;
-    $display("T2: PC=%d, instruction for DB[0] write active", DUT.u_sequencer.pc);
+    $display("T2: PC=%d, instruction for DB[0] write active", DUT.Sequencer.pc);
     start = 1'b0;
     
     // Cycle 3: PC→1, DB[0] write completes, ROM[1] instruction visible
@@ -156,7 +156,7 @@ module kf_top_tb;
     @(posedge clk);
     #1;
     $display("T3: PC=%d, DB[0]=%h (should be 00c000)", 
-             DUT.u_sequencer.pc, DUT.u_mem.u_db.mem[0]);
+             DUT.Sequencer.pc, DUT.Memory_Registers.Data_Bank.mem[0]);
     data_in = val_b;
     $display("T3: Changed data_in=%h (2.5) for DB[1]", data_in);
     
@@ -164,7 +164,7 @@ module kf_top_tb;
     @(posedge clk);
     #1;
     $display("T4: PC=%d, DB[0]=%h, DB[1]=%h", 
-             DUT.u_sequencer.pc, DUT.u_mem.u_db.mem[0], DUT.u_mem.u_db.mem[1]);
+             DUT.Sequencer.pc, DUT.Memory_Registers.Data_Bank.mem[0], DUT.Memory_Registers.Data_Bank.mem[1]);
     data_in = 0;
     
     // Monitor execution
@@ -173,9 +173,9 @@ module kf_top_tb;
       integer i;
       for (i = 0; i < 10; i = i + 1) begin
         $display("  PC=%2d: ctl_a=%05b ctl_b=%05b addr_a=%d addr_b=%d rdata_a=%h rdata_b=%h",
-                 DUT.u_sequencer.pc, DUT.ctl_a, DUT.ctl_b,
+                 DUT.Sequencer.pc, DUT.ctl_a, DUT.ctl_b,
                  DUT.addr_a, DUT.addr_b, DUT.db_rdata_a, DUT.db_rdata_b);
-        if (DUT.u_sequencer.pc == 2) begin
+        if (DUT.Sequencer.pc == 2) begin
           $display("  >>> PC=2: R_bus=%h S_bus=%h au_start=%b", 
                    DUT.R_bus, DUT.S_bus, DUT.au_start);
         end
@@ -187,17 +187,17 @@ module kf_top_tb;
     // Check what was actually loaded
     #10;
     $display("\nMemory contents after load:");
-    $display("  DB[0] = %h (expected %h for 3.0)", DUT.u_mem.u_db.mem[0], val_a);
-    $display("  DB[1] = %h (expected %h for 2.5)", DUT.u_mem.u_db.mem[1], val_b);
+    $display("  DB[0] = %h (expected %h for 3.0)", DUT.Memory_Registers.Data_Bank.mem[0], val_a);
+    $display("  DB[1] = %h (expected %h for 2.5)", DUT.Memory_Registers.Data_Bank.mem[1], val_b);
     
     $display("\nROM Program Check:");
-    $display("  ROM[2] = %b (ADD instruction)", DUT.u_sequencer.UROM.mem[2]);
+    $display("  ROM[2] = %b (ADD instruction)", DUT.Sequencer.ROM.mem[2]);
     $display("           ctl_a=%b ctl_b=%b ctl_c=%b ctl_d=%b ctl_e=%b",
-             DUT.u_sequencer.UROM.mem[2][15:11],
-             DUT.u_sequencer.UROM.mem[2][10:6],
-             DUT.u_sequencer.UROM.mem[2][5:4],
-             DUT.u_sequencer.UROM.mem[2][3:2],
-             DUT.u_sequencer.UROM.mem[2][1:0]);
+             DUT.Sequencer.ROM.mem[2][15:11],
+             DUT.Sequencer.ROM.mem[2][10:6],
+             DUT.Sequencer.ROM.mem[2][5:4],
+             DUT.Sequencer.ROM.mem[2][3:2],
+             DUT.Sequencer.ROM.mem[2][1:0]);
     
     $display("PASS: Loaded operands");
     checks = checks + 1;
@@ -209,8 +209,8 @@ module kf_top_tb;
       for (i = 0; i < 10; i = i + 1) begin
         @(posedge clk);
         #1;
-        $display("  Cycle %d: PC=%d, ready=%b", i, DUT.u_sequencer.pc, DUT.ready);
-        if (DUT.u_sequencer.pc == 2) begin
+        $display("  Cycle %d: PC=%d, ready=%b", i, DUT.Sequencer.pc, DUT.ready);
+        if (DUT.Sequencer.pc == 2) begin
           $display("\n[PC=2 Debug] ADD Instruction Execution:");
           $display("  ctl_b = %05b", DUT.ctl_b);
           $display("  sel_R = %02b, sel_S = %02b, addr_mode = %b", DUT.sel_R, DUT.sel_S, DUT.addr_mode);
@@ -234,7 +234,7 @@ module kf_top_tb;
         @(posedge clk);
         #1;
         $display("%3d  | %5b | %5b | %2b    | %2b    | %2b    | %6d | %6d | %b       | %b     | %h",
-                 DUT.u_sequencer.pc,
+                 DUT.Sequencer.pc,
                  DUT.ctl_a,
                  DUT.ctl_b,
                  DUT.ctl_c,
@@ -248,7 +248,7 @@ module kf_top_tb;
         
         // Check if we hit HALT (ctl_c = 2'b10)
         if (DUT.ctl_c == 2'b10 && ready == 1'b1) begin
-          $display("\nHALT detected - program completed at PC=%d", DUT.u_sequencer.pc);
+          $display("\nHALT detected - program completed at PC=%d", DUT.Sequencer.pc);
           disable monitor_loop;
         end
       end
@@ -268,10 +268,10 @@ module kf_top_tb;
     $display("\nExpected ADD result (3.0 + 2.5 = 5.5):");
     display_sm(expected, "ADD");
     $display("Actual result in DB[2]:");
-    display_sm(DUT.u_mem.u_db.mem[2], "DB[2]");
+    display_sm(DUT.Memory_Registers.Data_Bank.mem[2], "DB[2]");
     
     checks = checks + 1;
-    if (DUT.u_mem.u_db.mem[2] == expected) begin
+    if (DUT.Memory_Registers.Data_Bank.mem[2] == expected) begin
       $display("PASS: ADD result correct");
     end else begin
       $display("ERROR: ADD result mismatch");
@@ -285,10 +285,10 @@ module kf_top_tb;
     $display("\nExpected SUB result (3.0 - 2.5 = 0.5):");
     display_sm(expected, "SUB");
     $display("Actual result in DB[3]:");
-    display_sm(DUT.u_mem.u_db.mem[3], "DB[3]");
+    display_sm(DUT.Memory_Registers.Data_Bank.mem[3], "DB[3]");
     
     checks = checks + 1;
-    if (DUT.u_mem.u_db.mem[3] == expected) begin
+    if (DUT.Memory_Registers.Data_Bank.mem[3] == expected) begin
       $display("PASS: SUB result correct");
     end else begin
       $display("ERROR: SUB result mismatch");
@@ -309,10 +309,10 @@ module kf_top_tb;
     $display("\nExpected MUL result (3.0 * 2.5 = 7.5):");
     display_sm(expected, "MUL");
     $display("Actual result in DB[4]:");
-    display_sm(DUT.u_mem.u_db.mem[4], "DB[4]");
+    display_sm(DUT.Memory_Registers.Data_Bank.mem[4], "DB[4]");
     
     checks = checks + 1;
-    if (DUT.u_mem.u_db.mem[4] == expected) begin
+    if (DUT.Memory_Registers.Data_Bank.mem[4] == expected) begin
       $display("PASS: MUL result correct");
     end else begin
       $display("ERROR: MUL result mismatch");
@@ -326,6 +326,179 @@ module kf_top_tb;
       $display("WARNING: System not in READY state");
     end
     checks = checks + 1;
+    
+    // ========== NEW: Test RQ/RD Registers ==========
+    $display("\n========================================");
+    $display("[Test 6] RQ/RD Register Functionality");  
+    $display("========================================");
+    
+    // Reset sequencer to re-program from scratch
+    rst_n = 0;
+    #20;
+    rst_n = 1;
+    #10;
+    
+    // Program ROM for RQ/RD test (overwrite old program)
+    // PC=0: Load 4.0 to DB[5]
+    DUT.Sequencer.ROM.mem[0] = 16'b00101_00000_00_00_01;
+    // PC=1: Load DB[5] to RQ (e1e0=11)
+    DUT.Sequencer.ROM.mem[1] = 16'b00101_00000_00_00_11;
+    // PC=2: ADD RQ + DB[0] (sel_R=01 for RQ, sel_S=00 for port B at addr=0)
+    DUT.Sequencer.ROM.mem[2] = 16'b00000_01000_00_00_10;
+    // PC=3: WAIT
+    DUT.Sequencer.ROM.mem[3] = 16'b00000_00000_01_00_00;
+    // PC=4: Write result to DB[6]
+    DUT.Sequencer.ROM.mem[4] = 16'b01110_00000_00_00_01;
+    // PC=5: HALT
+    DUT.Sequencer.ROM.mem[5] = 16'b00000_00000_10_00_00;
+    
+    // Load 4.0
+    val_a = q_of_int(4);  // 4.0
+    data_in = val_a;
+    
+    $display("Starting RQ/RD test: will load 4.0 to RQ, then RQ + DB[0] (3.0) = 7.0");
+    
+    @(posedge clk);
+    #1;
+    start = 1'b1;
+    
+    @(posedge clk);
+    #1;
+    start = 1'b0;
+    
+    // Monitor execution closely
+    $display("\nMonitoring RQ test execution:");
+    begin : monitor_rq
+      integer i;
+      for (i = 0; i < 10; i = i + 1) begin
+        @(posedge clk);
+        #1;
+        $display("  PC=%d: sel_R=%02b sel_S=%02b R_bus=%06h S_bus=%06h au_start=%b result=%06h",
+                 DUT.Sequencer.pc, DUT.sel_R, DUT.sel_S, 
+                 DUT.R_bus, DUT.S_bus, DUT.au_start, DUT.au_result);
+        if (DUT.Sequencer.pc == 2) begin
+          $display("    >>> At PC=2: addr_a=%d addr_b=%d db_rdata_a=%06h db_rdata_b=%06h RQ=%06h",
+                   DUT.addr_a, DUT.addr_b, DUT.db_rdata_a, DUT.db_rdata_b, DUT.Memory_Registers.rq_q);
+        end
+        if (DUT.ready) disable monitor_rq;
+      end
+    end
+    
+    // Wait for completion
+    wait(ready);
+    #10;
+    
+    $display("\nRQ/RD Test Results:");
+    $display("  RQ register = 0x%06h", DUT.Memory_Registers.rq_q);
+    display_sm(DUT.Memory_Registers.rq_q, "RQ");
+    $display("  RD register = 0x%06h", DUT.Memory_Registers.rd_q);
+    display_sm(DUT.Memory_Registers.rd_q, "RD");
+    $display("  DB[0] = 0x%06h", DUT.Memory_Registers.Data_Bank.mem[0]);
+    display_sm(DUT.Memory_Registers.Data_Bank.mem[0], "DB[0]");
+    $display("  DB[5] = 0x%06h", DUT.Memory_Registers.Data_Bank.mem[5]);
+    display_sm(DUT.Memory_Registers.Data_Bank.mem[5], "DB[5]");
+    $display("  DB[6] (RQ+DB[0]) = 0x%06h", DUT.Memory_Registers.Data_Bank.mem[6]);
+    display_sm(DUT.Memory_Registers.Data_Bank.mem[6], "DB[6]");
+    
+    $display("\nDebug - Instruction decode at PC=2:");
+    $display("  ROM[2] = %016b", DUT.Sequencer.ROM.mem[2]);
+    $display("  ctl_b = %05b (sel_R=%02b, sel_S=%02b, b0=%b)", 
+             DUT.Sequencer.ROM.mem[2][10:6],
+             DUT.Sequencer.ROM.mem[2][10:9],
+             DUT.Sequencer.ROM.mem[2][8:7],
+             DUT.Sequencer.ROM.mem[2][6]);
+    
+    // Expected: RQ=4.0, RQ+DB[0] = 4.0+0.0 = 4.0 (since memory was reset)
+    tc_result = q_of_int(4);  // 4.0
+    
+    checks = checks + 1;
+    if (DUT.Memory_Registers.rq_q == val_a) begin
+      $display("PASS: RQ loaded correctly (4.0)");
+    end else begin
+      $display("ERROR: RQ load failed (expected 0x%06h, got 0x%06h)", val_a, DUT.Memory_Registers.rq_q);
+      errors = errors + 1;
+    end
+    
+    checks = checks + 1;
+    if (DUT.Memory_Registers.Data_Bank.mem[6] == tc_result) begin
+      $display("PASS: RQ used in arithmetic correctly (4.0 + 0.0 = 4.0)");
+    end else begin
+      $display("ERROR: RQ arithmetic failed (expected 0x%06h, got 0x%06h)", 
+               tc_result, DUT.Memory_Registers.Data_Bank.mem[6]);
+      $display("  This suggests sel_S is not selecting DB[0] correctly");
+      errors = errors + 1;
+    end
+    
+    // ========== Test RD Register ==========
+    $display("\n========================================");
+    $display("[Test 7] RD Register Functionality");
+    $display("========================================");
+    
+    // Reset and program ROM for RD test
+    rst_n = 0;
+    #20;
+    rst_n = 1;
+    #10;
+    
+    // Program ROM for RD test
+    // PC=0: Load 5.0 to DB[7]
+    DUT.Sequencer.ROM.mem[0] = 16'b00111_00000_00_00_01;
+    // PC=1: Load DB[7] to RD (sel_data=10 for ZERO, e0=1)
+    DUT.Sequencer.ROM.mem[1] = 16'b10111_00000_00_00_01;
+    // PC=2: ADD DB[0] + RD (sel_R=00 for port A, sel_S=01 for RD, addr=0)
+    DUT.Sequencer.ROM.mem[2] = 16'b00000_00010_00_00_10;
+    // PC=3: WAIT
+    DUT.Sequencer.ROM.mem[3] = 16'b00000_00000_01_00_00;
+    // PC=4: Write result to DB[6]
+    DUT.Sequencer.ROM.mem[4] = 16'b01110_00000_00_00_01;
+    // PC=5: HALT
+    DUT.Sequencer.ROM.mem[5] = 16'b00000_00000_10_00_00;
+    
+    // Load 5.0
+    val_b = q_of_int(5);  // 5.0
+    data_in = val_b;
+    
+    $display("Starting RD test: will load 5.0 to RD, then DB[0] + RD = 0.0 + 5.0 = 5.0");
+    
+    @(posedge clk);
+    #1;
+    start = 1'b1;
+    
+    @(posedge clk);
+    #1;
+    start = 1'b0;
+    
+    // Wait for completion
+    wait(ready);
+    #10;
+    
+    $display("\nRD Test Results:");
+    $display("  RD register = 0x%06h", DUT.Memory_Registers.rd_q);
+    display_sm(DUT.Memory_Registers.rd_q, "RD");
+    $display("  DB[0] = 0x%06h", DUT.Memory_Registers.Data_Bank.mem[0]);
+    display_sm(DUT.Memory_Registers.Data_Bank.mem[0], "DB[0]");
+    $display("  DB[6] (DB[0]+RD) = 0x%06h", DUT.Memory_Registers.Data_Bank.mem[6]);
+    display_sm(DUT.Memory_Registers.Data_Bank.mem[6], "DB[6]");
+    
+    // Expected: RD=5.0, DB[0]+RD = 0.0+5.0 = 5.0
+    tc_result = q_of_int(5);  // 5.0
+    
+    checks = checks + 1;
+    if (DUT.Memory_Registers.rd_q == val_b) begin
+      $display("PASS: RD loaded correctly (5.0)");
+    end else begin
+      $display("ERROR: RD load failed (expected 0x%06h, got 0x%06h)", val_b, DUT.Memory_Registers.rd_q);
+      errors = errors + 1;
+    end
+    
+    checks = checks + 1;
+    if (DUT.Memory_Registers.Data_Bank.mem[6] == tc_result) begin
+      $display("PASS: RD used in arithmetic correctly (0.0 + 5.0 = 5.0)");
+    end else begin
+      $display("ERROR: RD arithmetic failed (expected 0x%06h, got 0x%06h)", 
+               tc_result, DUT.Memory_Registers.Data_Bank.mem[6]);
+      errors = errors + 1;
+    end
     
     // Summary
     #50;
