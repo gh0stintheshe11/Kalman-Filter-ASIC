@@ -20,6 +20,12 @@ module mem_reg_tb;
   reg  [W-1:0]        rq_d, rd_d;
   wire [W-1:0]        rq_q, rd_q;
 
+  // Temp address regs (declare at module scope)
+  reg  [ADDRW-1:0]    ai, bi;
+
+  // Loop counters / bookkeeping
+  integer i, errors, checks;
+
   // DUT
   mem_reg #(.W(W), .DEPTH(DEPTH), .ADDRW(ADDRW), .FORWARD(1)) DUT (
     .clk(clk),
@@ -41,8 +47,6 @@ module mem_reg_tb;
       patt = {8'hA5, i[7:0], 8'h5A};
     end
   endfunction
-
-  integer i, errors, checks;
 
   // Tasks
   task db_write;
@@ -116,21 +120,25 @@ module mem_reg_tb;
     rq_we=0; rq_d=0; rd_we=0; rd_d=0; errors=0; checks=0;
 
     // 1) Write patterns into all DB locations
-    for (i=0; i<DEPTH; i=i+1)
-      db_write(i[ADDRW-1:0], patt(i));
+    for (i=0; i<DEPTH; i=i+1) begin
+      ai = i[ADDRW-1:0];     // width truncation is OK
+      db_write(ai, patt(i));
+    end
 
     // 2) Read them back via both ports
-    for (i=0; i<DEPTH; i=i+1)
-      db_read_check(i[ADDRW-1:0], (DEPTH-1-i)[ADDRW-1:0],
-                    patt(i),       patt(DEPTH-1-i));
+    for (i=0; i<DEPTH; i=i+1) begin
+      ai = i[ADDRW-1:0];
+      bi = (DEPTH-1 - i);    // truncates to ADDRW
+      db_read_check(ai, bi, patt(i), patt(DEPTH-1 - i));
+    end
 
     // 3) Read-during-write hazard (write-through)
     @(negedge clk);
-      db_waddr   <= 3[ADDRW-1:0];
+      db_waddr   <= 3;                // literal auto-truncates to ADDRW
       db_wdata   <= 24'hDE_ADBE;
       db_we      <= 1'b1;
-      db_raddr_a <= 3[ADDRW-1:0];   // same address
-      db_raddr_b <= 2[ADDRW-1:0];
+      db_raddr_a <= 3;                // same address
+      db_raddr_b <= 2;
     #1; checks = checks + 1;
       if (db_rdata_a !== 24'hDE_ADBE) begin
         $display("ERR FWD: expected %h got %h", 24'hDE_ADBE, db_rdata_a);
