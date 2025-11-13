@@ -28,9 +28,9 @@ endmodule
 
 module sequencer (
   input             clk,
-  input             rst_n,      // synchronous active-low reset
+  input             rst_n,      // synchronous active-low reset (paper uses active-high RESET)
   input             start,      // 1-cycle pulse to start a run
-  input             continue_i, // from AU (e.g., reciprocal done)
+  input             continue_i, // from AU (e.g., operation done signal)
 
   // ROM programming (for testbench/ease of use)
   input             rom_we,
@@ -45,7 +45,7 @@ module sequencer (
   output     [1:0]  ctl_e,
 
   // Status
-  output            ready,      // high when idle (HALTed)
+  output reg        ready,      // high when idle (paper: READY)
   output     [7:0]  pc_dbg      // (optional) observe current PC
 );
   // Run/idle FF
@@ -65,39 +65,63 @@ module sequencer (
     .prog_data(rom_wdata)
   );
 
-  // Decode fields (valid whenever running; harmless when idle)
+  // Decode fields (always decode current ROM output)
   assign ctl_a = instr[15:11];
   assign ctl_b = instr[10:6];
   assign ctl_c = instr[5:4];
   assign ctl_d = instr[3:2];
   assign ctl_e = instr[1:0];
 
-  // READY when not running
-  assign ready  = ~running;
   assign pc_dbg = pc;
 
-  // Next-PC logic uses ctl_c
-  // 00: pc+1, 01: wait for continue_i then pc+1, 10: halt & pc=0, 11: pc+1 (reserved)
+  // PC increment logic per paper:
+  // - ctl_c[1:0]: 00=INC (1-cycle ops), 01=WAIT (multi-cycle), 10=HALT, 11=reserved
+  // - PC increments when operation completes
+  // - For WAIT: increment when continue_i=1 (operation done signal from AU)
+  // - For HALT: stop incrementing, set READY=1
+  
   always @(posedge clk) begin
     if (!rst_n) begin
-      running <= 1'b0;
-      pc      <= 8'd0;
-    end else begin
-      // start a new run if asked while idle
-      if (!running && start) begin
-        running <= 1'b1;
-        pc      <= 8'd0;
-      end else if (running) begin
-        case (ctl_c)
-          2'b00: pc <= pc + 8'd1;                       // normal step
-          2'b01: if (continue_i) pc <= pc + 8'd1;       // wait
-          2'b10: begin                                   // halt
-                    running <= 1'b0;
-                    pc      <= 8'd0;
-                  end
-          default: pc <= pc + 8'd1;                     // reserved → step
-        endcase
+      // Reset: READY=1, PC initialized
+      ready <= 1'b1;
+      pc    <= 8'd0;
+    end else if (ready) begin
+      // Idle state - wait for START
+      if (start) begin
+        // START signal: go to address 0, begin execution, clear READY
+        ready <= 1'b0;
+        pc    <= 8'd0;
       end
+    end else begin
+      // Running state: decode ctl_c to control PC
+      case (ctl_c)
+        2'b00: begin
+          // Normal increment: 1-cycle operation (ADD/SUB/MUL)
+          pc <= pc + 8'd1;
+        end
+        2'b01: begin
+          // WAIT: multi-cycle operation (DIV/inverse)
+          // PC increments only when continue_i=1 (operation done)
+          if (continue_i) begin
+            pc <= pc + 8'd1;
+          end
+          // else: hold PC at current value
+        end
+        2'b10: begin
+          // HALT: stop execution, set READY=1, PC freezes
+          ready <= 1'b1;
+        end
+        2'b11: begin
+          // Reserved/unused: treat as normal increment
+          pc <= pc + 8'd1;
+        end
+      endcase
     end
   end
+
+  // Initialize ready to 1
+  initial begin
+    ready = 1'b1;
+  end
+
 endmodule

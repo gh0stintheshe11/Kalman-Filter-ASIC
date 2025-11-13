@@ -83,12 +83,16 @@ module sequencer_tb;
     if (!ready) begin $display("ERR ready should be 1 when idle"); errors=errors+1; end
 
     // Start a run
-    start = 1; @(posedge clk); start = 0;
-
+    start = 1; 
+    @(posedge clk); 
+    #1;  // Wait 1ps after the clock edge before clearing start
+    start = 0;
+    
     // PC=0: normal step → next PC=1
     expect_fields(5'd1,5'd2,2'b00,2'b01,2'b10);
     @(posedge clk);
-    #1; checks = checks + 2;
+    #1; 
+    checks = checks + 2;
     if (pc_dbg !== 8'd1)  begin $display("ERR PC step exp=1 got=%0d", pc_dbg); errors=errors+1; end
     if ( ready )          begin $display("ERR ready should be 0 while running"); errors=errors+1; end
 
@@ -99,7 +103,10 @@ module sequencer_tb;
     #1; checks = checks + 1;
     if (pc_dbg !== 8'd1)  begin $display("ERR WAIT did not stall at PC=1"); errors=errors+1; end
     // now release wait
-    continue_i = 1; @(posedge clk); continue_i = 0;
+    continue_i = 1; 
+    @(posedge clk); 
+    #1;  // Wait 1ps after clock edge
+    continue_i = 0;
 
     // PC should advance to 2
     expect_fields(5'd5,5'd6,2'b00,2'b00,2'b01);
@@ -107,12 +114,12 @@ module sequencer_tb;
     #1; checks = checks + 1;
     if (pc_dbg !== 8'd3) begin $display("ERR PC step to 3 failed"); errors=errors+1; end
 
-    // PC=3: HALT → stop & READY=1, PC reset to 0
+    // PC=3: HALT → stop & READY=1, PC stays at 3
     expect_fields(5'd7,5'd8,2'b10,2'b11,2'b00);
     @(posedge clk); // apply HALT this cycle
     #1; checks = checks + 2;
     if (!ready) begin $display("ERR ready should be 1 after HALT"); errors=errors+1; end
-    if (pc_dbg !== 8'd0) begin $display("ERR PC should reset to 0 after HALT"); errors=errors+1; end
+    if (pc_dbg !== 8'd3) begin $display("ERR PC should stay at 3 after HALT, got %0d", pc_dbg); errors=errors+1; end
 
     if (errors==0) $display("sequencer_tb: PASS (%0d checks)", checks);
     else           $display("sequencer_tb: %0d ERRORS / %0d checks", errors, checks);
