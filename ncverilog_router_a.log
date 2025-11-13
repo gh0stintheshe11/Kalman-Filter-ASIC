@@ -1,0 +1,30 @@
+ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+TOOL:	ncverilog	15.20-s079: Started on Nov 13, 2025 at 02:03:31 EST
+ncverilog
+	router_a.v
+	router_a_tb.v
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Building instance overlay tables: .................... Done
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                 Instances  Unique
+		Modules:                 2       2
+		Registers:              31      31
+		Scalar wires:            5       -
+		Vectored wires:         10       -
+		Always blocks:           2       2
+		Initial blocks:          1       1
+		Cont. assignments:       2       2
+		Pseudo assignments:      6       6
+		Simulation timescale:  1ps
+	Writing initial simulation snapshot: worklib.router_a_tb:v
+Loading snapshot worklib.router_a_tb:v .................... Done
+ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
+ncsim> run
+Router A: 256 tests PASSED :)
+Simulation complete via $finish(1) at time 256 NS + 0
+./router_a_tb.v:107     $finish;
+ncsim> exit
+TOOL:	ncverilog	15.20-s079: Exiting on Nov 13, 2025 at 02:03:32 EST  (total: 00:00:01)

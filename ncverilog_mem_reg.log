@@ -1,0 +1,29 @@
+ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+TOOL:	ncverilog	15.20-s079: Started on Nov 13, 2025 at 02:04:00 EST
+ncverilog
+	mem_reg.v
+	mem_reg_tb.v
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Building instance overlay tables: .................... Done
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                 Instances  Unique
+		Modules:                 5       4
+		Registers:              30      29
+		Scalar wires:            4       -
+		Vectored wires:         10       -
+		Always blocks:           6       5
+		Initial blocks:          2       2
+		Pseudo assignments:      1       1
+		Simulation timescale:  1ps
+	Writing initial simulation snapshot: worklib.mem_reg_tb:v
+Loading snapshot worklib.mem_reg_tb:v .................... Done
+ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
+ncsim> run
+mem_reg_tb: PASS (21 checks)
+Simulation complete via $finish(1) at time 206 NS + 0
+./mem_reg_tb.v:162     $finish;
+ncsim> exit
+TOOL:	ncverilog	15.20-s079: Exiting on Nov 13, 2025 at 02:04:02 EST  (total: 00:00:02)
