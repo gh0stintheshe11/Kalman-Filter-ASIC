@@ -1,0 +1,127 @@
+ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+TOOL:	ncverilog	15.20-s079: Started on Nov 13, 2025 at 03:04:13 EST
+ncverilog
+	au.v
+	au_inv_tb.v
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.au_inv_tb:v <0x2c5ca50d>
+			streams:   7, words: 15430
+		worklib.recip_unit:v <0x2c398dc9>
+			streams:   9, words:  3921
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                 Instances  Unique
+		Modules:                 3       3
+		Registers:              45      45
+		Scalar wires:            9       -
+		Vectored wires:         22       -
+		Always blocks:           7       7
+		Initial blocks:          4       4
+		Cont. assignments:      15      18
+		Pseudo assignments:      2       2
+		Simulation timescale:  1ps
+	Writing initial simulation snapshot: worklib.au_inv_tb:v
+Loading snapshot worklib.au_inv_tb:v .................... Done
+ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
+ncsim> run
+========================================
+Testing AU Multiplicative Inverse
+(24-cycle operation)
+========================================
+
+Testing 1/1:
+  cycle 1: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 2: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 3: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 4: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 10: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 20: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  S = 1
+  Expected 1/S = 1.000000
+  Got result = 1.000000
+  Error = 0.00%
+  Cycles = 26
+  ✓ PASS
+
+Testing 1/2:
+  cycle 1: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 2: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 3: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 4: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 10: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 20: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  S = 2
+  Expected 1/S = 0.500000
+  Got result = 0.500000
+  Error = 0.00%
+  Cycles = 26
+  ✓ PASS
+
+Testing 1/4:
+  cycle 1: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 2: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 3: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 4: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 10: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 20: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  S = 4
+  Expected 1/S = 0.250000
+  Got result = 0.250000
+  Error = 0.00%
+  Cycles = 26
+  ✓ PASS
+
+Testing 1/8:
+  cycle 1: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 2: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 3: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 4: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 10: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 20: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  S = 8
+  Expected 1/S = 0.125000
+  Got result = 0.125000
+  Error = 0.00%
+  Cycles = 26
+  ✓ PASS
+
+Testing 1/-2:
+  cycle 1: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 2: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 3: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 4: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 10: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 20: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  S = -2
+  Expected 1/S = -0.500000
+  Got result = -0.500000
+  Error = 0.00%
+  Cycles = 26
+  ✓ PASS
+
+Testing 1/-4:
+  cycle 1: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 2: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 3: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 4: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 10: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  cycle 20: done=0, busy=1, recip_start=0, recip_rdy=0, recip_run=1, state=2
+  S = -4
+  Expected 1/S = -0.250000
+  Got result = -0.250000
+  Error = 0.00%
+  Cycles = 26
+  ✓ PASS
+
+========================================
+Multiplicative Inverse Tests Completed
+========================================
+
+Simulation complete via $finish(1) at time 1705 NS + 0
+./au_inv_tb.v:138         $finish;
+ncsim> exit
+TOOL:	ncverilog	15.20-s079: Exiting on Nov 13, 2025 at 03:04:15 EST  (total: 00:00:02)

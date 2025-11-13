@@ -26,11 +26,11 @@ module recip_unit
 
   always @(posedge clk) begin
     if (start && !run) begin
-      // Initialize remainder with numerator = 1 << (2*FRAC)
-      // Positioned so that after W-1 iterations we get (W-1) bits of quotient.
-      rem   <= {{(W-1){1'b0}}, 1'b1, {(2*FRAC){1'b0}}}; // 1<<(2*FRAC) at proper spot
+      // Initialize remainder with numerator = 1 << (2*FRAC + 1)
+      // Need extra shift because we shift before first comparison
+      rem   <= {{(W-2){1'b0}}, 1'b1, {(2*FRAC+1){1'b0}}}; // 1<<(2*FRAC+1)
       q_mag <= {(W-1){1'b0}};
-      cnt   <= (W-1);
+      cnt   <= (W-1);  // 23 iterations for 23-bit magnitude
       run   <= 1'b1;
       rdy   <= 1'b0;
     end else if (run) begin
@@ -54,6 +54,12 @@ module recip_unit
     end else begin
       rdy <= 1'b0;
     end
+  end
+
+  // Initialize run to 0
+  initial begin
+    run = 1'b0;
+    rdy = 1'b0;
   end
 endmodule
 
@@ -129,9 +135,8 @@ module au
   // 24x24 -> 48 product of magnitudes
   wire [2*(W-1)-1:0] prod_full = R_mag * Y_mag;
 
-  // Q scaling: >> FRAC with rounding (add 0.5 LSB before shift)
-  wire [2*(W-1)-1:0] prod_rounded = prod_full + {{(2*(W-1)-FRAC-1){1'b0}}, 1'b1, {FRAC{1'b0}}};
-  wire [W-2:0]       prod_scaled  = prod_rounded[2*(W-1)-1:FRAC];
+  // Q scaling: >> FRAC (truncation, no rounding for now)
+  wire [W-2:0]       prod_scaled  = prod_full[2*(W-1)-1:FRAC];
 
   // Saturate magnitude after scaling
   wire [W-2:0] mul_mag_sat = (prod_scaled > MAG_MAX) ? MAG_MAX : prod_scaled;
@@ -141,10 +146,11 @@ module au
   wire [W-2:0] recip_q_mag;
   wire         recip_rdy;
   reg          recip_start;
+  reg          recip_start_reg;  // Registered version for proper timing
 
   recip_unit #(.W(W), .FRAC(FRAC)) U_RECI (
     .clk   (clk),
-    .start (recip_start),
+    .start (recip_start_reg),
     .den_mag(S_mag == { (W-1){1'b0} } ? {{(W-2){1'b1}},1'b0} : S_mag), // avoid zero: clamp to tiny
     .q_mag (recip_q_mag),
     .rdy   (recip_rdy)
@@ -168,7 +174,6 @@ module au
   always @* begin
     next_state   = state;
     recip_start  = 1'b0;
-    done         = 1'b0;
 
     case (state)
       ST_IDLE: begin
@@ -186,7 +191,6 @@ module au
 
       ST_SIMPLE: begin
         // results available this cycle, register on clk edge
-        done       = 1'b1;
         next_state = ST_IDLE;
       end
 
@@ -197,7 +201,6 @@ module au
       end
 
       ST_MULINV: begin
-        done       = 1'b1;
         next_state = ST_IDLE;
       end
     endcase
@@ -220,12 +223,12 @@ module au
       ST_SIMPLE: begin
         case (op_lat==2'b10 ? muly_lat : 2'b00) // if MUL select Y, else ignore
           2'b01: Y_sel = Iimm_lat;
-          2'b10: Y_sel = {1'b0, recip_q_mag}; // shouldn't happen here
+          2'b10: Y_sel = {S_lat[W-1], recip_q_mag}; // reciprocal with S's sign
           default: Y_sel = S_lat;
         endcase
       end
       ST_MULINV: begin
-        Y_sel = {1'b0, recip_q_mag}; // use reciprocal magnitude, positive
+        Y_sel = {S_lat[W-1], recip_q_mag}; // use reciprocal magnitude with S's sign
       end
       default: begin
         // when idle/wait, default to S input (doesn't matter)
@@ -251,17 +254,20 @@ module au
     endcase
   end
 
-  // State register
+  // State register and done signal
   always @(posedge clk) begin
-    if (state == ST_IDLE && start && (op_sel==2'b11 || (op_sel==2'b10 && mul_y_sel==2'b10)))
-      state <= ST_WAITR;
-    else if (state == ST_IDLE && start)
-      state <= ST_SIMPLE;
-    else
-      state <= next_state;
+    state <= next_state;
+    // Pulse done high when in completion states
+    done <= (state == ST_SIMPLE || state == ST_MULINV);
+    // Register recip_start for proper timing
+    recip_start_reg <= recip_start;
   end
 
   // Reset-less FSM start state
-  initial state = ST_IDLE;
+  initial begin
+    state = ST_IDLE;
+    done = 1'b0;
+    recip_start_reg = 1'b0;
+  end
 
 endmodule
