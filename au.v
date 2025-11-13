@@ -121,6 +121,10 @@ module au
   wire signed [W:0] sub_tc = R_tc - S_tc;
   wire [W-1:0]      add_sm = tc_to_sm_sat(add_tc);
   wire [W-1:0]      sub_sm = tc_to_sm_sat(sub_tc);
+  
+  // Latched versions for ADD/SUB (computed after R_lat/S_lat are declared)
+  wire signed [W:0] R_lat_tc, S_lat_tc, add_lat_tc, sub_lat_tc;
+  wire [W-1:0] add_lat_sm, sub_lat_sm;
 
   // ---- Multiply path (sign-magnitude multiply with Q scaling + rounding)
   wire        sign_mul = R_in[W-1] ^ S_in[W-1];
@@ -167,6 +171,14 @@ module au
   // latched operands/control across multi-cycle ops
   reg [W-1:0] R_lat, S_lat, Iimm_lat;
   reg [1:0]   op_lat, muly_lat;
+  
+  // Latched operand conversions for ADD/SUB
+  assign R_lat_tc = sm_to_tc(R_lat);
+  assign S_lat_tc = sm_to_tc(S_lat);
+  assign add_lat_tc = R_lat_tc + S_lat_tc;
+  assign sub_lat_tc = R_lat_tc - S_lat_tc;
+  assign add_lat_sm = tc_to_sm_sat(add_lat_tc);
+  assign sub_lat_sm = tc_to_sm_sat(sub_lat_tc);
 
   assign busy = (state == ST_WAITR);
 
@@ -242,9 +254,9 @@ module au
     case (state)
       ST_SIMPLE: begin
         case (op_lat)
-          2'b00: result <= add_sm;    // ADD
-          2'b01: result <= sub_sm;    // SUB
-          2'b10: result <= mul_sm;    // MUL (Y per muly_lat)
+          2'b00: result <= add_lat_sm;    // ADD (uses latched operands)
+          2'b01: result <= sub_lat_sm;    // SUB (uses latched operands)
+          2'b10: result <= mul_sm;        // MUL (Y per muly_lat)
           default: result <= {1'b0, {(W-1){1'b0}}};
         endcase
       end
