@@ -68,6 +68,8 @@ module kf_top
   //
   // Field E (bits 1-0): Execution control
   //   e1=au_start, e0=write_en
+  //   Special: e1e0=11 means write to RQ (from port A)
+  //            e1e0=01 with sel_data=10 means write to RD (from port A)
   
   wire [1:0]  sel_data   = ctl_a[4:3];
   wire [ADDRW-1:0] addr_a = {{(ADDRW-3){1'b0}}, ctl_a[2:0]};
@@ -93,6 +95,12 @@ module kf_top
   wire        au_start   = ctl_e[1];
   wire        write_en   = ctl_e[0];
   
+  // RQ/RD write control
+  // Write to RQ when e1e0=11 (both au_start and write_en asserted is invalid for AU, so reuse)
+  // Write to RD when sel_data=10 (ZERO source) and write_en=1
+  wire        rq_we      = (ctl_e == 2'b11);
+  wire        rd_we      = (sel_data == 2'b10) && write_en && !rq_we;
+  
   // ========== Router A ==========
   wire [W-1:0]     ra_data;
   wire             ra_we;
@@ -113,19 +121,19 @@ module kf_top
   mem_reg #(.W(W), .DEPTH(NR), .ADDRW(ADDRW), .FORWARD(1)) u_mem (
     .clk        (clk),
     // Data Bank
-    .db_we      (ra_we),
+    .db_we      (ra_we && !rq_we && !rd_we),  // Only write to DB if not writing to RQ/RD
     .db_waddr   (addr_a),     // Write address from field A
     .db_wdata   (ra_data),
     .db_raddr_a (addr_a),     // Read port A address
     .db_raddr_b (addr_b),     // Read port B address (may differ)
     .db_rdata_a (db_rdata_a),
     .db_rdata_b (db_rdata_b),
-    // RQ/RD registers
-    .rq_we      (1'b0),  // Can be controlled if needed
-    .rq_d       ({W{1'b0}}),
+    // RQ/RD registers - loaded from data bank port A
+    .rq_we      (rq_we),
+    .rq_d       (db_rdata_a),  // RQ gets data from port A
     .rq_q       (rq_q),
-    .rd_we      (1'b0),
-    .rd_d       ({W{1'b0}}),
+    .rd_we      (rd_we),
+    .rd_d       (db_rdata_a),  // RD gets data from port A
     .rd_q       (rd_q)
   );
   
