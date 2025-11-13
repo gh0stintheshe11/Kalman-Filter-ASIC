@@ -1,0 +1,44 @@
+ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+TOOL:	ncverilog	15.20-s079: Started on Nov 13, 2025 at 03:20:25 EST
+ncverilog
+	sequencer.v
+	sequencer_tb.v
+Recompiling... reason: file './sequencer.v' is newer than expected.
+	expected: Thu Nov 13 03:17:20 2025
+	actual:   Thu Nov 13 03:20:21 2025
+file: sequencer.v
+	module worklib.sequencer:v
+		errors: 0, warnings: 0
+file: sequencer_tb.v
+	module worklib.sequencer_tb:v
+		errors: 0, warnings: 0
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.sequencer:v <0x0e496e08>
+			streams:   6, words:  2337
+		worklib.sequencer_tb:v <0x4087a963>
+			streams:   9, words: 20207
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                 Instances  Unique
+		Modules:                 3       3
+		Registers:              26      26
+		Scalar wires:            6       -
+		Vectored wires:         10       -
+		Always blocks:           3       3
+		Initial blocks:          3       3
+		Cont. assignments:       2       7
+		Pseudo assignments:      2       2
+		Simulation timescale:  1ps
+	Writing initial simulation snapshot: worklib.sequencer_tb:v
+Loading snapshot worklib.sequencer_tb:v .................... Done
+ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
+ncsim> run
+sequencer_tb: PASS (27 checks)
+Simulation complete via $finish(1) at time 156 NS + 0
+./sequencer_tb.v:126     $finish;
+ncsim> exit
+TOOL:	ncverilog	15.20-s079: Exiting on Nov 13, 2025 at 03:20:26 EST  (total: 00:00:01)
