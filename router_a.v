@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 // Router A
 module router_a
 #(parameter W=24, parameter ADDRW=5)
