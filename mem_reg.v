@@ -1,9 +1,11 @@
 // ============================================================================
 // mem_reg.v
-// Aggregates:
-//   - data_bank : dual-read, single-write register file (flop-based, no reset)
-//   - reg_we    : 24-bit register with write-enable (no reset) for RQ and RD
-//   - mem_reg   : wrapper exposing DB + RQ + RD
+// Memory Registers Block - matches paper's architecture
+// Contains three modules:
+//   - Data_Bank : 32-register dual-read, single-write register file (5-bit addr)
+//   - RQ        : 24-bit register with write-enable (Q matrix element storage)
+//   - RD        : 24-bit register with write-enable (R matrix element storage)
+//   - mem_reg   : top-level wrapper exposing DB + RQ + RD
 // ----------------------------------------------------------------------------
 // Notes:
 // - All widths are parameterized; default W=24 (paper).
@@ -13,16 +15,23 @@
 // ============================================================================
 
 `timescale 1ns/1ps
-// 24-bit register with write-enable, NO reset
-module reg_we #(parameter W=24)(
+// RQ Register Module - 24-bit register with write-enable, NO reset
+module RQ #(parameter W=24)(
   input clk, input we, input [W-1:0] d, output reg [W-1:0] q
 );
   always @(posedge clk) if (we) q <= d;
 endmodule
 
-// Dual-read / single-write register file, NO reset
-module data_bank
-#(parameter W=24, parameter DEPTH=40, parameter ADDRW=6, parameter FORWARD=1)
+// RD Register Module - 24-bit register with write-enable, NO reset
+module RD #(parameter W=24)(
+  input clk, input we, input [W-1:0] d, output reg [W-1:0] q
+);
+  always @(posedge clk) if (we) q <= d;
+endmodule
+
+// Data_Bank Module - Dual-read / single-write register file, NO reset
+module Data_Bank
+#(parameter W=24, parameter DEPTH=32, parameter ADDRW=5, parameter FORWARD=1)
 (
   input clk,
   input we, input [ADDRW-1:0] waddr, input [W-1:0] wdata,
@@ -43,7 +52,7 @@ endmodule
 
 // Wrapper: Data Bank + RQ + RD
 module mem_reg
-#(parameter W=24, parameter DEPTH=40, parameter ADDRW=6, parameter FORWARD=1)
+#(parameter W=24, parameter DEPTH=32, parameter ADDRW=5, parameter FORWARD=1)
 (
   input clk,
   // Data Bank
@@ -54,11 +63,11 @@ module mem_reg
   input rq_we, input [W-1:0] rq_d, output [W-1:0] rq_q,
   input rd_we, input [W-1:0] rd_d, output [W-1:0] rd_q
 );
-  data_bank #(.W(W), .DEPTH(DEPTH), .ADDRW(ADDRW), .FORWARD(FORWARD)) Data_Bank (
+  Data_Bank #(.W(W), .DEPTH(DEPTH), .ADDRW(ADDRW), .FORWARD(FORWARD)) Data_Bank_inst (
     .clk(clk), .we(db_we), .waddr(db_waddr), .wdata(db_wdata),
     .raddr_a(db_raddr_a), .raddr_b(db_raddr_b),
     .rdata_a(db_rdata_a), .rdata_b(db_rdata_b)
   );
-  reg_we #(.W(W)) RQ (.clk(clk), .we(rq_we), .d(rq_d), .q(rq_q));
-  reg_we #(.W(W)) RD (.clk(clk), .we(rd_we), .d(rd_d), .q(rd_q));
+  RQ #(.W(W)) RQ_inst (.clk(clk), .we(rq_we), .d(rq_d), .q(rq_q));
+  RD #(.W(W)) RD_inst (.clk(clk), .we(rd_we), .d(rd_d), .q(rd_q));
 endmodule

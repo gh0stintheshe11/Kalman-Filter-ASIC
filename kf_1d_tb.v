@@ -301,10 +301,10 @@ module kf_1d_tb();
     
     // Read results from memory
     $display("\n=== Results ===");
-    $display("  x̂ (DB[0]) = %f (0x%06h)", sm_to_real(dut.Memory_Registers.Data_Bank.mem[0]), dut.Memory_Registers.Data_Bank.mem[0]);
-    $display("  P (DB[1]) = %f (0x%06h)", sm_to_real(dut.Memory_Registers.Data_Bank.mem[1]), dut.Memory_Registers.Data_Bank.mem[1]);
-    $display("  P⁻ (DB[6]) = %f (0x%06h)", sm_to_real(dut.Memory_Registers.Data_Bank.mem[6]), dut.Memory_Registers.Data_Bank.mem[6]);
-    $display("  K (reused) = %f (0x%06h)", sm_to_real(dut.Memory_Registers.Data_Bank.mem[6]), dut.Memory_Registers.Data_Bank.mem[6]);
+    $display("  x̂ (DB[0]) = %f (0x%06h)", sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[0]), dut.Memory_Registers.Data_Bank_inst.mem[0]);
+    $display("  P (DB[1]) = %f (0x%06h)", sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[1]), dut.Memory_Registers.Data_Bank_inst.mem[1]);
+    $display("  P⁻ (DB[6]) = %f (0x%06h)", sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[6]), dut.Memory_Registers.Data_Bank_inst.mem[6]);
+    $display("  K (reused) = %f (0x%06h)", sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[6]), dut.Memory_Registers.Data_Bank_inst.mem[6]);
     
     // Expected result for first iteration:
     // x⁻ = 0, P⁻ = 1.01

@@ -7,7 +7,7 @@
 `timescale 1ns/1ps
 
 module kf_top
-#(parameter W=24, parameter FRAC=14, parameter NR=40, parameter ADDRW=6)
+#(parameter W=24, parameter FRAC=14, parameter NR=32, parameter ADDRW=5)
 (
   input              clk,
   input              rst_n,
