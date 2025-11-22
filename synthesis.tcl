@@ -4,12 +4,18 @@ set link_library {tcbn65gpluswc.db}
 set target_library {tcbn65gpluswc.db}
 set symbol_library {tcbn65gpluswc.db}
 
-# read Verilog RTL
-read_file -format verilog {mem_reg.v}
+# read Verilog RTL - read all module files
+read_file -format verilog {mem_reg.v router_b.v au.v sequencer.v kf_top.v}
 
 # Set top-level design
-current_design mem_reg
+current_design kf_top
 link
+
+# Set don't touch on sub-modules to preserve hierarchy
+set_dont_touch [get_designs Memory_Registers]
+set_dont_touch [get_designs Router_B]
+set_dont_touch [get_designs AU]
+set_dont_touch [get_designs Sequencer]
 
 # synthesize/compile design
 compile_ultra
@@ -21,6 +27,5 @@ report_timing > ./syn_report_timing.txt
 report_area > ./syn_report_area.txt
 
 # export files for next step: place & route
-write -hierarchy -format verilog -output mem_reg_syn.v
-write_sdc mem_reg_syn.sdc
-
+write -hierarchy -format verilog -output kf_top_syn.v
+write_sdc kf_top_syn.sdc

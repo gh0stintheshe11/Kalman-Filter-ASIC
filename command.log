@@ -1,6 +1,6 @@
 #@ # 
 #@ # Running dc_shell Version N-2017.09 for linux64 -- Aug 17, 2017
-#@ # Date:   Fri Nov 14 00:32:12 2025
+#@ # Date:   Fri Nov 21 07:27:23 2025
 #@ # Run by: sunlang@ug253
 #@ 
 
@@ -42931,363 +42931,10 @@ uplevel #0 source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis
 #@ set symbol_library {tcbn65gpluswc.db}
 #@ 
 #@ # read Verilog RTL
-#@ read_file -format verilog {mem_reg.v}
-#@ link
-#@ 
-#@ # synthesize/compile design
-#@ compile_ultra
-#@ 
-#@ # reports
-#@ report_timing
-#@ report_area
-#@ report_timing > ./syn_report_timing.txt
-#@ report_area > ./syn_report_area.txt
-#@ 
-#@ # export files for next step: place & route
-#@ write -hierarchy -format verilog -output multiplier_syn.v
-#@ write_sdc multiplier_syn.sdc
-#@ 
-#@ # -- End source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-
-change_selection [get_s reg_we]
-change_selection [get_s reg_we]
-gui_zoom -window [gui_get_current_window -view] -full
-change_selection 
-change_selection [get_s {{q_reg[7]}}]
-change_selection 
-gui_zoom -window [gui_get_current_window -view] -full
-write -hierarchy -format ddc
-read_file -format ddc {/nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/router_a.ddc}
-change_selection [get_s router_a]
-change_selection 
-change_selection [get_s router_a]
-read_file -format ddc {/nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/reg_we.ddc}
-change_selection [get_s reg_we]
-change_selection [get_s reg_we]
-gui_zoom -window [gui_get_current_window -view] -full
-change_selection [get_s {{q_reg[16]}}]
-change_selection [get_s {{q_reg[15]}}]
-change_selection [get_s {{q_reg[15]}}]
-change_selection [get_s {{q_reg[22]}}]
-change_selection [get_s {{q_reg[22]}}]
-change_selection [get_s {{q_reg[22]}}]
-uplevel #0 source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-#@ # -- Starting source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-
-#@ # define standard cell libraries
-#@ set search_path {. /CMC/kits/tsmc_65nm_libs/tcbn65gplus/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b}
-#@ set link_library {tcbn65gpluswc.db}
-#@ set target_library {tcbn65gpluswc.db}
-#@ set symbol_library {tcbn65gpluswc.db}
-#@ 
-#@ # read Verilog RTL
-#@ read_file -format verilog {router_b.v}
-#@ link
-#@ 
-#@ # synthesize/compile design
-#@ compile_ultra
-#@ 
-#@ # reports
-#@ report_timing
-#@ report_area
-#@ report_timing > ./syn_report_timing.txt
-#@ report_area > ./syn_report_area.txt
-#@ 
-#@ # export files for next step: place & route
-#@ write -hierarchy -format verilog -output multiplier_syn.v
-#@ write_sdc multiplier_syn.sdc
-#@ 
-#@ # -- End source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-
-change_selection [get_s router_b]
-change_selection [get_s router_b]
-change_selection [get_s router_b]
-change_selection 
-gui_zoom -window [gui_get_current_window -view] -full
-write -hierarchy -format ddc
-uplevel #0 source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-#@ # -- Starting source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-
-#@ # define standard cell libraries
-#@ set search_path {. /CMC/kits/tsmc_65nm_libs/tcbn65gplus/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b}
-#@ set link_library {tcbn65gpluswc.db}
-#@ set target_library {tcbn65gpluswc.db}
-#@ set symbol_library {tcbn65gpluswc.db}
-#@ 
-#@ # read Verilog RTL
-#@ read_file -format verilog {router_a.v}
-#@ link
-#@ 
-#@ # synthesize/compile design
-#@ compile_ultra
-#@ 
-#@ # reports
-#@ report_timing
-#@ report_area
-#@ report_timing > ./syn_report_timing.txt
-#@ report_area > ./syn_report_area.txt
-#@ 
-#@ # export files for next step: place & route
-#@ write -hierarchy -format verilog -output multiplier_syn.v
-#@ write_sdc multiplier_syn.sdc
-#@ 
-#@ # -- End source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-
-change_selection [get_s router_a]
-change_selection [get_s router_a]
-change_selection 
-gui_zoom -window [gui_get_current_window -view] -full
-change_selection [get_s {{db_data[23]} {db_data[3]} {db_data[14]} {db_data[4]} {db_data[15]} {db_data[10]} {db_data[0]} {db_data[8]} {db_data[20]}}]
-change_selection -add [get_s {{db_data[19]} {db_data[11]} {db_data[21]} {db_data[5]} {db_data[12]} {db_data[1]} {db_data[9]} {db_data[16]} {db_data[2]}}]
-change_selection -add [get_s {{db_data[17]} {db_data[7]} {db_data[18]} {db_data[22]} {db_data[6]} {db_data[13]} {24_pins(db_data[],...)}}]
-change_selection [get_s {{db_data[18]} {db_data[10]} {db_data[0]} {db_data[8]} {db_data[20]} {db_data[19]} {db_data[11]} {db_data[21]} {db_data[5]}}]
-change_selection -add [get_s {{db_data[13]} {db_data[23]} {db_data[3]} {db_data[14]} {db_data[4]} {db_data[15]} {db_data[12]} {db_data[22]} {db_data[6]}}]
-change_selection -add [get_s {{db_data[1]} {db_data[9]} {db_data[16]} {db_data[2]} {db_data[17]} {db_data[7]} {24_pins(db_data[],...)}}]
-write -hierarchy -format ddc
-uplevel #0 source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-#@ # -- Starting source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-
-#@ # define standard cell libraries
-#@ set search_path {. /CMC/kits/tsmc_65nm_libs/tcbn65gplus/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b}
-#@ set link_library {tcbn65gpluswc.db}
-#@ set target_library {tcbn65gpluswc.db}
-#@ set symbol_library {tcbn65gpluswc.db}
-#@ 
-#@ # read Verilog RTL
-#@ read_file -format verilog {mem_reg.v}
-#@ link
-#@ 
-#@ # synthesize/compile design
-#@ compile_ultra
-#@ 
-#@ # reports
-#@ report_timing
-#@ report_area
-#@ report_timing > ./syn_report_timing.txt
-#@ report_area > ./syn_report_area.txt
-#@ 
-#@ # export files for next step: place & route
-#@ write -hierarchy -format verilog -output multiplier_syn.v
-#@ write_sdc multiplier_syn.sdc
-#@ 
-#@ # -- End source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-
-change_selection [get_s reg_we]
-change_selection [get_s reg_we]
-change_selection [get_s reg_we]
-change_selection [get_s reg_we]
-gui_zoom -window [gui_get_current_window -view] -full
-change_selection 
-change_selection [get_s reg_we]
-uplevel #0 source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-#@ # -- Starting source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-
-#@ # define standard cell libraries
-#@ set search_path {. /CMC/kits/tsmc_65nm_libs/tcbn65gplus/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b}
-#@ set link_library {tcbn65gpluswc.db}
-#@ set target_library {tcbn65gpluswc.db}
-#@ set symbol_library {tcbn65gpluswc.db}
-#@ 
-#@ # read Verilog RTL
-#@ read_file -format verilog {mem_reg.v}
-#@ link
-#@ 
-#@ # synthesize/compile design
-#@ compile_ultra
-#@ 
-#@ # reports
-#@ report_timing
-#@ report_area
-#@ report_timing > ./syn_report_timing.txt
-#@ report_area > ./syn_report_area.txt
-#@ 
-#@ # export files for next step: place & route
-#@ write -hierarchy -format verilog -output multiplier_syn.v
-#@ write_sdc multiplier_syn.sdc
-#@ 
-#@ # -- End source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-
-change_selection [get_s reg_we]
-change_selection [get_s reg_we]
-gui_zoom -window [gui_get_current_window -view] -full
-change_selection [get_s reg_we]
-change_selection [get_s reg_we]
-change_selection [get_s {{q[0]} {q[1]} {q[12]} {q[11]} {q[22]} {q[23]} {q[4]} {q[10]} {q[9]} {q[8]} {q[7]} {q[6]} {q[5]} {q[3]} {q[13]} {q[2]} {q[21]} {q[20]} {q[19]}}]
-change_selection -add [get_s {{q[18]} {q[17]} {q[16]} {q[15]} {q[14]} {24_pins(q[],...)}}]
-change_selection [get_s reg_we]
-change_selection [get_s we]
-change_selection [get_s clk]
-change_selection [get_s {{d[10]} {d[13]} {d[11]} {d[12]} {d[18]} {d[19]} {d[17]} {d[20]} {d[21]} {d[22]} {d[16]} {d[14]} {d[15]} {d[7]} {d[5]} {d[1]} {d[2]} {d[3]}}]
-change_selection -add [get_s {{d[4]} {d[0]} {d[9]} {d[8]} {d[6]} {d[23]} {24_pins(d[],...)}}]
-change_selection [get_s we]
-change_selection [get_s clk]
-change_selection [get_s we]
-change_selection [get_s {{d[10]} {d[13]} {d[11]} {d[12]} {d[18]} {d[19]} {d[17]} {d[20]} {d[21]} {d[22]} {d[16]} {d[14]} {d[15]} {d[7]} {d[5]} {d[1]} {d[2]} {d[3]}}]
-change_selection -add [get_s {{d[4]} {d[0]} {d[9]} {d[8]} {d[6]} {d[23]} {24_pins(d[],...)}}]
-change_selection [get_s reg_we]
-change_selection [get_s reg_we]
-uplevel #0 source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-#@ # -- Starting source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-
-#@ # define standard cell libraries
-#@ set search_path {. /CMC/kits/tsmc_65nm_libs/tcbn65gplus/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b}
-#@ set link_library {tcbn65gpluswc.db}
-#@ set target_library {tcbn65gpluswc.db}
-#@ set symbol_library {tcbn65gpluswc.db}
-#@ 
-#@ # read Verilog RTL
-#@ read_file -format verilog {router_a.v}
-#@ link
-#@ 
-#@ # synthesize/compile design
-#@ compile_ultra
-#@ 
-#@ # reports
-#@ report_timing
-#@ report_area
-#@ report_timing > ./syn_report_timing.txt
-#@ report_area > ./syn_report_area.txt
-#@ 
-#@ # export files for next step: place & route
-#@ write -hierarchy -format verilog -output router_a_syn.v
-#@ write_sdc router_a_syn.sdc
-#@ 
-#@ # -- End source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-
-write -hierarchy -format ddc
-uplevel #0 source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-#@ # -- Starting source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-
-#@ # define standard cell libraries
-#@ set search_path {. /CMC/kits/tsmc_65nm_libs/tcbn65gplus/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b}
-#@ set link_library {tcbn65gpluswc.db}
-#@ set target_library {tcbn65gpluswc.db}
-#@ set symbol_library {tcbn65gpluswc.db}
-#@ 
-#@ # read Verilog RTL
-#@ read_file -format verilog {router_b.v}
-#@ link
-#@ 
-#@ # synthesize/compile design
-#@ compile_ultra
-#@ 
-#@ # reports
-#@ report_timing
-#@ report_area
-#@ report_timing > ./syn_report_timing.txt
-#@ report_area > ./syn_report_area.txt
-#@ 
-#@ # export files for next step: place & route
-#@ write -hierarchy -format verilog -output router_b_syn.v
-#@ write_sdc router_b_syn.sdc
-#@ 
-#@ # -- End source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-
-change_selection [get_s router_b]
-change_selection [get_s router_b]
-change_selection [get_s router_b]
-change_selection 
-gui_zoom -window [gui_get_current_window -view] -full
-write -hierarchy -format ddc
-uplevel #0 source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-#@ # -- Starting source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-
-#@ # define standard cell libraries
-#@ set search_path {. /CMC/kits/tsmc_65nm_libs/tcbn65gplus/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b}
-#@ set link_library {tcbn65gpluswc.db}
-#@ set target_library {tcbn65gpluswc.db}
-#@ set symbol_library {tcbn65gpluswc.db}
-#@ 
-#@ # read Verilog RTL
-#@ read_file -format verilog {mem_reg.v}
-#@ link
-#@ 
-#@ # synthesize/compile design
-#@ compile_ultra
-#@ 
-#@ # reports
-#@ report_timing
-#@ report_area
-#@ report_timing > ./syn_report_timing.txt
-#@ report_area > ./syn_report_area.txt
-#@ 
-#@ # export files for next step: place & route
-#@ write -hierarchy -format verilog -output mem_reg_syn.v
-#@ write_sdc mem_reg_syn.sdc
-#@ 
-#@ # -- End source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-
-change_selection [get_s reg_we]
-change_selection 
-change_selection [get_s reg_we]
-change_selection [get_s reg_we]
-change_selection [get_s reg_we]
-uplevel #0 source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-#@ # -- Starting source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-
-#@ # define standard cell libraries
-#@ set search_path {. /CMC/kits/tsmc_65nm_libs/tcbn65gplus/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b}
-#@ set link_library {tcbn65gpluswc.db}
-#@ set target_library {tcbn65gpluswc.db}
-#@ set symbol_library {tcbn65gpluswc.db}
-#@ 
-#@ # read Verilog RTL
-#@ read_file -format verilog {mem_reg.v}
-#@ change_selection -remove [get_s reg_we]
-
-#@ link
-#@ 
-#@ # synthesize/compile design
-#@ compile_ultra
-#@ 
-#@ # reports
-#@ report_timing
-#@ report_area
-#@ report_timing > ./syn_report_timing.txt
-#@ report_area > ./syn_report_area.txt
-#@ 
-#@ # export files for next step: place & route
-#@ write -hierarchy -format verilog -output mem_reg_syn.v
-#@ write_sdc mem_reg_syn.sdc
-#@ 
-#@ # -- End source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-
-change_selection [get_s RQ]
-change_selection [get_s RQ]
-change_selection 
-gui_zoom -window [gui_get_current_window -view] -full
-change_selection [get_s {{q_reg[7]}}]
-change_selection [get_s {{q_reg[23]}}]
-change_selection [get_s {{q_reg[2]}}]
-change_selection [get_s {{q_reg[17]}}]
-change_selection 
-change_selection [get_s {{q[4]} {q[23]} {q[0]} {q[17]} {q[13]} {q[9]} {q[5]} {q[1]} {q[20]} {q[18]} {q[14]} {q[10]} {q[6]} {q[2]} {q[21]} {q[19]} {q[15]} {q[11]}}]
-change_selection -add [get_s {{q[7]} {q[3]} {q[22]} {q[16]} {q[12]} {q[8]} {24_pins(q[],...)}}]
-change_selection [get_s {{q[4]} {q[23]} {q[0]} {q[17]} {q[13]} {q[9]} {q[5]} {q[1]} {q[20]} {q[18]} {q[14]} {q[10]} {q[6]} {q[2]} {q[21]} {q[19]} {q[15]} {q[11]}}]
-change_selection -add [get_s {{q[7]} {q[3]} {q[22]} {q[16]} {q[12]} {q[8]} {24_pins(q[],...)}}]
-change_selection [get_s {{q[5]} {q[1]} {q[20]} {q[18]} {q[14]} {q[10]} {q[6]} {q[2]} {q[21]} {q[19]} {q[15]} {q[11]} {q[7]} {q[3]} {q[22]} {q[16]} {q[12]} {q[8]}}]
-change_selection -add [get_s {{q[4]} {q[23]} {q[0]} {q[17]} {q[13]} {q[9]} {24_pins(q[],...)}}]
-change_selection [get_s {{q[18]} {q[14]} {q[10]} {q[6]} {q[2]} {q[21]} {q[19]} {q[15]} {q[11]} {q[7]} {q[3]} {q[22]} {q[16]} {q[12]} {q[8]} {q[4]} {q[23]} {q[0]}}]
-change_selection -add [get_s {{q[17]} {q[13]} {q[9]} {q[5]} {q[1]} {q[20]} {24_pins(q[],...)}}]
-change_selection [get_s RQ]
-change_selection [get_s {{d[20]} {d[18]} {d[9]} {d[14]} {d[5]} {d[10]} {d[1]} {d[21]} {d[19]} {d[15]} {d[6]} {d[11]} {d[2]} {d[22]} {d[16]} {d[7]} {d[12]} {d[3]}}]
-change_selection -add [get_s {{d[23]} {d[17]} {d[8]} {d[13]} {d[4]} {d[0]} {24_pins(d[],...)}}]
-change_selection [get_s we]
-change_selection [get_s RQ]
-uplevel #0 source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-#@ # -- Starting source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
-
-#@ # define standard cell libraries
-#@ set search_path {. /CMC/kits/tsmc_65nm_libs/tcbn65gplus/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b}
-#@ set link_library {tcbn65gpluswc.db}
-#@ set target_library {tcbn65gpluswc.db}
-#@ set symbol_library {tcbn65gpluswc.db}
-#@ 
-#@ # read Verilog RTL
-#@ read_file -format verilog {mem_reg.v}
+#@ read_file -format verilog {au.v}
 #@ 
 #@ # Set top-level design
-#@ current_design mem_reg
+#@ current_design au
 #@ link
 #@ 
 #@ # synthesize/compile design
@@ -43300,27 +42947,15 @@ uplevel #0 source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis
 #@ report_area > ./syn_report_area.txt
 #@ 
 #@ # export files for next step: place & route
-#@ write -hierarchy -format verilog -output mem_reg_syn.v
-#@ write_sdc mem_reg_syn.sdc
-#@ 
+#@ write -hierarchy -format verilog -output au_syn.v
+#@ write_sdc au_syn.sdc
 #@ # -- End source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
 
-change_selection [get_s mem_reg]
-change_selection [get_s mem_reg]
-change_selection [get_s mem_reg]
+change_selection [get_s au]
+change_selection [get_s au]
 change_selection 
-gui_zoom -window [gui_get_current_window -view] -full
-change_selection [get_s Data_Bank_inst]
-change_selection 
-gui_zoom -window [gui_get_current_window -view] -full
-change_selection [get_s Data_Bank_inst]
-change_selection [get_s mem_reg]
-change_selection 
-gui_zoom -window [gui_get_current_window -view] -full
-change_selection [get_s mem_reg]
-change_selection [get_s mem_reg]
-change_selection 
-gui_zoom -window [gui_get_current_window -view] -full
+change_selection [get_s au]
+write -hierarchy -format ddc
 uplevel #0 source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
 #@ # -- Starting source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
 
@@ -43331,10 +42966,12 @@ uplevel #0 source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis
 #@ set symbol_library {tcbn65gpluswc.db}
 #@ 
 #@ # read Verilog RTL
-#@ read_file -format verilog {mem_reg.v}
+#@ read_file -format verilog {sequencer.v}
+#@ change_selection -remove [get_s au]
+
 #@ 
 #@ # Set top-level design
-#@ current_design mem_reg
+#@ current_design sequencer
 #@ link
 #@ 
 #@ # synthesize/compile design
@@ -43347,13 +42984,229 @@ uplevel #0 source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis
 #@ report_area > ./syn_report_area.txt
 #@ 
 #@ # export files for next step: place & route
-#@ write -hierarchy -format verilog -output mem_reg_syn.v
-#@ write_sdc mem_reg_syn.sdc
-#@ 
+#@ write -hierarchy -format verilog -output sequencer_syn.v
+#@ write_sdc sequencer_syn.sdc
 #@ # -- End source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
 
-change_selection [get_s mem_reg]
-change_selection [get_s mem_reg]
+change_selection [get_s sequencer]
+change_selection [get_s ROM]
+change_selection [get_s ROM]
+change_selection [get_s sequencer]
+change_selection [get_s ROM]
+change_selection [get_s ROM]
+change_selection [get_s ROM]
+change_selection [get_s sequencer]
+change_selection [get_s ROM]
+change_selection [get_s sequencer]
+change_selection [get_s ROM]
+change_selection [get_s sequencer]
+change_selection [get_s ROM]
+change_selection [get_s sequencer]
+change_selection [get_s sequencer]
 change_selection 
 gui_zoom -window [gui_get_current_window -view] -full
+change_selection [get_s {U46/A1 U46/A2 U46/A3 U46/B1 U46/B2 U46/ZN U47/A1 U47/A2 U47/ZN U48/I U48/ZN U43/ZN U44/A1 U44/A2 U44/B1}]
+change_selection -add [get_s {U44/B2 U44/C U44/ZN U45/I U45/ZN ROM/clk ROM/prog_we U49/A1 U49/A2 U49/B U49/ZN {pc_reg[6]/D} {pc_reg[6]/CP}}]
+change_selection -add [get_s {{pc_reg[6]/Q} {pc_reg[2]/D} {pc_reg[2]/CP} {pc_reg[2]/Q} U50/I U50/ZN U51/A1 U51/A2 U51/ZN U52/A1 U52/A2 U52/B1}]
+change_selection -add [get_s {U52/B2 U52/ZN U53/A1 U53/A2 U53/A3 U53/ZN U54/I U54/ZN U55/A1 U55/A2 U55/A3 U55/B1 U55/B2 U55/ZN U56/A1}]
+change_selection -add [get_s {U56/A2 U56/ZN U57/A1 U57/A2 U57/B U57/ZN {pc_reg[7]/D} {pc_reg[7]/CP} {pc_reg[7]/Q} U58/I U58/ZN U59/A1 U59/A2}]
+change_selection -add [get_s {U59/A3 U59/B1 U59/B2 U59/ZN {pc_reg[3]/D} {pc_reg[3]/CP} {pc_reg[3]/Q} U60/I U60/ZN U61/A1 U61/A2 U61/B U61/ZN}]
+change_selection -add [get_s {U62/A1 U62/A2 U62/B1 U62/B2 U62/ZN U23/A1 U23/A2 U23/ZN U24/A1 U24/A2 U24/A3 U24/B1 U24/B2 U24/ZN U25/I}]
+change_selection -add [get_s {U25/ZN U26/A1 U26/A2 U26/B U26/ZN U27/A1 U27/A2 U27/A3 U27/B U27/ZN U28/A1 U28/A2 U28/ZN {pc_reg[4]/D}}]
+change_selection -add [get_s {{pc_reg[4]/CP} {pc_reg[4]/Q} U29/A1 U29/A2 U29/A3 U29/ZN {pc_reg[0]/D} {pc_reg[0]/CP} {pc_reg[0]/Q} U30/A1 U30/A2}]
+change_selection -add [get_s {U30/A3 U30/ZN U31/A1 U31/A2 U31/B U31/ZN U32/A1 U32/A2 U32/ZN U33/A1 U33/A2 U33/B1 U33/B2 U33/Z U34/A1}]
+change_selection -add [get_s {U34/A2 U34/ZN U35/A1 U35/A2 U35/ZN U36/I U36/ZN U37/A1 U37/A2 U37/ZN ready_reg/D ready_reg/CP ready_reg/Q}]
+change_selection -add [get_s {U38/I U38/ZN U39/I U39/ZN {pc_reg[5]/D} {pc_reg[5]/CP} {pc_reg[5]/Q} {pc_reg[1]/D} {pc_reg[1]/CP} {pc_reg[1]/Q}}]
+change_selection -add [get_s {U40/I U40/ZN U41/A1 U41/A2 U41/B U41/ZN U42/I U42/ZN U43/A1 U43/A2 U43/A3 U43/B1 U43/B2 {ROM/prog_data[0]}}]
+change_selection -add [get_s {{ROM/prog_data[11]} {ROM/prog_data[12]} {ROM/prog_data[15]} {ROM/prog_data[13]} {ROM/prog_data[14]} {ROM/prog_data[9]}}]
+change_selection -add [get_s {{ROM/prog_data[10]} {ROM/prog_data[7]} {ROM/prog_data[8]} {ROM/prog_data[5]} {ROM/prog_data[6]} {ROM/prog_data[4]}}]
+change_selection -add [get_s {{ROM/prog_data[3]} {ROM/prog_data[2]} {ROM/prog_data[1]} {ROM/addr[6]} {ROM/addr[7]} {ROM/addr[4]} {ROM/addr[5]} {ROM/addr[0]}}]
+change_selection -add [get_s {{ROM/addr[1]} {ROM/addr[2]} {ROM/addr[3]} {ROM/dout[12]} {ROM/dout[13]} {ROM/dout[14]} {ROM/dout[15]} {ROM/dout[6]}}]
+change_selection -add [get_s {{ROM/dout[7]} {ROM/dout[8]} {ROM/dout[9]} {ROM/dout[0]} {ROM/dout[1]} {ROM/dout[2]} {ROM/dout[3]} {ROM/dout[4]} {ROM/dout[5]}}]
+change_selection -add [get_s {{ROM/dout[10]} {ROM/dout[11]} {ROM/prog_addr[3]} {ROM/prog_addr[4]} {ROM/prog_addr[5]} {ROM/prog_addr[6]} {ROM/prog_addr[0]}}]
+change_selection -add [get_s {{ROM/prog_addr[1]} {ROM/prog_addr[2]} {ROM/prog_addr[7]} rst_n start rom_we clk ready continue_i {ctl_b[1]}}]
+change_selection -add [get_s {{ctl_b[3]} {ctl_b[4]} {ctl_b[0]} {ctl_b[2]} {rom_wdata[7]} {rom_wdata[3]} {rom_wdata[13]} {rom_wdata[14]} {rom_wdata[1]}}]
+change_selection -add [get_s {{rom_wdata[11]} {rom_wdata[9]} {rom_wdata[5]} {rom_wdata[15]} {rom_wdata[2]} {rom_wdata[12]} {rom_wdata[6]} {rom_wdata[0]}}]
+change_selection -add [get_s {{rom_wdata[10]} {rom_wdata[8]} {rom_wdata[4]} {ctl_d[0]} {ctl_d[1]} {pc_dbg[5]} {pc_dbg[6]} {pc_dbg[2]} {pc_dbg[7]} {pc_dbg[3]}}]
+change_selection -add [get_s {{pc_dbg[4]} {pc_dbg[0]} {pc_dbg[1]} {rom_waddr[0]} {rom_waddr[4]} {rom_waddr[1]} {rom_waddr[5]} {rom_waddr[2]} {rom_waddr[6]}}]
+change_selection -add [get_s {{rom_waddr[7]} {rom_waddr[3]} {ctl_e[1]} {ctl_e[0]} {ctl_a[4]} {ctl_a[0]} {ctl_a[1]} {ctl_a[2]} {ctl_a[3]} {ctl_c[0]} {ctl_c[1]}}]
+change_selection -add [get_s {rst_n start rom_we clk ready continue_i {ctl_b[1]} {ctl_b[3]} {ctl_b[4]} {ctl_b[0]} {ctl_b[2]} {rom_wdata[7]} {rom_wdata[3]}}]
+change_selection -add [get_s {{rom_wdata[13]} {rom_wdata[14]} {rom_wdata[1]} {rom_wdata[11]} {rom_wdata[9]} {rom_wdata[5]} {rom_wdata[15]} {rom_wdata[2]}}]
+change_selection -add [get_s {{rom_wdata[12]} {rom_wdata[6]} {rom_wdata[0]} {rom_wdata[10]} {rom_wdata[8]} {rom_wdata[4]} {ctl_d[0]} {ctl_d[1]} {pc_dbg[5]}}]
+change_selection -add [get_s {{pc_dbg[6]} {pc_dbg[2]} {pc_dbg[7]} {pc_dbg[3]} {pc_dbg[4]} {pc_dbg[0]} {pc_dbg[1]} {rom_waddr[0]} {rom_waddr[4]} {rom_waddr[1]}}]
+change_selection -add [get_s {{rom_waddr[5]} {rom_waddr[2]} {rom_waddr[6]} {rom_waddr[7]} {rom_waddr[3]} {ctl_e[1]} {ctl_e[0]} {ctl_a[4]} {ctl_a[0]}}]
+change_selection -add [get_s {{ctl_a[1]} {ctl_a[2]} {ctl_a[3]} {ctl_c[0]} {ctl_c[1]} U44 {pc_reg[6]} {pc_reg[2]} {pc_reg[7]} {pc_reg[3]} {pc_reg[4]} {pc_reg[0]}}]
+change_selection -add [get_s {ready_reg {pc_reg[5]} {pc_reg[1]} U46 U47 U48 U45 U49 U50 U51 U52 U53 U54 U55 U56 U57 U58 U59 U60 U61 U62}]
+change_selection -add [get_s {U23 U24 U25 U26 U27 U28 U29 U30 U31 U32 U33 U34 U35 U36 U37 U38 U39 U40 U41 U42 U43 ROM rst_n start}]
+change_selection -add [get_s {rom_we clk ready continue_i n33 n34 n32 n35 n15 n39 n37 n50 n36 n41 n17 n13 n38 n40 n16 n45 n46 n42}]
+change_selection -add [get_s {n44 n19 n43 n14 n47 n48 n49 n18 n51 n20 n29 n26 n25 n27 n21 n22 n23 n24 n12 n30 n28 n31 {ctl_c[1]} {ctl_c[1]}}]
+change_selection -add [get_s {{ctl_c[0]} {pc_dbg[1]} {pc_dbg[1]} {pc_dbg[1]} {pc_dbg[1]} {pc_dbg[6]} {pc_dbg[6]} {pc_dbg[6]} {pc_dbg[2]} {pc_dbg[2]} {pc_dbg[2]}}]
+change_selection -add [get_s {{pc_dbg[7]} {pc_dbg[7]} {pc_dbg[7]} {pc_dbg[3]} {pc_dbg[3]} {pc_dbg[3]} {pc_dbg[3]} {pc_dbg[4]} {pc_dbg[4]} {pc_dbg[4]}}]
+change_selection -add [get_s {{pc_dbg[0]} {pc_dbg[0]} {pc_dbg[0]} {pc_dbg[0]} {pc_dbg[0]} {pc_dbg[0]} {pc_dbg[5]} {pc_dbg[5]} {pc_dbg[5]} {ctl_a[2]} {ctl_a[3]}}]
+change_selection -add [get_s {{ctl_a[4]} {ctl_a[0]} {ctl_a[1]} {ctl_b[2]} {ctl_b[3]} {ctl_b[4]} {ctl_b[0]} {ctl_b[1]} {ctl_c[1]} {ctl_c[0]} {ctl_d[1]} {ctl_d[0]}}]
+change_selection -add [get_s {{ctl_e[0]} {ctl_e[1]} {pc_dbg[1]} {pc_dbg[6]} {pc_dbg[2]} {pc_dbg[7]} {pc_dbg[3]} {pc_dbg[4]} {pc_dbg[0]} {pc_dbg[5]} {rom_waddr[7]}}]
+change_selection -add [get_s {{rom_waddr[3]} {rom_waddr[0]} {rom_waddr[4]} {rom_waddr[1]} {rom_waddr[5]} {rom_waddr[2]} {rom_waddr[6]} {rom_wdata[0]}}]
+change_selection -add [get_s {{rom_wdata[10]} {rom_wdata[8]} {rom_wdata[4]} {rom_wdata[14]} {rom_wdata[1]} {rom_wdata[11]} {rom_wdata[9]} {rom_wdata[5]}}]
+change_selection -add [get_s {{rom_wdata[15]} {rom_wdata[2]} {rom_wdata[12]} {rom_wdata[6]} {rom_wdata[7]} {rom_wdata[3]} {rom_wdata[13]} {ctl_a[2]}}]
+change_selection -add [get_s {{ctl_c[1]} {ctl_e[0]} {ctl_b[2]} {ctl_a[3]} {ctl_d[1]} {ctl_b[3]} {ctl_e[1]} {ctl_a[4]} {ctl_b[4]} {ctl_a[0]} {ctl_b[0]} {ctl_a[1]}}]
+change_selection -add [get_s {{ctl_c[0]} {ctl_b[1]} {ctl_d[0]} {ctl_a[2]} {ctl_c[1]} {ctl_e[0]} {ctl_b[2]} {ctl_a[3]} {ctl_d[1]} {ctl_b[3]} {ctl_e[1]} {ctl_a[4]}}]
+change_selection -add [get_s {{ctl_b[4]} {ctl_a[0]} {ctl_b[0]} {ctl_a[1]} {ctl_c[0]} {ctl_b[1]} {ctl_d[0]} {ctl_c[1]} {ctl_c[1]} {ctl_a[2]} {ctl_a[3]} {ctl_a[4]}}]
+change_selection -add [get_s {{ctl_a[0]} {ctl_a[1]} {ctl_c[0]} {ctl_e[0]} {ctl_e[1]} {ctl_d[1]} {ctl_d[0]} {ctl_c[1]} {ctl_c[0]} {ctl_b[2]} {ctl_b[3]} {ctl_b[4]}}]
+change_selection -add [get_s {{ctl_b[0]} {ctl_b[1]} {ctl_a[](size:5)} {ctl_b[](size:5)} {ctl_c[](size:2)} {ctl_d[](size:2)} {ctl_e[](size:2)} {pc_dbg[](size:8)}}]
+change_selection -add [get_s {{rom_waddr[](size:8)} {rom_wdata[](size:16)} {ctl_a[](size:16)} {5_pins(ctl_b[],...)} {16_pins(rom_wdata[],...)}}]
+change_selection -add [get_s {{2_pins(ctl_d[],...)} {8_pins(pc_dbg[],...)} {8_pins(rom_waddr[],...)} {2_pins(ctl_e[],...)} {5_pins(ctl_a[],...)}}]
+change_selection -add [get_s {{2_pins(ctl_c[],...)} Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2}]
+change_selection -add [get_s {Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2}]
+change_selection -add [get_s {Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2}]
+change_selection -add [get_s {Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 Pin1 Pin2 {5_pins(ctl_b[],...)}}]
+change_selection -add [get_s {{16_pins(rom_wdata[],...)} {2_pins(ctl_d[],...)} {8_pins(pc_dbg[],...)} {8_pins(rom_waddr[],...)} {2_pins(ctl_e[],...)}}]
+change_selection -add [get_s {{5_pins(ctl_a[],...)} {2_pins(ctl_c[],...)} {16_pins(prog_data[],...)} {8_pins(addr[],...)} {16_pins(dout[],...)}}]
+change_selection -add [get_s {{8_pins(prog_addr[],...)}}]
+change_selection 
+change_selection [get_s ROM]
+change_selection 
 write -hierarchy -format ddc
+change_selection [get_s ROM]
+change_selection [get_s ROM]
+change_selection 
+change_selection [get_s ROM]
+change_selection [get_s ROM]
+change_selection [get_s ROM]
+change_selection [get_s ROM]
+uplevel #0 source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
+#@ # -- Starting source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
+
+#@ # define standard cell libraries
+#@ set search_path {. /CMC/kits/tsmc_65nm_libs/tcbn65gplus/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b}
+#@ set link_library {tcbn65gpluswc.db}
+#@ set target_library {tcbn65gpluswc.db}
+#@ set symbol_library {tcbn65gpluswc.db}
+#@ 
+#@ # read Verilog RTL - read all module files
+#@ read_file -format verilog {mem_reg.v router_b.v au.v sequencer.v kf_top.v}
+#@ 
+#@ # Set top-level design
+#@ current_design kf_top
+#@ link
+#@ 
+#@ # synthesize/compile design
+#@ compile_ultra
+#@ 
+#@ # reports
+#@ report_timing
+#@ report_area
+#@ report_timing > ./syn_report_timing.txt
+#@ report_area > ./syn_report_area.txt
+#@ 
+#@ # export files for next step: place & route
+#@ write -hierarchy -format verilog -output kf_top_syn.v
+#@ write_sdc kf_top_syn.sdc
+#@ # -- End source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
+
+change_selection [get_s kf_top]
+change_selection [get_s kf_top]
+change_selection 
+gui_zoom -window [gui_get_current_window -view] -full
+change_selection [get_s au_done]
+change_selection [get_s ready]
+change_selection [get_s {{result_out[0]} {result_out[11]} {result_out[15]} {result_out[22]} {result_out[19]} {result_out[9]} {result_out[5]}}]
+change_selection -add [get_s {{result_out[12]} {result_out[1]} {result_out[16]} {result_out[23]} {result_out[6]} {result_out[13]} {result_out[2]}}]
+change_selection -add [get_s {{result_out[20]} {result_out[17]} {result_out[7]} {result_out[10]} {result_out[3]} {result_out[14]} {result_out[18]}}]
+change_selection -add [get_s {{result_out[21]} {result_out[8]} {result_out[4]} {24_pins(result_out[],...)}}]
+change_selection [get_s {{data_in[11]} {data_in[6]} {data_in[15]} {data_in[22]} {data_in[19]} {data_in[2]} {data_in[12]} {data_in[16]} {data_in[3]}}]
+change_selection -add [get_s {{data_in[23]} {data_in[7]} {data_in[13]} {data_in[20]} {data_in[17]} {data_in[4]} {data_in[8]} {data_in[0]} {data_in[10]}}]
+change_selection -add [get_s {{data_in[14]} {data_in[18]} {data_in[5]} {data_in[21]} {data_in[9]} {data_in[1]} {24_pins(data_in[],...)}}]
+gui_zoom -window [gui_get_current_window -view] -full
+change_selection [get_s Sequencer]
+change_selection [get_s Sequencer]
+gui_zoom -window [gui_get_current_window -view] -full
+change_selection [get_s Sequencer/ready_reg]
+change_selection [get_s Sequencer/ready_reg]
+change_selection [get_s Sequencer/U24]
+uplevel #0 source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
+#@ # -- Starting source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
+
+#@ # define standard cell libraries
+#@ set search_path {. /CMC/kits/tsmc_65nm_libs/tcbn65gplus/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b}
+#@ set link_library {tcbn65gpluswc.db}
+#@ set target_library {tcbn65gpluswc.db}
+#@ set symbol_library {tcbn65gpluswc.db}
+#@ 
+#@ # read Verilog RTL - read all module files
+#@ read_file -format verilog {mem_reg.v router_b.v au.v sequencer.v kf_top.v}
+#@ 
+#@ # Set top-level design
+#@ current_design kf_top
+#@ link
+#@ 
+#@ # Set don't touch on sub-modules to preserve hierarchy
+#@ set_dont_touch [get_designs Memory_Registers]
+#@ set_dont_touch [get_designs Router_B]
+#@ set_dont_touch [get_designs AU]
+#@ set_dont_touch [get_designs Sequencer]
+#@ 
+#@ # synthesize/compile design
+#@ compile_ultra
+#@ 
+#@ # reports
+#@ report_timing
+#@ report_area
+#@ report_timing > ./syn_report_timing.txt
+#@ report_area > ./syn_report_area.txt
+#@ 
+#@ # export files for next step: place & route
+#@ write -hierarchy -format verilog -output kf_top_syn.v
+#@ write_sdc kf_top_syn.sdc
+#@ # -- End source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
+
+change_selection [get_s kf_top]
+change_selection [get_s kf_top]
+change_selection [get_s U1265]
+change_selection [get_s Sequencer/ready_reg]
+change_selection [get_s U1265]
+change_selection 
+change_selection [get_s au_done]
+change_selection [get_s ready]
+change_selection [get_s {{result_out[22]} {result_out[19]} {result_out[9]} {result_out[5]} {result_out[12]} {result_out[1]} {result_out[16]}}]
+change_selection -add [get_s {{result_out[23]} {result_out[6]} {result_out[13]} {result_out[2]} {result_out[20]} {result_out[17]} {result_out[7]}}]
+change_selection -add [get_s {{result_out[10]} {result_out[3]} {result_out[0]} {result_out[11]} {result_out[15]} {result_out[14]} {result_out[18]}}]
+change_selection -add [get_s {{result_out[21]} {result_out[8]} {result_out[4]} {24_pins(result_out[],...)}}]
+uplevel #0 source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
+#@ # -- Starting source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
+
+#@ # define standard cell libraries
+#@ set search_path {. /CMC/kits/tsmc_65nm_libs/tcbn65gplus/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b}
+#@ set link_library {tcbn65gpluswc.db}
+#@ set target_library {tcbn65gpluswc.db}
+#@ set symbol_library {tcbn65gpluswc.db}
+#@ 
+#@ # read Verilog RTL - read all module files
+#@ read_file -format verilog {mem_reg.v router_b.v au.v sequencer.v kf_top.v}
+#@ 
+#@ # Set top-level design
+#@ current_design kf_top
+#@ link
+#@ 
+#@ # Set don't touch on sub-modules to preserve hierarchy
+#@ set_dont_touch [get_designs Memory_Registers]
+#@ set_dont_touch [get_designs Router_B]
+#@ set_dont_touch [get_designs AU]
+#@ set_dont_touch [get_designs Sequencer]
+#@ 
+#@ # synthesize/compile design
+#@ compile_ultra
+#@ 
+#@ # reports
+#@ report_timing
+#@ report_area
+#@ report_timing > ./syn_report_timing.txt
+#@ report_area > ./syn_report_area.txt
+#@ 
+#@ # export files for next step: place & route
+#@ write -hierarchy -format verilog -output kf_top_syn.v
+#@ write_sdc kf_top_syn.sdc
+#@ # -- End source /nfs/ug/homes-0/s/sunlang/ece1388/Kalman-Filter-ASIC/synthesis.tcl
+
+change_selection [get_s Sequencer]
+change_selection [get_s kf_top]
+change_selection [get_s kf_top]

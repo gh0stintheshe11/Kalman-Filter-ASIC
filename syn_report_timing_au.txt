@@ -1,0 +1,36 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : au
+Version: N-2017.09
+Date   : Fri Nov 21 07:27:51 2025
+****************************************
+
+Operating Conditions: WCCOM   Library: tcbn65gpluswc
+Wire Load Model Mode: segmented
+
+  Startpoint: state_reg[0]
+              (rising edge-triggered flip-flop)
+  Endpoint: busy (output port)
+  Path Group: (none)
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  au                 ZeroWireload          tcbn65gpluswc
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  state_reg[0]/CP (DFQD1)                  0.00       0.00 r
+  state_reg[0]/Q (DFQD1)                   0.18       0.18 f
+  U2221/ZN (NR2D0)                         0.05       0.22 r
+  busy (out)                               0.00       0.22 r
+  data arrival time                                   0.22
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1

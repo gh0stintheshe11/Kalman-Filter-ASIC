@@ -1,0 +1,49 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : sequencer
+Version: N-2017.09
+Date   : Fri Nov 21 07:31:48 2025
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: WCCOM   Library: tcbn65gpluswc
+Wire Load Model Mode: segmented
+
+  Startpoint: pc_reg[0] (rising edge-triggered flip-flop)
+  Endpoint: ctl_c[1] (output port)
+  Path Group: (none)
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  sequencer          ZeroWireload          tcbn65gpluswc
+  rom_256x16         ZeroWireload          tcbn65gpluswc
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  pc_reg[0]/CP (DFQD1)                     0.00 #     0.00 r
+  pc_reg[0]/Q (DFQD1)                      0.14       0.14 f
+  ROM/addr[0] (rom_256x16)                 0.00       0.14 f
+  ROM/U240/ZN (INVD0)                      0.04       0.19 r
+  ROM/U265/ZN (ND3D0)                      0.14       0.33 f
+  ROM/U290/ZN (NR2D0)                      0.43       0.75 r
+  ROM/U291/Z (BUFFD0)                      0.31       1.06 r
+  ROM/U1326/ZN (AOI22D0)                   0.11       1.17 f
+  ROM/U1329/ZN (ND4D0)                     0.07       1.24 r
+  ROM/U1330/ZN (NR4D0)                     0.04       1.28 f
+  ROM/U1331/ZN (AOI21D0)                   0.05       1.34 r
+  ROM/U228/ZN (AOI211D0)                   0.05       1.38 f
+  ROM/U1351/ZN (AOI32D0)                   0.12       1.50 r
+  ROM/dout[5] (rom_256x16)                 0.00       1.50 r
+  ctl_c[1] (out)                           0.00       1.50 r
+  data arrival time                                   1.50
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1

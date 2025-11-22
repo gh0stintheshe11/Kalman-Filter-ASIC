@@ -1,0 +1,37 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : kf_top
+Version: N-2017.09
+Date   : Fri Nov 21 07:54:45 2025
+****************************************
+
+Operating Conditions: WCCOM   Library: tcbn65gpluswc
+Wire Load Model Mode: segmented
+
+  Startpoint: Sequencer/ready_reg
+              (rising edge-triggered flip-flop)
+  Endpoint: ready (output port)
+  Path Group: (none)
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  kf_top             ZeroWireload          tcbn65gpluswc
+  sequencer          ZeroWireload          tcbn65gpluswc
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  Sequencer/ready_reg/CP (DFQD1)           0.00       0.00 r
+  Sequencer/ready_reg/Q (DFQD1)            0.12       0.12 f
+  Sequencer/ready (sequencer)              0.00       0.12 f
+  ready (out)                              0.00       0.12 f
+  data arrival time                                   0.12
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1
