@@ -82,7 +82,7 @@ module au_inv_tb();
                 cycles = cycles + 1;
                 if (cycles < 5 || cycles % 10 == 0) 
                     $display("  cycle %0d: done=%b, busy=%b, recip_start=%b, recip_rdy=%b, recip_run=%b, state=%d", 
-                             cycles, done, busy, dut.recip_start, dut.U_RECI.rdy, dut.U_RECI.run, dut.state);
+                             cycles, done, busy, dut.recip_start, dut.Mult_Inv.rdy, dut.Mult_Inv.run, dut.state);
                 if (cycles > 100) begin
                     $display("  ✗ TIMEOUT - done never asserted!");
                     $finish;

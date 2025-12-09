@@ -1,15 +1,24 @@
 ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
-TOOL:	ncverilog	15.20-s079: Started on Nov 13, 2025 at 03:03:43 EST
+TOOL:	ncverilog	15.20-s079: Started on Dec 09, 2025 at 16:41:16 EST
 ncverilog
-	au.v
-	au_basic_tb.v
-file: au.v
+	../src/au.v
+	../src/au_basic_tb.v
+file: ../src/au.v
 	module worklib.recip_unit:v
+		errors: 0, warnings: 0
+	module worklib.au:v
+		errors: 0, warnings: 0
+file: ../src/au_basic_tb.v
+	module worklib.au_basic_tb:v
 		errors: 0, warnings: 0
 		Caching library 'worklib' ....... Done
 	Elaborating the design hierarchy:
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
+		worklib.au:v <0x611e3d33>
+			streams:  33, words:  9632
+		worklib.au_basic_tb:v <0x789268ba>
+			streams:   7, words: 20123
 		worklib.recip_unit:v <0x51fde31a>
 			streams:   9, words:  3766
 	Building instance specific data structures.
@@ -19,10 +28,10 @@ file: au.v
 		Modules:                 3       3
 		Registers:              47      47
 		Scalar wires:            8       -
-		Vectored wires:         22       -
+		Vectored wires:         28       -
 		Always blocks:           7       7
 		Initial blocks:          4       4
-		Cont. assignments:      14      18
+		Cont. assignments:      19      24
 		Pseudo assignments:      2       2
 		Simulation timescale:  1ps
 	Writing initial simulation snapshot: worklib.au_basic_tb:v
@@ -47,6 +56,6 @@ ALL BASIC TESTS PASSED!
 ========================================
 
 Simulation complete via $finish(1) at time 4885 NS + 0
-./au_basic_tb.v:162         $finish;
+../src/au_basic_tb.v:162         $finish;
 ncsim> exit
-TOOL:	ncverilog	15.20-s079: Exiting on Nov 13, 2025 at 03:03:44 EST  (total: 00:00:01)
+TOOL:	ncverilog	15.20-s079: Exiting on Dec 09, 2025 at 16:41:16 EST  (total: 00:00:00)

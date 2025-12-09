@@ -1,13 +1,21 @@
 ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
-TOOL:	ncverilog	15.20-s079: Started on Nov 13, 2025 at 03:04:13 EST
+TOOL:	ncverilog	15.20-s079: Started on Dec 09, 2025 at 16:54:06 EST
 ncverilog
-	au.v
-	au_inv_tb.v
+	../src/au.v
+	../src/au_inv_tb.v
+Recompiling... reason: file '../src/au_inv_tb.v' is newer than expected.
+	expected: Tue Dec  9 16:05:08 2025
+	actual:   Tue Dec  9 16:52:53 2025
+file: ../src/au_inv_tb.v
+	module worklib.au_inv_tb:v
+		errors: 0, warnings: 0
 		Caching library 'worklib' ....... Done
 	Elaborating the design hierarchy:
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
-		worklib.au_inv_tb:v <0x2c5ca50d>
+		worklib.au:v <0x7b59e72a>
+			streams:  34, words: 10247
+		worklib.au_inv_tb:v <0x75b5a66f>
 			streams:   7, words: 15430
 		worklib.recip_unit:v <0x2c398dc9>
 			streams:   9, words:  3921
@@ -18,10 +26,10 @@ ncverilog
 		Modules:                 3       3
 		Registers:              45      45
 		Scalar wires:            9       -
-		Vectored wires:         22       -
+		Vectored wires:         28       -
 		Always blocks:           7       7
 		Initial blocks:          4       4
-		Cont. assignments:      15      18
+		Cont. assignments:      20      24
 		Pseudo assignments:      2       2
 		Simulation timescale:  1ps
 	Writing initial simulation snapshot: worklib.au_inv_tb:v
@@ -122,6 +130,6 @@ Multiplicative Inverse Tests Completed
 ========================================
 
 Simulation complete via $finish(1) at time 1705 NS + 0
-./au_inv_tb.v:138         $finish;
+../src/au_inv_tb.v:138         $finish;
 ncsim> exit
-TOOL:	ncverilog	15.20-s079: Exiting on Nov 13, 2025 at 03:04:15 EST  (total: 00:00:02)
+TOOL:	ncverilog	15.20-s079: Exiting on Dec 09, 2025 at 16:54:08 EST  (total: 00:00:02)
