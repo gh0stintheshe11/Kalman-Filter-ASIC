@@ -1,0 +1,188 @@
+ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+TOOL:	ncverilog	15.20-s079: Started on Dec 09, 2025 at 17:29:00 EST
+ncverilog
+	../src/kf_top.v
+	../src/kf_1d_tb.v
+file: ../src/kf_1d_tb.v
+//                   x̂ = x⁻ + K·(y-x⁻)
+                      |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,8|22): non-printable character (0xcc) ignored.
+//                   x̂ = x⁻ + K·(y-x⁻)
+                       |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,8|23): non-printable character (0x82) ignored.
+      //   x⁻ = Φ·x  (Φ=1, so x⁻=x, skip for now, could implement later)
+            |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,122|12): non-printable character (0xe2) ignored.
+      //   x⁻ = Φ·x  (Φ=1, so x⁻=x, skip for now, could implement later)
+             |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,122|13): non-printable character (0x81) ignored.
+      //   x⁻ = Φ·x  (Φ=1, so x⁻=x, skip for now, could implement later)
+              |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,122|14): non-printable character (0xbb) ignored.
+      //   P⁻ = Φ·P·Φ + Q = P + Q (since Φ=1)
+            |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,123|12): non-printable character (0xe2) ignored.
+      //   P⁻ = Φ·P·Φ + Q = P + Q (since Φ=1)
+             |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,123|13): non-printable character (0x81) ignored.
+      //   P⁻ = Φ·P·Φ + Q = P + Q (since Φ=1)
+              |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,123|14): non-printable character (0xbb) ignored.
+      dut.Sequencer.ROM.mem[pc] = 16'b01110_00000_00_00_01; // RESULT→DB[6], WR
+                                                                     |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,140|69): non-printable character (0xe2) ignored.
+      dut.Sequencer.ROM.mem[pc] = 16'b01110_00000_00_00_01; // RESULT→DB[6], WR
+                                                                      |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,140|70): non-printable character (0x86) ignored.
+      dut.Sequencer.ROM.mem[pc] = 16'b01110_00000_00_00_01; // RESULT→DB[6], WR
+                                                                       |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,140|71): non-printable character (0x92) ignored.
+      dut.Sequencer.ROM.mem[pc] = 16'b01111_00000_00_00_01; // RESULT→DB[7], WR
+                                                                     |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,160|69): non-printable character (0xe2) ignored.
+      dut.Sequencer.ROM.mem[pc] = 16'b01111_00000_00_00_01; // RESULT→DB[7], WR
+                                                                      |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,160|70): non-printable character (0x86) ignored.
+      dut.Sequencer.ROM.mem[pc] = 16'b01111_00000_00_00_01; // RESULT→DB[7], WR
+                                                                       |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,160|71): non-printable character (0x92) ignored.
+      dut.Sequencer.ROM.mem[pc] = 16'b01110_00000_00_00_01; // RESULT→DB[6], WR
+                                                                     |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,177|69): non-printable character (0xe2) ignored.
+      dut.Sequencer.ROM.mem[pc] = 16'b01110_00000_00_00_01; // RESULT→DB[6], WR
+                                                                      |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,177|70): non-printable character (0x86) ignored.
+      dut.Sequencer.ROM.mem[pc] = 16'b01110_00000_00_00_01; // RESULT→DB[6], WR
+                                                                       |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,177|71): non-printable character (0x92) ignored.
+      dut.Sequencer.ROM.mem[pc] = 16'b01111_00000_00_00_01; // RESULT→DB[7], WR
+                                                                     |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,194|69): non-printable character (0xe2) ignored.
+      dut.Sequencer.ROM.mem[pc] = 16'b01111_00000_00_00_01; // RESULT→DB[7], WR
+                                                                      |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,194|70): non-printable character (0x86) ignored.
+      dut.Sequencer.ROM.mem[pc] = 16'b01111_00000_00_00_01; // RESULT→DB[7], WR
+                                                                       |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,194|71): non-printable character (0x92) ignored.
+      // x̂ = x + K·(y-x)
+          |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,197|10): non-printable character (0xcc) ignored.
+      // x̂ = x + K·(y-x)
+           |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,197|11): non-printable character (0x82) ignored.
+      dut.Sequencer.ROM.mem[pc] = 16'b00111_01000_00_10_10; // RQ×DB[7], MUL, START
+                                                                 |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,204|65): non-printable character (0xc3) ignored.
+      dut.Sequencer.ROM.mem[pc] = 16'b00111_01000_00_10_10; // RQ×DB[7], MUL, START
+                                                                  |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,204|66): non-printable character (0x97) ignored.
+      dut.Sequencer.ROM.mem[pc] = 16'b01111_00000_00_00_01; // RESULT→DB[7], WR
+                                                                     |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,212|69): non-printable character (0xe2) ignored.
+      dut.Sequencer.ROM.mem[pc] = 16'b01111_00000_00_00_01; // RESULT→DB[7], WR
+                                                                      |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,212|70): non-printable character (0x86) ignored.
+      dut.Sequencer.ROM.mem[pc] = 16'b01111_00000_00_00_01; // RESULT→DB[7], WR
+                                                                       |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,212|71): non-printable character (0x92) ignored.
+      dut.Sequencer.ROM.mem[pc] = 16'b01000_00000_00_00_01; // RESULT→DB[0], WR
+                                                                     |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,229|69): non-printable character (0xe2) ignored.
+      dut.Sequencer.ROM.mem[pc] = 16'b01000_00000_00_00_01; // RESULT→DB[0], WR
+                                                                      |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,229|70): non-printable character (0x86) ignored.
+      dut.Sequencer.ROM.mem[pc] = 16'b01000_00000_00_00_01; // RESULT→DB[0], WR
+                                                                       |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,229|71): non-printable character (0x92) ignored.
+    program_rom();
+                |
+ncvlog: *W,TMTPAR (../src/kf_1d_tb.v,254|16): A task enable with no arguments must not include an empty set of parentheses [10.2.2 (IEEE Std 1364-2005)].  The compiler has ignored the parentheses.  Use 'nchelp ncvlog TMTPAR'  for further information.
+    // Φ = 1.0
+       |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,264|7): non-printable character (0xce) ignored.
+    // Φ = 1.0
+        |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,264|8): non-printable character (0xa6) ignored.
+    // x⁻ = 0, P⁻ = 1.01
+        |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,310|8): non-printable character (0xe2) ignored.
+    // x⁻ = 0, P⁻ = 1.01
+         |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,310|9): non-printable character (0x81) ignored.
+    // x⁻ = 0, P⁻ = 1.01
+          |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,310|10): non-printable character (0xbb) ignored.
+    // x̂ = 0 + 0.9099×(2.5-0) ≈ 2.275
+        |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,312|8): non-printable character (0xcc) ignored.
+    // x̂ = 0 + 0.9099×(2.5-0) ≈ 2.275
+         |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,312|9): non-printable character (0x82) ignored.
+	module worklib.kf_1d_tb:v
+		errors: 0, warnings: 36
+	Total errors/warnings found outside modules and primitives:
+		errors: 0, warnings: 2
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+		Caching library 'worklib' ....... Done
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.Data_Bank:v <0x44791e7e>
+			streams:   4, words:  2174
+		worklib.au:v <0x7d78ed6b>
+			streams:  33, words:  9947
+		worklib.kf_1d_tb:v <0x31898821>
+			streams:   9, words: 36678
+		worklib.kf_top:v <0x10dbd366>
+			streams:  11, words:  2852
+		worklib.rom_256x16:v <0x0225b514>
+			streams:   4, words:  5171
+		worklib.sequencer:v <0x1fd223c4>
+			streams:   6, words:  2271
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                 Instances  Unique
+		Modules:                12      12
+		Registers:              55      55
+		Scalar wires:           27       -
+		Vectored wires:         55       -
+		Always blocks:          19      19
+		Initial blocks:          7       7
+		Cont. assignments:      33      59
+		Pseudo assignments:      7       7
+		Simulation timescale:  1ps
+	Writing initial simulation snapshot: worklib.kf_1d_tb:v
+Loading snapshot worklib.kf_1d_tb:v .................... Done
+ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
+ncsim> run
+=== 1D Kalman Filter Test ===
+[ROM] Programmed 1D Kalman Filter with 31 instructions
+
+[T=35000] Loading constants...
+  Φ = 1.0 (0x004000)
+  Q = 0.01 (0x0000a4)
+  R = 0.1 (0x000666)
+  x = 0.0 (0x000000)
+  P = 1.0 (0x004000)
+  y = 2.5 (0x00a000)
+
+[T=105000] Waiting for KF to complete...
+[T=655000] KF computation done!
+
+=== Results ===
+  x̂ (DB[0]) = 0.189941 (0x000c28)
+  P (DB[1]) = 0.000000 (0x000000)
+  P⁻ (DB[6]) = 0.899780 (0x003996)
+  K (reused) = 0.899780 (0x003996)
+
+=== Expected (manual calculation) ===
+  P⁻ = P+Q = 1.0+0.01 = 1.01
+  K = P⁻/(P⁻+R) = 1.01/1.11 ≈ 0.9099
+  x̂ = x + K(y-x) = 0 + 0.9099×2.5 ≈ 2.275
+
+=== Test Complete ===
+Simulation complete via $finish(1) at time 655 NS + 3
+../src/kf_1d_tb.v:319     $finish;
+ncsim> exit
+TOOL:	ncverilog	15.20-s079: Exiting on Dec 09, 2025 at 17:29:01 EST  (total: 00:00:01)

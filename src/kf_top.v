@@ -103,17 +103,34 @@ module kf_top
   wire        write_en   = ctl_e[0] && !rq_we && !rd_we;
   
   // ========== Router A ==========
-  wire [W-1:0]     ra_data;
-  wire             ra_we;
-  wire [W-1:0]     au_result;
+  wire [W-1:0]        ra_data;
+  wire [ADDRW-1:0]    ra_dira, ra_dirb;
+  wire                ra_we;
+  wire [W-1:0]        au_result;
   
-  // Data source selection
-  assign ra_data = (sel_data == 2'b00) ? data_in :
-                   (sel_data == 2'b01) ? au_result :
-                   {W{1'b0}};  // ZERO
+  // Router A control signals (simplified - can be extended based on needs)
+  wire [ADDRW-1:0] dir_ext = {ADDRW{1'b0}};  // External DIR not used in basic mode
+  wire       sel_dira = 1'b0;   // Use CTL_A for dira
+  wire       sel_dirb = 1'b0;   // Use CTL_B for dirb  
+  wire [1:0] sel_write = 2'b00; // Direct write control
   
-  // Write enable - controlled by ctl_e[0]
-  assign ra_we = write_en;
+  router_a #(.W(W), .ADDRW(ADDRW)) Router_A (
+    .DATA_IN    (data_in),
+    .RESULT     (au_result),
+    .CTL_A      (addr_a),
+    .CTL_B      (addr_b),
+    .DIR_EXT    (dir_ext),
+    .WRITE_REQ  (write_en),
+    .READY      (ready),
+    .sel_data   (sel_data),
+    .sel_dira   (sel_dira),
+    .sel_dirb   (sel_dirb),
+    .sel_write  (sel_write),
+    .db_data    (ra_data),
+    .db_dira    (ra_dira),
+    .db_dirb    (ra_dirb),
+    .db_write   (ra_we)
+  );
   
   // ========== Memory Registers ==========
   wire [W-1:0] db_rdata_a, db_rdata_b;
@@ -123,10 +140,10 @@ module kf_top
     .clk        (clk),
     // Data Bank
     .db_we      (ra_we && !rq_we && !rd_we),  // Only write to DB if not writing to RQ/RD
-    .db_waddr   (addr_a),     // Write address from field A
-    .db_wdata   (ra_data),
-    .db_raddr_a (addr_a),     // Read port A address
-    .db_raddr_b (addr_b),     // Read port B address (may differ)
+    .db_waddr   (ra_dira),    // Write address from Router A
+    .db_wdata   (ra_data),    // Write data from Router A
+    .db_raddr_a (ra_dira),    // Read port A address from Router A
+    .db_raddr_b (ra_dirb),    // Read port B address from Router A
     .db_rdata_a (db_rdata_a),
     .db_rdata_b (db_rdata_b),
     // RQ/RD registers - loaded from data bank port A

@@ -1,0 +1,195 @@
+ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+TOOL:	ncverilog	15.20-s079: Started on Dec 09, 2025 at 17:28:38 EST
+ncverilog
+	../src/kf_top.v
+	../src/kf_top_tb.v
+file: ../src/kf_top.v
+	module worklib.kf_top:v
+		errors: 0, warnings: 0
+file: ../src/kf_top_tb.v
+	module worklib.kf_top_tb:v
+		errors: 0, warnings: 0
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+		Caching library 'worklib' ....... Done
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.Data_Bank:v <0x71cbed13>
+			streams:   4, words:  2174
+		worklib.RD:v <0x6c8eed05>
+			streams:   2, words:   445
+		worklib.RQ:v <0x730cee48>
+			streams:   2, words:   445
+		worklib.au:v <0x3b3af1e7>
+			streams:  33, words:  9947
+		worklib.kf_top:v <0x33c5845f>
+			streams:  12, words:  2977
+		worklib.kf_top_tb:v <0x257d4803>
+			streams:  10, words: 86915
+		worklib.recip_unit:v <0x1cdcf08c>
+			streams:   9, words:  3766
+		worklib.rom_256x16:v <0x40dc07d5>
+			streams:   4, words:  5171
+		worklib.router_b:v <0x6432e00e>
+			streams:   5, words:  1331
+		worklib.sequencer:v <0x47f0098e>
+			streams:   6, words:  2271
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                 Instances  Unique
+		Modules:                12      12
+		Registers:              74      74
+		Scalar wires:           27       -
+		Vectored wires:         55       -
+		Always blocks:          19      19
+		Initial blocks:          7       7
+		Cont. assignments:      34      59
+		Pseudo assignments:      7       7
+		Simulation timescale:  1ps
+	Writing initial simulation snapshot: worklib.kf_top_tb:v
+Loading snapshot worklib.kf_top_tb:v .................... Done
+ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
+ncsim> run
+========================================
+Kalman Filter ASIC Top-Level Test
+Complete Arithmetic Operations Test
+========================================
+
+Test operands:
+                                                                   Value A (3.0): sm=00c000 tc=00c000 decimal=3.000000
+                                                                   Value B (2.5): sm=00a000 tc=00a000 decimal=2.500000
+
+[Test 1] Check initial READY state
+PASS: System ready
+
+[Test 2] Load operands into memory
+T0: Prepared data_in=00c000 (3.0)
+T1: Asserted START
+T2: PC=  0, instruction for DB[0] write active
+T3: PC=  1, DB[0]=00c000 (should be 00c000)
+T3: Changed data_in=00a000 (2.5) for DB[1]
+T4: PC=  2, DB[0]=00c000, DB[1]=00a000
+
+[PC Progression from PC=2 onwards]
+  PC= 2: ctl_a=00000 ctl_b=00001 addr_a= 0 addr_b= 1 rdata_a=00c000 rdata_b=00a000
+  >>> PC=2: R_bus=00c000 S_bus=00a000 au_start=1
+  PC= 3: ctl_a=00000 ctl_b=00000 addr_a= 0 addr_b= 0 rdata_a=00c000 rdata_b=00c000
+  PC= 3: ctl_a=00000 ctl_b=00000 addr_a= 0 addr_b= 0 rdata_a=00c000 rdata_b=00c000
+  PC= 4: ctl_a=01010 ctl_b=00000 addr_a= 2 addr_b= 2 rdata_a=016000 rdata_b=016000
+  PC= 5: ctl_a=00000 ctl_b=00001 addr_a= 0 addr_b= 1 rdata_a=00c000 rdata_b=00a000
+  PC= 6: ctl_a=00000 ctl_b=00000 addr_a= 0 addr_b= 0 rdata_a=00c000 rdata_b=00c000
+  PC= 6: ctl_a=00000 ctl_b=00000 addr_a= 0 addr_b= 0 rdata_a=00c000 rdata_b=00c000
+  PC= 7: ctl_a=01011 ctl_b=00000 addr_a= 3 addr_b= 3 rdata_a=002000 rdata_b=002000
+  PC= 8: ctl_a=00000 ctl_b=00001 addr_a= 0 addr_b= 1 rdata_a=00c000 rdata_b=00a000
+  PC= 9: ctl_a=00000 ctl_b=00000 addr_a= 0 addr_b= 0 rdata_a=00c000 rdata_b=00c000
+
+Memory contents after load:
+  DB[0] = 00c000 (expected 00c000 for 3.0)
+  DB[1] = 00a000 (expected 00a000 for 2.5)
+
+ROM Program Check:
+  ROM[2] = 0000000001000010 (ADD instruction)
+           ctl_a=00000 ctl_b=00001 ctl_c=00 ctl_d=00 ctl_e=10
+PASS: Loaded operands
+
+[PC Progression Check]
+  Cycle           0: PC= 11, ready=0
+  Cycle           1: PC= 11, ready=1
+  Cycle           2: PC= 11, ready=1
+  Cycle           3: PC= 11, ready=1
+  Cycle           4: PC= 11, ready=1
+  Cycle           5: PC= 11, ready=1
+  Cycle           6: PC= 11, ready=1
+  Cycle           7: PC= 11, ready=1
+  Cycle           8: PC= 11, ready=1
+  Cycle           9: PC= 11, ready=1
+
+[Test 3] Monitor sequencer execution
+PC   | ctl_a | ctl_b | ctl_c | ctl_d | ctl_e | addr_a | addr_b | au_done | ready | result
+-----|-------|-------|-------|-------|-------|--------|--------|---------|-------|--------
+ 11  | 00000 | 00000 | 10    | 00    | 00    |      0 |      0 | 0       | 1     | 01e000
+
+HALT detected - program completed at PC= 11
+
+[Test 4] Verify computation results
+
+Expected ADD result (3.0 + 2.5 = 5.5):
+                                                                             ADD: sm=016000 tc=016000 decimal=5.500000
+Actual result in DB[2]:
+                                                                           DB[2]: sm=016000 tc=016000 decimal=5.500000
+PASS: ADD result correct
+
+Expected SUB result (3.0 - 2.5 = 0.5):
+                                                                             SUB: sm=002000 tc=002000 decimal=0.500000
+Actual result in DB[3]:
+                                                                           DB[3]: sm=002000 tc=002000 decimal=0.500000
+PASS: SUB result correct
+
+Expected MUL result (3.0 * 2.5 = 7.5):
+                                                                             MUL: sm=01e000 tc=01e000 decimal=7.500000
+Actual result in DB[4]:
+                                                                           DB[4]: sm=01e000 tc=01e000 decimal=7.500000
+PASS: MUL result correct
+
+[Test 5] Verify system returned to READY
+PASS: System ready for next operation
+
+========================================
+[Test 6] RQ/RD Register Functionality
+========================================
+Starting RQ/RD test: will load 4.0 to RQ, then RQ + DB[0] (3.0) = 7.0
+
+Monitoring RQ test execution:
+  PC=  1: sel_R=00 sel_S=00 R_bus=010000 S_bus=010000 au_start=0 result=01e000
+  PC=  2: sel_R=01 sel_S=00 R_bus=010000 S_bus=000000 au_start=1 result=01e000
+    >>> At PC=2: addr_a= 0 addr_b= 0 db_rdata_a=000000 db_rdata_b=000000 RQ=010000
+  PC=  3: sel_R=00 sel_S=00 R_bus=000000 S_bus=000000 au_start=0 result=01e000
+  PC=  3: sel_R=00 sel_S=00 R_bus=000000 S_bus=000000 au_start=0 result=010000
+  PC=  4: sel_R=00 sel_S=00 R_bus=010000 S_bus=010000 au_start=0 result=010000
+  PC=  5: sel_R=00 sel_S=00 R_bus=000000 S_bus=000000 au_start=0 result=010000
+  PC=  5: sel_R=00 sel_S=00 R_bus=000000 S_bus=000000 au_start=0 result=010000
+
+RQ/RD Test Results:
+  RQ register = 0x010000
+                                                                              RQ: sm=010000 tc=010000 decimal=4.000000
+  RD register = 0xxxxxxx
+                                                                              RD: sm=xxxxxx tc=xxxxxx decimal=0.000000
+  DB[0] = 0x000000
+                                                                           DB[0]: sm=000000 tc=000000 decimal=0.000000
+  DB[5] = 0x010000
+                                                                           DB[5]: sm=010000 tc=010000 decimal=4.000000
+  DB[6] (RQ+DB[0]) = 0x010000
+                                                                           DB[6]: sm=010000 tc=010000 decimal=4.000000
+
+Debug - Instruction decode at PC=2:
+  ROM[2] = 0000001000000010
+  ctl_b = 01000 (sel_R=01, sel_S=00, b0=0)
+PASS: RQ loaded correctly (4.0)
+PASS: RQ used in arithmetic correctly (4.0 + 0.0 = 4.0)
+
+========================================
+[Test 7] RD Register Functionality
+========================================
+Starting RD test: will load 5.0 to RD, then DB[0] + RD = 0.0 + 5.0 = 5.0
+
+RD Test Results:
+  RD register = 0x014000
+                                                                              RD: sm=014000 tc=014000 decimal=5.000000
+  DB[0] = 0x000000
+                                                                           DB[0]: sm=000000 tc=000000 decimal=0.000000
+  DB[6] (DB[0]+RD) = 0x014000
+                                                                           DB[6]: sm=014000 tc=014000 decimal=5.000000
+PASS: RD loaded correctly (5.0)
+PASS: RD used in arithmetic correctly (0.0 + 5.0 = 5.0)
+
+========================================
+Test Summary
+========================================
+kf_top_tb: PASS (10 checks)
+========================================
+
+Simulation complete via $finish(1) at time 615 NS + 0
+../src/kf_top_tb.v:515     $finish;
+ncsim> exit
+TOOL:	ncverilog	15.20-s079: Exiting on Dec 09, 2025 at 17:28:41 EST  (total: 00:00:03)
