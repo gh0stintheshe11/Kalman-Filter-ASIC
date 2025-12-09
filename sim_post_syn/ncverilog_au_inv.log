@@ -1,8 +1,12 @@
 ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
-TOOL:	ncverilog	15.20-s079: Started on Dec 09, 2025 at 18:32:47 EST
+TOOL:	ncverilog	15.20-s079: Started on Dec 09, 2025 at 18:30:28 EST
 ncverilog
-	../src/au.v
 	../src/au_inv_tb.v
+	../syn/au_syn.v
+	tcbn65gplus.v
+Recompiling... reason: file '../src/au_inv_tb.v' is newer than expected.
+	expected: Tue Dec  9 18:24:00 2025
+	actual:   Tue Dec  9 18:30:23 2025
 file: ../src/au_inv_tb.v
 	module worklib.au_inv_tb:v
 		errors: 0, warnings: 0
@@ -10,23 +14,24 @@ file: ../src/au_inv_tb.v
 	Elaborating the design hierarchy:
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
-		worklib.au:v <0x061c8fcd>
-			streams:  34, words: 10027
-		worklib.au_inv_tb:v <0x557f7703>
-			streams:   7, words: 15109
+		worklib.au_inv_tb:v <0x20b8eb85>
+			streams:   7, words: 15729
 	Building instance specific data structures.
 	Loading native compiled code:     .................... Done
 	Design hierarchy summary:
-		                 Instances  Unique
-		Modules:                 3       3
-		Registers:              46      46
-		Scalar wires:           10       -
-		Vectored wires:         28       -
-		Always blocks:           7       7
-		Initial blocks:          2       2
-		Cont. assignments:      20      24
-		Pseudo assignments:      2       2
-		Simulation timescale:  1ps
+		                  Instances  Unique
+		Modules:               2908     846
+		UDPs:                  2253       4
+		Primitives:            8901      10
+		Timing outputs:        2284      62
+		Registers:              533     371
+		Scalar wires:          2756       -
+		Expanded wires:          76       5
+		Always blocks:           57      57
+		Initial blocks:           2       2
+		Pseudo assignments:       1       1
+		Timing checks:         5652       -
+		Simulation timescale:   1ps
 	Writing initial simulation snapshot: worklib.au_inv_tb:v
 Loading snapshot worklib.au_inv_tb:v .................... Done
 ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
@@ -47,7 +52,7 @@ Testing 1/1:
   Expected 1/S = 1.000000
   Got result = 1.000000
   Error = 0.00%
-  Cycles = 26
+  Cycles = 27
   ✓ PASS
 
 Testing 1/2:
@@ -61,7 +66,7 @@ Testing 1/2:
   Expected 1/S = 0.500000
   Got result = 0.500000
   Error = 0.00%
-  Cycles = 26
+  Cycles = 27
   ✓ PASS
 
 Testing 1/4:
@@ -75,7 +80,7 @@ Testing 1/4:
   Expected 1/S = 0.250000
   Got result = 0.250000
   Error = 0.00%
-  Cycles = 26
+  Cycles = 27
   ✓ PASS
 
 Testing 1/8:
@@ -89,7 +94,7 @@ Testing 1/8:
   Expected 1/S = 0.125000
   Got result = 0.125000
   Error = 0.00%
-  Cycles = 26
+  Cycles = 27
   ✓ PASS
 
 Testing 1/-2:
@@ -103,7 +108,7 @@ Testing 1/-2:
   Expected 1/S = -0.500000
   Got result = -0.500000
   Error = 0.00%
-  Cycles = 26
+  Cycles = 27
   ✓ PASS
 
 Testing 1/-4:
@@ -117,14 +122,14 @@ Testing 1/-4:
   Expected 1/S = -0.250000
   Got result = -0.250000
   Error = 0.00%
-  Cycles = 26
+  Cycles = 27
   ✓ PASS
 
 ========================================
 Multiplicative Inverse Tests Completed
 ========================================
 
-Simulation complete via $finish(1) at time 1725 NS + 0
+Simulation complete via $finish(1) at time 1785 NS + 0
 ../src/au_inv_tb.v:143         $finish;
 ncsim> exit
-TOOL:	ncverilog	15.20-s079: Exiting on Dec 09, 2025 at 18:32:48 EST  (total: 00:00:01)
+TOOL:	ncverilog	15.20-s079: Exiting on Dec 09, 2025 at 18:30:30 EST  (total: 00:00:02)

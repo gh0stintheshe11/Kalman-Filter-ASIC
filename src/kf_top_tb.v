@@ -22,7 +22,7 @@ module kf_top_tb;
   wire             au_done;
   
   // Instantiate DUT
-  kf_top #(.W(W), .FRAC(FRAC), .NR(NR), .ADDRW(ADDRW)) DUT (
+  kf_top DUT (  // No parameters for post-synthesis compatibility
     .clk        (clk),
     .rst_n      (rst_n),
     .start      (start),

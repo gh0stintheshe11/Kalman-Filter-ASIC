@@ -180,6 +180,7 @@ module kf_top
   
   au #(.W(W), .FRAC(FRAC)) AU (
     .clk       (clk),
+    .rst_n     (rst_n),
     .start     (au_start),
     .R_in      (R_bus),
     .S_in      (S_bus),

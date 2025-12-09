@@ -11,6 +11,7 @@ module recip_unit
 #(parameter W=24, parameter FRAC=14)
 (
   input              clk,
+  input              rst_n,      // active-low reset
   input              start,      // pulse: begin reciprocal of 'den_mag'
   input  [W-2:0]     den_mag,    // magnitude of S (must be > 0)
   output reg [W-2:0] q_mag,      // magnitude of 1/S in same Q format
@@ -24,8 +25,14 @@ module recip_unit
   wire [2*FRAC+W:0] rem_sub = rem - {{(2*FRAC+1){1'b0}}, den_mag, {(W-1){1'b0}}}; // align den
   // We align 'den' to LSB of remainder by placing it at bit position (W-1)
 
-  always @(posedge clk) begin
-    if (start && !run) begin
+  always @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+      rem   <= {(2*FRAC+W+1){1'b0}};
+      q_mag <= {(W-1){1'b0}};
+      cnt   <= {CNTW{1'b0}};
+      run   <= 1'b0;
+      rdy   <= 1'b0;
+    end else if (start && !run) begin
       // Initialize remainder with numerator = 1 << (2*FRAC + 1)
       // Need extra shift because we shift before first comparison
       rem   <= {{(W-2){1'b0}}, 1'b1, {(2*FRAC+1){1'b0}}}; // 1<<(2*FRAC+1)
@@ -55,12 +62,6 @@ module recip_unit
       rdy <= 1'b0;
     end
   end
-
-  // Initialize run to 0
-  initial begin
-    run = 1'b0;
-    rdy = 1'b0;
-  end
 endmodule
 
 // ===== Arithmetic Unit
@@ -68,6 +69,7 @@ module au
 #(parameter W=24, parameter FRAC=14)
 (
   input               clk,
+  input               rst_n,        // active-low reset
   input               start,        // pulse to start operation
 
   // Operands from Router B (sign-magnitude)
@@ -154,6 +156,7 @@ module au
 
   recip_unit #(.W(W), .FRAC(FRAC)) Mult_Inv (
     .clk   (clk),
+    .rst_n (rst_n),
     .start (recip_start_reg),
     .den_mag(S_mag == { (W-1){1'b0} } ? {{(W-2){1'b1}},1'b0} : S_mag), // avoid zero: clamp to tiny
     .q_mag (recip_q_mag),
@@ -267,19 +270,18 @@ module au
   end
 
   // State register and done signal
-  always @(posedge clk) begin
-    state <= next_state;
-    // Pulse done high when in completion states
-    done <= (state == ST_SIMPLE || state == ST_MULINV);
-    // Register recip_start for proper timing
-    recip_start_reg <= recip_start;
-  end
-
-  // Reset-less FSM start state
-  initial begin
-    state = ST_IDLE;
-    done = 1'b0;
-    recip_start_reg = 1'b0;
+  always @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+      state <= ST_IDLE;
+      done <= 1'b0;
+      recip_start_reg <= 1'b0;
+    end else begin
+      state <= next_state;
+      // Pulse done high when in completion states
+      done <= (state == ST_SIMPLE || state == ST_MULINV);
+      // Register recip_start for proper timing
+      recip_start_reg <= recip_start;
+    end
   end
 
 endmodule

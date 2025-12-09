@@ -27,7 +27,7 @@ module mem_reg_tb;
   integer i, errors, checks;
 
   // DUT
-  mem_reg #(.W(W), .DEPTH(DEPTH), .ADDRW(ADDRW), .FORWARD(1)) DUT (
+  mem_reg DUT (  // No parameters for post-synthesis compatibility
     .clk(clk),
     .db_we(db_we), .db_waddr(db_waddr), .db_wdata(db_wdata),
     .db_raddr_a(db_raddr_a), .db_raddr_b(db_raddr_b),

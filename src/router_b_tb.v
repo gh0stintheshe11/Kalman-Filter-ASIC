@@ -10,7 +10,7 @@ module router_b_tb;
   wire [W-1:0] R, S, I;
   wire         msb_R, msb_S;
 
-  router_b #(.W(W)) DUT (
+  router_b DUT (  // No parameters for post-synthesis compatibility
     .A_data(A_data), .B_data(B_data), .RQ(RQ), .RD(RD),
     .sel_R(sel_R), .sel_S(sel_S),
     .inv_R(inv_R), .inv_S(inv_S),

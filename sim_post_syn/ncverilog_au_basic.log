@@ -1,8 +1,12 @@
 ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
-TOOL:	ncverilog	15.20-s079: Started on Dec 09, 2025 at 18:28:40 EST
+TOOL:	ncverilog	15.20-s079: Started on Dec 09, 2025 at 18:28:00 EST
 ncverilog
-	../src/au.v
 	../src/au_basic_tb.v
+	../syn/au_syn.v
+	tcbn65gplus.v
+Recompiling... reason: file '../src/au_basic_tb.v' is newer than expected.
+	expected: Tue Dec  9 18:24:00 2025
+	actual:   Tue Dec  9 18:27:57 2025
 file: ../src/au_basic_tb.v
 	module worklib.au_basic_tb:v
 		errors: 0, warnings: 0
@@ -10,21 +14,24 @@ file: ../src/au_basic_tb.v
 	Elaborating the design hierarchy:
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
-		worklib.au_basic_tb:v <0x57639f33>
-			streams:   7, words: 22186
+		worklib.au_basic_tb:v <0x7a751a9a>
+			streams:   7, words: 23994
 	Building instance specific data structures.
 	Loading native compiled code:     .................... Done
 	Design hierarchy summary:
-		                 Instances  Unique
-		Modules:                 3       3
-		Registers:              48      48
-		Scalar wires:            9       -
-		Vectored wires:         28       -
-		Always blocks:           7       7
-		Initial blocks:          2       2
-		Cont. assignments:      19      24
-		Pseudo assignments:      2       2
-		Simulation timescale:  1ps
+		                  Instances  Unique
+		Modules:               2908     846
+		UDPs:                  2253       4
+		Primitives:            8901      10
+		Timing outputs:        2282      62
+		Registers:              535     373
+		Scalar wires:          2754       -
+		Expanded wires:          76       5
+		Always blocks:           57      57
+		Initial blocks:           2       2
+		Pseudo assignments:       1       1
+		Timing checks:         5652       -
+		Simulation timescale:   1ps
 	Writing initial simulation snapshot: worklib.au_basic_tb:v
 Loading snapshot worklib.au_basic_tb:v .................... Done
 ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
@@ -49,4 +56,4 @@ ALL BASIC TESTS PASSED!
 Simulation complete via $finish(1) at time 7335 NS + 0
 ../src/au_basic_tb.v:171         $finish;
 ncsim> exit
-TOOL:	ncverilog	15.20-s079: Exiting on Dec 09, 2025 at 18:28:42 EST  (total: 00:00:02)
+TOOL:	ncverilog	15.20-s079: Exiting on Dec 09, 2025 at 18:28:03 EST  (total: 00:00:03)

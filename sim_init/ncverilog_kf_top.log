@@ -1,5 +1,5 @@
 ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
-TOOL:	ncverilog	15.20-s079: Started on Dec 09, 2025 at 17:28:38 EST
+TOOL:	ncverilog	15.20-s079: Started on Dec 09, 2025 at 18:21:49 EST
 ncverilog
 	../src/kf_top.v
 	../src/kf_top_tb.v
@@ -14,26 +14,12 @@ file: ../src/kf_top_tb.v
 		Caching library 'worklib' ....... Done
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
-		worklib.Data_Bank:v <0x71cbed13>
-			streams:   4, words:  2174
-		worklib.RD:v <0x6c8eed05>
-			streams:   2, words:   445
-		worklib.RQ:v <0x730cee48>
-			streams:   2, words:   445
-		worklib.au:v <0x3b3af1e7>
-			streams:  33, words:  9947
+		worklib.au:v <0x3acaa9fe>
+			streams:  33, words:  9822
 		worklib.kf_top:v <0x33c5845f>
 			streams:  12, words:  2977
-		worklib.kf_top_tb:v <0x257d4803>
+		worklib.kf_top_tb:v <0x00f48a86>
 			streams:  10, words: 86915
-		worklib.recip_unit:v <0x1cdcf08c>
-			streams:   9, words:  3766
-		worklib.rom_256x16:v <0x40dc07d5>
-			streams:   4, words:  5171
-		worklib.router_b:v <0x6432e00e>
-			streams:   5, words:  1331
-		worklib.sequencer:v <0x47f0098e>
-			streams:   6, words:  2271
 	Building instance specific data structures.
 	Loading native compiled code:     .................... Done
 	Design hierarchy summary:
@@ -43,7 +29,7 @@ file: ../src/kf_top_tb.v
 		Scalar wires:           27       -
 		Vectored wires:         55       -
 		Always blocks:          19      19
-		Initial blocks:          7       7
+		Initial blocks:          5       5
 		Cont. assignments:      34      59
 		Pseudo assignments:      7       7
 		Simulation timescale:  1ps
@@ -192,4 +178,4 @@ kf_top_tb: PASS (10 checks)
 Simulation complete via $finish(1) at time 615 NS + 0
 ../src/kf_top_tb.v:515     $finish;
 ncsim> exit
-TOOL:	ncverilog	15.20-s079: Exiting on Dec 09, 2025 at 17:28:41 EST  (total: 00:00:03)
+TOOL:	ncverilog	15.20-s079: Exiting on Dec 09, 2025 at 18:21:50 EST  (total: 00:00:01)

@@ -36,7 +36,7 @@ module kf_1d_tb();
   wire [W-1:0] result_out;
   
   // Instantiate DUT
-  kf_top #(.W(W), .FRAC(FRAC)) dut (
+  kf_top dut (  // No parameters for post-synthesis compatibility
     .clk(clk),
     .rst_n(rst_n),
     .start(start),

@@ -6,6 +6,7 @@ module au_inv_tb();
     parameter FRAC = 14;
     
     reg clk;
+    reg rst_n;
     reg [W-1:0] R_in, S_in, Iimm_in;
     reg [1:0] op_sel, mul_y_sel;
     reg start;
@@ -13,8 +14,9 @@ module au_inv_tb();
     wire done, busy;
 
     // Instantiate AU
-    au #(.W(W), .FRAC(FRAC)) dut (
+    au dut (  // No parameters for post-synthesis compatibility
         .clk(clk),
+        .rst_n(rst_n),
         .start(start),
         .R_in(R_in),
         .S_in(S_in),
@@ -81,8 +83,7 @@ module au_inv_tb();
                 @(posedge clk);
                 cycles = cycles + 1;
                 if (cycles < 5 || cycles % 10 == 0) 
-                    $display("  cycle %0d: done=%b, busy=%b, recip_start=%b, recip_rdy=%b, recip_run=%b, state=%d", 
-                             cycles, done, busy, dut.recip_start, dut.Mult_Inv.rdy, dut.Mult_Inv.run, dut.state);
+                    $display("  cycle %0d: done=%b, busy=%b", cycles, done, busy);
                 if (cycles > 100) begin
                     $display("  ✗ TIMEOUT - done never asserted!");
                     $finish;
@@ -112,11 +113,15 @@ module au_inv_tb();
     endtask
 
     initial begin
+        // Initialize signals
         start = 0;
+        rst_n = 0;  // Assert reset
         Iimm_in = to_fixed(1);
         
-        // Wait a few cycles
+        // Hold reset for a few cycles
         repeat(3) @(posedge clk);
+        rst_n = 1;  // Release reset
+        repeat(2) @(posedge clk);
 
         $display("========================================");
         $display("Testing AU Multiplicative Inverse");

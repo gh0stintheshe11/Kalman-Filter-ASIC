@@ -6,10 +6,8 @@ Report : timing
         -max_paths 1
 Design : kf_top
 Version: N-2017.09
-Date   : Tue Dec  9 17:48:48 2025
+Date   : Tue Dec  9 18:44:28 2025
 ****************************************
-
- # A fanout number of 1000 was used for high fanout net computations.
 
 Operating Conditions: WCCOM   Library: tcbn65gpluswc
 Wire Load Model Mode: segmented
@@ -22,25 +20,17 @@ Wire Load Model Mode: segmented
 
   Des/Clust/Port     Wire Load Model       Library
   ------------------------------------------------
-  recip_unit         ZeroWireload          tcbn65gpluswc
-  RD                 ZeroWireload          tcbn65gpluswc
-  RQ                 ZeroWireload          tcbn65gpluswc
-  Data_Bank          ZeroWireload          tcbn65gpluswc
-  rom_256x16         ZeroWireload          tcbn65gpluswc
-  au                 ZeroWireload          tcbn65gpluswc
-  mem_reg            ZeroWireload          tcbn65gpluswc
   kf_top             ZeroWireload          tcbn65gpluswc
   sequencer          ZeroWireload          tcbn65gpluswc
-  router_a           ZeroWireload          tcbn65gpluswc
 
-  Point                                                   Incr       Path
-  --------------------------------------------------------------------------
-  Sequencer/ready_reg/clocked_on (**SEQGEN**)             0.00 #     0.00 r
-  Sequencer/ready_reg/Q (**SEQGEN**)                      0.00       0.00 r
-  Sequencer/ready (sequencer)                             0.00       0.00 r
-  ready (out)                                             0.00       0.00 r
-  data arrival time                                                  0.00
-  --------------------------------------------------------------------------
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  Sequencer/ready_reg/CP (DFQD1)           0.00       0.00 r
+  Sequencer/ready_reg/Q (DFQD1)            0.12       0.12 f
+  Sequencer/ready (sequencer)              0.00       0.12 f
+  ready (out)                              0.00       0.12 f
+  data arrival time                                   0.12
+  -----------------------------------------------------------
   (Path is unconstrained)
 
 

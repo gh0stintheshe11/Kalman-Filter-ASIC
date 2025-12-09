@@ -11,20 +11,22 @@ read_file -format verilog {../src/router_a.v ../src/mem_reg.v ../src/router_b.v 
 current_design kf_top
 link
 
-# Set don't touch on sub-modules to preserve hierarchy (use actual instance names)
-# Note: Verilog is case-sensitive for module/instance names
-set_dont_touch [get_cells Router_A]
-set_dont_touch [get_cells Memory_Registers]
-set_dont_touch [get_cells Router_B]
-set_dont_touch [get_cells AU]
-set_dont_touch [get_cells Sequencer]
+# Uniquify the design to avoid conflicts
+uniquify
 
-# Also preserve sub-sub-modules if needed
-set_dont_touch [get_cells AU/Mult_Inv]
-set_dont_touch [get_cells Sequencer/ROM]
-set_dont_touch [get_cells Memory_Registers/Data_Bank_inst]
-set_dont_touch [get_cells Memory_Registers/RQ_inst]
-set_dont_touch [get_cells Memory_Registers/RD_inst]
+# Preserve hierarchy by preventing ungrouping of sub-designs
+# This is different from set_dont_touch - it allows technology mapping
+# but prevents the modules from being merged together
+set_ungroup [get_designs router_a] false
+set_ungroup [get_designs mem_reg] false
+set_ungroup [get_designs router_b] false
+set_ungroup [get_designs au] false
+set_ungroup [get_designs sequencer] false
+set_ungroup [get_designs recip_unit] false
+set_ungroup [get_designs rom_256x16] false
+set_ungroup [get_designs Data_Bank] false
+set_ungroup [get_designs RQ] false
+set_ungroup [get_designs RD] false
 
 # synthesize/compile design
 compile_ultra

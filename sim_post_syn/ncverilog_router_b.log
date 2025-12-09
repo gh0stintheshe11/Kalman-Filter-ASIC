@@ -1,0 +1,58 @@
+ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+TOOL:	ncverilog	15.20-s079: Started on Dec 09, 2025 at 18:01:43 EST
+ncverilog
+	../src/router_b_tb.v
+	../syn/router_b_syn.v
+	tcbn65gplus.v
+Recompiling... reason: file '../src/router_b_tb.v' is newer than expected.
+	expected: Tue Dec  9 16:05:08 2025
+	actual:   Tue Dec  9 18:01:37 2025
+file: ../src/router_b_tb.v
+	module worklib.router_b_tb:v
+		errors: 0, warnings: 0
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.AO21D0:v <0x5c90e926>
+			streams:   0, words:     0
+		worklib.AO22D0:v <0x7c370dd2>
+			streams:   0, words:     0
+		worklib.AOI22D0:v <0x2e9127ed>
+			streams:   0, words:     0
+		worklib.MUX2D0:v <0x0a415eb3>
+			streams:   0, words:     0
+		worklib.MUX2ND0:v <0x0d754345>
+			streams:   0, words:     0
+		worklib.OAI21D0:v <0x6a60ad32>
+			streams:   0, words:     0
+		worklib.router_b:v <0x520ffd41>
+			streams:   0, words:     0
+		worklib.router_b_tb:v <0x5b008138>
+			streams:   9, words: 11123
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                  Instances  Unique
+		Modules:                993     846
+		UDPs:                  1441       4
+		Primitives:            3856      10
+		Timing outputs:         164      17
+		Registers:              373     375
+		Scalar wires:           496       -
+		Expanded wires:         102       7
+		Always blocks:           56      56
+		Initial blocks:           1       1
+		Cont. assignments:        0      25
+		Pseudo assignments:       5       5
+		Timing checks:         4170       -
+		Simulation timescale:   1ps
+	Writing initial simulation snapshot: worklib.router_b_tb:v
+Loading snapshot worklib.router_b_tb:v .................... Done
+ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
+ncsim> run
+router_b_tb: PASS (192 tests)
+Simulation complete via $finish(1) at time 192 NS + 0
+../src/router_b_tb.v:124     $finish;
+ncsim> exit
+TOOL:	ncverilog	15.20-s079: Exiting on Dec 09, 2025 at 18:01:45 EST  (total: 00:00:02)

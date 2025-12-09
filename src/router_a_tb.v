@@ -12,7 +12,7 @@ module router_a_tb;
   wire [ADDRW-1:0]  db_dira, db_dirb;
   wire              db_write;
 
-  router_a #(.W(W), .ADDRW(ADDRW)) DUT (
+  router_a DUT (  // No parameters for post-synthesis simulation
     .DATA_IN(DATA_IN), .RESULT(RESULT),
     .CTL_A(CTL_A), .CTL_B(CTL_B), .DIR_EXT(DIR_EXT),
     .WRITE_REQ(WRITE_REQ), .READY(READY),

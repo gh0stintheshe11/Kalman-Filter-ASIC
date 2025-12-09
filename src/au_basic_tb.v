@@ -6,6 +6,7 @@ module au_basic_tb();
     parameter FRAC = 14;
     
     reg clk;
+    reg rst_n;
     reg [W-1:0] R_in, S_in, Iimm_in;
     reg [1:0] op_sel, mul_y_sel;
     reg start;
@@ -13,8 +14,9 @@ module au_basic_tb();
     wire done, busy;
 
     // Instantiate AU
-    au #(.W(W), .FRAC(FRAC)) dut (
+    au dut (  // No parameters for post-synthesis compatibility
         .clk(clk),
+        .rst_n(rst_n),
         .start(start),
         .R_in(R_in),
         .S_in(S_in),
@@ -73,13 +75,17 @@ module au_basic_tb();
     reg [W-1:0] expected;
 
     initial begin
+        // Initialize signals
         start = 0;
+        rst_n = 0;  // Assert reset
         passed = 1;
         mul_y_sel = 2'b00; // Use S_in as Y
         Iimm_in = to_fixed(1);
         
-        // Wait a few cycles
+        // Hold reset for a few cycles
         repeat(3) @(posedge clk);
+        rst_n = 1;  // Release reset
+        repeat(2) @(posedge clk);
 
         $display("========================================");
         $display("Testing AU Basic Operations (1-cycle)");
@@ -95,7 +101,8 @@ module au_basic_tb();
                 start = 1;
                 @(posedge clk);
                 start = 0;
-                @(posedge clk); // Wait 1 cycle for result
+                @(posedge clk); // Wait for ST_SIMPLE state
+                @(posedge clk); // Wait for result to be registered
                 
                 expected = to_fixed(i + j);
                 if (!values_match(result, expected)) begin
@@ -117,7 +124,8 @@ module au_basic_tb();
                 start = 1;
                 @(posedge clk);
                 start = 0;
-                @(posedge clk); // Wait 1 cycle for result
+                @(posedge clk); // Wait for ST_SIMPLE state
+                @(posedge clk); // Wait for result to be registered
                 
                 expected = to_fixed(i - j);
                 if (!values_match(result, expected)) begin
@@ -139,7 +147,8 @@ module au_basic_tb();
                 start = 1;
                 @(posedge clk);
                 start = 0;
-                @(posedge clk); // Wait 1 cycle for result
+                @(posedge clk); // Wait for ST_SIMPLE state
+                @(posedge clk); // Wait for result to be registered
                 
                 expected = to_fixed(i * j);
                 if (!values_match(result, expected)) begin

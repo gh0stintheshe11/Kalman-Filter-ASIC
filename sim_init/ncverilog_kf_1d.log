@@ -1,5 +1,5 @@
 ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
-TOOL:	ncverilog	15.20-s079: Started on Dec 09, 2025 at 17:29:00 EST
+TOOL:	ncverilog	15.20-s079: Started on Dec 09, 2025 at 18:22:42 EST
 ncverilog
 	../src/kf_top.v
 	../src/kf_1d_tb.v
@@ -127,18 +127,12 @@ ncvlog: *W,NONPRT (../src/kf_1d_tb.v,312|9): non-printable character (0x82) igno
 		Caching library 'worklib' ....... Done
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
-		worklib.Data_Bank:v <0x44791e7e>
-			streams:   4, words:  2174
-		worklib.au:v <0x7d78ed6b>
-			streams:  33, words:  9947
+		worklib.au:v <0x56d06f09>
+			streams:  33, words:  9822
 		worklib.kf_1d_tb:v <0x31898821>
 			streams:   9, words: 36678
 		worklib.kf_top:v <0x10dbd366>
 			streams:  11, words:  2852
-		worklib.rom_256x16:v <0x0225b514>
-			streams:   4, words:  5171
-		worklib.sequencer:v <0x1fd223c4>
-			streams:   6, words:  2271
 	Building instance specific data structures.
 	Loading native compiled code:     .................... Done
 	Design hierarchy summary:
@@ -148,7 +142,7 @@ ncvlog: *W,NONPRT (../src/kf_1d_tb.v,312|9): non-printable character (0x82) igno
 		Scalar wires:           27       -
 		Vectored wires:         55       -
 		Always blocks:          19      19
-		Initial blocks:          7       7
+		Initial blocks:          5       5
 		Cont. assignments:      33      59
 		Pseudo assignments:      7       7
 		Simulation timescale:  1ps
@@ -185,4 +179,4 @@ ncsim> run
 Simulation complete via $finish(1) at time 655 NS + 3
 ../src/kf_1d_tb.v:319     $finish;
 ncsim> exit
-TOOL:	ncverilog	15.20-s079: Exiting on Dec 09, 2025 at 17:29:01 EST  (total: 00:00:01)
+TOOL:	ncverilog	15.20-s079: Exiting on Dec 09, 2025 at 18:22:43 EST  (total: 00:00:01)
