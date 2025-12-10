@@ -1,24 +1,32 @@
+// -----------------------------------------------------------------------------
+// mem_reg_tb.v
+// Testbench for Memory Registers Block (per paper Figure 3)
+// Tests: Data Bank read/write, RQ/RD accumulators, write-through forwarding
+// -----------------------------------------------------------------------------
 `timescale 1ns/1ps
+
 module mem_reg_tb;
 
-  // Keep small DEPTH for quick test; you can bump to 40 later
+  // Parameters matching the actual design
   parameter W     = 24;
-  parameter DEPTH = 8;
-  parameter ADDRW = 3;
+  parameter NR    = 32;       // Per paper: 32 registers for 2-state KF
+  parameter ADDRW = 5;        // Per paper: 5-bit address for 32 registers
 
-  // DUT I/O
+  // DUT I/O (matching mem_reg.v port names per paper Figure 3)
   reg                 clk;
 
-  // Data Bank
-  reg                 db_we;
-  reg  [ADDRW-1:0]    db_waddr, db_raddr_a, db_raddr_b;
-  reg  [W-1:0]        db_wdata;
-  wire [W-1:0]        db_rdata_a, db_rdata_b;
+  // Data Bank interface (per paper naming)
+  reg                 write;        // Write enable (from Router A)
+  reg  [ADDRW-1:0]    dira;         // Address A (read/write)
+  reg  [ADDRW-1:0]    dirb;         // Address B (read only)
+  reg  [W-1:0]        data;         // Write data (from Router A)
+  wire [W-1:0]        A;            // Read data port A (to Router B)
+  wire [W-1:0]        B;            // Read data port B (to Router B)
 
-  // RQ / RD
+  // RQ / RD interface
   reg                 rq_we, rd_we;
   reg  [W-1:0]        rq_d, rd_d;
-  wire [W-1:0]        rq_q, rd_q;
+  wire [W-1:0]        RQ, RD;       // Per paper naming
 
   // Temp address regs (declare at module scope)
   reg  [ADDRW-1:0]    ai, bi;
@@ -26,21 +34,30 @@ module mem_reg_tb;
   // Loop counters / bookkeeping
   integer i, errors, checks;
 
-  // DUT
-  mem_reg DUT (  // No parameters for post-synthesis compatibility
-    .clk(clk),
-    .db_we(db_we), .db_waddr(db_waddr), .db_wdata(db_wdata),
-    .db_raddr_a(db_raddr_a), .db_raddr_b(db_raddr_b),
-    .db_rdata_a(db_rdata_a), .db_rdata_b(db_rdata_b),
-    .rq_we(rq_we), .rq_d(rq_d), .rq_q(rq_q),
-    .rd_we(rd_we), .rd_d(rd_d), .rd_q(rd_q)
+  // DUT instantiation with paper's port names
+  mem_reg #(.W(W), .NR(NR), .ADDRW(ADDRW), .FORWARD(1)) DUT (
+    .clk    (clk),
+    // Data Bank interface
+    .write  (write),
+    .dira   (dira),
+    .dirb   (dirb),
+    .data   (data),
+    .A      (A),
+    .B      (B),
+    // RQ/RD interface
+    .rq_we  (rq_we),
+    .rq_d   (rq_d),
+    .RQ     (RQ),
+    .rd_we  (rd_we),
+    .rd_d   (rd_d),
+    .RD     (RD)
   );
 
-  // Clock
+  // Clock generation (100 MHz)
   initial clk = 0;
-  always #5 clk = ~clk; // 100 MHz
+  always #5 clk = ~clk;
 
-  // Pattern helper
+  // Pattern helper - creates unique pattern for each address
   function [W-1:0] patt;
     input integer i;
     begin
@@ -48,117 +65,162 @@ module mem_reg_tb;
     end
   endfunction
 
-  // Tasks
+  // Task: Write to Data Bank
   task db_write;
     input [ADDRW-1:0] addr;
-    input [W-1:0]     data;
+    input [W-1:0]     wdata;
     begin
       @(negedge clk);
-      db_waddr <= addr;
-      db_wdata <= data;
-      db_we    <= 1'b1;
+      dira  <= addr;
+      data  <= wdata;
+      write <= 1'b1;
       @(posedge clk);   // write occurs on this edge
       @(negedge clk);
-      db_we    <= 1'b0;
+      write <= 1'b0;
     end
   endtask
 
+  // Task: Read from Data Bank and check both ports
   task db_read_check;
     input [ADDRW-1:0] addr_a;
     input [ADDRW-1:0] addr_b;
     input [W-1:0]     exp_a;
     input [W-1:0]     exp_b;
     begin
-      db_raddr_a <= addr_a;
-      db_raddr_b <= addr_b;
-      #1; checks = checks + 2;
-      if (db_rdata_a !== exp_a) begin
-        $display("ERR DB A: addr=%0d exp=%h got=%h", addr_a, exp_a, db_rdata_a);
+      dira <= addr_a;
+      dirb <= addr_b;
+      #1;
+      checks = checks + 2;
+      if (A !== exp_a) begin
+        $display("ERR DB A: addr=%0d exp=%h got=%h", addr_a, exp_a, A);
         errors = errors + 1;
       end
-      if (db_rdata_b !== exp_b) begin
-        $display("ERR DB B: addr=%0d exp=%h got=%h", addr_b, exp_b, db_rdata_b);
+      if (B !== exp_b) begin
+        $display("ERR DB B: addr=%0d exp=%h got=%h", addr_b, exp_b, B);
         errors = errors + 1;
       end
     end
   endtask
 
+  // Task: Write to RQ and verify
   task rq_write_check;
-    input [W-1:0] data;
+    input [W-1:0] wdata;
     begin
-      rq_d  <= data;
+      rq_d  <= wdata;
       rq_we <= 1'b1;
       @(posedge clk);
       rq_we <= 1'b0;
-      #1; checks = checks + 1;
-      if (rq_q !== data) begin
-        $display("ERR RQ: exp=%h got=%h", data, rq_q);
+      #1;
+      checks = checks + 1;
+      if (RQ !== wdata) begin
+        $display("ERR RQ: exp=%h got=%h", wdata, RQ);
         errors = errors + 1;
       end
     end
   endtask
 
+  // Task: Write to RD and verify
   task rd_write_check;
-    input [W-1:0] data;
+    input [W-1:0] wdata;
     begin
-      rd_d  <= data;
+      rd_d  <= wdata;
       rd_we <= 1'b1;
       @(posedge clk);
       rd_we <= 1'b0;
-      #1; checks = checks + 1;
-      if (rd_q !== data) begin
-        $display("ERR RD: exp=%h got=%h", data, rd_q);
+      #1;
+      checks = checks + 1;
+      if (RD !== wdata) begin
+        $display("ERR RD: exp=%h got=%h", wdata, RD);
         errors = errors + 1;
       end
     end
   endtask
 
-  // Stimulus
+  // Main test stimulus
   initial begin
-    // init
-    db_we=0; db_waddr=0; db_wdata=0; db_raddr_a=0; db_raddr_b=0;
-    rq_we=0; rq_d=0; rd_we=0; rd_d=0; errors=0; checks=0;
+    // Initialize all signals
+    write = 0;
+    dira  = 0;
+    dirb  = 0;
+    data  = 0;
+    rq_we = 0;
+    rq_d  = 0;
+    rd_we = 0;
+    rd_d  = 0;
+    errors = 0;
+    checks = 0;
 
-    // 1) Write patterns into all DB locations
-    for (i=0; i<DEPTH; i=i+1) begin
-      ai = i[ADDRW-1:0];     // width truncation is OK
+    $display("========================================");
+    $display("Testing Memory Registers (per paper Figure 3)");
+    $display("Data Bank: %0d x %0d-bit registers", NR, W);
+    $display("========================================");
+
+    // 1) Write patterns into all Data Bank locations
+    $display("\n--- Writing patterns to all %0d registers ---", NR);
+    for (i = 0; i < NR; i = i + 1) begin
+      ai = i[ADDRW-1:0];
       db_write(ai, patt(i));
     end
 
-    // 2) Read them back via both ports
-    for (i=0; i<DEPTH; i=i+1) begin
+    // 2) Read them back via both ports A and B
+    $display("\n--- Reading back via both ports ---");
+    for (i = 0; i < NR; i = i + 1) begin
       ai = i[ADDRW-1:0];
-      bi = (DEPTH-1 - i);    // truncates to ADDRW
-      db_read_check(ai, bi, patt(i), patt(DEPTH-1 - i));
+      bi = (NR - 1 - i);
+      db_read_check(ai, bi[ADDRW-1:0], patt(i), patt(NR - 1 - i));
     end
 
-    // 3) Read-during-write hazard (write-through)
+    // 3) Test read-during-write hazard (write-through forwarding)
+    $display("\n--- Testing write-through forwarding ---");
     @(negedge clk);
-      db_waddr   <= 3;                // literal auto-truncates to ADDRW
-      db_wdata   <= 24'hDE_ADBE;
-      db_we      <= 1'b1;
-      db_raddr_a <= 3;                // same address
-      db_raddr_b <= 2;
-    #1; checks = checks + 1;
-      if (db_rdata_a !== 24'hDE_ADBE) begin
-        $display("ERR FWD: expected %h got %h", 24'hDE_ADBE, db_rdata_a);
-        errors = errors + 1;
-      end
-    @(posedge clk); @(negedge clk);
-      db_we <= 1'b0;
+      dira  <= 5'd3;            // Write to address 3
+      data  <= 24'hDE_ADBE;
+      write <= 1'b1;
+      dirb  <= 5'd2;            // Read from address 2
+    #1;
+    checks = checks + 1;
+    // With FORWARD=1, reading same address during write should get new data
+    if (A !== 24'hDE_ADBE) begin
+      $display("ERR FWD: expected %h got %h", 24'hDE_ADBE, A);
+      errors = errors + 1;
+    end
+    @(posedge clk);
+    @(negedge clk);
+    write <= 1'b0;
 
-    // 4) RQ / RD write checks (no reset; write before read)
+    // 4) Test RQ accumulator (per paper: "registers RQ and RD are used as accumulators")
+    $display("\n--- Testing RQ accumulator ---");
     rq_write_check(24'h00_1111);
+    rq_write_check(24'hAA_BBCC);
+
+    // 5) Test RD accumulator
+    $display("\n--- Testing RD accumulator ---");
     rd_write_check(24'h22_3333);
+    rd_write_check(24'hCC_DDEE);
 
-    // 5) Ensure RQ/RD hold when WE=0
-    rq_d <= 24'hAA_BBCC; rd_d <= 24'hCC_DDEE;
-    @(posedge clk); #1; checks = checks + 2;
-    if (rq_q !== 24'h00_1111) begin $display("ERR RQ hold"); errors=errors+1; end
-    if (rd_q !== 24'h22_3333) begin $display("ERR RD hold"); errors=errors+1; end
+    // 6) Ensure RQ/RD hold their values when WE=0
+    $display("\n--- Testing RQ/RD hold when WE=0 ---");
+    rq_d <= 24'h99_9999;
+    rd_d <= 24'h88_8888;
+    @(posedge clk);
+    #1;
+    checks = checks + 2;
+    if (RQ !== 24'hAA_BBCC) begin
+      $display("ERR RQ hold: exp=%h got=%h", 24'hAA_BBCC, RQ);
+      errors = errors + 1;
+    end
+    if (RD !== 24'hCC_DDEE) begin
+      $display("ERR RD hold: exp=%h got=%h", 24'hCC_DDEE, RD);
+      errors = errors + 1;
+    end
 
-    if (errors==0) $display("mem_reg_tb: PASS (%0d checks)", checks);
-    else           $display("mem_reg_tb: %0d ERRORS / %0d checks", errors, checks);
+    // Summary
+    $display("\n========================================");
+    if (errors == 0)
+      $display("mem_reg_tb: PASS (%0d checks)", checks);
+    else
+      $display("mem_reg_tb: %0d ERRORS / %0d checks", errors, checks);
+    $display("========================================");
     $finish;
   end
 

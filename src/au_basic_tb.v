@@ -1,38 +1,41 @@
-// Testbench for 1-cycle AU operations: ADD, SUB, MULT
+// -----------------------------------------------------------------------------
+// au_basic_tb.v
+// Testbench for 1-cycle AU operations: ADD, SUB, MUL
+// Tests per paper: ADD (1 cycle), SUB (1 cycle), MUL (1 cycle)
+// -----------------------------------------------------------------------------
 `timescale 1ns/1ps
 
 module au_basic_tb();
     parameter W = 24;
     parameter FRAC = 14;
-    
+
     reg clk;
     reg rst_n;
-    reg [W-1:0] R_in, S_in, Iimm_in;
-    reg [1:0] op_sel, mul_y_sel;
+    reg [W-1:0] R, S, I;        // Operands (per paper naming)
+    reg [1:0] ctl_d;            // Operation select (per paper naming)
     reg start;
     wire [W-1:0] result;
     wire done, busy;
 
-    // Instantiate AU
-    au dut (  // No parameters for post-synthesis compatibility
-        .clk(clk),
-        .rst_n(rst_n),
-        .start(start),
-        .R_in(R_in),
-        .S_in(S_in),
-        .Iimm_in(Iimm_in),
-        .op_sel(op_sel),
-        .mul_y_sel(mul_y_sel),
-        .result(result),
-        .done(done),
-        .busy(busy)
+    // Instantiate AU with paper's port names
+    au #(.W(W), .FRAC(FRAC)) dut (
+        .clk    (clk),
+        .rst_n  (rst_n),
+        .start  (start),
+        .R      (R),
+        .S      (S),
+        .I      (I),
+        .ctl_d  (ctl_d),
+        .result (result),
+        .done   (done),
+        .busy   (busy)
     );
 
-    // Clock generation
+    // Clock generation (10ns period)
     initial clk = 0;
     always #5 clk = ~clk;
 
-    // Convert integer to S9.14 format
+    // Convert integer to sign-magnitude Q9.14 format
     function [W-1:0] to_fixed;
         input integer val;
         reg sign_bit;
@@ -46,7 +49,7 @@ module au_basic_tb();
         end
     endfunction
 
-    // Convert S9.14 to real for display
+    // Convert sign-magnitude Q9.14 to real for display
     function real to_real;
         input [W-1:0] fixed_val;
         integer signed_mag;
@@ -77,88 +80,88 @@ module au_basic_tb();
     initial begin
         // Initialize signals
         start = 0;
-        rst_n = 0;  // Assert reset
+        rst_n = 0;
         passed = 1;
-        mul_y_sel = 2'b00; // Use S_in as Y
-        Iimm_in = to_fixed(1);
-        
+        I = 0;  // Immediate not used for basic ops
+
         // Hold reset for a few cycles
         repeat(3) @(posedge clk);
-        rst_n = 1;  // Release reset
+        rst_n = 1;
         repeat(2) @(posedge clk);
 
         $display("========================================");
         $display("Testing AU Basic Operations (1-cycle)");
+        $display("Per paper: ADD, SUB, MUL each take 1 cycle");
         $display("========================================");
 
-        // Test ADD operations
-        $display("\n--- Testing ADD ---");
-        op_sel = 2'b00; // ADD
+        // ==================== Test ADD ====================
+        $display("\n--- Testing ADD (ctl_d=00) ---");
+        ctl_d = 2'b00;
         for (i = -4; i <= 4; i = i + 1) begin
             for (j = -4; j <= 4; j = j + 1) begin
-                R_in = to_fixed(i);
-                S_in = to_fixed(j);
+                R = to_fixed(i);
+                S = to_fixed(j);
                 start = 1;
                 @(posedge clk);
                 start = 0;
-                @(posedge clk); // Wait for ST_SIMPLE state
-                @(posedge clk); // Wait for result to be registered
-                
+                @(posedge clk); // ST_SIMPLE state
+                @(posedge clk); // Result registered
+
                 expected = to_fixed(i + j);
                 if (!values_match(result, expected)) begin
                     passed = 0;
-                    $display("FAIL: %0d + %0d = %.3f (expected %.3f, got %h, expected %h)", 
-                             i, j, to_real(result), to_real(expected), result, expected);
+                    $display("FAIL: %0d + %0d = %.3f (expected %.3f)",
+                             i, j, to_real(result), to_real(expected));
                 end
             end
         end
         $display("ADD tests completed");
 
-        // Test SUB operations
-        $display("\n--- Testing SUB ---");
-        op_sel = 2'b01; // SUB
+        // ==================== Test SUB ====================
+        $display("\n--- Testing SUB (ctl_d=01) ---");
+        ctl_d = 2'b01;
         for (i = -4; i <= 4; i = i + 1) begin
             for (j = -4; j <= 4; j = j + 1) begin
-                R_in = to_fixed(i);
-                S_in = to_fixed(j);
+                R = to_fixed(i);
+                S = to_fixed(j);
                 start = 1;
                 @(posedge clk);
                 start = 0;
-                @(posedge clk); // Wait for ST_SIMPLE state
-                @(posedge clk); // Wait for result to be registered
-                
+                @(posedge clk);
+                @(posedge clk);
+
                 expected = to_fixed(i - j);
                 if (!values_match(result, expected)) begin
                     passed = 0;
-                    $display("FAIL: %0d - %0d = %.3f (expected %.3f, got %h, expected %h)", 
-                             i, j, to_real(result), to_real(expected), result, expected);
+                    $display("FAIL: %0d - %0d = %.3f (expected %.3f)",
+                             i, j, to_real(result), to_real(expected));
                 end
             end
         end
         $display("SUB tests completed");
 
-        // Test MULT operations
-        $display("\n--- Testing MULT ---");
-        op_sel = 2'b10; // MULT
+        // ==================== Test MUL ====================
+        $display("\n--- Testing MUL (ctl_d=10) ---");
+        ctl_d = 2'b10;
         for (i = -4; i <= 4; i = i + 1) begin
             for (j = -4; j <= 4; j = j + 1) begin
-                R_in = to_fixed(i);
-                S_in = to_fixed(j);
+                R = to_fixed(i);
+                S = to_fixed(j);
                 start = 1;
                 @(posedge clk);
                 start = 0;
-                @(posedge clk); // Wait for ST_SIMPLE state
-                @(posedge clk); // Wait for result to be registered
-                
+                @(posedge clk);
+                @(posedge clk);
+
                 expected = to_fixed(i * j);
                 if (!values_match(result, expected)) begin
                     passed = 0;
-                    $display("FAIL: %0d * %0d = %.3f (expected %.3f, got %h, expected %h)", 
-                             i, j, to_real(result), to_real(expected), result, expected);
+                    $display("FAIL: %0d * %0d = %.3f (expected %.3f)",
+                             i, j, to_real(result), to_real(expected));
                 end
             end
         end
-        $display("MULT tests completed");
+        $display("MUL tests completed");
 
         // Summary
         $display("\n========================================");
