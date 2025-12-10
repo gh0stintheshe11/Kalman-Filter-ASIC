@@ -1,8 +1,8 @@
 #!/bin/bash
 # -----------------------------------------------------------------------------
-# sim_init.sh
+# sim_rtl.sh
 # Run all RTL testbenches and save logs
-# Usage: ./sim_init.sh
+# Usage: ./sim_rtl.sh
 # -----------------------------------------------------------------------------
 
 SRC_DIR="../src"
