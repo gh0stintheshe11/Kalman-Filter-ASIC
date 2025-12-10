@@ -1,15 +1,11 @@
 ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
-TOOL:	ncverilog	15.20-s079: Started on Dec 10, 2025 at 17:26:29 EST
-ncverilog
-	../src/sequencer.v
-	../src/sequencer_tb.v
+file: ../src/sequencer_tb.v
+	module worklib.sequencer_tb:v
+		errors: 0, warnings: 0
 file: ../src/sequencer.v
 	module worklib.rom_256x16:v
 		errors: 0, warnings: 0
 	module worklib.sequencer:v
-		errors: 0, warnings: 0
-file: ../src/sequencer_tb.v
-	module worklib.sequencer_tb:v
 		errors: 0, warnings: 0
 		Caching library 'worklib' ....... Done
 	Elaborating the design hierarchy:
@@ -17,29 +13,52 @@ file: ../src/sequencer_tb.v
 	Generating native compiled code:
 		worklib.rom_256x16:v <0x1f6d472f>
 			streams:   3, words:  1225
-		worklib.sequencer:v <0x0e496e08>
-			streams:   6, words:  2337
-		worklib.sequencer_tb:v <0x4087a963>
-			streams:   9, words: 20207
+		worklib.sequencer:v <0x4209b462>
+			streams:   6, words:  2459
+		worklib.sequencer_tb:v <0x0f59824e>
+			streams:   9, words: 30168
 	Building instance specific data structures.
 	Loading native compiled code:     .................... Done
 	Design hierarchy summary:
 		                 Instances  Unique
 		Modules:                 3       3
-		Registers:              26      26
-		Scalar wires:            6       -
-		Vectored wires:         10       -
+		Registers:              28      28
+		Scalar wires:            8       -
+		Vectored wires:          9       -
 		Always blocks:           3       3
 		Initial blocks:          3       3
-		Cont. assignments:       2       7
+		Cont. assignments:       2       8
 		Pseudo assignments:      2       2
 		Simulation timescale:  1ps
 	Writing initial simulation snapshot: worklib.sequencer_tb:v
 Loading snapshot worklib.sequencer_tb:v .................... Done
 ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
 ncsim> run
-sequencer_tb: PASS (27 checks)
+========================================
+Testing Sequencer (per paper Section 4)
+Instruction format: a4-a0 b4-b0 c1c0 d1d0 e f
+========================================
+
+--- Test 1: Check READY when idle ---
+PASS: ready=1 when idle
+
+--- Test 2: Start execution ---
+
+--- PC=0: Normal step (INC) ---
+
+--- PC=1: WAIT mode (stall test) ---
+PASS: PC stalled at 1 during WAIT
+
+--- Releasing WAIT with continue_i ---
+
+--- PC=2: Normal step after WAIT ---
+
+--- PC=3: HALT ---
+PASS: ready=1 after HALT
+
+========================================
+sequencer_tb: PASS (31 checks)
+========================================
 Simulation complete via $finish(1) at time 156 NS + 0
-../src/sequencer_tb.v:126     $finish;
+../src/sequencer_tb.v:243     $finish;
 ncsim> exit
-TOOL:	ncverilog	15.20-s079: Exiting on Dec 10, 2025 at 17:26:31 EST  (total: 00:00:02)

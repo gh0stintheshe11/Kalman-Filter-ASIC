@@ -1,25 +1,30 @@
 ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
-TOOL:	ncverilog	15.20-s079: Started on Dec 09, 2025 at 18:28:40 EST
-ncverilog
-	../src/au.v
-	../src/au_basic_tb.v
 file: ../src/au_basic_tb.v
 	module worklib.au_basic_tb:v
+		errors: 0, warnings: 0
+file: ../src/au.v
+	module worklib.recip_unit:v
+		errors: 0, warnings: 0
+	module worklib.au:v
 		errors: 0, warnings: 0
 		Caching library 'worklib' ....... Done
 	Elaborating the design hierarchy:
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
-		worklib.au_basic_tb:v <0x57639f33>
-			streams:   7, words: 22186
+		worklib.au:v <0x04e2032e>
+			streams:  32, words:  8769
+		worklib.au_basic_tb:v <0x61e967e1>
+			streams:   7, words: 20924
+		worklib.recip_unit:v <0x4f6a5a80>
+			streams:   9, words:  3949
 	Building instance specific data structures.
 	Loading native compiled code:     .................... Done
 	Design hierarchy summary:
 		                 Instances  Unique
 		Modules:                 3       3
-		Registers:              48      48
+		Registers:              46      46
 		Scalar wires:            9       -
-		Vectored wires:         28       -
+		Vectored wires:         27       -
 		Always blocks:           7       7
 		Initial blocks:          2       2
 		Cont. assignments:      19      24
@@ -31,22 +36,22 @@ ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimr
 ncsim> run
 ========================================
 Testing AU Basic Operations (1-cycle)
+Per paper: ADD, SUB, MUL each take 1 cycle
 ========================================
 
---- Testing ADD ---
+--- Testing ADD (ctl_d=00) ---
 ADD tests completed
 
---- Testing SUB ---
+--- Testing SUB (ctl_d=01) ---
 SUB tests completed
 
---- Testing MULT ---
-MULT tests completed
+--- Testing MUL (ctl_d=10) ---
+MUL tests completed
 
 ========================================
 ALL BASIC TESTS PASSED!
 ========================================
 
 Simulation complete via $finish(1) at time 7335 NS + 0
-../src/au_basic_tb.v:171         $finish;
+../src/au_basic_tb.v:174         $finish;
 ncsim> exit
-TOOL:	ncverilog	15.20-s079: Exiting on Dec 09, 2025 at 18:28:42 EST  (total: 00:00:02)

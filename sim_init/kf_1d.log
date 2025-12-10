@@ -1,0 +1,117 @@
+ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+file: ../src/kf_1d_tb.v
+//                   x̂ = x⁻ + K·(y-x⁻)
+                      |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,8|22): non-printable character (0xcc) ignored.
+//                   x̂ = x⁻ + K·(y-x⁻)
+                       |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,8|23): non-printable character (0x82) ignored.
+      // x̂ = x + K·(y-x)
+          |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,195|10): non-printable character (0xcc) ignored.
+      // x̂ = x + K·(y-x)
+           |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,195|11): non-printable character (0x82) ignored.
+    program_rom();
+                |
+ncvlog: *W,TMTPAR (../src/kf_1d_tb.v,247|16): A task enable with no arguments must not include an empty set of parentheses [10.2.2 (IEEE Std 1364-2005)].  The compiler has ignored the parentheses.  Use 'nchelp ncvlog TMTPAR'  for further information.
+    // Φ = 1.0
+       |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,252|7): non-printable character (0xce) ignored.
+    // Φ = 1.0
+        |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,252|8): non-printable character (0xa6) ignored.
+    // x⁻ = 0, P⁻ = 1.01
+        |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,343|8): non-printable character (0xe2) ignored.
+    // x⁻ = 0, P⁻ = 1.01
+         |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,343|9): non-printable character (0x81) ignored.
+    // x⁻ = 0, P⁻ = 1.01
+          |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,343|10): non-printable character (0xbb) ignored.
+    // x̂ = 0 + 0.9099×(2.5-0) ≈ 2.275
+        |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,345|8): non-printable character (0xcc) ignored.
+    // x̂ = 0 + 0.9099×(2.5-0) ≈ 2.275
+         |
+ncvlog: *W,NONPRT (../src/kf_1d_tb.v,345|9): non-printable character (0x82) ignored.
+	module worklib.kf_1d_tb:v
+		errors: 0, warnings: 10
+	Total errors/warnings found outside modules and primitives:
+		errors: 0, warnings: 2
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.kf_1d_tb:v <0x080fbaf4>
+			streams:  13, words: 43202
+		worklib.kf_top:v <0x468faabc>
+			streams:   3, words:   630
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                 Instances  Unique
+		Modules:                12      12
+		Registers:              67      67
+		Scalar wires:           25       -
+		Vectored wires:         50       -
+		Always blocks:          19      19
+		Initial blocks:          4       4
+		Cont. assignments:      27      43
+		Pseudo assignments:      5       5
+		Simulation timescale:  1ps
+	Writing initial simulation snapshot: worklib.kf_1d_tb:v
+Loading snapshot worklib.kf_1d_tb:v .................... Done
+ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
+ncsim> run
+========================================
+1D Kalman Filter Algorithm Test
+Per paper Section 3: KF equations
+========================================
+[ROM] Programming 1D Kalman Filter...
+[ROM] Programmed 25 instructions for 1D Kalman Filter
+
+--- Loading KF parameters ---
+  Φ = 1.0 (0x004000)
+  Q = 0.01 (0x0000a4)
+  R = 0.1 (0x000666)
+  x₀ = 0.0 (0x000000)
+  P₀ = 1.0 (0x004000)
+  y = 2.5 (0x00a000)
+
+--- Executing Kalman Filter ---
+Waiting for computation to complete...
+  Cycle   0: PC= 7, READY=0
+  Cycle  10: PC=13, READY=0
+  Cycle  20: PC=13, READY=0
+  Cycle  30: PC=13, READY=0
+  Cycle  40: PC=19, READY=0
+  KF computation completed at cycle          48
+
+========================================
+Results
+========================================
+  x̂  (DB[0]) = 0.000000 (0x000000)
+  P  (DB[1]) = 0.000000 (0x000000)
+  Φ  (DB[2]) = 1.000000 (0x004000)
+  Q  (DB[3]) = 1.000000 (0x004000)
+  R  (DB[4]) = 0.010010 (0x0000a4)
+  y  (DB[5]) = 1.000000 (0x004000)
+  P⁻ (DB[6]) = 0.000000 (0x000000)
+  tmp(DB[7]) = 0.000000 (0x000000)
+
+========================================
+Expected (manual calculation)
+========================================
+  P⁻ = P+Q = 1.0+0.01 = 1.01
+  K = P⁻/(P⁻+R) = 1.01/1.11 ≈ 0.9099
+  x̂ = x + K(y-x) = 0 + 0.9099×2.5 ≈ 2.275
+
+========================================
+1D Kalman Filter Test Complete
+========================================
+
+Simulation complete via $finish(1) at time 876 NS + 0
+../src/kf_1d_tb.v:356     $finish;
+ncsim> exit

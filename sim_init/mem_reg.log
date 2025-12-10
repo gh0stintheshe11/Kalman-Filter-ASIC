@@ -1,8 +1,7 @@
 ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
-TOOL:	ncverilog	15.20-s079: Started on Dec 09, 2025 at 16:42:26 EST
-ncverilog
-	../src/mem_reg.v
-	../src/mem_reg_tb.v
+file: ../src/mem_reg_tb.v
+	module worklib.mem_reg_tb:v
+		errors: 0, warnings: 0
 file: ../src/mem_reg.v
 	module worklib.RQ:v
 		errors: 0, warnings: 0
@@ -12,29 +11,26 @@ file: ../src/mem_reg.v
 		errors: 0, warnings: 0
 	module worklib.mem_reg:v
 		errors: 0, warnings: 0
-file: ../src/mem_reg_tb.v
-	module worklib.mem_reg_tb:v
-		errors: 0, warnings: 0
 		Caching library 'worklib' ....... Done
 	Elaborating the design hierarchy:
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
-		worklib.Data_Bank:v <0x7cdf673d>
-			streams:   4, words:  2183
+		worklib.Data_Bank:v <0x48abda79>
+			streams:   4, words:  2142
 		worklib.RD:v <0x50381130>
 			streams:   2, words:   407
 		worklib.RQ:v <0x4fba127d>
 			streams:   2, words:   407
-		worklib.mem_reg_tb:v <0x6d7ef748>
-			streams:  18, words: 19277
+		worklib.mem_reg_tb:v <0x5315f488>
+			streams:  18, words: 25458
 	Building instance specific data structures.
 	Loading native compiled code:     .................... Done
 	Design hierarchy summary:
 		                 Instances  Unique
 		Modules:                 5       5
-		Registers:              30      30
+		Registers:              29      29
 		Scalar wires:            4       -
-		Vectored wires:         10       -
+		Vectored wires:          9       -
 		Always blocks:           6       6
 		Initial blocks:          2       2
 		Pseudo assignments:      1       1
@@ -43,8 +39,26 @@ file: ../src/mem_reg_tb.v
 Loading snapshot worklib.mem_reg_tb:v .................... Done
 ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
 ncsim> run
-mem_reg_tb: PASS (21 checks)
-Simulation complete via $finish(1) at time 206 NS + 0
-../src/mem_reg_tb.v:162     $finish;
+========================================
+Testing Memory Registers (per paper Figure 3)
+Data Bank: 32 x 24-bit registers
+========================================
+
+--- Writing patterns to all 32 registers ---
+
+--- Reading back via both ports ---
+
+--- Testing write-through forwarding ---
+
+--- Testing RQ accumulator ---
+
+--- Testing RD accumulator ---
+
+--- Testing RQ/RD hold when WE=0 ---
+
+========================================
+mem_reg_tb: PASS (71 checks)
+========================================
+Simulation complete via $finish(1) at time 736 NS + 0
+../src/mem_reg_tb.v:224     $finish;
 ncsim> exit
-TOOL:	ncverilog	15.20-s079: Exiting on Dec 09, 2025 at 16:42:27 EST  (total: 00:00:01)

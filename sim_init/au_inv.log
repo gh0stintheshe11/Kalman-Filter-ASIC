@@ -1,8 +1,4 @@
 ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
-TOOL:	ncverilog	15.20-s079: Started on Dec 09, 2025 at 18:32:47 EST
-ncverilog
-	../src/au.v
-	../src/au_inv_tb.v
 file: ../src/au_inv_tb.v
 	module worklib.au_inv_tb:v
 		errors: 0, warnings: 0
@@ -10,18 +6,18 @@ file: ../src/au_inv_tb.v
 	Elaborating the design hierarchy:
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
-		worklib.au:v <0x061c8fcd>
-			streams:  34, words: 10027
-		worklib.au_inv_tb:v <0x557f7703>
-			streams:   7, words: 15109
+		worklib.au:v <0x47947a29>
+			streams:  33, words:  9264
+		worklib.au_inv_tb:v <0x469ad7fd>
+			streams:   7, words: 16126
 	Building instance specific data structures.
 	Loading native compiled code:     .................... Done
 	Design hierarchy summary:
 		                 Instances  Unique
 		Modules:                 3       3
-		Registers:              46      46
+		Registers:              45      45
 		Scalar wires:           10       -
-		Vectored wires:         28       -
+		Vectored wires:         27       -
 		Always blocks:           7       7
 		Initial blocks:          2       2
 		Cont. assignments:      20      24
@@ -32,99 +28,140 @@ Loading snapshot worklib.au_inv_tb:v .................... Done
 ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
 ncsim> run
 ========================================
-Testing AU Multiplicative Inverse
-(24-cycle operation)
+Testing AU Multiplicative Inverse (DIV)
+Per paper: 24 clock cycles per operation
 ========================================
 
-Testing 1/1:
+Testing 1 / 1:
   cycle 1: done=0, busy=1
   cycle 2: done=0, busy=1
   cycle 3: done=0, busy=1
   cycle 4: done=0, busy=1
   cycle 10: done=0, busy=1
   cycle 20: done=0, busy=1
-  S = 1
-  Expected 1/S = 1.000000
-  Got result = 1.000000
+  R = 1, S = 1
+  Expected R/S = 1.000000
+  Got result   = 1.000000
   Error = 0.00%
-  Cycles = 26
-  ✓ PASS
+  Cycles = 26 (paper specifies 24)
+  PASS
 
-Testing 1/2:
+Testing 1 / 2:
   cycle 1: done=0, busy=1
   cycle 2: done=0, busy=1
   cycle 3: done=0, busy=1
   cycle 4: done=0, busy=1
   cycle 10: done=0, busy=1
   cycle 20: done=0, busy=1
-  S = 2
-  Expected 1/S = 0.500000
-  Got result = 0.500000
+  R = 1, S = 2
+  Expected R/S = 0.500000
+  Got result   = 0.500000
   Error = 0.00%
-  Cycles = 26
-  ✓ PASS
+  Cycles = 26 (paper specifies 24)
+  PASS
 
-Testing 1/4:
+Testing 1 / 4:
   cycle 1: done=0, busy=1
   cycle 2: done=0, busy=1
   cycle 3: done=0, busy=1
   cycle 4: done=0, busy=1
   cycle 10: done=0, busy=1
   cycle 20: done=0, busy=1
-  S = 4
-  Expected 1/S = 0.250000
-  Got result = 0.250000
+  R = 1, S = 4
+  Expected R/S = 0.250000
+  Got result   = 0.250000
   Error = 0.00%
-  Cycles = 26
-  ✓ PASS
+  Cycles = 26 (paper specifies 24)
+  PASS
 
-Testing 1/8:
+Testing 1 / 8:
   cycle 1: done=0, busy=1
   cycle 2: done=0, busy=1
   cycle 3: done=0, busy=1
   cycle 4: done=0, busy=1
   cycle 10: done=0, busy=1
   cycle 20: done=0, busy=1
-  S = 8
-  Expected 1/S = 0.125000
-  Got result = 0.125000
+  R = 1, S = 8
+  Expected R/S = 0.125000
+  Got result   = 0.125000
   Error = 0.00%
-  Cycles = 26
-  ✓ PASS
+  Cycles = 26 (paper specifies 24)
+  PASS
 
-Testing 1/-2:
+Testing 1 / -2:
   cycle 1: done=0, busy=1
   cycle 2: done=0, busy=1
   cycle 3: done=0, busy=1
   cycle 4: done=0, busy=1
   cycle 10: done=0, busy=1
   cycle 20: done=0, busy=1
-  S = -2
-  Expected 1/S = -0.500000
-  Got result = -0.500000
-  Error = 0.00%
-  Cycles = 26
-  ✓ PASS
+  R = 1, S = -2
+  Expected R/S = -0.500000
+  Got result   = -0.500000
+  Error = -0.00%
+  Cycles = 26 (paper specifies 24)
+  PASS
 
-Testing 1/-4:
+Testing 1 / -4:
   cycle 1: done=0, busy=1
   cycle 2: done=0, busy=1
   cycle 3: done=0, busy=1
   cycle 4: done=0, busy=1
   cycle 10: done=0, busy=1
   cycle 20: done=0, busy=1
-  S = -4
-  Expected 1/S = -0.250000
-  Got result = -0.250000
+  R = 1, S = -4
+  Expected R/S = -0.250000
+  Got result   = -0.250000
+  Error = -0.00%
+  Cycles = 26 (paper specifies 24)
+  PASS
+
+Testing 2 / 4:
+  cycle 1: done=0, busy=1
+  cycle 2: done=0, busy=1
+  cycle 3: done=0, busy=1
+  cycle 4: done=0, busy=1
+  cycle 10: done=0, busy=1
+  cycle 20: done=0, busy=1
+  R = 2, S = 4
+  Expected R/S = 0.500000
+  Got result   = 0.500000
   Error = 0.00%
-  Cycles = 26
-  ✓ PASS
+  Cycles = 26 (paper specifies 24)
+  PASS
+
+Testing 3 / 2:
+  cycle 1: done=0, busy=1
+  cycle 2: done=0, busy=1
+  cycle 3: done=0, busy=1
+  cycle 4: done=0, busy=1
+  cycle 10: done=0, busy=1
+  cycle 20: done=0, busy=1
+  R = 3, S = 2
+  Expected R/S = 1.500000
+  Got result   = 1.500000
+  Error = 0.00%
+  Cycles = 26 (paper specifies 24)
+  PASS
+
+Testing -4 / 2:
+  cycle 1: done=0, busy=1
+  cycle 2: done=0, busy=1
+  cycle 3: done=0, busy=1
+  cycle 4: done=0, busy=1
+  cycle 10: done=0, busy=1
+  cycle 20: done=0, busy=1
+  R = -4, S = 2
+  Expected R/S = -2.000000
+  Got result   = -2.000000
+  Error = -0.00%
+  Cycles = 26 (paper specifies 24)
+  PASS
 
 ========================================
 Multiplicative Inverse Tests Completed
 ========================================
 
-Simulation complete via $finish(1) at time 1725 NS + 0
-../src/au_inv_tb.v:143         $finish;
+Simulation complete via $finish(1) at time 2565 NS + 0
+../src/au_inv_tb.v:155         $finish;
 ncsim> exit
-TOOL:	ncverilog	15.20-s079: Exiting on Dec 09, 2025 at 18:32:48 EST  (total: 00:00:01)

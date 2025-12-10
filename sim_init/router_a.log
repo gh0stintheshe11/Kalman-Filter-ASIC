@@ -1,22 +1,18 @@
 ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
-TOOL:	ncverilog	15.20-s079: Started on Dec 09, 2025 at 16:38:22 EST
-ncverilog
-	../src/router_a.v
-	../src/router_a_tb.v
-file: ../src/router_a.v
-	module worklib.router_a:v
-		errors: 0, warnings: 0
 file: ../src/router_a_tb.v
 	module worklib.router_a_tb:v
+		errors: 0, warnings: 0
+file: ../src/router_a.v
+	module worklib.router_a:v
 		errors: 0, warnings: 0
 		Caching library 'worklib' ....... Done
 	Elaborating the design hierarchy:
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
-		worklib.router_a:v <0x3ef5f0f8>
-			streams:   4, words:  1086
-		worklib.router_a_tb:v <0x17b56f49>
-			streams:  11, words: 11376
+		worklib.router_a:v <0x09572086>
+			streams:   4, words:  1080
+		worklib.router_a_tb:v <0x1111b39d>
+			streams:  11, words: 13391
 	Building instance specific data structures.
 	Loading native compiled code:     .................... Done
 	Design hierarchy summary:
@@ -34,8 +30,12 @@ file: ../src/router_a_tb.v
 Loading snapshot worklib.router_a_tb:v .................... Done
 ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
 ncsim> run
-Router A: 256 tests PASSED :)
+========================================
+Testing Router A (per paper Figure 3)
+========================================
+========================================
+Router A: 256 tests PASSED
+========================================
 Simulation complete via $finish(1) at time 256 NS + 0
-../src/router_a_tb.v:107     $finish;
+../src/router_a_tb.v:160     $finish;
 ncsim> exit
-TOOL:	ncverilog	15.20-s079: Exiting on Dec 09, 2025 at 16:38:44 EST  (total: 00:00:22)
