@@ -17,6 +17,11 @@ module kf_top
   input  [W-1:0]     data_in,         // External data input
   output             ready,           // System ready for new operation
   
+  // ROM programming interface
+  input              rom_we,          // ROM write enable
+  input  [7:0]       rom_waddr,       // ROM write address
+  input  [15:0]      rom_wdata,       // ROM write data
+  
   // Optional observability outputs for debugging
   output [W-1:0]     result_out,      // AU result
   output             au_done
@@ -41,9 +46,9 @@ module kf_top
     .ctl_c      (ctl_c),
     .ctl_d      (ctl_d),
     .ctl_e      (ctl_e),
-    .rom_we     (1'b0),        // ROM write disabled in normal operation
-    .rom_waddr  (8'h00),       // Not used
-    .rom_wdata  (16'h0000),    // Not used
+    .rom_we     (rom_we),      // ROM programming from external
+    .rom_waddr  (rom_waddr),
+    .rom_wdata  (rom_wdata),
     .pc_dbg     ()             // Debug output not connected
   );
   

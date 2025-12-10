@@ -21,6 +21,11 @@ module kf_top_tb;
   wire [W-1:0]     result_out;
   wire             au_done;
   
+  // ROM programming signals
+  reg              rom_we;
+  reg  [7:0]       rom_waddr;
+  reg  [15:0]      rom_wdata;
+  
   // Instantiate DUT
   kf_top DUT (  // No parameters for post-synthesis compatibility
     .clk        (clk),
@@ -28,6 +33,9 @@ module kf_top_tb;
     .start      (start),
     .data_in    (data_in),
     .ready      (ready),
+    .rom_we     (rom_we),
+    .rom_waddr  (rom_waddr),
+    .rom_wdata  (rom_wdata),
     .result_out (result_out),
     .au_done    (au_done)
   );
@@ -82,6 +90,21 @@ module kf_top_tb;
     end
   endtask
   
+  // ROM write task - programs ROM via ports
+  task rom_write;
+    input [7:0]  addr;
+    input [15:0] data;
+    begin
+      @(negedge clk);
+      rom_waddr = addr;
+      rom_wdata = data;
+      rom_we = 1'b1;
+      @(posedge clk);
+      #1;
+      rom_we = 1'b0;
+    end
+  endtask
+  
   // ========== Test Sequence ==========
   
   integer errors, checks;
@@ -104,6 +127,9 @@ module kf_top_tb;
     rst_n = 0;
     start = 0;
     data_in = 0;
+    rom_we = 0;
+    rom_waddr = 0;
+    rom_wdata = 0;
     errors = 0;
     checks = 0;
     
@@ -120,6 +146,22 @@ module kf_top_tb;
     #20;
     rst_n = 1;
     #10;
+    
+    // ========== PROGRAM ROM before tests ==========
+    // Program for basic ADD/SUB/MUL tests
+    rom_write(8'd0, 16'b00000_00000_00_00_01);  // Load DATA_IN to DB[0]
+    rom_write(8'd1, 16'b00001_00000_00_00_01);  // Load DATA_IN to DB[1]
+    rom_write(8'd2, 16'b00000_00001_00_00_10);  // ADD DB[0]+DB[1], START
+    rom_write(8'd3, 16'b00000_00000_01_00_00);  // WAIT
+    rom_write(8'd4, 16'b01010_00000_00_00_01);  // Write RESULT to DB[2]
+    rom_write(8'd5, 16'b00000_00001_00_01_10);  // SUB DB[0]-DB[1], START
+    rom_write(8'd6, 16'b00000_00000_01_00_00);  // WAIT
+    rom_write(8'd7, 16'b01011_00000_00_00_01);  // Write RESULT to DB[3]
+    rom_write(8'd8, 16'b00000_00001_00_10_10);  // MUL DB[0]*DB[1], START
+    rom_write(8'd9, 16'b00000_00000_01_00_00);  // WAIT
+    rom_write(8'd10, 16'b01100_00000_00_00_01); // Write RESULT to DB[4]
+    rom_write(8'd11, 16'b00000_00000_10_00_00); // HALT
+    $display("\nROM programmed for ADD/SUB/MUL tests");
     
     $display("\n[Test 1] Check initial READY state");
     checks = checks + 1;
@@ -340,17 +382,17 @@ module kf_top_tb;
     
     // Program ROM for RQ/RD test (overwrite old program)
     // PC=0: Load 4.0 to DB[5]
-    DUT.Sequencer.ROM.mem[0] = 16'b00101_00000_00_00_01;
+    rom_write(8'd0, 16'b00101_00000_00_00_01);
     // PC=1: Load DB[5] to RQ (e1e0=11)
-    DUT.Sequencer.ROM.mem[1] = 16'b00101_00000_00_00_11;
+    rom_write(8'd1, 16'b00101_00000_00_00_11);
     // PC=2: ADD RQ + DB[0] (sel_R=01 for RQ, sel_S=00 for port B at addr=0)
-    DUT.Sequencer.ROM.mem[2] = 16'b00000_01000_00_00_10;
+    rom_write(8'd2, 16'b00000_01000_00_00_10);
     // PC=3: WAIT
-    DUT.Sequencer.ROM.mem[3] = 16'b00000_00000_01_00_00;
+    rom_write(8'd3, 16'b00000_00000_01_00_00);
     // PC=4: Write result to DB[6]
-    DUT.Sequencer.ROM.mem[4] = 16'b01110_00000_00_00_01;
+    rom_write(8'd4, 16'b01110_00000_00_00_01);
     // PC=5: HALT
-    DUT.Sequencer.ROM.mem[5] = 16'b00000_00000_10_00_00;
+    rom_write(8'd5, 16'b00000_00000_10_00_00);
     
     // Load 4.0
     val_a = q_of_int(4);  // 4.0
@@ -442,17 +484,17 @@ module kf_top_tb;
     
     // Program ROM for RD test
     // PC=0: Load 5.0 to DB[7]
-    DUT.Sequencer.ROM.mem[0] = 16'b00111_00000_00_00_01;
+    rom_write(8'd0, 16'b00111_00000_00_00_01);
     // PC=1: Load DB[7] to RD (sel_data=10 for ZERO, e0=1)
-    DUT.Sequencer.ROM.mem[1] = 16'b10111_00000_00_00_01;
+    rom_write(8'd1, 16'b10111_00000_00_00_01);
     // PC=2: ADD DB[0] + RD (sel_R=00 for port A, sel_S=01 for RD, addr=0)
-    DUT.Sequencer.ROM.mem[2] = 16'b00000_00010_00_00_10;
+    rom_write(8'd2, 16'b00000_00010_00_00_10);
     // PC=3: WAIT
-    DUT.Sequencer.ROM.mem[3] = 16'b00000_00000_01_00_00;
+    rom_write(8'd3, 16'b00000_00000_01_00_00);
     // PC=4: Write result to DB[6]
-    DUT.Sequencer.ROM.mem[4] = 16'b01110_00000_00_00_01;
+    rom_write(8'd4, 16'b01110_00000_00_00_01);
     // PC=5: HALT
-    DUT.Sequencer.ROM.mem[5] = 16'b00000_00000_10_00_00;
+    rom_write(8'd5, 16'b00000_00000_10_00_00);
     
     // Load 5.0
     val_b = q_of_int(5);  // 5.0

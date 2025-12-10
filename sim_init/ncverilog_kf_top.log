@@ -1,5 +1,5 @@
 ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
-TOOL:	ncverilog	15.20-s079: Started on Dec 09, 2025 at 18:21:49 EST
+TOOL:	ncverilog	15.20-s079: Started on Dec 10, 2025 at 17:27:19 EST
 ncverilog
 	../src/kf_top.v
 	../src/kf_top_tb.v
@@ -14,24 +14,40 @@ file: ../src/kf_top_tb.v
 		Caching library 'worklib' ....... Done
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
+		worklib.Data_Bank:v <0x71cbed13>
+			streams:   4, words:  2174
+		worklib.RD:v <0x6c8eed05>
+			streams:   2, words:   445
+		worklib.RQ:v <0x730cee48>
+			streams:   2, words:   445
 		worklib.au:v <0x3acaa9fe>
 			streams:  33, words:  9822
-		worklib.kf_top:v <0x33c5845f>
-			streams:  12, words:  2977
-		worklib.kf_top_tb:v <0x00f48a86>
-			streams:  10, words: 86915
+		worklib.kf_top:v <0x1fbe6e59>
+			streams:  10, words:  2629
+		worklib.kf_top_tb:v <0x1f2367b1>
+			streams:  11, words: 87928
+		worklib.recip_unit:v <0x4f6a5a80>
+			streams:   9, words:  3949
+		worklib.rom_256x16:v <0x7d0f3c03>
+			streams:   3, words:  1225
+		worklib.router_a:v <0x3ef5f0f8>
+			streams:   4, words:  1086
+		worklib.router_b:v <0x6432e00e>
+			streams:   5, words:  1331
+		worklib.sequencer:v <0x47f0098e>
+			streams:   6, words:  2271
 	Building instance specific data structures.
 	Loading native compiled code:     .................... Done
 	Design hierarchy summary:
 		                 Instances  Unique
 		Modules:                12      12
-		Registers:              74      74
-		Scalar wires:           27       -
+		Registers:              78      78
+		Scalar wires:           26       -
 		Vectored wires:         55       -
 		Always blocks:          19      19
-		Initial blocks:          5       5
+		Initial blocks:          4       4
 		Cont. assignments:      34      59
-		Pseudo assignments:      7       7
+		Pseudo assignments:      5       5
 		Simulation timescale:  1ps
 	Writing initial simulation snapshot: worklib.kf_top_tb:v
 Loading snapshot worklib.kf_top_tb:v .................... Done
@@ -45,6 +61,8 @@ Complete Arithmetic Operations Test
 Test operands:
                                                                    Value A (3.0): sm=00c000 tc=00c000 decimal=3.000000
                                                                    Value B (2.5): sm=00a000 tc=00a000 decimal=2.500000
+
+ROM programmed for ADD/SUB/MUL tests
 
 [Test 1] Check initial READY state
 PASS: System ready
@@ -175,7 +193,7 @@ Test Summary
 kf_top_tb: PASS (10 checks)
 ========================================
 
-Simulation complete via $finish(1) at time 615 NS + 0
-../src/kf_top_tb.v:515     $finish;
+Simulation complete via $finish(1) at time 855 NS + 0
+../src/kf_top_tb.v:557     $finish;
 ncsim> exit
-TOOL:	ncverilog	15.20-s079: Exiting on Dec 09, 2025 at 18:21:50 EST  (total: 00:00:01)
+TOOL:	ncverilog	15.20-s079: Exiting on Dec 10, 2025 at 17:27:20 EST  (total: 00:00:01)

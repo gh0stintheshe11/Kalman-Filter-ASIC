@@ -25,65 +25,8 @@ module rom_256x16 (
       mem[prog_addr] <= prog_data;
   end
   
-  // Initialize ROM with test program following documented instruction format
-  // See INSTRUCTION_FORMAT.md for details
-  // Format: a4-a0 | b4-b0 | c1-c0 | d1-d0 | e1-e0
-  integer i;
-  initial begin
-    // Default all instructions to HALT (c1c0=10)
-    for (i = 0; i < 256; i = i + 1) begin
-      mem[i] = 16'b00000_00000_10_00_00;  // HALT
-    end
-    
-    // Test Program: Load two values, perform ADD/SUB/MUL
-    // Assumes testbench provides data_in at appropriate times
-    
-    // PC=0: Write DATA_IN to DB[0]
-    // a4-a0=00000 (DATA_IN, addr=0), c1c0=00 (INC), e0=1 (WRITE)
-    mem[0] = 16'b00000_00000_00_00_01;  // Load to addr 0
-    
-    // PC=1: Write DATA_IN to DB[1]  
-    // a4-a0=00001 (DATA_IN, addr=1), c1c0=00 (INC), e0=1 (WRITE)
-    mem[1] = 16'b00001_00000_00_00_01;  // Load to addr 1
-    
-    // PC=2: ADD operation - Read DB[0] (port A) and DB[1] (port B), start AU
-    // a4-a0=00000 (addr_a=0), b4-b0=00001 (R=A, S=B, b0=1 means addr_b=addr_a+1)
-    // c1c0=00 (INC), d1d0=00 (ADD), e1=1 (START)
-    mem[2] = 16'b00000_00001_00_00_10;
-    
-    // PC=3: WAIT for AU done
-    // c1c0=01 (WAIT)
-    mem[3] = 16'b00000_00000_01_00_00;
-    
-    // PC=4: Write RESULT to DB[2]
-    // a4-a0=01010 (RESULT, addr=2), c1c0=00 (INC), e0=1 (WRITE)
-    mem[4] = 16'b01010_00000_00_00_01;
-    
-    // PC=5: SUB operation - DB[0] - DB[1]
-    // a4-a0=00000, b4-b0=00001 (b0=1 for addr_b=addr_a+1), d1d0=01 (SUB), e1=1
-    mem[5] = 16'b00000_00001_00_01_10;
-    
-    // PC=6: WAIT for AU done
-    mem[6] = 16'b00000_00000_01_00_00;
-    
-    // PC=7: Write RESULT to DB[3]
-    // a4-a0=01011 (RESULT, addr=3)
-    mem[7] = 16'b01011_00000_00_00_01;
-    
-    // PC=8: MUL operation - DB[0] * DB[1]
-    // d1d0=10 (MUL), b0=1 for different addresses
-    mem[8] = 16'b00000_00001_00_10_10;
-    
-    // PC=9: WAIT
-    mem[9] = 16'b00000_00000_01_00_00;
-    
-    // PC=10: Write RESULT to DB[4]
-    // a4-a0=01100 (RESULT, addr=4)
-    mem[10] = 16'b01100_00000_00_00_01;
-    
-    // PC=11: HALT
-    mem[11] = 16'b00000_00000_10_00_00;
-  end
+  // ROM is empty by default - must be programmed via prog_we port
+  // This is synthesizable (no initial block)
 endmodule
 
 module sequencer (
