@@ -13,20 +13,20 @@ file: ../src/kf_top.v
 			streams:   4, words:  2133
 		worklib.au:v <0x0f390a4d>
 			streams:  32, words:  9059
-		worklib.kf_top:v <0x4ef40240>
+		worklib.kf_top:v <0x0087e46f>
 			streams:   4, words:   757
-		worklib.kf_top_tb:v <0x7c047aee>
-			streams:  11, words: 36023
+		worklib.kf_top_tb:v <0x1446f7eb>
+			streams:  10, words: 34664
 		worklib.router_b:v <0x7ee3f2d6>
 			streams:   5, words:  1331
-		worklib.sequencer:v <0x090ac586>
+		worklib.sequencer:v <0x67c3a22f>
 			streams:   6, words:  2393
 	Building instance specific data structures.
 	Loading native compiled code:     .................... Done
 	Design hierarchy summary:
 		                 Instances  Unique
 		Modules:                12      12
-		Registers:              75      75
+		Registers:              70      70
 		Scalar wires:           25       -
 		Vectored wires:         50       -
 		Always blocks:          19      19
@@ -41,6 +41,7 @@ ncsim> run
 ========================================
 Kalman Filter ASIC Top-Level Test
 Per paper Figure 3 architecture
+Mode: RTL simulation
 ========================================
 
 Test operands:
@@ -58,20 +59,20 @@ DATA_IN = 0x00c000 (3.0)
 START asserted - execution begins
 DATA_IN = 0x00a000 (2.5)
 
-Monitoring execution:
-Cycle | PC | ctl_c | ctl_d | ctl_e | ctl_f | READY | DATA_OUT
-------|----| ------|-------|-------|-------|-------|----------
-    0 |  3 |   01  |   00  |   0   |   0   |   0   | xxxxxx
-    1 |  3 |   01  |   00  |   0   |   0   |   0   | 016000
-    2 |  4 |   00  |   00  |   0   |   1   |   0   | 016000
-    3 |  5 |   10  |   00  |   0   |   0   |   0   | 016000
-    4 |  5 |   10  |   00  |   0   |   0   |   1   | 016000
+Monitoring execution (port-level signals only):
+Cycle | READY | DATA_OUT
+------|-------|----------
+    0 |   0   | xxxxxx
+    1 |   0   | 016000
+    2 |   0   | 016000
+    3 |   0   | 016000
+    4 |   1   | 016000
 
-HALT detected - program completed
+HALT detected - program completed at cycle 4
 
 --- Test 3: Verify computation results ---
 
-Data Bank contents:
+Data Bank contents (RTL mode):
   DB[0] = 0x00c000 (3.0000) - expected 3.0
   DB[1] = 0x00a000 (2.5000) - expected 2.5
   DB[2] = 0x000000 (0.0000) - expected 5.5 (ADD result)
@@ -90,5 +91,5 @@ kf_top_tb: 1 ERRORS / 3 checks
 ========================================
 
 Simulation complete via $finish(1) at time 236 NS + 0
-../src/kf_top_tb.v:302     $finish;
+../src/kf_top_tb.v:284     $finish;
 ncsim> exit

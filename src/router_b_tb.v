@@ -2,11 +2,14 @@
 // router_b_tb.v
 // Testbench for Router B - Operand selection for AU (per paper Figure 3)
 // Tests: R/S mux selection, inversion, immediate values
+//
+// Compatible with: RTL, post-synthesis, post-layout simulation
 // -----------------------------------------------------------------------------
 `timescale 1ns/1ps
 
 module router_b_tb;
 
+  // Parameters for testbench (not passed to DUT for post-syn compatibility)
   parameter W = 24;
 
   // DUT inputs (matching router_b.v port names per paper Figure 3)
@@ -18,8 +21,8 @@ module router_b_tb;
   wire [W-1:0] R, S, I;
   wire         msb_R, msb_S;
 
-  // Instantiate DUT with paper's port names
-  router_b #(.W(W)) DUT (
+  // Instantiate DUT - no parameter override for post-syn compatibility
+  router_b DUT (
     .A      (A),
     .B      (B),
     .RQ     (RQ),

@@ -2,10 +2,14 @@
 // au_inv_tb.v
 // Testbench for AU multiplicative inverse (DIV operation)
 // Per paper: Multiplicative inverse takes 24 clock cycles
+//
+// Compatible with: RTL, post-synthesis, post-layout simulation
+// Define SIM_POST_SYN for post-synthesis simulation
 // -----------------------------------------------------------------------------
 `timescale 1ns/1ps
 
 module au_inv_tb();
+    // Parameters for testbench calculations (not passed to DUT for post-syn compatibility)
     parameter W = 24;
     parameter FRAC = 14;
 
@@ -17,8 +21,8 @@ module au_inv_tb();
     wire [W-1:0] result;
     wire done, busy;
 
-    // Instantiate AU with paper's port names
-    au #(.W(W), .FRAC(FRAC)) dut (
+    // Instantiate AU - no parameter override for post-syn compatibility
+    au dut (
         .clk    (clk),
         .rst_n  (rst_n),
         .start  (start),

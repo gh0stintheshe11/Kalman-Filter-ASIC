@@ -2,12 +2,14 @@
 // mem_reg_tb.v
 // Testbench for Memory Registers Block (per paper Figure 3)
 // Tests: Data Bank read/write, RQ/RD accumulators, write-through forwarding
+//
+// Compatible with: RTL, post-synthesis, post-layout simulation
 // -----------------------------------------------------------------------------
 `timescale 1ns/1ps
 
 module mem_reg_tb;
 
-  // Parameters matching the actual design
+  // Parameters for testbench (not passed to DUT for post-syn compatibility)
   parameter W     = 24;
   parameter NR    = 32;       // Per paper: 32 registers for 2-state KF
   parameter ADDRW = 5;        // Per paper: 5-bit address for 32 registers
@@ -34,8 +36,8 @@ module mem_reg_tb;
   // Loop counters / bookkeeping
   integer i, errors, checks;
 
-  // DUT instantiation with paper's port names
-  mem_reg #(.W(W), .NR(NR), .ADDRW(ADDRW), .FORWARD(1)) DUT (
+  // DUT instantiation - no parameter override for post-syn compatibility
+  mem_reg DUT (
     .clk    (clk),
     // Data Bank interface
     .write  (write),

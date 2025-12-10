@@ -163,5 +163,5 @@ Multiplicative Inverse Tests Completed
 ========================================
 
 Simulation complete via $finish(1) at time 2565 NS + 0
-../src/au_inv_tb.v:155         $finish;
+../src/au_inv_tb.v:159         $finish;
 ncsim> exit

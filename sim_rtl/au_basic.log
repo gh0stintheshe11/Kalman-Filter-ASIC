@@ -53,5 +53,5 @@ ALL BASIC TESTS PASSED!
 ========================================
 
 Simulation complete via $finish(1) at time 7335 NS + 0
-../src/au_basic_tb.v:174         $finish;
+../src/au_basic_tb.v:178         $finish;
 ncsim> exit

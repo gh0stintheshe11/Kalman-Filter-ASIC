@@ -37,5 +37,5 @@ Testing Router A (per paper Figure 3)
 Router A: 256 tests PASSED
 ========================================
 Simulation complete via $finish(1) at time 256 NS + 0
-../src/router_a_tb.v:160     $finish;
+../src/router_a_tb.v:163     $finish;
 ncsim> exit

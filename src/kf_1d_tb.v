@@ -3,15 +3,15 @@
 // Simple 1D Kalman Filter Algorithm Test (per paper Section 3)
 //
 // 1D KF equations (scalar):
-//   Time Update:    x⁻ = Φ·x,  P⁻ = Φ·P·Φ + Q
-//   Measurement:    K = P⁻/(P⁻+R)
-//                   x̂ = x⁻ + K·(y-x⁻)
-//                   P = (1-K)·P⁻
+//   Time Update:    x_pred = Phi*x,  P_pred = Phi*P*Phi + Q
+//   Measurement:    K = P_pred/(P_pred+R)
+//                   x_hat = x_pred + K*(y-x_pred)
+//                   P = (1-K)*P_pred
 //
 // Memory Layout:
 //   DB[0] = x   (state estimate)
 //   DB[1] = P   (error covariance)
-//   DB[2] = Φ   (state transition, constant = 1.0)
+//   DB[2] = Phi (state transition, constant = 1.0)
 //   DB[3] = Q   (process noise, constant = 0.01)
 //   DB[4] = R   (measurement noise, constant = 0.1)
 //   DB[5] = y   (measurement, updated each iteration)
@@ -19,10 +19,13 @@
 //   DB[7] = temp for calculations
 //
 // This test will:
-// 1. Initialize constants (Φ=1.0, Q=0.01, R=0.1)
+// 1. Initialize constants (Phi=1.0, Q=0.01, R=0.1)
 // 2. Initialize x=0, P=1.0
 // 3. Provide measurement y
 // 4. Execute one KF iteration
+//
+// Compatible with: RTL, post-synthesis, post-layout simulation
+// For post-syn: define SIM_POST_SYN to disable internal signal access
 // -----------------------------------------------------------------------------
 `timescale 1ns/1ps
 
@@ -47,8 +50,8 @@ module kf_1d_tb();
   reg  [7:0]       rom_waddr;
   reg  [15:0]      rom_wdata;
 
-  // Instantiate DUT with paper's port names
-  kf_top #(.W(W), .FRAC(FRAC), .NR(NR), .ADDRW(ADDRW)) dut (
+  // Instantiate DUT - no parameter override for post-syn compatibility
+  kf_top dut (
     .clk        (clk),
     .rst_n      (rst_n),
     .START      (START),
@@ -192,26 +195,26 @@ module kf_1d_tb();
       // PC=17: Write innovation to DB[7]
       rom_wr(8'd17, INSTR(5'd7, 5'd0, 2'b00, 2'b00, 1'b0, 1'b1));
 
-      // x̂ = x + K·(y-x)
-      // First: K·(y-x) = DB[6]·DB[7]
+      // x_hat = x + K*(y-x)
+      // First: K*(y-x) = DB[6]*DB[7]
 
-      // PC=18: MUL DB[6] × DB[7], start AU
+      // PC=18: MUL DB[6] * DB[7], start AU
       // d=10(MUL)
       rom_wr(8'd18, INSTR(5'd6, 5'd7, 2'b00, 2'b10, 1'b1, 1'b0));
 
       // PC=19: WAIT
       rom_wr(8'd19, INSTR(5'd0, 5'd0, 2'b01, 2'b00, 1'b0, 1'b0));
 
-      // PC=20: Write K·innovation to DB[7]
+      // PC=20: Write K*innovation to DB[7]
       rom_wr(8'd20, INSTR(5'd7, 5'd0, 2'b00, 2'b00, 1'b0, 1'b1));
 
-      // PC=21: ADD DB[0] + DB[7] (x + K·innovation), start AU
+      // PC=21: ADD DB[0] + DB[7] (x + K*innovation), start AU
       rom_wr(8'd21, INSTR(5'd0, 5'd7, 2'b00, 2'b00, 1'b1, 1'b0));
 
       // PC=22: WAIT
       rom_wr(8'd22, INSTR(5'd0, 5'd0, 2'b01, 2'b00, 1'b0, 1'b0));
 
-      // PC=23: Write x̂ to DB[0] (update state)
+      // PC=23: Write x_hat to DB[0] (update state)
       rom_wr(8'd23, INSTR(5'd0, 5'd0, 2'b00, 2'b00, 1'b0, 1'b1));
 
       // PC=24: HALT
@@ -244,14 +247,14 @@ module kf_1d_tb();
     repeat(2) @(posedge clk);
 
     // Program ROM
-    program_rom();
+    program_rom;
 
     // Load constants via DATA_IN (timing synchronized with instruction execution)
     $display("\n--- Loading KF parameters ---");
 
-    // Φ = 1.0
+    // Phi = 1.0
     DATA_IN = real_to_sm(1.0);
-    $display("  Φ = 1.0 (0x%06h)", DATA_IN);
+    $display("  Phi = 1.0 (0x%06h)", DATA_IN);
 
     // Start execution
     START = 1;
@@ -272,12 +275,12 @@ module kf_1d_tb();
     // x = 0.0
     @(posedge clk);
     DATA_IN = real_to_sm(0.0);
-    $display("  x₀ = 0.0 (0x%06h)", DATA_IN);
+    $display("  x0 = 0.0 (0x%06h)", DATA_IN);
 
     // P = 1.0
     @(posedge clk);
     DATA_IN = real_to_sm(1.0);
-    $display("  P₀ = 1.0 (0x%06h)", DATA_IN);
+    $display("  P0 = 1.0 (0x%06h)", DATA_IN);
 
     // y = 2.5 (measurement)
     @(posedge clk);
@@ -298,9 +301,15 @@ module kf_1d_tb();
       for (i = 0; i < 200; i = i + 1) begin
         @(posedge clk);
         #1;
+`ifndef SIM_POST_SYN
         if (i % 10 == 0) begin
           $display("  Cycle %3d: PC=%2d, READY=%b", i, dut.Sequencer.pc, READY);
         end
+`else
+        if (i % 10 == 0) begin
+          $display("  Cycle %3d: READY=%b", i, READY);
+        end
+`endif
         if (READY == 1'b1 && i > 10) begin
           $display("  KF computation completed at cycle %d", i);
           disable wait_loop;
@@ -314,41 +323,50 @@ module kf_1d_tb();
     $display("\n========================================");
     $display("Results");
     $display("========================================");
-    $display("  x̂  (DB[0]) = %.6f (0x%06h)",
+
+`ifndef SIM_POST_SYN
+    // RTL mode: can access internal signals
+    $display("  x_hat (DB[0]) = %.6f (0x%06h)",
              sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[0]),
              dut.Memory_Registers.Data_Bank_inst.mem[0]);
-    $display("  P  (DB[1]) = %.6f (0x%06h)",
+    $display("  P     (DB[1]) = %.6f (0x%06h)",
              sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[1]),
              dut.Memory_Registers.Data_Bank_inst.mem[1]);
-    $display("  Φ  (DB[2]) = %.6f (0x%06h)",
+    $display("  Phi   (DB[2]) = %.6f (0x%06h)",
              sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[2]),
              dut.Memory_Registers.Data_Bank_inst.mem[2]);
-    $display("  Q  (DB[3]) = %.6f (0x%06h)",
+    $display("  Q     (DB[3]) = %.6f (0x%06h)",
              sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[3]),
              dut.Memory_Registers.Data_Bank_inst.mem[3]);
-    $display("  R  (DB[4]) = %.6f (0x%06h)",
+    $display("  R     (DB[4]) = %.6f (0x%06h)",
              sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[4]),
              dut.Memory_Registers.Data_Bank_inst.mem[4]);
-    $display("  y  (DB[5]) = %.6f (0x%06h)",
+    $display("  y     (DB[5]) = %.6f (0x%06h)",
              sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[5]),
              dut.Memory_Registers.Data_Bank_inst.mem[5]);
-    $display("  P⁻ (DB[6]) = %.6f (0x%06h)",
+    $display("  P_pred(DB[6]) = %.6f (0x%06h)",
              sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[6]),
              dut.Memory_Registers.Data_Bank_inst.mem[6]);
-    $display("  tmp(DB[7]) = %.6f (0x%06h)",
+    $display("  tmp   (DB[7]) = %.6f (0x%06h)",
              sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[7]),
              dut.Memory_Registers.Data_Bank_inst.mem[7]);
+`else
+    // Post-syn mode: check DATA_OUT only
+    $display("  Post-synthesis mode: internal signals not accessible");
+    $display("  DATA_OUT = 0x%06h (%.6f)", DATA_OUT, sm_to_real(DATA_OUT));
+    $display("  READY = %b", READY);
+`endif
 
     // Expected result for first iteration:
-    // x⁻ = 0, P⁻ = 1.01
-    // K = 1.01/(1.01+0.1) = 1.01/1.11 ≈ 0.9099
-    // x̂ = 0 + 0.9099×(2.5-0) ≈ 2.275
+    // x_pred = 0, P_pred = 1.01
+    // K = 1.01/(1.01+0.1) = 1.01/1.11 = 0.9099
+    // x_hat = 0 + 0.9099*(2.5-0) = 2.275
     $display("\n========================================");
     $display("Expected (manual calculation)");
     $display("========================================");
-    $display("  P⁻ = P+Q = 1.0+0.01 = 1.01");
-    $display("  K = P⁻/(P⁻+R) = 1.01/1.11 ≈ 0.9099");
-    $display("  x̂ = x + K(y-x) = 0 + 0.9099×2.5 ≈ 2.275");
+    $display("  P_pred = P+Q = 1.0+0.01 = 1.01");
+    $display("  K = P_pred/(P_pred+R) = 1.01/1.11 = 0.9099");
+    $display("  x_hat = x + K(y-x) = 0 + 0.9099*2.5 = 2.275");
 
     $display("\n========================================");
     $display("1D Kalman Filter Test Complete");

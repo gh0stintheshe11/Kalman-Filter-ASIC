@@ -60,5 +60,5 @@ Data Bank: 32 x 24-bit registers
 mem_reg_tb: PASS (71 checks)
 ========================================
 Simulation complete via $finish(1) at time 736 NS + 0
-../src/mem_reg_tb.v:224     $finish;
+../src/mem_reg_tb.v:226     $finish;
 ncsim> exit

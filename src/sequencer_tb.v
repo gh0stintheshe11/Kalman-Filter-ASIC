@@ -2,6 +2,10 @@
 // sequencer_tb.v
 // Testbench for Sequencer - PC + ROM + instruction decode (per paper Section 4)
 // Tests: ROM programming, PC control (INC/WAIT/HALT), instruction field decode
+//
+// Compatible with: RTL, post-synthesis, post-layout simulation
+// Note: ROM programming via rom_we port works for RTL. For post-syn, the ROM
+//       content must be pre-loaded or use a synthesis-friendly ROM init.
 // -----------------------------------------------------------------------------
 // Per paper instruction format:
 //   "a4 a3 a2 a1 a0 b4 b3 b2 b1 b0 c1 c0 d1 d0 e f"

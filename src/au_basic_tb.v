@@ -2,10 +2,14 @@
 // au_basic_tb.v
 // Testbench for 1-cycle AU operations: ADD, SUB, MUL
 // Tests per paper: ADD (1 cycle), SUB (1 cycle), MUL (1 cycle)
+//
+// Compatible with: RTL, post-synthesis, post-layout simulation
+// Define SIM_POST_SYN for post-synthesis simulation
 // -----------------------------------------------------------------------------
 `timescale 1ns/1ps
 
 module au_basic_tb();
+    // Parameters for testbench calculations (not passed to DUT for post-syn compatibility)
     parameter W = 24;
     parameter FRAC = 14;
 
@@ -17,8 +21,8 @@ module au_basic_tb();
     wire [W-1:0] result;
     wire done, busy;
 
-    // Instantiate AU with paper's port names
-    au #(.W(W), .FRAC(FRAC)) dut (
+    // Instantiate AU - no parameter override for post-syn compatibility
+    au dut (
         .clk    (clk),
         .rst_n  (rst_n),
         .start  (start),

@@ -2,10 +2,13 @@
 // router_a_tb.v
 // Testbench for Router A - Data input multiplexer and address routing
 // Tests per paper Figure 3: Data mux, address mux, write enable control
+//
+// Compatible with: RTL, post-synthesis, post-layout simulation
 // -----------------------------------------------------------------------------
 `timescale 1ns/1ps
 
 module router_a_tb;
+  // Parameters for testbench (not passed to DUT for post-syn compatibility)
   parameter W=24, ADDRW=5;
 
   // Inputs (matching router_a.v port names)
@@ -20,8 +23,8 @@ module router_a_tb;
   wire [ADDRW-1:0]  dira, dirb;
   wire              write;
 
-  // Instantiate DUT with paper's port names
-  router_a #(.W(W), .ADDRW(ADDRW)) DUT (
+  // Instantiate DUT - no parameter override for post-syn compatibility
+  router_a DUT (
     .DATA_IN   (DATA_IN),
     .result    (result),
     .ctl_a     (ctl_a),

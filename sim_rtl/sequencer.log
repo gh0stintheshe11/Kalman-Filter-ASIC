@@ -60,5 +60,5 @@ PASS: ready=1 after HALT
 sequencer_tb: PASS (31 checks)
 ========================================
 Simulation complete via $finish(1) at time 156 NS + 0
-../src/sequencer_tb.v:243     $finish;
+../src/sequencer_tb.v:247     $finish;
 ncsim> exit

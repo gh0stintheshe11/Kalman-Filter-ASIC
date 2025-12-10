@@ -38,5 +38,5 @@ Operand selection: R from A/RQ, S from B/RD
 Router B: PASS (192 tests)
 ========================================
 Simulation complete via $finish(1) at time 192 NS + 0
-../src/router_b_tb.v:168     $finish;
+../src/router_b_tb.v:171     $finish;
 ncsim> exit
