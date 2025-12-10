@@ -1,47 +1,70 @@
+// -----------------------------------------------------------------------------
+// router_a.v
+// Router A - Data input multiplexer and address routing (per paper Figure 3)
+// -----------------------------------------------------------------------------
+// Inputs (from paper):
+//   DATA_IN  - External 24-bit data input
+//   result   - AU result (from SR register)
+//   READY    - System ready status
+//   DIR      - External 5-bit address (directly from external interface)
+//   ctl_a    - Address A from sequencer (5 bits)
+//   ctl_b    - Address B from sequencer (5 bits)
+//
+// Outputs to Data Bank (per paper Figure 3):
+//   data     - Data to write to Data Bank
+//   dira     - Address for port A (read/write)
+//   dirb     - Address for port B (read only)
+//   write    - Write enable to Data Bank
+// -----------------------------------------------------------------------------
 `timescale 1ns/1ps
 
-// Router A
 module router_a
 #(parameter W=24, parameter ADDRW=5)
 (
-  input  [W-1:0]      DATA_IN,
-  input  [W-1:0]      RESULT,
-  input  [ADDRW-1:0]  CTL_A,
-  input  [ADDRW-1:0]  CTL_B,
-  input  [ADDRW-1:0]  DIR_EXT,
-  input               WRITE_REQ,
-  input               READY,
-  input  [1:0]        sel_data,    // 0=DATA_IN, 1=RESULT, 2=ZERO
-  input               sel_dira,    // 0=CTL_A,   1=DIR_EXT
-  input               sel_dirb,    // 0=CTL_B,   1=DIR_EXT
-  input  [1:0]        sel_write,   // 0=WR, 1=WR&READY, 2=0, 3=1
-  output reg [W-1:0]  db_data,
-  output      [ADDRW-1:0] db_dira,
-  output      [ADDRW-1:0] db_dirb,
-  output reg          db_write
+  // Inputs per paper's naming
+  input  [W-1:0]      DATA_IN,     // External data input
+  input  [W-1:0]      result,      // AU result (from SR)
+  input  [ADDRW-1:0]  ctl_a,       // Address A from sequencer
+  input  [ADDRW-1:0]  ctl_b,       // Address B from sequencer
+  input  [ADDRW-1:0]  DIR,         // External address input
+  input               WRITE,       // External write request
+  input               READY,       // System ready status
+
+  // Control signals (accent, not explicitly shown in paper but needed)
+  input  [1:0]        sel_data,    // 0=DATA_IN, 1=result, 2=ZERO, 3=FFFFFF
+  input               sel_dira,    // 0=ctl_a, 1=DIR
+  input               sel_dirb,    // 0=ctl_b, 1=DIR
+  input  [1:0]        sel_write,   // Write enable control
+
+  // Outputs to Data Bank (per paper Figure 3 naming)
+  output reg [W-1:0]      data,    // Data to Data Bank
+  output     [ADDRW-1:0]  dira,    // Address A to Data Bank
+  output     [ADDRW-1:0]  dirb,    // Address B to Data Bank
+  output reg              write    // Write enable to Data Bank
 );
 
-  // Data mux
+  // Data mux: selects data source for writing to Data Bank
   always @* begin
     case (sel_data)
-      2'd0: db_data = DATA_IN;
-      2'd1: db_data = RESULT;
-      2'd2: db_data = {W{1'b0}};
-      default: db_data = RESULT;
+      2'd0:    data = DATA_IN;       // External data input
+      2'd1:    data = result;        // AU result
+      2'd2:    data = {W{1'b0}};     // Zero (constant)
+      default: data = {W{1'b1}};     // All ones (constant FFFFFF)
     endcase
   end
 
   // Address muxes
-  assign db_dira = sel_dira ? DIR_EXT : CTL_A;
-  assign db_dirb = sel_dirb ? DIR_EXT : CTL_B;
+  assign dira = sel_dira ? DIR : ctl_a;
+  assign dirb = sel_dirb ? DIR : ctl_b;
 
   // Write-enable mux / gating
   always @* begin
     case (sel_write)
-      2'd0: db_write = WRITE_REQ;
-      2'd1: db_write = WRITE_REQ & READY;
-      2'd2: db_write = 1'b0;
-      default: db_write = 1'b1;
+      2'd0:    write = WRITE;            // Direct write control
+      2'd1:    write = WRITE & READY;    // Write only when READY
+      2'd2:    write = 1'b0;             // Disabled
+      default: write = 1'b1;             // Always enabled
     endcase
   end
+
 endmodule

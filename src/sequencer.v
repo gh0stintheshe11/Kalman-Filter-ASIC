@@ -5,6 +5,16 @@
 // - ctl_c[1:0] controls flow: 00=INC, 01=WAIT(for continue), 10=HALT, 11=INC
 // - ROM has a simple write port for TB programming
 // -----------------------------------------------------------------------------
+// Instruction format per paper (Section 4, page 5):
+//   "a4 a3 a2 a1 a0 b4 b3 b2 b1 b0 c1 c0 d1 d0 e f"
+//
+//   Field A [15:11] - 5 bits: Address A (Data Bank read port A / write address)
+//   Field B [10:6]  - 5 bits: Address B (Data Bank read port B)
+//   Field C [5:4]   - 2 bits: PC control (00=INC, 01=WAIT, 10=HALT)
+//   Field D [3:2]   - 2 bits: AU operation (00=ADD, 01=SUB, 10=MUL, 11=DIV)
+//   Field E [1]     - 1 bit:  AU start
+//   Field F [0]     - 1 bit:  Write enable
+// -----------------------------------------------------------------------------
 `timescale 1ns/1ps
 
 // 256x16 ROM with simple write port (for TB/programming)
@@ -24,7 +34,7 @@ module rom_256x16 (
     if (prog_we)
       mem[prog_addr] <= prog_data;
   end
-  
+
   // ROM is empty by default - must be programmed via prog_we port
   // This is synthesizable (no initial block)
 endmodule
@@ -40,12 +50,13 @@ module sequencer (
   input      [7:0]  rom_waddr,
   input      [15:0] rom_wdata,
 
-  // Decoded control fields to the rest of the datapath
-  output     [4:0]  ctl_a,
-  output     [4:0]  ctl_b,
-  output     [1:0]  ctl_c,
-  output     [1:0]  ctl_d,
-  output     [1:0]  ctl_e,
+  // Decoded control fields to the rest of the datapath (per paper's format)
+  output     [4:0]  ctl_a,      // Field A [15:11]: Address A (5 bits)
+  output     [4:0]  ctl_b,      // Field B [10:6]:  Address B (5 bits)
+  output     [1:0]  ctl_c,      // Field C [5:4]:   PC control (2 bits)
+  output     [1:0]  ctl_d,      // Field D [3:2]:   AU operation (2 bits)
+  output            ctl_e,      // Field E [1]:     AU start (1 bit)
+  output            ctl_f,      // Field F [0]:     Write enable (1 bit)
 
   // Status
   output reg        ready,      // high when idle (paper: READY)
@@ -68,12 +79,14 @@ module sequencer (
     .prog_data(rom_wdata)
   );
 
-  // Decode fields (always decode current ROM output)
-  assign ctl_a = instr[15:11];
-  assign ctl_b = instr[10:6];
-  assign ctl_c = instr[5:4];
-  assign ctl_d = instr[3:2];
-  assign ctl_e = instr[1:0];
+  // Decode fields per paper's instruction format:
+  //   "a4 a3 a2 a1 a0 b4 b3 b2 b1 b0 c1 c0 d1 d0 e f"
+  assign ctl_a = instr[15:11];  // Field A: Address A (5 bits)
+  assign ctl_b = instr[10:6];   // Field B: Address B (5 bits)
+  assign ctl_c = instr[5:4];    // Field C: PC control (2 bits)
+  assign ctl_d = instr[3:2];    // Field D: AU operation (2 bits)
+  assign ctl_e = instr[1];      // Field E: AU start (1 bit)
+  assign ctl_f = instr[0];      // Field F: Write enable (1 bit)
 
   assign pc_dbg = pc;
 

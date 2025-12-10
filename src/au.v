@@ -64,27 +64,44 @@ module recip_unit
   end
 endmodule
 
-// ===== Arithmetic Unit
+// -----------------------------------------------------------------------------
+// Arithmetic Unit (per paper Figure 3)
+// -----------------------------------------------------------------------------
+// Contains:
+//   Adder/Subs  - Addition/Subtraction (1 cycle)
+//   Multiplier  - Multiplication (1 cycle)
+//   Mult_Inv    - Multiplicative Inverse (24 cycles, successive approximation)
+//   SR          - Result register (internal)
+//
+// Inputs (from Router B, per paper Figure 3):
+//   R           - First operand (sign-magnitude)
+//   S           - Second operand (sign-magnitude)
+//
+// Output (to Router A, per paper Figure 3):
+//   result      - AU result from SR register
+//
+// Control (from sequencer via ctl_d):
+//   ctl_d[1:0]  - 00=ADD, 01=SUB, 10=MUL, 11=DIV(INV)
+// -----------------------------------------------------------------------------
 module au
 #(parameter W=24, parameter FRAC=14)
 (
   input               clk,
   input               rst_n,        // active-low reset
-  input               start,        // pulse to start operation
+  input               start,        // pulse to start operation (from ctl_e)
 
-  // Operands from Router B (sign-magnitude)
-  input  [W-1:0]      R_in,
-  input  [W-1:0]      S_in,
-  input  [W-1:0]      Iimm_in,      // immediate (e.g., 0, +1, -1)
+  // Operands from Router B (per paper Figure 3 naming)
+  input  [W-1:0]      R,            // First operand (sign-magnitude)
+  input  [W-1:0]      S,            // Second operand (sign-magnitude)
+  input  [W-1:0]      I,            // Immediate value (e.g., 0, +1, -1)
 
-  // Control
-  input  [1:0]        op_sel,       // 00=ADD, 01=SUB, 10=MUL, 11=DIV(R * 1/S)
-  input  [1:0]        mul_y_sel,    // 00=S_in, 01=Iimm_in, 10=inv(S), 11=reserved
+  // Control (from sequencer)
+  input  [1:0]        ctl_d,        // 00=ADD, 01=SUB, 10=MUL, 11=DIV(R/S)
 
-  // Result / status
-  output reg [W-1:0]  result,       // sign-magnitude output
-  output reg          done,         // 1 when result valid (1-cycle pulse)
-  output              busy          // AU busy (during reciprocal)
+  // Result / status (per paper Figure 3)
+  output reg [W-1:0]  result,       // AU result (from SR register, to Router A)
+  output reg          done,         // 1 when result valid (continue signal to sequencer)
+  output              busy          // AU busy (during multiplicative inverse)
 );
 
   // ---- Helpers: max magnitude (W-1 bits)
@@ -117,26 +134,26 @@ module au
   endfunction
 
   // ---- Add/Sub path (1-cycle combinational, registered at output)
-  wire signed [W:0] R_tc = sm_to_tc(R_in);
-  wire signed [W:0] S_tc = sm_to_tc(S_in);
+  wire signed [W:0] R_tc = sm_to_tc(R);
+  wire signed [W:0] S_tc = sm_to_tc(S);
   wire signed [W:0] add_tc = R_tc + S_tc;
   wire signed [W:0] sub_tc = R_tc - S_tc;
   wire [W-1:0]      add_sm = tc_to_sm_sat(add_tc);
   wire [W-1:0]      sub_sm = tc_to_sm_sat(sub_tc);
-  
+
   // Latched versions for ADD/SUB (computed after R_lat/S_lat are declared)
   wire signed [W:0] R_lat_tc, S_lat_tc, add_lat_tc, sub_lat_tc;
   wire [W-1:0] add_lat_sm, sub_lat_sm;
 
   // ---- Multiply path (sign-magnitude multiply with Q scaling + rounding)
-  wire        sign_mul = R_in[W-1] ^ S_in[W-1];
-  wire [W-2:0] R_mag   = R_in[W-2:0];
-  wire [W-2:0] S_mag   = S_in[W-2:0];
-  // Y input choice for multiplier: S, Iimm, or reciprocal(S)
+  wire        sign_mul = R[W-1] ^ S[W-1];
+  wire [W-2:0] R_mag   = R[W-2:0];
+  wire [W-2:0] S_mag   = S[W-2:0];
+  // Y input choice for multiplier: S, I (immediate), or reciprocal(S)
   reg  [W-1:0] Y_sel;        // sign-magnitude
   wire [W-2:0] Y_mag   = Y_sel[W-2:0];
   wire         Y_sign  = Y_sel[W-1];
-  wire         sign_mul_sel = R_in[W-1] ^ Y_sign;
+  wire         sign_mul_sel = R[W-1] ^ Y_sign;
 
   // 24x24 -> 48 product of magnitudes
   wire [2*(W-1)-1:0] prod_full = R_mag * Y_mag;
@@ -172,8 +189,8 @@ module au
   reg [1:0] state, next_state;
 
   // latched operands/control across multi-cycle ops
-  reg [W-1:0] R_lat, S_lat, Iimm_lat;
-  reg [1:0]   op_lat, muly_lat;
+  reg [W-1:0] R_lat, S_lat, I_lat;
+  reg [1:0]   op_lat;
   
   // Latched operand conversions for ADD/SUB
   assign R_lat_tc = sm_to_tc(R_lat);
@@ -193,12 +210,12 @@ module au
     case (state)
       ST_IDLE: begin
         if (start) begin
-          if (op_sel == 2'b11 || (op_sel==2'b10 && mul_y_sel==2'b10)) begin
-            // DIV or MUL using inv(S): launch reciprocal
+          if (ctl_d == 2'b11) begin
+            // DIV (multiplicative inverse): launch reciprocal unit
             next_state  = ST_WAITR;
             recip_start = 1'b1;
           end else begin
-            // Simple 1-cycle op: ADD/SUB/MUL with S or Iimm
+            // Simple 1-cycle op: ADD/SUB/MUL
             next_state  = ST_SIMPLE;
           end
         end
@@ -224,11 +241,10 @@ module au
   // Operand/control latches + output register
   always @(posedge clk) begin
     if (state == ST_IDLE && start) begin
-      R_lat    <= R_in;
-      S_lat    <= S_in;
-      Iimm_lat <= Iimm_in;
-      op_lat   <= op_sel;
-      muly_lat <= mul_y_sel;
+      R_lat  <= R;
+      S_lat  <= S;
+      I_lat  <= I;
+      op_lat <= ctl_d;
     end
   end
 
@@ -236,18 +252,16 @@ module au
   always @* begin
     case (state)
       ST_SIMPLE: begin
-        case (op_lat==2'b10 ? muly_lat : 2'b00) // if MUL select Y, else ignore
-          2'b01: Y_sel = Iimm_lat;
-          2'b10: Y_sel = {S_lat[W-1], recip_q_mag}; // reciprocal with S's sign
-          default: Y_sel = S_lat;
-        endcase
+        // For MUL, use S as Y input
+        Y_sel = S_lat;
       end
       ST_MULINV: begin
-        Y_sel = {S_lat[W-1], recip_q_mag}; // use reciprocal magnitude with S's sign
+        // For DIV, use reciprocal of S as Y input
+        Y_sel = {S_lat[W-1], recip_q_mag}; // reciprocal magnitude with S's sign
       end
       default: begin
         // when idle/wait, default to S input (doesn't matter)
-        Y_sel = S_in;
+        Y_sel = S;
       end
     endcase
   end
