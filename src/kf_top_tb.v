@@ -64,6 +64,9 @@ module kf_top_tb();
   real ext_truth [0:511];
   real ext_kf_x1 [0:511];
   real ext_kf_x2 [0:511];
+  // ASIC output arrays (for plotting)
+  real asic_x1 [0:511];
+  real asic_x2 [0:511];
 
   // =========================================================================
   // DUT Instantiation
@@ -295,6 +298,8 @@ module kf_top_tb();
         // Get results and calculate errors
         kf_pos = sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[0]);
         kf_vel = sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[1]);
+        asic_x1[iter] = kf_pos;  // Save for plotting
+        asic_x2[iter] = kf_vel;
         exp_x1 = ext_kf_x1[iter];
         exp_x2 = ext_kf_x2[iter];
 
@@ -340,6 +345,14 @@ module kf_top_tb();
                sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[4]),
                sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[5]));
       $display("================================================================");
+
+      // Export ASIC results for plotting
+      fd = $fopen("kf_asic.txt", "w");
+      for (iter = 0; iter < EXT_NUM_ITERS; iter = iter + 1) begin
+        $fwrite(fd, "%f %f\n", asic_x1[iter], asic_x2[iter]);
+      end
+      $fclose(fd);
+      $display("\nExported ASIC results to: kf_asic.txt");
     end
   endtask
 

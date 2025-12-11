@@ -110,7 +110,12 @@ run_ext_test() {
     echo "Extended test complete"
     echo "========================================"
     echo "Log: kf_ext.log"
-    echo "Test data: measurements.txt, truth.txt, kf_expected.txt"
+    echo "Test data: measurements.txt, truth.txt, kf_expected.txt, kf_asic.txt"
+
+    # Step 3: Generate plot
+    echo ""
+    echo "Step 3: Generating plot..."
+    python3 kf_gen_test.py --plot
 }
 
 # Run basic module tests

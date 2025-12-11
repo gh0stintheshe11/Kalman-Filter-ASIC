@@ -51,8 +51,12 @@ The extended test verifies the ASIC against a Python reference implementation:
    - Loads test data from files
    - Runs N KF iterations
    - Compares ASIC output vs Python reference
+   - Exports ASIC results to `kf_asic.txt`
 
-3. **Output** - Results saved to `kf_ext.log`
+3. **Generate plot** - Python creates comparison plot:
+   - Position estimation: truth vs measurements vs Python KF vs ASIC KF
+   - Error analysis: raw error vs KF error
+   - Saves to `kf_results.png`
 
 ### Output Files
 
@@ -66,6 +70,7 @@ The extended test verifies the ASIC against a Python reference implementation:
 | `kf_1d.log` | 1D Kalman Filter test results |
 | `kf_2d.log` | 2D Kalman Filter test results |
 | `kf_ext.log` | Extended test results |
+| `kf_results.png` | Visual comparison plot |
 
 ## Project Structure
 
