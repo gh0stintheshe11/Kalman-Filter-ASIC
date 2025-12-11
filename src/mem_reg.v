@@ -71,12 +71,15 @@ module Data_Bank
   always @(posedge clk)
     if (write) mem[dira] <= data;
 
-  // Asynchronous read with optional write-through forwarding
+  // Asynchronous read - no forwarding for port A
+  // Port A shares address with write port, so forwarding would create
+  // circular dependency for single-cycle read-modify-write operations.
+  // The correct value is always in mem[] after the previous write.
   always @* begin
     A = mem[dira];
-    if (FORWARD && write && (dira == dira)) A = data;  // Write-through
   end
 
+  // Port B can use forwarding since it has a separate address
   always @* begin
     B = mem[dirb];
     if (FORWARD && write && (dirb == dira)) B = data;  // Write-through

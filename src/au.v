@@ -103,20 +103,31 @@ endmodule
 // Arithmetic Unit (per paper Figure 3)
 // =============================================================================
 // Contains:
-//   Adder/Subs  - Addition/Subtraction (1 cycle)
-//   Multiplier  - Multiplication (1 cycle, combinational)
+//   Adder/Subs  - Addition/Subtraction (combinational, single-cycle)
+//   Multiplier  - Multiplication (combinational, single-cycle)
 //   Mult_Inv    - Multiplicative Inverse (24 cycles, successive approximation)
-//   SR          - Result register (internal)
+//   SR          - Result register (for multi-cycle ops)
 //
 // Inputs (from Router B, per paper Figure 3):
 //   R           - First operand (sign-magnitude)
 //   S           - Second operand (sign-magnitude)
 //
 // Output (to Router A, per paper Figure 3):
-//   result      - AU result from SR register
+//   result_comb - Combinational result (valid same cycle for ADD/SUB/MUL)
+//   result      - Registered result (for DIV, valid after done=1)
 //
 // Control (from sequencer via ctl_d):
 //   ctl_d[1:0]  - 00=ADD, 01=SUB, 10=MUL, 11=INV (multiplicative inverse)
+//
+// Single-cycle operation (ADD/SUB/MUL):
+//   - Set e=1, f=1, c=00 in instruction
+//   - result_comb valid combinationally in same cycle
+//   - Write to Data Bank happens on same clock edge
+//
+// Multi-cycle operation (DIV):
+//   - Set e=1, f=0, c=01 (WAIT) in instruction
+//   - Wait for done=1 (24 cycles for inverse + 1 for multiply)
+//   - Then store with f=1
 // =============================================================================
 module au
 #(parameter W=24, parameter FRAC=14)
@@ -133,9 +144,13 @@ module au
   // Control (from sequencer)
   input  [1:0]        ctl_d,        // 00=ADD, 01=SUB, 10=MUL, 11=INV
 
-  // Result / status (per paper Figure 3)
-  output reg [W-1:0]  result,       // AU result (from SR register, to Router A)
-  output reg          done,         // 1 when result valid (continue signal)
+  // Combinational result (for single-cycle ADD/SUB/MUL)
+  output [W-1:0]      result_comb,  // Combinational result (immediate)
+  output              result_comb_valid, // High when result_comb is valid
+
+  // Registered result / status (for multi-cycle DIV)
+  output reg [W-1:0]  result,       // Registered result (for DIV)
+  output reg          done,         // 1 when multi-cycle op complete
   output              busy          // AU busy (during multiplicative inverse)
 );
 
@@ -174,43 +189,59 @@ module au
   endfunction
 
   // ========== Latched Operands ==========
-  // Latch operands when operation starts (for multi-cycle ops)
+  // Latch operands when operation starts (for multi-cycle DIV ops)
   reg [W-1:0] R_lat, S_lat;
   reg [1:0]   op_lat;
 
-  // ========== Adder/Subtractor (1 cycle, combinational) ==========
-  wire signed [W:0] R_lat_tc = sm_to_tc(R_lat);
-  wire signed [W:0] S_lat_tc = sm_to_tc(S_lat);
-  wire signed [W:0] add_tc   = R_lat_tc + S_lat_tc;
-  wire signed [W:0] sub_tc   = R_lat_tc - S_lat_tc;
-  wire [W-1:0]      add_sm   = tc_to_sm_sat(add_tc);
-  wire [W-1:0]      sub_sm   = tc_to_sm_sat(sub_tc);
+  // ========== Combinational Adder/Subtractor (for single-cycle ops) ==========
+  // Operates directly on R, S inputs for immediate result
+  wire signed [W:0] R_tc = sm_to_tc(R);
+  wire signed [W:0] S_tc = sm_to_tc(S);
+  wire signed [W:0] add_tc = R_tc + S_tc;
+  wire signed [W:0] sub_tc = R_tc - S_tc;
+  wire [W-1:0]      add_sm = tc_to_sm_sat(add_tc);
+  wire [W-1:0]      sub_sm = tc_to_sm_sat(sub_tc);
 
-  // ========== Multiplier (1 cycle, combinational) ==========
+  // ========== Combinational Multiplier (for single-cycle ops) ==========
   // Per paper: "The multiplier is a combinational circuit that allows
   // multiplications to be performed in a clock cycle."
+  // Operates directly on R, S inputs for immediate result
 
-  // Magnitudes for multiplication
-  wire [W-2:0] R_lat_mag = R_lat[W-2:0];
-  wire [W-2:0] mul_Y_mag;              // Y input to multiplier (S or 1/S)
-  wire         mul_Y_sign;             // Sign of Y input
+  wire [W-2:0] R_mag = R[W-2:0];
+  wire [W-2:0] S_mag = S[W-2:0];
 
   // Full product (23x23 -> 46 bits)
-  wire [2*(W-1)-1:0] prod_full = R_lat_mag * mul_Y_mag;
+  wire [2*(W-1)-1:0] prod_full = R_mag * S_mag;
 
   // Q scaling: shift right by FRAC bits (truncation)
-  // Take bits [FRAC + W-2 : FRAC] for W-1 bit result
   wire [W-2:0] prod_scaled = prod_full[FRAC + W - 2 : FRAC];
 
   // Saturate if overflow
   wire [W-2:0] mul_mag_sat = (|prod_full[2*(W-1)-1 : FRAC+W-1]) ? MAG_MAX : prod_scaled;
 
   // Result sign (XOR of operand signs)
-  wire mul_sign = R_lat[W-1] ^ mul_Y_sign;
-  wire [W-1:0] mul_sm = {mul_sign, mul_mag_sat};
+  wire mul_sign_comb = R[W-1] ^ S[W-1];
+  wire [W-1:0] mul_sm = {mul_sign_comb, mul_mag_sat};
+
+  // ========== Combinational Result Output ==========
+  // Available immediately for ADD/SUB/MUL when start=1
+  reg [W-1:0] result_comb_mux;
+  always @* begin
+    case (ctl_d)
+      2'b00:   result_comb_mux = add_sm;   // ADD
+      2'b01:   result_comb_mux = sub_sm;   // SUB
+      2'b10:   result_comb_mux = mul_sm;   // MUL
+      default: result_comb_mux = {W{1'b0}}; // DIV uses registered path
+    endcase
+  end
+
+  assign result_comb = result_comb_mux;
+  // Combinational result is valid for ADD/SUB/MUL when start=1 and not DIV
+  assign result_comb_valid = start && (ctl_d != 2'b11);
 
   // ========== Multiplicative Inverse (24 cycles) ==========
   // Per paper: successive approximation using multiplier and comparator
+  // This path uses LATCHED operands since DIV is multi-cycle
 
   wire [W-2:0] inv_Q_mag;             // 1/S result magnitude
   wire         inv_rdy;               // Inverse computation done
@@ -230,115 +261,76 @@ module au
     .rdy    (inv_rdy)
   );
 
-  // ========== Y Input Selection for Multiplier ==========
-  // For MUL: Y = S (direct multiplication)
-  // For INV: Y = 1/S (multiplication by reciprocal to compute R/S)
-  reg [W-1:0] mul_Y;
-  assign mul_Y_mag  = mul_Y[W-2:0];
-  assign mul_Y_sign = mul_Y[W-1];
+  // ========== DIV Result: R_lat * (1/S_lat) ==========
+  // Separate multiplier for DIV using latched operands and inverse result
+  wire [W-2:0] R_lat_mag = R_lat[W-2:0];
+  wire [2*(W-1)-1:0] div_prod_full = R_lat_mag * inv_Q_mag;
+  wire [W-2:0] div_prod_scaled = div_prod_full[FRAC + W - 2 : FRAC];
+  wire [W-2:0] div_mag_sat = (|div_prod_full[2*(W-1)-1 : FRAC+W-1]) ? MAG_MAX : div_prod_scaled;
+  wire div_sign = R_lat[W-1] ^ S_lat[W-1];
+  wire [W-1:0] div_sm = {div_sign, div_mag_sat};
 
-  // ========== FSM States ==========
-  localparam ST_IDLE   = 2'd0;        // Waiting for start
-  localparam ST_SIMPLE = 2'd1;        // ADD/SUB/MUL (1 cycle)
-  localparam ST_WAITR  = 2'd2;        // Waiting for reciprocal
-  localparam ST_MULINV = 2'd3;        // Multiply by reciprocal
+  // ========== FSM States (for DIV only) ==========
+  // ADD/SUB/MUL are now purely combinational - no FSM needed
+  // DIV still requires FSM for 24-cycle inverse computation
+  localparam ST_IDLE   = 2'd0;        // Waiting for DIV start
+  localparam ST_WAITR  = 2'd1;        // Waiting for reciprocal (24 cycles)
+  localparam ST_DONE   = 2'd2;        // DIV result ready
 
   reg [1:0] state, next_state;
 
   assign busy = (state == ST_WAITR);
 
-  // ========== Next State Logic ==========
-  // Use 'done' (registered) to prevent restart. When done=1, we just completed
-  // an operation and the sequencer is about to increment PC. We shouldn't start
-  // a new operation until done goes back to 0.
+  // ========== Next State Logic (DIV only) ==========
   always @* begin
     next_state = state;
     inv_start  = 1'b0;
 
     case (state)
       ST_IDLE: begin
-        // Only start if:
-        // 1. start is high (e=1 in instruction)
-        // 2. done is low (we haven't just completed an operation)
-        //
-        // When done=1, the sequencer will increment PC on the next clock edge.
-        // At that edge, done will go to 0, and we can start the new operation.
-        if (start && !done) begin
-          if (ctl_d == 2'b11) begin
-            // INV operation: start multiplicative inverse
-            next_state = ST_WAITR;
-            inv_start  = 1'b1;
-          end else begin
-            // ADD/SUB/MUL: single cycle operation
-            next_state = ST_SIMPLE;
-          end
+        // Start DIV operation when e=1 and d=11
+        if (start && (ctl_d == 2'b11) && !done) begin
+          next_state = ST_WAITR;
+          inv_start  = 1'b1;
         end
-      end
-
-      ST_SIMPLE: begin
-        // Result ready after 1 cycle
-        next_state = ST_IDLE;
       end
 
       ST_WAITR: begin
-        // Wait for multiplicative inverse to complete
+        // Wait for multiplicative inverse to complete (24 cycles)
         if (inv_rdy) begin
-          next_state = ST_MULINV;
+          next_state = ST_DONE;
         end
       end
 
-      ST_MULINV: begin
-        // Multiply R by 1/S, result ready
+      ST_DONE: begin
+        // DIV result ready, return to idle
         next_state = ST_IDLE;
       end
+
+      default: next_state = ST_IDLE;
     endcase
   end
 
-  // ========== Operand Latching ==========
+  // ========== Operand Latching (for DIV only) ==========
   always @(posedge clk) begin
-    if (state == ST_IDLE && start) begin
+    if (state == ST_IDLE && start && (ctl_d == 2'b11)) begin
       R_lat  <= R;
       S_lat  <= S;
       op_lat <= ctl_d;
     end
   end
 
-  // ========== Multiplier Y Input Selection ==========
-  always @* begin
-    case (state)
-      ST_SIMPLE: begin
-        // MUL operation: Y = S
-        mul_Y = S_lat;
-      end
-      ST_MULINV: begin
-        // INV operation: Y = 1/S (with S's sign for correct result sign)
-        mul_Y = {S_lat[W-1], inv_Q_mag};
-      end
-      default: begin
-        mul_Y = S_lat;
-      end
-    endcase
-  end
-
-  // ========== Result Register ==========
+  // ========== Result Register (for DIV only) ==========
+  // Registered result is only used for DIV operation
   always @(posedge clk) begin
-    case (state)
-      ST_SIMPLE: begin
-        case (op_lat)
-          2'b00: result <= add_sm;   // ADD
-          2'b01: result <= sub_sm;   // SUB
-          2'b10: result <= mul_sm;   // MUL
-          default: result <= {W{1'b0}};
-        endcase
-      end
-      ST_MULINV: begin
-        // R / S = R * (1/S)
-        result <= mul_sm;
-      end
-    endcase
+    if (state == ST_DONE) begin
+      result <= div_sm;
+    end
   end
 
   // ========== State Register and Done Signal ==========
+  // 'done' is only used for DIV operations (to signal sequencer to advance PC)
+  // ADD/SUB/MUL complete combinationally in same cycle, no 'done' needed
   always @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
       state       <= ST_IDLE;
@@ -346,7 +338,7 @@ module au
       inv_start_d <= 1'b0;
     end else begin
       state       <= next_state;
-      done        <= (state == ST_SIMPLE || state == ST_MULINV);
+      done        <= (state == ST_DONE);  // DIV complete
       inv_start_d <= inv_start;
     end
   end

@@ -9,10 +9,10 @@ file: ../src/router_a.v
 	Elaborating the design hierarchy:
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
-		worklib.router_a:v <0x09572086>
-			streams:   4, words:  1080
-		worklib.router_a_tb:v <0x1111b39d>
-			streams:  11, words: 13391
+		worklib.router_a:v <0x7493e78d>
+			streams:   4, words:  1133
+		worklib.router_a_tb:v <0x6ed2a36a>
+			streams:  11, words: 15957
 	Building instance specific data structures.
 	Loading native compiled code:     .................... Done
 	Design hierarchy summary:

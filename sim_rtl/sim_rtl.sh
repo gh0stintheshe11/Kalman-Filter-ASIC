@@ -1,15 +1,25 @@
 #!/bin/bash
 # -----------------------------------------------------------------------------
 # sim_rtl.sh
-# Run all RTL testbenches and save logs
-# Usage: ./sim_rtl.sh
+# Run RTL testbenches and save logs
+#
+# Usage:
+#   ./sim_rtl.sh              Run all basic module tests (no top-level)
+#   ./sim_rtl.sh -t <mem>     Run top-level test with specified .mem file
+#   ./sim_rtl.sh -a           Run all tests including top-level (1D and 2D)
+#
+# Examples:
+#   ./sim_rtl.sh                        # Run AU, router, mem, sequencer tests
+#   ./sim_rtl.sh -t ../src/kf_1d.mem    # Run 1D KF top-level test
+#   ./sim_rtl.sh -t ../src/kf_2d.mem    # Run 2D KF top-level test
+#   ./sim_rtl.sh -a                     # Run everything
 # -----------------------------------------------------------------------------
 
 SRC_DIR="../src"
 LOG_DIR="."
 
 # Clean up previous simulation artifacts
-rm -rf INCA_libs *.log *.key *.history 2>/dev/null
+rm -rf INCA_libs *.key *.history 2>/dev/null
 
 echo "========================================"
 echo "Running RTL Testbenches"
@@ -20,71 +30,130 @@ run_tb() {
     local TB_NAME=$1
     local TB_FILE=$2
     shift 2
-    local SRC_FILES="$@"
+    local EXTRA_ARGS="$@"
 
     echo ""
     echo "--- Running $TB_NAME ---"
 
     # Run simulation
-    ncverilog $SRC_DIR/$TB_FILE $SRC_FILES 2>&1 | tee ${TB_NAME}.log
+    ncverilog $TB_FILE $EXTRA_ARGS +access+r 2>&1 | tee ${TB_NAME}.log
 
-    # Clean up history files (we don't need them)
+    # Clean up history files
     rm -f *.history 2>/dev/null
 
     echo "Log saved: ${TB_NAME}.log"
 }
 
-# AU Basic Testbench (ADD, SUB, MUL)
-run_tb "au_basic" "au_basic_tb.v" "$SRC_DIR/au.v"
+# Function to run top-level test with specified .mem file
+run_top_test() {
+    local MEM_FILE=$1
+    local MEM_NAME=$(basename "$MEM_FILE" .mem)
 
-# AU Inverse Testbench (DIV)
-run_tb "au_inv" "au_inv_tb.v" "$SRC_DIR/au.v"
+    if [ ! -f "$MEM_FILE" ]; then
+        echo "ERROR: Memory file not found: $MEM_FILE"
+        exit 1
+    fi
 
-# Router A Testbench
-run_tb "router_a" "router_a_tb.v" "$SRC_DIR/router_a.v"
+    # Copy .mem file to current directory temporarily
+    cp -f "$MEM_FILE" .
 
-# Router B Testbench
-run_tb "router_b" "router_b_tb.v" "$SRC_DIR/router_b.v"
+    # Determine if 1D or 2D based on filename
+    local DEFINE_FLAG=""
+    if [[ "$MEM_NAME" == *"1d"* ]] || [[ "$MEM_NAME" == *"1D"* ]]; then
+        DEFINE_FLAG="+define+TEST_1D"
+    fi
 
-# Memory Registers Testbench
-run_tb "mem_reg" "mem_reg_tb.v" "$SRC_DIR/mem_reg.v"
+    echo ""
+    echo "--- Running KF Top-Level Test: $MEM_NAME ---"
+    echo "Memory file: $MEM_FILE"
 
-# Sequencer Testbench
-run_tb "sequencer" "sequencer_tb.v" "$SRC_DIR/sequencer.v"
+    # Run simulation
+    ncverilog $SRC_DIR/kf_top_tb.v \
+        $SRC_DIR/kf_top.v \
+        $SRC_DIR/sequencer.v \
+        $SRC_DIR/router_a.v \
+        $SRC_DIR/router_b.v \
+        $SRC_DIR/mem_reg.v \
+        $SRC_DIR/au.v \
+        $DEFINE_FLAG \
+        +access+r 2>&1 | tee kf_${MEM_NAME}.log
 
-# KF Top-Level Testbench
-run_tb "kf_top" "kf_top_tb.v" \
-    "$SRC_DIR/kf_top.v" \
-    "$SRC_DIR/sequencer.v" \
-    "$SRC_DIR/router_a.v" \
-    "$SRC_DIR/router_b.v" \
-    "$SRC_DIR/mem_reg.v" \
-    "$SRC_DIR/au.v"
+    # Clean up copied .mem file
+    rm -f "$(basename "$MEM_FILE")" 2>/dev/null
+    rm -f *.history 2>/dev/null
 
-# 1D Kalman Filter Algorithm Test
-run_tb "kf_1d" "kf_1d_tb.v" \
-    "$SRC_DIR/kf_top.v" \
-    "$SRC_DIR/sequencer.v" \
-    "$SRC_DIR/router_a.v" \
-    "$SRC_DIR/router_b.v" \
-    "$SRC_DIR/mem_reg.v" \
-    "$SRC_DIR/au.v"
+    echo "Log saved: kf_${MEM_NAME}.log"
+}
 
-# 2D Kalman Filter Algorithm Test
-run_tb "kf_2d" "kf_2d_tb.v" \
-    "$SRC_DIR/kf_top.v" \
-    "$SRC_DIR/sequencer.v" \
-    "$SRC_DIR/router_a.v" \
-    "$SRC_DIR/router_b.v" \
-    "$SRC_DIR/mem_reg.v" \
-    "$SRC_DIR/au.v"
+# Function to run all basic module tests
+run_basic_tests() {
+    # AU Basic Testbench (ADD, SUB, MUL)
+    run_tb "au_basic" "$SRC_DIR/au_basic_tb.v" "$SRC_DIR/au.v"
+
+    # AU Inverse Testbench (DIV)
+    run_tb "au_inv" "$SRC_DIR/au_inv_tb.v" "$SRC_DIR/au.v"
+
+    # AU Combinational Testbench
+    run_tb "au_comb" "$SRC_DIR/au_comb_tb.v" "$SRC_DIR/au.v"
+
+    # Router A Testbench
+    run_tb "router_a" "$SRC_DIR/router_a_tb.v" "$SRC_DIR/router_a.v"
+
+    # Router B Testbench
+    run_tb "router_b" "$SRC_DIR/router_b_tb.v" "$SRC_DIR/router_b.v"
+
+    # Memory Registers Testbench
+    run_tb "mem_reg" "$SRC_DIR/mem_reg_tb.v" "$SRC_DIR/mem_reg.v"
+
+    # Sequencer Testbench
+    run_tb "sequencer" "$SRC_DIR/sequencer_tb.v" "$SRC_DIR/sequencer.v"
+}
+
+# Parse command line arguments
+case "$1" in
+    -t|--top)
+        if [ -z "$2" ]; then
+            echo "ERROR: -t requires a .mem file path"
+            echo "Usage: ./sim_rtl.sh -t <path/to/file.mem>"
+            exit 1
+        fi
+        run_top_test "$2"
+        ;;
+    -a|--all)
+        run_basic_tests
+        run_top_test "$SRC_DIR/kf_1d.mem"
+        run_top_test "$SRC_DIR/kf_2d.mem"
+        ;;
+    -h|--help)
+        echo "Usage:"
+        echo "  ./sim_rtl.sh              Run all basic module tests (no top-level)"
+        echo "  ./sim_rtl.sh -t <mem>     Run top-level test with specified .mem file"
+        echo "  ./sim_rtl.sh -a           Run all tests including top-level (1D and 2D)"
+        echo ""
+        echo "Examples:"
+        echo "  ./sim_rtl.sh                        # Run AU, router, mem, sequencer tests"
+        echo "  ./sim_rtl.sh -t ../src/kf_1d.mem    # Run 1D KF top-level test"
+        echo "  ./sim_rtl.sh -t ../src/kf_2d.mem    # Run 2D KF top-level test"
+        echo "  ./sim_rtl.sh -a                     # Run everything"
+        exit 0
+        ;;
+    "")
+        # No arguments - run basic tests only
+        run_basic_tests
+        ;;
+    *)
+        echo "Unknown option: $1"
+        echo "Use -h for help"
+        exit 1
+        ;;
+esac
 
 # Clean up simulation artifacts
-rm -rf INCA_libs *.key *.history 2>/dev/null
+rm -rf INCA_libs *.key *.history *.mem 2>/dev/null
 
 echo ""
 echo "========================================"
-echo "All testbenches completed"
+echo "Testbench(es) completed"
 echo "========================================"
 echo ""
 echo "Log files:"

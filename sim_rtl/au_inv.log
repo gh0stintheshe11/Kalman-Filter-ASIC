@@ -4,10 +4,16 @@ file: ../src/au_inv_tb.v
 		errors: 0, warnings: 0
 		Caching library 'worklib' ....... Done
 	Elaborating the design hierarchy:
+  au dut (
+       |
+ncelab: *W,CUVWSP (../src/au_inv_tb.v,38|7): 2 output ports were not connected:
+ncelab: (../src/au.v,148): result_comb
+ncelab: (../src/au.v,149): result_comb_valid
+
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
-		worklib.au_inv_tb:v <0x32c56fd8>
-			streams:   9, words: 24744
+		worklib.au_inv_tb:v <0x52e3654b>
+			streams:   9, words: 29153
 	Building instance specific data structures.
 	Loading native compiled code:     .................... Done
 	Design hierarchy summary:
@@ -15,10 +21,10 @@ file: ../src/au_inv_tb.v
 		Modules:                 3       3
 		Registers:              54      54
 		Scalar wires:           11       -
-		Vectored wires:         22       -
+		Vectored wires:         28       -
 		Always blocks:           7       7
 		Initial blocks:          2       2
-		Cont. assignments:      17      21
+		Cont. assignments:      25      27
 		Pseudo assignments:      1       1
 		Simulation timescale:  1ps
 	Writing initial simulation snapshot: worklib.au_inv_tb:v

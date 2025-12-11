@@ -15,14 +15,14 @@ file: ../src/mem_reg.v
 	Elaborating the design hierarchy:
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
-		worklib.Data_Bank:v <0x48abda79>
-			streams:   4, words:  2142
-		worklib.RD:v <0x50381130>
-			streams:   2, words:   407
-		worklib.RQ:v <0x4fba127d>
-			streams:   2, words:   407
-		worklib.mem_reg_tb:v <0x5315f488>
-			streams:  18, words: 25458
+		worklib.Data_Bank:v <0x55aef72d>
+			streams:   4, words:  2095
+		worklib.RD:v <0x364a9b5a>
+			streams:   2, words:   432
+		worklib.RQ:v <0x29c89817>
+			streams:   2, words:   432
+		worklib.mem_reg_tb:v <0x3e9ed8ef>
+			streams:  18, words: 28252
 	Building instance specific data structures.
 	Loading native compiled code:     .................... Done
 	Design hierarchy summary:
@@ -49,6 +49,7 @@ Data Bank: 32 x 24-bit registers
 --- Reading back via both ports ---
 
 --- Testing write-through forwarding ---
+ERR FWD: expected deadbe got a5035a
 
 --- Testing RQ accumulator ---
 
@@ -57,7 +58,7 @@ Data Bank: 32 x 24-bit registers
 --- Testing RQ/RD hold when WE=0 ---
 
 ========================================
-mem_reg_tb: PASS (71 checks)
+mem_reg_tb: 1 ERRORS / 71 checks
 ========================================
 Simulation complete via $finish(1) at time 736 NS + 0
 ../src/mem_reg_tb.v:226     $finish;

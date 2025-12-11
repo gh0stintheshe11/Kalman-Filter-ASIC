@@ -1,0 +1,53 @@
+ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+file: ../src/au_comb_tb.v
+	module worklib.au_comb_tb:v
+		errors: 0, warnings: 0
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.au_comb_tb:v <0x2d051bc7>
+			streams:   6, words: 29465
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                 Instances  Unique
+		Modules:                 3       3
+		Registers:              37      37
+		Scalar wires:           11       -
+		Vectored wires:         28       -
+		Always blocks:           7       7
+		Initial blocks:          2       2
+		Cont. assignments:      25      27
+		Pseudo assignments:      1       1
+		Simulation timescale:  1ps
+	Writing initial simulation snapshot: worklib.au_comb_tb:v
+Loading snapshot worklib.au_comb_tb:v .................... Done
+ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
+ncsim> run
+=== AU Combinational Result Test ===
+
+--- Test 1: ADD 2.0 + 3.0 ---
+  Before clk: result_comb_valid=1, result_comb=014000 (5.000000)
+  After clk:  result_comb_valid=0, result_comb=014000 (5.000000)
+  PASS: ADD result correct
+
+--- Test 2: SUB 5.0 - 2.0 ---
+  Before clk: result_comb_valid=1, result_comb=00c000 (3.000000)
+  PASS: SUB result correct
+
+--- Test 3: MUL 2.0 * 3.0 ---
+  Before clk: result_comb_valid=1, result_comb=018000 (6.000000)
+  PASS: MUL result correct
+
+--- Test 4: DIV 6.0 / 2.0 (multi-cycle) ---
+  result_comb_valid should be 0 for DIV: 0
+  Waiting for DIV...
+  DIV done at cycle 25
+  DIV result: 00c000 (3.000000)
+  PASS: DIV result correct
+
+=== Test Complete ===
+Simulation complete via $finish(1) at time 366 NS + 0
+../src/au_comb_tb.v:185     $finish;
+ncsim> exit

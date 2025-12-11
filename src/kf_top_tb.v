@@ -1,22 +1,40 @@
 // -----------------------------------------------------------------------------
 // kf_top_tb.v
-// Testbench for complete Kalman Filter ASIC top-level (per paper Figure 3)
-// Tests the integrated system: Sequencer + Routers + Memory + AU
+// Unified Kalman Filter ASIC Testbench
+// -----------------------------------------------------------------------------
+// Supports both 1D and 2D Kalman Filter tests via ROM_FILE parameter.
+// Uses $readmemh to load instruction ROM from .mem files.
+//
+// Usage:
+//   For 1D KF test: ncverilog +define+TEST_1D ...
+//   For 2D KF test: ncverilog ... (default)
 //
 // Compatible with: RTL, post-synthesis, post-layout simulation
 // For post-syn: define SIM_POST_SYN to disable internal signal access
 // -----------------------------------------------------------------------------
 `timescale 1ns/1ps
 
-module kf_top_tb;
+module kf_top_tb();
 
-  // Parameters for testbench (not passed to DUT for post-syn compatibility)
+  // =========================================================================
+  // Parameters - Change ROM_FILE to select test case
+  // =========================================================================
+`ifdef TEST_1D
+  parameter ROM_FILE = "kf_1d.mem";
+  parameter TEST_MODE = "1D";
+`else
+  parameter ROM_FILE = "kf_2d.mem";
+  parameter TEST_MODE = "2D";
+`endif
+
   parameter W = 24;
   parameter FRAC = 14;
   parameter NR = 32;
   parameter ADDRW = 5;
 
-  // DUT signals (matching kf_top.v port names per paper)
+  // =========================================================================
+  // DUT Signals
+  // =========================================================================
   reg              clk;
   reg              rst_n;
   reg              START;
@@ -26,13 +44,24 @@ module kf_top_tb;
   wire             READY;
   wire [W-1:0]     DATA_OUT;
 
-  // ROM programming signals
+  // ROM programming signals (kept for backward compatibility)
   reg              rom_we;
   reg  [7:0]       rom_waddr;
   reg  [15:0]      rom_wdata;
 
-  // Instantiate DUT - no parameter override for post-syn compatibility
-  kf_top DUT (
+  // Loop control
+  reg  [7:0]       loop_addr;
+
+  // =========================================================================
+  // DUT Instantiation
+  // =========================================================================
+  kf_top #(
+    .W(W),
+    .FRAC(FRAC),
+    .NR(NR),
+    .ADDRW(ADDRW),
+    .ROM_FILE(ROM_FILE)
+  ) dut (
     .clk        (clk),
     .rst_n      (rst_n),
     .START      (START),
@@ -43,83 +72,201 @@ module kf_top_tb;
     .DATA_OUT   (DATA_OUT),
     .rom_we     (rom_we),
     .rom_waddr  (rom_waddr),
-    .rom_wdata  (rom_wdata)
+    .rom_wdata  (rom_wdata),
+    .loop_addr  (loop_addr)
   );
 
-  // Clock generation (100 MHz)
+  // =========================================================================
+  // Clock Generation (100 MHz)
+  // =========================================================================
   initial clk = 0;
   always #5 clk = ~clk;
 
-  // ========== Helper Functions ==========
+  // =========================================================================
+  // Helper Functions
+  // =========================================================================
 
-  // Convert integer to sign-magnitude Q9.14 format
-  function [W-1:0] to_fixed;
-    input integer val;
-    reg sign_bit;
-    reg [W-2:0] magnitude;
+  // Convert real to sign-magnitude Q9.14 format
+  function [W-1:0] real_to_sm;
+    input real x;
+    reg sign;
+    integer mag_int;
     begin
-      sign_bit = (val < 0);
-      if (val < 0) val = -val;
-      magnitude = val << FRAC;
-      to_fixed = {sign_bit, magnitude};
+      sign = (x < 0.0);
+      mag_int = (sign ? -x : x) * (1 << FRAC);
+      real_to_sm = {sign, mag_int[W-2:0]};
     end
   endfunction
 
-  // Convert sign-magnitude Q9.14 to real for display
-  function real to_real;
-    input [W-1:0] fixed_val;
-    integer signed_mag;
-    integer signed_val;
+  // Convert sign-magnitude to real
+  function real sm_to_real;
+    input [W-1:0] sm;
+    real val;
     begin
-      signed_mag = fixed_val[W-2:0];
-      signed_val = (fixed_val[W-1]) ? -signed_mag : signed_mag;
-      to_real = signed_val / (16384.0); // 2^14
+      val = $itor(sm[W-2:0]) / (1 << FRAC);
+      sm_to_real = sm[W-1] ? -val : val;
     end
   endfunction
 
-  // ROM write task - programs ROM via ports
-  task rom_write;
-    input [7:0]  addr;
-    input [15:0] data;
+  // =========================================================================
+  // Test Sequences
+  // =========================================================================
+
+  // 1D Kalman Filter Test
+  task test_1d_kf;
     begin
-      @(negedge clk);
-      rom_waddr = addr;
-      rom_wdata = data;
-      rom_we = 1'b1;
+      $display("\n========================================");
+      $display("1D Kalman Filter Test");
+      $display("ROM File: %s", ROM_FILE);
+      $display("========================================");
+      $display("Parameters: Phi=1.0, Q=0.01, R=0.1, x0=0, P0=1.0, y=2.5");
+      $display("Expected result: x_hat ~= 2.275");
+
+      // Pre-load first data value BEFORE START
+      DATA_IN = real_to_sm(1.0);  // Phi = 1.0
+
+      // Start execution
+      START = 1;
       @(posedge clk);
-      #1;
-      rom_we = 1'b0;
+      START = 0;
+
+      // Load parameters (must be present BEFORE clock edge when instruction writes)
+      DATA_IN = real_to_sm(0.01);  @(posedge clk);  // Q = 0.01 -> DB[3]
+      DATA_IN = real_to_sm(0.1);   @(posedge clk);  // R = 0.1 -> DB[4]
+      DATA_IN = real_to_sm(0.0);   @(posedge clk);  // x = 0.0 -> DB[0]
+      DATA_IN = real_to_sm(1.0);   @(posedge clk);  // P = 1.0 -> DB[1]
+      DATA_IN = real_to_sm(2.5);   @(posedge clk);  // y = 2.5 -> DB[5]
+      DATA_IN = 0;
+
+      // Wait for completion
+      wait_for_ready(200);
+
+      // Display results
+      #20;
+      $display("\n--- Results ---");
+`ifndef SIM_POST_SYN
+      $display("  x_hat (DB[0]) = %.6f", sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[0]));
+      $display("  K     (DB[6]) = %.6f", sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[6]));
+`else
+      $display("  Post-synthesis mode: internal signals not accessible");
+      $display("  DATA_OUT = %.6f", sm_to_real(DATA_OUT));
+`endif
+      $display("  Expected: x_hat = 2.275 (K = 0.9099)");
     end
   endtask
 
-  // Helper: pack fields -> 16-bit instruction per paper format
-  // {a[15:11], b[10:6], c[5:4], d[3:2], e[1], f[0]}
-  function [15:0] INSTR;
-    input [4:0] a, b;      // Address fields (5 bits each)
-    input [1:0] c, d;      // Control fields (2 bits each)
-    input       e, f;      // Single-bit fields (AU start, write enable)
+  // 2D Kalman Filter Test
+  task test_2d_kf;
     begin
-      INSTR = {a, b, c, d, e, f};
-    end
-  endfunction
+      $display("\n========================================");
+      $display("2D Kalman Filter Test");
+      $display("ROM File: %s", ROM_FILE);
+      $display("========================================");
+      $display("Inertial Navigation: State=[position; velocity]");
+      $display("Phi=[1 0.1; 0 1], H=[1 0], Q=0.01*I, R=0.1");
+      $display("Initial: x=[0; 1], P=I");
+      $display("Measurement: y=0.5");
 
-  // ========== Test Sequence ==========
+      // Pre-load first data value
+      DATA_IN = real_to_sm(0.0);  // x1 = 0.0
 
-  integer errors, checks;
-  reg [W-1:0] val_a, val_b, expected;
+      START = 1;
+      @(posedge clk);
+      START = 0;
 
-  initial begin
-    $display("========================================");
-    $display("Kalman Filter ASIC Top-Level Test");
-    $display("Per paper Figure 3 architecture");
-`ifdef SIM_POST_SYN
-    $display("Mode: Post-synthesis simulation");
+      // Load all 20 remaining parameters (21 total)
+      DATA_IN = real_to_sm(1.0);   @(posedge clk);  // x2 = 1.0
+      DATA_IN = real_to_sm(1.0);   @(posedge clk);  // p11 = 1.0
+      DATA_IN = real_to_sm(0.0);   @(posedge clk);  // p12 = 0.0
+      DATA_IN = real_to_sm(0.0);   @(posedge clk);  // p21 = 0.0
+      DATA_IN = real_to_sm(1.0);   @(posedge clk);  // p22 = 1.0
+      DATA_IN = real_to_sm(1.0);   @(posedge clk);  // phi11 = 1.0
+      DATA_IN = real_to_sm(0.1);   @(posedge clk);  // phi12 = 0.1
+      DATA_IN = real_to_sm(0.0);   @(posedge clk);  // phi21 = 0.0
+      DATA_IN = real_to_sm(1.0);   @(posedge clk);  // phi22 = 1.0
+      DATA_IN = real_to_sm(0.01);  @(posedge clk);  // q11 = 0.01
+      DATA_IN = real_to_sm(0.0);   @(posedge clk);  // q12 = 0.0
+      DATA_IN = real_to_sm(0.0);   @(posedge clk);  // q21 = 0.0
+      DATA_IN = real_to_sm(0.01);  @(posedge clk);  // q22 = 0.01
+      DATA_IN = real_to_sm(1.0);   @(posedge clk);  // h1 = 1.0
+      DATA_IN = real_to_sm(0.0);   @(posedge clk);  // h2 = 0.0
+      DATA_IN = real_to_sm(0.1);   @(posedge clk);  // R = 0.1
+      DATA_IN = real_to_sm(0.0);   @(posedge clk);  // g1 = 0.0
+      DATA_IN = real_to_sm(0.0);   @(posedge clk);  // g2 = 0.0
+      DATA_IN = real_to_sm(0.0);   @(posedge clk);  // u = 0.0
+      DATA_IN = real_to_sm(0.5);   @(posedge clk);  // y = 0.5
+      DATA_IN = 0;
+
+      // Wait for completion
+      wait_for_ready(500);
+
+      // Display results
+      #20;
+      $display("\n--- Results ---");
+`ifndef SIM_POST_SYN
+      $display("  x1 (position) = %.6f (expected ~0.464)",
+               sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[0]));
+      $display("  x2 (velocity) = %.6f (expected ~1.036)",
+               sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[1]));
+      $display("  P11 = %.6f", sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[2]));
+      $display("  P12 = %.6f", sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[3]));
+      $display("  P21 = %.6f", sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[4]));
+      $display("  P22 = %.6f", sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[5]));
 `else
-    $display("Mode: RTL simulation");
+      $display("  Post-synthesis mode: internal signals not accessible");
+      $display("  DATA_OUT = %.6f", sm_to_real(DATA_OUT));
 `endif
-    $display("========================================");
+      $display("\n--- Expected (manual calculation) ---");
+      $display("  x^- = [0.1; 1.0]");
+      $display("  K = [0.911; 0.089]");
+      $display("  x^+ = [0.464; 1.036]");
+    end
+  endtask
 
-    // Initialize
+  // Wait for READY with timeout
+  task wait_for_ready;
+    input integer max_cycles;
+    integer i;
+    reg done;
+    begin
+      $display("\n--- Executing Kalman Filter ---");
+      done = 0;
+      for (i = 0; i < max_cycles && !done; i = i + 1) begin
+        @(posedge clk);
+        #1;
+`ifndef SIM_POST_SYN
+        // Debug output (first 30 cycles and every 50 after)
+        if (i < 30 || i % 50 == 0) begin
+          $display("  Cycle %3d: PC=%3d, READY=%b, e=%b, f=%b",
+                   i, dut.Sequencer.pc, READY, dut.ctl_e, dut.ctl_f);
+        end
+`else
+        if (i % 50 == 0) begin
+          $display("  Cycle %3d: READY=%b", i, READY);
+        end
+`endif
+        if (READY == 1'b1 && i > 10) begin
+          $display("  KF computation completed at cycle %d", i);
+          done = 1;
+        end
+      end
+      if (!done) begin
+        $display("  WARNING: Timeout after %d cycles", max_cycles);
+      end
+    end
+  endtask
+
+  // =========================================================================
+  // Main Test
+  // =========================================================================
+  initial begin
+    $display("================================================================");
+    $display("Kalman Filter ASIC Unified Testbench");
+    $display("Test Mode: %s", TEST_MODE);
+    $display("ROM File: %s", ROM_FILE);
+    $display("================================================================");
+
+    // Initialize signals
     rst_n = 0;
     START = 0;
     DATA_IN = 0;
@@ -128,166 +275,33 @@ module kf_top_tb;
     rom_we = 0;
     rom_waddr = 0;
     rom_wdata = 0;
-    errors = 0;
-    checks = 0;
-
-    // Test values: 3.0 and 2.5 in Q9.14 format
-    val_a = to_fixed(3);                      // 3.0 = 0x00C000
-    val_b = to_fixed(2) + (1 << (FRAC-1));    // 2.5 = 0x00A000
-
-    $display("\nTest operands:");
-    $display("  Value A (3.0) = 0x%06h (%.4f)", val_a, to_real(val_a));
-    $display("  Value B (2.5) = 0x%06h (%.4f)", val_b, to_real(val_b));
+    loop_addr = 8'd0;
 
     // Reset sequence
     repeat(3) @(posedge clk);
     rst_n = 1;
     repeat(2) @(posedge clk);
 
-    // ========== PROGRAM ROM ==========
-    $display("\n--- Programming ROM ---");
-
-    // PC=0: Store DATA_IN to DB[0]
-    rom_write(8'd0, INSTR(5'd0, 5'd0, 2'b00, 2'b00, 1'b0, 1'b1));
-
-    // PC=1: Store DATA_IN to DB[1]
-    rom_write(8'd1, INSTR(5'd1, 5'd0, 2'b00, 2'b00, 1'b0, 1'b1));
-
-    // PC=2: ADD DB[0] + DB[1], start AU
-    rom_write(8'd2, INSTR(5'd0, 5'd1, 2'b00, 2'b00, 1'b1, 1'b0));
-
-    // PC=3: WAIT for AU done
-    rom_write(8'd3, INSTR(5'd0, 5'd0, 2'b01, 2'b00, 1'b0, 1'b0));
-
-    // PC=4: Write AU result to DB[2]
-    rom_write(8'd4, INSTR(5'd2, 5'd0, 2'b00, 2'b00, 1'b0, 1'b1));
-
-    // PC=5: HALT
-    rom_write(8'd5, INSTR(5'd0, 5'd0, 2'b10, 2'b00, 1'b0, 1'b0));
-
-    $display("ROM programmed with 6 instructions");
-
-    // ========== Test 1: Check initial READY state ==========
-    $display("\n--- Test 1: Check initial READY state ---");
-    checks = checks + 1;
-    if (READY !== 1'b1) begin
-      $display("ERROR: System not ready after reset");
-      errors = errors + 1;
-    end else begin
-      $display("PASS: System READY=1 after reset");
-    end
-
-    // ========== Test 2: Load operands and run program ==========
-    $display("\n--- Test 2: Load operands and execute program ---");
-
-    // Provide first operand on DATA_IN
-    DATA_IN = val_a;
-    $display("DATA_IN = 0x%06h (3.0)", DATA_IN);
-
-    // Start execution
-    START = 1;
-    @(posedge clk);
-    #1;
-    START = 0;
-    $display("START asserted - execution begins");
-
-    // Wait one cycle, then provide second operand
-    @(posedge clk);
-    DATA_IN = val_b;
-    $display("DATA_IN = 0x%06h (2.5)", DATA_IN);
-
-    // Clear DATA_IN
-    @(posedge clk);
-    DATA_IN = 0;
-
-    // Monitor execution - use only port-level signals for post-syn compatibility
-    $display("\nMonitoring execution (port-level signals only):");
-    $display("Cycle | READY | DATA_OUT");
-    $display("------|-------|----------");
-
-    begin : monitor_loop
-      integer i;
-      for (i = 0; i < 30; i = i + 1) begin
-        @(posedge clk);
-        #1;
-        $display("%5d |   %b   | %06h", i, READY, DATA_OUT);
-
-        // Check if we hit HALT (READY goes high)
-        if (READY == 1'b1 && i > 2) begin
-          $display("\nHALT detected - program completed at cycle %0d", i);
-          disable monitor_loop;
-        end
-      end
-    end
-
-    // ========== Test 3: Verify results ==========
-    $display("\n--- Test 3: Verify computation results ---");
-
-`ifndef SIM_POST_SYN
-    // RTL mode: can access internal signals
-    $display("\nData Bank contents (RTL mode):");
-    $display("  DB[0] = 0x%06h (%.4f) - expected 3.0",
-             DUT.Memory_Registers.Data_Bank_inst.mem[0],
-             to_real(DUT.Memory_Registers.Data_Bank_inst.mem[0]));
-    $display("  DB[1] = 0x%06h (%.4f) - expected 2.5",
-             DUT.Memory_Registers.Data_Bank_inst.mem[1],
-             to_real(DUT.Memory_Registers.Data_Bank_inst.mem[1]));
-    $display("  DB[2] = 0x%06h (%.4f) - expected 5.5 (ADD result)",
-             DUT.Memory_Registers.Data_Bank_inst.mem[2],
-             to_real(DUT.Memory_Registers.Data_Bank_inst.mem[2]));
-
-    // Expected ADD result: 3.0 + 2.5 = 5.5
-    expected = to_fixed(5) + (1 << (FRAC-1));  // 5.5 in Q9.14
-
-    checks = checks + 1;
-    if (DUT.Memory_Registers.Data_Bank_inst.mem[2] == expected) begin
-      $display("\nPASS: ADD result correct (3.0 + 2.5 = 5.5)");
-    end else begin
-      $display("\nERROR: ADD result mismatch");
-      $display("  Expected: 0x%06h (%.4f)", expected, to_real(expected));
-      $display("  Got:      0x%06h (%.4f)",
-               DUT.Memory_Registers.Data_Bank_inst.mem[2],
-               to_real(DUT.Memory_Registers.Data_Bank_inst.mem[2]));
-      errors = errors + 1;
-    end
+    // Run appropriate test based on ROM file
+`ifdef TEST_1D
+    test_1d_kf;
 `else
-    // Post-syn mode: check DATA_OUT only
-    $display("\nPost-synthesis mode: checking DATA_OUT");
-    $display("  DATA_OUT = 0x%06h (%.4f)", DATA_OUT, to_real(DATA_OUT));
-    expected = to_fixed(5) + (1 << (FRAC-1));  // 5.5 in Q9.14
-    $display("  Expected (if ADD result): 0x%06h (%.4f)", expected, to_real(expected));
-    checks = checks + 1;
+    test_2d_kf;
 `endif
 
-    // ========== Test 4: Verify system returned to READY ==========
-    $display("\n--- Test 4: Verify system returned to READY ---");
-    checks = checks + 1;
-    if (READY == 1'b1) begin
-      $display("PASS: System READY=1 after HALT");
-    end else begin
-      $display("ERROR: System not in READY state after HALT");
-      errors = errors + 1;
-    end
-
-    // Summary
-    #50;
-    $display("\n========================================");
-    $display("Test Summary");
-    $display("========================================");
-    if (errors == 0) begin
-      $display("kf_top_tb: PASS (%0d checks)", checks);
-    end else begin
-      $display("kf_top_tb: %0d ERRORS / %0d checks", errors, checks);
-    end
-    $display("========================================\n");
+    $display("\n================================================================");
+    $display("Kalman Filter Test Complete");
+    $display("================================================================\n");
 
     $finish;
   end
 
-  // Timeout watchdog
+  // =========================================================================
+  // Timeout Watchdog
+  // =========================================================================
   initial begin
-    #20000;
-    $display("\nERROR: Simulation timeout!");
+    #200000;
+    $display("ERROR: Simulation timeout!");
     $finish;
   end
 

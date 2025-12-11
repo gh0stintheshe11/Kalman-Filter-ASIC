@@ -9,24 +9,29 @@ file: ../src/sequencer.v
 		errors: 0, warnings: 0
 		Caching library 'worklib' ....... Done
 	Elaborating the design hierarchy:
+  sequencer DUT (
+              |
+ncelab: *W,CUVWSI (../src/sequencer_tb.v,37|14): 1 input port was not connected:
+ncelab: (../src/sequencer.v,80): loop_addr
+
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
-		worklib.rom_256x16:v <0x1f6d472f>
-			streams:   3, words:  1225
-		worklib.sequencer:v <0x4209b462>
-			streams:   6, words:  2459
-		worklib.sequencer_tb:v <0x0f59824e>
-			streams:   9, words: 30168
+		worklib.rom_256x16:v <0x6eead85f>
+			streams:   4, words:  1881
+		worklib.sequencer:v <0x69dc1223>
+			streams:   6, words:  2660
+		worklib.sequencer_tb:v <0x17e5b13a>
+			streams:   9, words: 35012
 	Building instance specific data structures.
 	Loading native compiled code:     .................... Done
 	Design hierarchy summary:
 		                 Instances  Unique
 		Modules:                 3       3
-		Registers:              28      28
+		Registers:              29      29
 		Scalar wires:            8       -
-		Vectored wires:          9       -
+		Vectored wires:         10       -
 		Always blocks:           3       3
-		Initial blocks:          3       3
+		Initial blocks:          4       4
 		Cont. assignments:       2       8
 		Pseudo assignments:      2       2
 		Simulation timescale:  1ps

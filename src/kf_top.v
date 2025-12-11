@@ -21,8 +21,13 @@
 `timescale 1ns/1ps
 
 module kf_top
-#(parameter W=24, parameter FRAC=14, parameter NR=32, parameter ADDRW=5)
-(
+#(
+  parameter W=24,
+  parameter FRAC=14,
+  parameter NR=32,
+  parameter ADDRW=5,
+  parameter ROM_FILE = ""     // Path to instruction .mem file (empty = use programming port)
+)(
   input              clk,
   input              rst_n,          // Active-low reset (paper uses active-high RESET)
 
@@ -34,15 +39,20 @@ module kf_top
   output             READY,          // System ready status
   output [W-1:0]     DATA_OUT,       // Output (AU result)
 
-  // ROM programming interface (for testbench)
+  // ROM programming interface (for backward compatibility / debug)
   input              rom_we,
   input  [7:0]       rom_waddr,
-  input  [15:0]      rom_wdata
+  input  [15:0]      rom_wdata,
+
+  // Loop control (for continuous KF operation)
+  input  [7:0]       loop_addr     // Address for LOOP instruction (default: 0)
 );
 
   // ========== Forward declarations ==========
-  wire au_done;               // AU done signal (connects sequencer <-> AU)
-  wire [W-1:0] au_result;     // AU result (connects AU -> Router A)
+  wire au_done;               // AU done signal (for DIV only)
+  wire [W-1:0] au_result;     // AU registered result (for DIV)
+  wire [W-1:0] au_result_comb; // AU combinational result (for ADD/SUB/MUL)
+  wire au_result_comb_valid;  // High when combinational result is valid
 
   // ========== Sequencer ==========
   // Instruction format per paper: "a4 a3 a2 a1 a0 b4 b3 b2 b1 b0 c1 c0 d1 d0 e f"
@@ -53,11 +63,12 @@ module kf_top
   wire        ctl_e;      // Field E [1]:     AU start
   wire        ctl_f;      // Field F [0]:     Write enable
 
-  sequencer Sequencer (
+  sequencer #(.ROM_FILE(ROM_FILE)) Sequencer (
     .clk        (clk),
     .rst_n      (rst_n),
     .start      (START),
     .continue_i (au_done),     // AU done signal (forward declared)
+    .loop_addr  (loop_addr),   // Jump target for LOOP instruction
     .ready      (READY),
     .ctl_a      (ctl_a),
     .ctl_b      (ctl_b),
@@ -71,28 +82,62 @@ module kf_top
     .pc_dbg     ()
   );
 
-  // ========== Result Valid Tracking ==========
-  // Track when AU result is valid and should be used for next write.
+  // ========== Result Selection Logic ==========
+  // Three sources for write data:
+  // 1. DATA_IN: External data input (when no AU operation)
+  // 2. au_result_comb: Combinational result for ADD/SUB/MUL (same cycle)
+  // 3. au_result: Registered result for DIV (after done=1)
   //
-  // Per paper timing: 1-cycle operations (ADD/SUB/MUL) complete in the cycle
-  // after they start. The STORE instruction executes the same cycle au_done=1.
+  // Single-cycle ops (ADD/SUB/MUL):
+  //   - Instruction has e=1 (start), f=1 (write), c=00 (increment)
+  //   - au_result_comb_valid=1 in same cycle
+  //   - Write au_result_comb to Data Bank on posedge
   //
-  // Two cases for selecting AU result vs DATA_IN:
-  // 1. au_done=1 this cycle: AU just completed, result register is valid
-  // 2. result_valid=1: AU completed previously, result not yet consumed
-  //
-  // The `result_valid` register tracks case 2 for multi-cycle scenarios
-  // where the store might not immediately follow the operation.
-  reg result_valid;
+  // Multi-cycle ops (DIV):
+  //   - Instruction has e=1 (start), f=0 (no write), c=01 (wait)
+  //   - Wait for au_done=1 (24 cycles later)
+  //   - Then store with f=1 using au_result
+
+  // Track DIV result for store instruction
+  reg div_result_valid;
   always @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
-      result_valid <= 1'b0;
+      div_result_valid <= 1'b0;
     end else if (au_done) begin
-      result_valid <= 1'b1;      // AU completed, result is valid
-    end else if (ctl_f && result_valid) begin
-      result_valid <= 1'b0;      // Result consumed by write
+      div_result_valid <= 1'b1;      // DIV completed, result is valid
+    end else if (ctl_f && div_result_valid) begin
+      div_result_valid <= 1'b0;      // Result consumed by write
     end
   end
+
+  // Latch combinational result for 2-instruction pattern (e=1,f=0 then e=0,f=1)
+  // This allows the compute result to persist for the following store instruction
+  reg [W-1:0] comb_result_lat;
+  reg         comb_result_valid;
+  always @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+      comb_result_lat <= {W{1'b0}};
+      comb_result_valid <= 1'b0;
+    end else if (au_result_comb_valid && !ctl_f) begin
+      // Latch result when e=1 (compute) but f=0 (no immediate write)
+      comb_result_lat <= au_result_comb;
+      comb_result_valid <= 1'b1;
+    end else if (ctl_f && comb_result_valid) begin
+      // Result consumed by write
+      comb_result_valid <= 1'b0;
+    end
+  end
+
+  // Select result source:
+  // - au_result_comb when combinational result is valid AND immediate write (e=1,f=1)
+  // - comb_result_lat when deferred write (e=0,f=1 after e=1,f=0)
+  // - au_result when DIV result is ready (au_done or div_result_valid)
+  wire use_comb_result = au_result_comb_valid;
+  wire use_latched_comb = comb_result_valid;
+  wire use_div_result = au_done || div_result_valid;
+  wire [W-1:0] au_result_mux = use_comb_result  ? au_result_comb :
+                               use_latched_comb ? comb_result_lat :
+                               use_div_result   ? au_result : {W{1'b0}};
 
   // ========== Router A ==========
   // Connects: DATA_IN, AU result -> Data Bank
@@ -101,15 +146,15 @@ module kf_top
   wire [ADDRW-1:0] ra_dirb;       // Address B to Data Bank
   wire             ra_write;      // Write enable to Data Bank
 
-  // Data source selection: write AU result when au_done OR result_valid
-  // au_done: AU just completed THIS cycle (1-cycle ops with immediate store)
-  // result_valid: AU completed in a previous cycle, result waiting to be consumed
-  wire [1:0] sel_data = (au_done || result_valid) ? 2'b01 : 2'b00;  // 00=DATA_IN, 01=result
+  // Data source selection:
+  // - 01 = AU result (combinational, latched, or registered)
+  // - 00 = DATA_IN (external input)
+  wire [1:0] sel_data = (use_comb_result || use_latched_comb || use_div_result) ? 2'b01 : 2'b00;
 
   router_a #(.W(W), .ADDRW(ADDRW)) Router_A (
     // Inputs
     .DATA_IN    (DATA_IN),
-    .result     (au_result),
+    .result     (au_result_mux),  // Muxed: combinational for ADD/SUB/MUL, registered for DIV
     .ctl_a      (ctl_a),
     .ctl_b      (ctl_b),
     .DIR        (DIR),
@@ -192,13 +237,16 @@ module kf_top
     .I      (I_bus),
     // Control from sequencer
     .ctl_d  (ctl_d),
-    // Outputs
+    // Combinational outputs (for single-cycle ADD/SUB/MUL)
+    .result_comb       (au_result_comb),
+    .result_comb_valid (au_result_comb_valid),
+    // Registered outputs (for multi-cycle DIV)
     .result (au_result),
     .done   (au_done),
     .busy   (au_busy)
   );
 
   // ========== Output ==========
-  assign DATA_OUT = au_result;
+  assign DATA_OUT = au_result_mux;
 
 endmodule
