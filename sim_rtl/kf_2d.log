@@ -44,8 +44,8 @@ file: ../src/au.v
 			streams:  34, words:  9573
 		worklib.kf_top:v <0x58b49071>
 			streams:  11, words:  3118
-		worklib.kf_top_tb:v <0x5ad4bbe2>
-			streams:  10, words: 59016
+		worklib.kf_top_tb:v <0x435ab34b>
+			streams:  10, words: 59711
 		worklib.mult_inv:v <0x5391d977>
 			streams:  10, words:  3237
 		worklib.rom_256x16:v <0x5a154731>
@@ -61,7 +61,7 @@ file: ../src/au.v
 	Design hierarchy summary:
 		                 Instances  Unique
 		Modules:                12      12
-		Registers:              63      63
+		Registers:              68      68
 		Scalar wires:           29       -
 		Vectored wires:         53       -
 		Always blocks:          21      21
@@ -81,68 +81,42 @@ ROM File: kf_2d.mem
 ================================================================
 
 ========================================
-2D Kalman Filter Test - CONTINUOUS MODE
+2D Kalman Filter Test - NOISY DATA MODE
 ROM File: kf_2d.mem
 ========================================
-Inertial Navigation: State=[position; velocity]
+Testing KF noise filtering capability
 Phi=[1 0.1; 0 1], H=[1 0], Q=0.01*I, R=0.1
 Initial: x=[0; 1], P=I
-Testing 5 iterations with different measurements
+Testing 10 iterations with noisy measurements
 
---- Running 5 KF iterations ---
+--- Running 10 KF iterations ---
+Iter | Measured |  True Pos |    KF Est |  Raw Err |   KF Err
+-----|----------|-----------|-----------|----------|----------
+   1 |   0.2215 |    0.0000 |    0.2106 |   0.2215 |   0.2106
+   2 |   0.2011 |    0.1497 |    0.2531 |   0.0514 |   0.1034
+   3 |   0.2796 |    0.3143 |    0.3173 |   0.0347 |   0.0030
+   4 |   0.3019 |    0.3923 |    0.3605 |   0.0904 |   0.0318
+   5 |   0.2078 |    0.6513 |    0.3374 |   0.4435 |   0.3139
+   6 |   0.4904 |    0.7063 |    0.4377 |   0.2159 |   0.2686
+   7 |   0.6242 |    0.7624 |    0.5558 |   0.1382 |   0.2066
+   8 |   1.2058 |    0.8886 |    0.8704 |   0.3172 |   0.0182
+   9 |   0.9193 |    0.8162 |    0.9575 |   0.1031 |   0.1413
+  10 |   0.2855 |    0.8144 |    0.7607 |   0.5289 |   0.0537
 
-=== Iteration 1 (y = 0.50) ===
-  Cycles: 195
-  x1 (position) = 0.464233
-  x2 (velocity) = 1.035645
-  y  (loaded)   = 0.000000
-  P11 = 0.091187, P12 = 0.008972
-  P21 = 0.008972, P22 = 1.001099
+--- Final Results after 10 iterations ---
+  ASIC KF Position:  0.760681
+  ASIC KF Velocity:  0.694092
+  True Position:     0.814400
+  Python Reference:  x1=0.760534, x2=0.693580
 
-=== Iteration 2 (y = 0.70) ===
-  Cycles: 195
-  x1 (position) = 0.637878
-  x2 (velocity) = 1.103333
-  y  (loaded)   = 0.000000
-  P11 = 0.053040, P12 = 0.051208
-  P21 = 0.051208, P22 = 0.955322
-
-=== Iteration 3 (y = 0.90) ===
-  Cycles: 195
-  x1 (position) = 0.816895
-  x2 (velocity) = 1.225159
-  y  (loaded)   = 0.000000
-  P11 = 0.045288, P12 = 0.080261
-  P21 = 0.080261, P22 = 0.847656
-
-=== Iteration 4 (y = 1.20) ===
-  Cycles: 195
-  x1 (position) = 1.054993
-  x2 (velocity) = 1.464355
-  y  (loaded)   = 0.000000
-  P11 = 0.044373, P12 = 0.091797
-  P21 = 0.091797, P22 = 0.706299
-
-=== Iteration 5 (y = 1.50) ===
-  Cycles: 195
-  x1 (position) = 1.333801
-  x2 (velocity) = 1.734131
-  y  (loaded)   = 0.000000
-  P11 = 0.044373, P12 = 0.090393
-  P21 = 0.090393, P22 = 0.569641
-
---- Final Results after 5 iterations ---
-  x1 (position) = 1.333801
-  x2 (velocity) = 1.734131
-  P11 = 0.044373
-  P12 = 0.090393
-  P21 = 0.090393
-  P22 = 0.569641
+  Covariance Matrix:
+  P11 = 0.039185, P12 = 0.051025
+  P21 = 0.051025, P22 = 0.234375
 
 ================================================================
 Kalman Filter Test Complete
 ================================================================
 
-Simulation complete via $finish(1) at time 10005 NS + 0
-../src/kf_top_tb.v:349     $finish;
+Simulation complete via $finish(1) at time 19755 NS + 0
+../src/kf_top_tb.v:372     $finish;
 ncsim> exit
