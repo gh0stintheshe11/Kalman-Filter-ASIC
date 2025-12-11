@@ -44,8 +44,8 @@ file: ../src/au.v
 			streams:  34, words:  9573
 		worklib.kf_top:v <0x58b49071>
 			streams:  11, words:  3118
-		worklib.kf_top_tb:v <0x435ab34b>
-			streams:  10, words: 59711
+		worklib.kf_top_tb:v <0x6721fa13>
+			streams:  11, words: 100479
 		worklib.mult_inv:v <0x5391d977>
 			streams:  10, words:  3237
 		worklib.rom_256x16:v <0x5a154731>
@@ -61,7 +61,7 @@ file: ../src/au.v
 	Design hierarchy summary:
 		                 Instances  Unique
 		Modules:                12      12
-		Registers:              68      68
+		Registers:              80      80
 		Scalar wires:           29       -
 		Vectored wires:         53       -
 		Always blocks:          21      21
@@ -118,5 +118,5 @@ Kalman Filter Test Complete
 ================================================================
 
 Simulation complete via $finish(1) at time 19755 NS + 0
-../src/kf_top_tb.v:372     $finish;
+../src/kf_top_tb.v:541     $finish;
 ncsim> exit
