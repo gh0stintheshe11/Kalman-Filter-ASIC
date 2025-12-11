@@ -1,3 +1,32 @@
+ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+file: ../src/kf_1d_tb.v
+	module worklib.kf_1d_tb:v
+		errors: 0, warnings: 0
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.kf_1d_tb:v <0x3f351e0c>
+			streams:  13, words: 45420
+		worklib.kf_top:v <0x56f986a9>
+			streams:   5, words:  1229
+		worklib.sequencer:v <0x090ac586>
+			streams:   6, words:  2393
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                 Instances  Unique
+		Modules:                12      12
+		Registers:              66      66
+		Scalar wires:           25       -
+		Vectored wires:         45       -
+		Always blocks:          20      20
+		Initial blocks:          4       4
+		Cont. assignments:      25      39
+		Pseudo assignments:      4       4
+		Simulation timescale:  1ps
+	Writing initial simulation snapshot: worklib.kf_1d_tb:v
+Loading snapshot worklib.kf_1d_tb:v .................... Done
 ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
 ncsim> run
 ========================================
@@ -17,24 +46,69 @@ Per paper Section 3: KF equations
 
 --- Executing Kalman Filter ---
 Waiting for computation to complete...
-  Cycle   0: PC= 7, READY=0
-  Cycle  10: PC=13, READY=0
-  Cycle  20: PC=13, READY=0
-  Cycle  30: PC=13, READY=0
-  Cycle  40: PC=18, READY=0
+  Cyc   0: PC= 7 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=xxxxxx DB6=xxxxxx DB7=xxxxxx
+  Cyc   1: PC= 7 e=0 f=0 done=1 rv=0 R=000000 S=000000 res=0040a4 DB6=xxxxxx DB7=xxxxxx
+  Cyc   2: PC= 8 e=0 f=1 done=0 rv=1 R=0040a4 S=000000 res=0040a4 DB6=xxxxxx DB7=xxxxxx
+  Cyc   3: PC= 9 e=1 f=0 done=0 rv=0 R=0040a4 S=000666 res=0040a4 DB6=0040a4 DB7=xxxxxx
+  Cyc   4: PC=10 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=0040a4 DB6=0040a4 DB7=xxxxxx
+  Cyc   5: PC=10 e=0 f=0 done=1 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=xxxxxx
+  Cyc   6: PC=11 e=0 f=1 done=0 rv=1 R=00470a S=000000 res=00470a DB6=0040a4 DB7=xxxxxx
+  Cyc   7: PC=12 e=1 f=0 done=0 rv=0 R=0040a4 S=00470a res=00470a DB6=0040a4 DB7=00470a
+  Cyc   8: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc   9: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  10: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  11: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  12: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  13: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  14: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  15: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  16: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  17: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  18: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  19: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  20: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  21: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  22: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  23: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  24: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  25: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  26: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  27: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  28: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  29: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  30: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  31: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  32: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  33: PC=13 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00470a DB6=0040a4 DB7=00470a
+  Cyc  34: PC=13 e=0 f=0 done=1 rv=0 R=000000 S=000000 res=003a3b DB6=0040a4 DB7=00470a
+  Cyc  35: PC=14 e=0 f=1 done=0 rv=1 R=003a3b S=000000 res=003a3b DB6=0040a4 DB7=00470a
+  Cyc  36: PC=15 e=1 f=0 done=0 rv=0 R=00a000 S=000000 res=003a3b DB6=003a3b DB7=00470a
+  Cyc  37: PC=16 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=003a3b DB6=003a3b DB7=00470a
+  Cyc  38: PC=16 e=0 f=0 done=1 rv=0 R=000000 S=000000 res=00a000 DB6=003a3b DB7=00470a
+  Cyc  39: PC=17 e=0 f=1 done=0 rv=1 R=00a000 S=000000 res=00a000 DB6=003a3b DB7=00470a
+  Cyc  40: PC=18 e=1 f=0 done=0 rv=0 R=003a3b S=00a000 res=00a000 DB6=003a3b DB7=00a000
+  Cyc  41: PC=19 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=00a000 DB6=003a3b DB7=00a000
+  Cyc  42: PC=19 e=0 f=0 done=1 rv=0 R=000000 S=000000 res=009193 DB6=003a3b DB7=00a000
+  Cyc  43: PC=20 e=0 f=1 done=0 rv=1 R=009193 S=000000 res=009193 DB6=003a3b DB7=00a000
+  Cyc  44: PC=21 e=1 f=0 done=0 rv=0 R=000000 S=009193 res=009193 DB6=003a3b DB7=009193
+  Cyc  45: PC=22 e=0 f=0 done=0 rv=0 R=000000 S=000000 res=009193 DB6=003a3b DB7=009193
+  Cyc  46: PC=22 e=0 f=0 done=1 rv=0 R=000000 S=000000 res=009193 DB6=003a3b DB7=009193
+  Cyc  47: PC=23 e=0 f=1 done=0 rv=1 R=009193 S=009193 res=009193 DB6=003a3b DB7=009193
+  Cyc  48: PC=24 e=0 f=0 done=0 rv=0 R=009193 S=009193 res=009193 DB6=003a3b DB7=009193
+  Cyc  49: PC=24 e=0 f=0 done=0 rv=0 R=009193 S=009193 res=009193 DB6=003a3b DB7=009193
   KF computation completed at cycle          49
 
 ========================================
 Results
 ========================================
-  x_hat (DB[0]) = 0.000000 (0x000000)
+  x_hat (DB[0]) = 2.274597 (0x009193)
   P     (DB[1]) = 1.000000 (0x004000)
   Phi   (DB[2]) = 1.000000 (0x004000)
   Q     (DB[3]) = 0.010010 (0x0000a4)
   R     (DB[4]) = 0.099976 (0x000666)
   y     (DB[5]) = 2.500000 (0x00a000)
-  P_pred(DB[6]) = 0.000000 (0x000000)
-  tmp   (DB[7]) = 0.000000 (0x000000)
+  P_pred(DB[6]) = 0.909851 (0x003a3b)
+  tmp   (DB[7]) = 2.274597 (0x009193)
 
 ========================================
 Expected (manual calculation)
@@ -48,5 +122,5 @@ Expected (manual calculation)
 ========================================
 
 Simulation complete via $finish(1) at time 876 NS + 0
-../src/kf_1d_tb.v:379     $finish;
+../src/kf_1d_tb.v:384     $finish;
 ncsim> exit

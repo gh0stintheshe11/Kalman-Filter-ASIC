@@ -3,7 +3,7 @@ file: ../src/au_basic_tb.v
 	module worklib.au_basic_tb:v
 		errors: 0, warnings: 0
 file: ../src/au.v
-	module worklib.recip_unit:v
+	module worklib.mult_inv:v
 		errors: 0, warnings: 0
 	module worklib.au:v
 		errors: 0, warnings: 0
@@ -11,24 +11,24 @@ file: ../src/au.v
 	Elaborating the design hierarchy:
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
-		worklib.au:v <0x04e2032e>
-			streams:  32, words:  8769
-		worklib.au_basic_tb:v <0x61e967e1>
-			streams:   7, words: 20924
-		worklib.recip_unit:v <0x4f6a5a80>
-			streams:   9, words:  3949
+		worklib.au:v <0x1b26fbfc>
+			streams:  27, words:  7803
+		worklib.au_basic_tb:v <0x2ed0ebef>
+			streams:   7, words: 20809
+		worklib.mult_inv:v <0x610fbc58>
+			streams:  10, words:  3041
 	Building instance specific data structures.
 	Loading native compiled code:     .................... Done
 	Design hierarchy summary:
 		                 Instances  Unique
 		Modules:                 3       3
-		Registers:              46      46
+		Registers:              44      44
 		Scalar wires:            9       -
-		Vectored wires:         27       -
+		Vectored wires:         22       -
 		Always blocks:           7       7
 		Initial blocks:          2       2
-		Cont. assignments:      19      24
-		Pseudo assignments:      2       2
+		Cont. assignments:      17      20
+		Pseudo assignments:      1       1
 		Simulation timescale:  1ps
 	Writing initial simulation snapshot: worklib.au_basic_tb:v
 Loading snapshot worklib.au_basic_tb:v .................... Done

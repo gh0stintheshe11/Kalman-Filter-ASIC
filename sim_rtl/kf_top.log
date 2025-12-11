@@ -1,3 +1,39 @@
+ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+file: ../src/kf_top_tb.v
+	module worklib.kf_top_tb:v
+		errors: 0, warnings: 0
+file: ../src/kf_top.v
+	module worklib.kf_top:v
+		errors: 0, warnings: 0
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.Data_Bank:v <0x3a171fe7>
+			streams:   4, words:  2133
+		worklib.kf_top:v <0x56fa637e>
+			streams:   6, words:  1278
+		worklib.kf_top_tb:v <0x1446f7eb>
+			streams:  10, words: 34664
+		worklib.router_b:v <0x3fb1fd32>
+			streams:   4, words:  1035
+		worklib.sequencer:v <0x67c3a22f>
+			streams:   6, words:  2393
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                 Instances  Unique
+		Modules:                12      12
+		Registers:              69      69
+		Scalar wires:           25       -
+		Vectored wires:         45       -
+		Always blocks:          20      20
+		Initial blocks:          4       4
+		Cont. assignments:      26      39
+		Pseudo assignments:      4       4
+		Simulation timescale:  1ps
+	Writing initial simulation snapshot: worklib.kf_top_tb:v
+Loading snapshot worklib.kf_top_tb:v .................... Done
 ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
 ncsim> run
 ========================================

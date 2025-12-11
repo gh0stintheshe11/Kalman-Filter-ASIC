@@ -6,162 +6,113 @@ file: ../src/au_inv_tb.v
 	Elaborating the design hierarchy:
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
-		worklib.au:v <0x47947a29>
-			streams:  33, words:  9264
-		worklib.au_inv_tb:v <0x469ad7fd>
-			streams:   7, words: 16126
+		worklib.au:v <0x407fa934>
+			streams:  27, words:  8099
+		worklib.au_inv_tb:v <0x32c56fd8>
+			streams:   9, words: 24744
 	Building instance specific data structures.
 	Loading native compiled code:     .................... Done
 	Design hierarchy summary:
 		                 Instances  Unique
 		Modules:                 3       3
-		Registers:              45      45
+		Registers:              54      54
 		Scalar wires:           10       -
-		Vectored wires:         27       -
+		Vectored wires:         22       -
 		Always blocks:           7       7
 		Initial blocks:          2       2
-		Cont. assignments:      20      24
-		Pseudo assignments:      2       2
+		Cont. assignments:      17      20
+		Pseudo assignments:      1       1
 		Simulation timescale:  1ps
 	Writing initial simulation snapshot: worklib.au_inv_tb:v
 Loading snapshot worklib.au_inv_tb:v .................... Done
 ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
 ncsim> run
 ========================================
-Testing AU Multiplicative Inverse (DIV)
-Per paper: 24 clock cycles per operation
+AU Multiplicative Inverse (DIV) Test
+Per paper: ~24 clock cycles per inverse
+Format: Q9.14 sign-magnitude
 ========================================
 
-Testing 1 / 1:
-  cycle 1: done=0, busy=1
-  cycle 2: done=0, busy=1
-  cycle 3: done=0, busy=1
-  cycle 4: done=0, busy=1
-  cycle 10: done=0, busy=1
-  cycle 20: done=0, busy=1
-  R = 1, S = 1
-  Expected R/S = 1.000000
-  Got result   = 1.000000
-  Error = 0.00%
-  Cycles = 26 (paper specifies 24)
+--- Integer Divisions ---
+
+Test: 1 / 1
+  Expected: 1.000000
+  Got:      1.000000 (0x004000)
+  Error:    0.00%, Cycles: 26
   PASS
 
-Testing 1 / 2:
-  cycle 1: done=0, busy=1
-  cycle 2: done=0, busy=1
-  cycle 3: done=0, busy=1
-  cycle 4: done=0, busy=1
-  cycle 10: done=0, busy=1
-  cycle 20: done=0, busy=1
-  R = 1, S = 2
-  Expected R/S = 0.500000
-  Got result   = 0.500000
-  Error = 0.00%
-  Cycles = 26 (paper specifies 24)
+Test: 1 / 2
+  Expected: 0.500000
+  Got:      0.500000 (0x002000)
+  Error:    0.00%, Cycles: 26
   PASS
 
-Testing 1 / 4:
-  cycle 1: done=0, busy=1
-  cycle 2: done=0, busy=1
-  cycle 3: done=0, busy=1
-  cycle 4: done=0, busy=1
-  cycle 10: done=0, busy=1
-  cycle 20: done=0, busy=1
-  R = 1, S = 4
-  Expected R/S = 0.250000
-  Got result   = 0.250000
-  Error = 0.00%
-  Cycles = 26 (paper specifies 24)
+Test: 1 / 4
+  Expected: 0.250000
+  Got:      0.250000 (0x001000)
+  Error:    0.00%, Cycles: 26
   PASS
 
-Testing 1 / 8:
-  cycle 1: done=0, busy=1
-  cycle 2: done=0, busy=1
-  cycle 3: done=0, busy=1
-  cycle 4: done=0, busy=1
-  cycle 10: done=0, busy=1
-  cycle 20: done=0, busy=1
-  R = 1, S = 8
-  Expected R/S = 0.125000
-  Got result   = 0.125000
-  Error = 0.00%
-  Cycles = 26 (paper specifies 24)
+Test: 2 / 4
+  Expected: 0.500000
+  Got:      0.500000 (0x002000)
+  Error:    0.00%, Cycles: 26
   PASS
 
-Testing 1 / -2:
-  cycle 1: done=0, busy=1
-  cycle 2: done=0, busy=1
-  cycle 3: done=0, busy=1
-  cycle 4: done=0, busy=1
-  cycle 10: done=0, busy=1
-  cycle 20: done=0, busy=1
-  R = 1, S = -2
-  Expected R/S = -0.500000
-  Got result   = -0.500000
-  Error = -0.00%
-  Cycles = 26 (paper specifies 24)
+Test: 3 / 2
+  Expected: 1.500000
+  Got:      1.500000 (0x006000)
+  Error:    0.00%, Cycles: 26
   PASS
 
-Testing 1 / -4:
-  cycle 1: done=0, busy=1
-  cycle 2: done=0, busy=1
-  cycle 3: done=0, busy=1
-  cycle 4: done=0, busy=1
-  cycle 10: done=0, busy=1
-  cycle 20: done=0, busy=1
-  R = 1, S = -4
-  Expected R/S = -0.250000
-  Got result   = -0.250000
-  Error = -0.00%
-  Cycles = 26 (paper specifies 24)
+--- Signed Divisions ---
+
+Test: 1 / -2
+  Expected: -0.500000
+  Got:      -0.500000 (0x802000)
+  Error:    -0.00%, Cycles: 26
   PASS
 
-Testing 2 / 4:
-  cycle 1: done=0, busy=1
-  cycle 2: done=0, busy=1
-  cycle 3: done=0, busy=1
-  cycle 4: done=0, busy=1
-  cycle 10: done=0, busy=1
-  cycle 20: done=0, busy=1
-  R = 2, S = 4
-  Expected R/S = 0.500000
-  Got result   = 0.500000
-  Error = 0.00%
-  Cycles = 26 (paper specifies 24)
+Test: -1 / 2
+  Expected: -0.500000
+  Got:      -0.500000 (0x802000)
+  Error:    -0.00%, Cycles: 26
   PASS
 
-Testing 3 / 2:
-  cycle 1: done=0, busy=1
-  cycle 2: done=0, busy=1
-  cycle 3: done=0, busy=1
-  cycle 4: done=0, busy=1
-  cycle 10: done=0, busy=1
-  cycle 20: done=0, busy=1
-  R = 3, S = 2
-  Expected R/S = 1.500000
-  Got result   = 1.500000
-  Error = 0.00%
-  Cycles = 26 (paper specifies 24)
+Test: -4 / 2
+  Expected: -2.000000
+  Got:      -2.000000 (0x808000)
+  Error:    -0.00%, Cycles: 26
   PASS
 
-Testing -4 / 2:
-  cycle 1: done=0, busy=1
-  cycle 2: done=0, busy=1
-  cycle 3: done=0, busy=1
-  cycle 4: done=0, busy=1
-  cycle 10: done=0, busy=1
-  cycle 20: done=0, busy=1
-  R = -4, S = 2
-  Expected R/S = -2.000000
-  Got result   = -2.000000
-  Error = -0.00%
-  Cycles = 26 (paper specifies 24)
+--- Fractional Divisions (KF-critical) ---
+
+Test: 1.0100 / 1.1100
+  Expected: 0.909910
+  Got:      0.909851 (0x003a3b)
+  Error:    -0.01%, Cycles: 26
+  PASS
+
+Test: 0.5000 / 1.5000
+  Expected: 0.333333
+  Got:      0.333313 (0x001555)
+  Error:    -0.01%, Cycles: 26
+  PASS
+
+Test: 2.5000 / 3.0000
+  Expected: 0.833333
+  Got:      0.833252 (0x003554)
+  Error:    -0.01%, Cycles: 26
   PASS
 
 ========================================
-Multiplicative Inverse Tests Completed
+Test Summary
+========================================
+  Passed: 11
+  Failed: 0
+  ALL TESTS PASSED!
 ========================================
 
-Simulation complete via $finish(1) at time 2565 NS + 0
-../src/au_inv_tb.v:159         $finish;
+Simulation complete via $finish(1) at time 3125 NS + 0
+../src/au_inv_tb.v:227     $finish;
 ncsim> exit
