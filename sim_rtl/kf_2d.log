@@ -2,16 +2,58 @@ ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
 file: ../src/kf_top_tb.v
 	module worklib.kf_top_tb:v
 		errors: 0, warnings: 0
+file: ../src/kf_top.v
+	module worklib.kf_top:v
+		errors: 0, warnings: 0
+file: ../src/sequencer.v
+	module worklib.rom_256x16:v
+		errors: 0, warnings: 0
+	module worklib.sequencer:v
+		errors: 0, warnings: 0
+file: ../src/router_a.v
+	module worklib.router_a:v
+		errors: 0, warnings: 0
+file: ../src/router_b.v
+	module worklib.router_b:v
+		errors: 0, warnings: 0
+file: ../src/mem_reg.v
+	module worklib.RQ:v
+		errors: 0, warnings: 0
+	module worklib.RD:v
+		errors: 0, warnings: 0
+	module worklib.Data_Bank:v
+		errors: 0, warnings: 0
+	module worklib.mem_reg:v
+		errors: 0, warnings: 0
+file: ../src/au.v
+	module worklib.mult_inv:v
+		errors: 0, warnings: 0
+	module worklib.au:v
+		errors: 0, warnings: 0
 		Caching library 'worklib' ....... Done
 	Elaborating the design hierarchy:
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
+		worklib.Data_Bank:v <0x271232b3>
+			streams:   4, words:  2086
+		worklib.RD:v <0x364a9b5a>
+			streams:   2, words:   432
+		worklib.RQ:v <0x29c89817>
+			streams:   2, words:   432
+		worklib.au:v <0x5ac84f5e>
+			streams:  34, words:  9573
 		worklib.kf_top:v <0x58b49071>
 			streams:  11, words:  3118
 		worklib.kf_top_tb:v <0x5ad4bbe2>
 			streams:  10, words: 59016
+		worklib.mult_inv:v <0x5391d977>
+			streams:  10, words:  3237
 		worklib.rom_256x16:v <0x5a154731>
 			streams:   4, words:  2312
+		worklib.router_a:v <0x7493e78d>
+			streams:   4, words:  1133
+		worklib.router_b:v <0x77f0b8d2>
+			streams:   7, words:  1689
 		worklib.sequencer:v <0x5ca861ce>
 			streams:   7, words:  2767
 	Building instance specific data structures.
@@ -53,49 +95,49 @@ Testing 5 iterations with different measurements
   Cycles: 195
   x1 (position) = 0.464233
   x2 (velocity) = 1.035645
-  y  (loaded)   = 0.500000
+  y  (loaded)   = 0.000000
   P11 = 0.091187, P12 = 0.008972
-  P21 = 0.091858, P22 = 1.009216
+  P21 = 0.008972, P22 = 1.001099
 
 === Iteration 2 (y = 0.70) ===
   Cycles: 195
-  x1 (position) = 0.640198
-  x2 (velocity) = 1.150818
-  y  (loaded)   = 0.700012
-  P11 = 0.054810, P12 = 0.049683
-  P21 = 0.145020, P22 = 0.975952
+  x1 (position) = 0.637878
+  x2 (velocity) = 1.103333
+  y  (loaded)   = 0.000000
+  P11 = 0.053040, P12 = 0.051208
+  P21 = 0.051208, P22 = 0.955322
 
 === Iteration 3 (y = 0.90) ===
   Cycles: 195
-  x1 (position) = 0.825378
-  x2 (velocity) = 1.331848
-  y  (loaded)   = 0.900024
-  P11 = 0.048462, P12 = 0.075928
-  P21 = 0.182007, P22 = 0.891052
+  x1 (position) = 0.816895
+  x2 (velocity) = 1.225159
+  y  (loaded)   = 0.000000
+  P11 = 0.045288, P12 = 0.080261
+  P21 = 0.080261, P22 = 0.847656
 
 === Iteration 4 (y = 1.20) ===
   Cycles: 195
-  x1 (position) = 1.074951
-  x2 (velocity) = 1.670776
-  y  (loaded)   = 1.200012
-  P11 = 0.048279, P12 = 0.085449
-  P21 = 0.203308, P22 = 0.781189
+  x1 (position) = 1.054993
+  x2 (velocity) = 1.464355
+  y  (loaded)   = 0.000000
+  P11 = 0.044373, P12 = 0.091797
+  P21 = 0.091797, P22 = 0.706299
 
 === Iteration 5 (y = 1.50) ===
   Cycles: 195
-  x1 (position) = 1.367554
-  x2 (velocity) = 2.043335
-  y  (loaded)   = 1.500000
-  P11 = 0.048706, P12 = 0.083923
-  P21 = 0.211060, P22 = 0.670044
+  x1 (position) = 1.333801
+  x2 (velocity) = 1.734131
+  y  (loaded)   = 0.000000
+  P11 = 0.044373, P12 = 0.090393
+  P21 = 0.090393, P22 = 0.569641
 
 --- Final Results after 5 iterations ---
-  x1 (position) = 1.367554
-  x2 (velocity) = 2.043335
-  P11 = 0.048706
-  P12 = 0.083923
-  P21 = 0.211060
-  P22 = 0.670044
+  x1 (position) = 1.333801
+  x2 (velocity) = 1.734131
+  P11 = 0.044373
+  P12 = 0.090393
+  P21 = 0.090393
+  P22 = 0.569641
 
 ================================================================
 Kalman Filter Test Complete
