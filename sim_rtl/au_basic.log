@@ -11,8 +11,8 @@ file: ../src/au.v
 	Elaborating the design hierarchy:
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
-		worklib.au:v <0x1b26fbfc>
-			streams:  27, words:  7803
+		worklib.au:v <0x54015889>
+			streams:  27, words:  8221
 		worklib.au_basic_tb:v <0x2ed0ebef>
 			streams:   7, words: 20809
 		worklib.mult_inv:v <0x610fbc58>
@@ -23,11 +23,11 @@ file: ../src/au.v
 		                 Instances  Unique
 		Modules:                 3       3
 		Registers:              44      44
-		Scalar wires:            9       -
+		Scalar wires:           11       -
 		Vectored wires:         22       -
 		Always blocks:           7       7
 		Initial blocks:          2       2
-		Cont. assignments:      17      20
+		Cont. assignments:      17      21
 		Pseudo assignments:      1       1
 		Simulation timescale:  1ps
 	Writing initial simulation snapshot: worklib.au_basic_tb:v

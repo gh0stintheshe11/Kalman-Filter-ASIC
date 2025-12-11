@@ -1,0 +1,155 @@
+ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+file: ../src/kf_2d_tb.v
+	module worklib.kf_2d_tb:v
+		errors: 0, warnings: 0
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.au:v <0x23bdbe73>
+			streams:  27, words:  8221
+		worklib.kf_2d_tb:v <0x39df5f30>
+			streams:  13, words: 121975
+		worklib.kf_top:v <0x500d7e52>
+			streams:   5, words:  1269
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                 Instances  Unique
+		Modules:                12      12
+		Registers:              91      91
+		Scalar wires:           26       -
+		Vectored wires:         45       -
+		Always blocks:          20      20
+		Initial blocks:          4       4
+		Cont. assignments:      25      40
+		Pseudo assignments:      3       3
+		Simulation timescale:  1ps
+	Writing initial simulation snapshot: worklib.kf_2d_tb:v
+Loading snapshot worklib.kf_2d_tb:v .................... Done
+ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
+ncsim> run
+================================================================
+2D Kalman Filter Test (per paper Section 3 & 5)
+n=2 states, r=1 measurement, m=1 control input
+Per paper Table III: 113 clock cycles per iteration
+================================================================
+[ROM] Programming 2D Kalman Filter (n=2, r=1, m=1)...
+[ROM] Programmed 178 instructions for 2D Kalman Filter
+
+--- Test: Inertial Navigation (position/velocity) ---
+State: [position; velocity]
+Phi = [1 0.1; 0 1] (dt=0.1s)
+H = [1 0] (measure position)
+Initial: x=[0; 1], P=I, Q=0.01*I, R=0.1
+Measurement: y=0.5
+
+--- Debug: Loaded Initial Values ---
+  x1 (DB[0])  = 0.000000 (0x000000)
+  x2 (DB[1])  = 1.000000 (0x004000)
+  phi11 (DB[6]) = 1.000000
+  phi12 (DB[7]) = 0.099976
+  h1 (DB[14]) = 1.000000
+  R (DB[16]) = 0.099976
+  y (DB[20]) = 0.500000
+
+--- Executing 2D Kalman Filter ---
+  Cycle   0: PC= 21, state=1, rv=0, done=0, e=1, f=0, c=01, result=xxxxxx
+           dira= 6, dirb= 0, A=004000, B=000000, ra_data=000000, ra_write=0
+  Cycle   1: PC= 21, state=0, rv=0, done=1, e=1, f=0, c=01, result=000000
+           dira= 6, dirb= 0, A=004000, B=000000, ra_data=000000, ra_write=0
+  Cycle   2: PC= 22, state=0, rv=1, done=0, e=0, f=1, c=00, result=000000
+           dira=21, dirb= 0, A=000000, B=000000, ra_data=000000, ra_write=1
+  Cycle   3: PC= 23, state=0, rv=0, done=0, e=1, f=0, c=01, result=000000
+           dira= 7, dirb= 1, A=000666, B=004000, ra_data=000000, ra_write=0
+  Cycle   4: PC= 23, state=1, rv=0, done=0, e=1, f=0, c=01, result=000000
+           dira= 7, dirb= 1, A=000666, B=004000, ra_data=000000, ra_write=0
+  Cycle   5: PC= 23, state=0, rv=0, done=1, e=1, f=0, c=01, result=000666
+           dira= 7, dirb= 1, A=000666, B=004000, ra_data=000666, ra_write=0
+  Cycle   6: PC= 24, state=0, rv=1, done=0, e=0, f=1, c=00, result=000666
+           dira=22, dirb= 0, A=000666, B=000000, ra_data=000666, ra_write=1
+  Cycle   7: PC= 25, state=0, rv=0, done=0, e=1, f=0, c=01, result=000666
+           dira=21, dirb=22, A=000000, B=000666, ra_data=000000, ra_write=0
+  Cycle   8: PC= 25, state=1, rv=0, done=0, e=1, f=0, c=01, result=000666
+           dira=21, dirb=22, A=000000, B=000666, ra_data=000000, ra_write=0
+  Cycle   9: PC= 25, state=0, rv=0, done=1, e=1, f=0, c=01, result=000666
+           dira=21, dirb=22, A=000000, B=000666, ra_data=000666, ra_write=0
+  Cycle  10: PC= 26, state=0, rv=1, done=0, e=0, f=1, c=00, result=000666
+           dira=21, dirb= 0, A=000666, B=000000, ra_data=000666, ra_write=1
+  Cycle  11: PC= 27, state=0, rv=0, done=0, e=1, f=0, c=01, result=000666
+           dira=17, dirb=19, A=000000, B=000000, ra_data=000000, ra_write=0
+  Cycle  12: PC= 27, state=1, rv=0, done=0, e=1, f=0, c=01, result=000666
+           dira=17, dirb=19, A=000000, B=000000, ra_data=000000, ra_write=0
+  Cycle  13: PC= 27, state=0, rv=0, done=1, e=1, f=0, c=01, result=000000
+           dira=17, dirb=19, A=000000, B=000000, ra_data=000000, ra_write=0
+  Cycle  14: PC= 28, state=0, rv=1, done=0, e=0, f=1, c=00, result=000000
+           dira=22, dirb= 0, A=000000, B=000000, ra_data=000000, ra_write=1
+  Cycle  15: PC= 29, state=0, rv=0, done=0, e=1, f=0, c=01, result=000000
+           dira=21, dirb=22, A=000666, B=000000, ra_data=000000, ra_write=0
+  Cycle  16: PC= 29, state=1, rv=0, done=0, e=1, f=0, c=01, result=000000
+           dira=21, dirb=22, A=000666, B=000000, ra_data=000000, ra_write=0
+  Cycle  17: PC= 29, state=0, rv=0, done=1, e=1, f=0, c=01, result=000666
+           dira=21, dirb=22, A=000666, B=000000, ra_data=000666, ra_write=0
+  Cycle  18: PC= 30, state=0, rv=1, done=0, e=0, f=1, c=00, result=000666
+           dira=21, dirb= 0, A=000666, B=000000, ra_data=000666, ra_write=1
+  Cycle  19: PC= 31, state=0, rv=0, done=0, e=1, f=0, c=01, result=000666
+           dira= 8, dirb= 0, A=000000, B=000000, ra_data=000000, ra_write=0
+  Cycle  20: PC= 31, state=1, rv=0, done=0, e=1, f=0, c=01, result=000666
+           dira= 8, dirb= 0, A=000000, B=000000, ra_data=000000, ra_write=0
+  Cycle  21: PC= 31, state=0, rv=0, done=1, e=1, f=0, c=01, result=000000
+           dira= 8, dirb= 0, A=000000, B=000000, ra_data=000000, ra_write=0
+  Cycle  22: PC= 32, state=0, rv=1, done=0, e=0, f=1, c=00, result=000000
+           dira=22, dirb= 0, A=000000, B=000000, ra_data=000000, ra_write=1
+  Cycle  23: PC= 33, state=0, rv=0, done=0, e=1, f=0, c=01, result=000000
+           dira= 9, dirb= 1, A=004000, B=004000, ra_data=000000, ra_write=0
+  Cycle  24: PC= 33, state=1, rv=0, done=0, e=1, f=0, c=01, result=000000
+           dira= 9, dirb= 1, A=004000, B=004000, ra_data=000000, ra_write=0
+  Cycle  25: PC= 33, state=0, rv=0, done=1, e=1, f=0, c=01, result=004000
+           dira= 9, dirb= 1, A=004000, B=004000, ra_data=004000, ra_write=0
+  Cycle  40: PC= 41, READY=0
+  Cycle  80: PC= 61, READY=0
+  Cycle 120: PC= 81, READY=0
+  Cycle 160: PC=101, READY=0
+  Cycle 200: PC=117, READY=0
+  Cycle 240: PC=119, READY=0
+  Cycle 280: PC=136, READY=0
+  Cycle 320: PC=156, READY=0
+  Cycle 360: PC=176, READY=0
+  KF computation completed at cycle 362
+
+================================================================
+Results
+================================================================
+  x1 (position) = 0.464233 (0x001db6)
+  x2 (velocity) = 1.035645 (0x004248)
+  P11 = 0.091187 (0x0005d6)
+  P12 = 0.008972 (0x000093)
+  P21 = 0.091858 (0x0005e1)
+  P22 = 1.009216 (0x004097)
+
+--- Intermediate values ---
+  x1^- (DB[21]) = 0.099976
+  x2^- (DB[22]) = 1.000000
+  K1 (DB[23]) = 0.910645
+  K2 (DB[24]) = 0.089233
+  innov (DB[25]) = 0.910645
+
+================================================================
+Expected (manual calculation)
+================================================================
+  Time Update:
+    x^- = Phi*x = [0.1; 1.0]
+    P^- = Phi*P*Phi^T + Q = [1.02 0.1; 0.1 1.01]
+  Measurement Update:
+    S = H*P^-*H^T + R = 1.02 + 0.1 = 1.12
+    K = [0.911; 0.089]
+    innovation = y - H*x^- = 0.5 - 0.1 = 0.4
+    x^+ = [0.464; 1.036]
+
+================================================================
+2D Kalman Filter Test Complete
+================================================================
+
+Simulation complete via $finish(1) at time 5686 NS + 0
+../src/kf_2d_tb.v:742     $finish;
+ncsim> exit

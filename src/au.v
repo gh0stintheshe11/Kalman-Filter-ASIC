@@ -248,13 +248,22 @@ module au
   assign busy = (state == ST_WAITR);
 
   // ========== Next State Logic ==========
+  // Use 'done' (registered) to prevent restart. When done=1, we just completed
+  // an operation and the sequencer is about to increment PC. We shouldn't start
+  // a new operation until done goes back to 0.
   always @* begin
     next_state = state;
     inv_start  = 1'b0;
 
     case (state)
       ST_IDLE: begin
-        if (start) begin
+        // Only start if:
+        // 1. start is high (e=1 in instruction)
+        // 2. done is low (we haven't just completed an operation)
+        //
+        // When done=1, the sequencer will increment PC on the next clock edge.
+        // At that edge, done will go to 0, and we can start the new operation.
+        if (start && !done) begin
           if (ctl_d == 2'b11) begin
             // INV operation: start multiplicative inverse
             next_state = ST_WAITR;

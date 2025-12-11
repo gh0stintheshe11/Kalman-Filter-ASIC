@@ -70,6 +70,15 @@ run_tb "kf_1d" "kf_1d_tb.v" \
     "$SRC_DIR/mem_reg.v" \
     "$SRC_DIR/au.v"
 
+# 2D Kalman Filter Algorithm Test
+run_tb "kf_2d" "kf_2d_tb.v" \
+    "$SRC_DIR/kf_top.v" \
+    "$SRC_DIR/sequencer.v" \
+    "$SRC_DIR/router_a.v" \
+    "$SRC_DIR/router_b.v" \
+    "$SRC_DIR/mem_reg.v" \
+    "$SRC_DIR/au.v"
+
 # Clean up simulation artifacts
 rm -rf INCA_libs *.key *.history 2>/dev/null
 

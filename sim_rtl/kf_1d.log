@@ -6,10 +6,10 @@ file: ../src/kf_1d_tb.v
 	Elaborating the design hierarchy:
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
-		worklib.kf_1d_tb:v <0x3f351e0c>
+		worklib.kf_1d_tb:v <0x5285c103>
 			streams:  13, words: 45420
 		worklib.kf_top:v <0x56f986a9>
-			streams:   5, words:  1229
+			streams:   5, words:  1269
 		worklib.sequencer:v <0x090ac586>
 			streams:   6, words:  2393
 	Building instance specific data structures.
@@ -18,11 +18,11 @@ file: ../src/kf_1d_tb.v
 		                 Instances  Unique
 		Modules:                12      12
 		Registers:              66      66
-		Scalar wires:           25       -
+		Scalar wires:           26       -
 		Vectored wires:         45       -
 		Always blocks:          20      20
 		Initial blocks:          4       4
-		Cont. assignments:      25      39
+		Cont. assignments:      25      40
 		Pseudo assignments:      4       4
 		Simulation timescale:  1ps
 	Writing initial simulation snapshot: worklib.kf_1d_tb:v

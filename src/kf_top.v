@@ -73,9 +73,16 @@ module kf_top
 
   // ========== Result Valid Tracking ==========
   // Track when AU result is valid and should be used for next write.
-  // Problem: After AU completes, the next write (ctl_f=1) should store the
-  // AU result, not DATA_IN. But ctl_e=0 for that write instruction.
-  // Solution: Set result_valid when AU completes, clear when result is written.
+  //
+  // Per paper timing: 1-cycle operations (ADD/SUB/MUL) complete in the cycle
+  // after they start. The STORE instruction executes the same cycle au_done=1.
+  //
+  // Two cases for selecting AU result vs DATA_IN:
+  // 1. au_done=1 this cycle: AU just completed, result register is valid
+  // 2. result_valid=1: AU completed previously, result not yet consumed
+  //
+  // The `result_valid` register tracks case 2 for multi-cycle scenarios
+  // where the store might not immediately follow the operation.
   reg result_valid;
   always @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
@@ -94,9 +101,10 @@ module kf_top
   wire [ADDRW-1:0] ra_dirb;       // Address B to Data Bank
   wire             ra_write;      // Write enable to Data Bank
 
-  // Data source selection: write AU result when result_valid, else DATA_IN
-  // result_valid is set when AU completes and cleared after the result is written
-  wire [1:0] sel_data = result_valid ? 2'b01 : 2'b00;  // 00=DATA_IN, 01=result
+  // Data source selection: write AU result when au_done OR result_valid
+  // au_done: AU just completed THIS cycle (1-cycle ops with immediate store)
+  // result_valid: AU completed in a previous cycle, result waiting to be consumed
+  wire [1:0] sel_data = (au_done || result_valid) ? 2'b01 : 2'b00;  // 00=DATA_IN, 01=result
 
   router_a #(.W(W), .ADDRW(ADDRW)) Router_A (
     // Inputs
