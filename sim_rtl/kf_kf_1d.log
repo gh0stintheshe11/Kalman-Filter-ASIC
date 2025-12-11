@@ -5,55 +5,18 @@ file: ../src/kf_top_tb.v
 file: ../src/kf_top.v
 	module worklib.kf_top:v
 		errors: 0, warnings: 0
-file: ../src/sequencer.v
-	module worklib.rom_256x16:v
-		errors: 0, warnings: 0
-	module worklib.sequencer:v
-		errors: 0, warnings: 0
-file: ../src/router_a.v
-	module worklib.router_a:v
-		errors: 0, warnings: 0
-file: ../src/router_b.v
-	module worklib.router_b:v
-		errors: 0, warnings: 0
-file: ../src/mem_reg.v
-	module worklib.RQ:v
-		errors: 0, warnings: 0
-	module worklib.RD:v
-		errors: 0, warnings: 0
-	module worklib.Data_Bank:v
-		errors: 0, warnings: 0
-	module worklib.mem_reg:v
-		errors: 0, warnings: 0
-file: ../src/au.v
-	module worklib.mult_inv:v
-		errors: 0, warnings: 0
-	module worklib.au:v
-		errors: 0, warnings: 0
 		Caching library 'worklib' ....... Done
 	Elaborating the design hierarchy:
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
 		worklib.Data_Bank:v <0x271232b3>
 			streams:   4, words:  2086
-		worklib.RD:v <0x364a9b5a>
-			streams:   2, words:   432
-		worklib.RQ:v <0x29c89817>
-			streams:   2, words:   432
-		worklib.au:v <0x5ac84f5e>
-			streams:  34, words:  9573
 		worklib.kf_top:v <0x090860a6>
 			streams:  11, words:  3118
 		worklib.kf_top_tb:v <0x41ee34e3>
 			streams:  10, words: 50249
-		worklib.mult_inv:v <0x5391d977>
-			streams:  10, words:  3237
 		worklib.rom_256x16:v <0x776afbe3>
 			streams:   4, words:  2312
-		worklib.router_a:v <0x7493e78d>
-			streams:   4, words:  1133
-		worklib.router_b:v <0x77f0b8d2>
-			streams:   7, words:  1689
 		worklib.sequencer:v <0x4f8e4f84>
 			streams:   7, words:  2767
 	Building instance specific data structures.
