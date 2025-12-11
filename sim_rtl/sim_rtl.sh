@@ -76,13 +76,13 @@ run_top_test() {
         $SRC_DIR/mem_reg.v \
         $SRC_DIR/au.v \
         $DEFINE_FLAG \
-        +access+r 2>&1 | tee kf_${MEM_NAME}.log
+        +access+r 2>&1 | tee ${MEM_NAME}.log
 
     # Clean up copied .mem file
     rm -f "$(basename "$MEM_FILE")" 2>/dev/null
     rm -f *.history 2>/dev/null
 
-    echo "Log saved: kf_${MEM_NAME}.log"
+    echo "Log saved: ${MEM_NAME}.log"
 }
 
 # Function to run all basic module tests

@@ -232,4 +232,4 @@ F001  // PC=155: Store -> DB[30]
 E801  // PC=157: Store -> DB[29] 
 EF86  // PC=158: SUB DB[29]-DB[30] (- K2*h2*p22)
 2801  // PC=159: Store -> DB[5] (P^+_22)
-0020  // PC=160: HALT
+0030  // PC=160: LOOP (c=11) - jump to loop_addr for continuous operation

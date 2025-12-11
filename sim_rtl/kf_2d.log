@@ -2,58 +2,16 @@ ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
 file: ../src/kf_top_tb.v
 	module worklib.kf_top_tb:v
 		errors: 0, warnings: 0
-file: ../src/kf_top.v
-	module worklib.kf_top:v
-		errors: 0, warnings: 0
-file: ../src/sequencer.v
-	module worklib.rom_256x16:v
-		errors: 0, warnings: 0
-	module worklib.sequencer:v
-		errors: 0, warnings: 0
-file: ../src/router_a.v
-	module worklib.router_a:v
-		errors: 0, warnings: 0
-file: ../src/router_b.v
-	module worklib.router_b:v
-		errors: 0, warnings: 0
-file: ../src/mem_reg.v
-	module worklib.RQ:v
-		errors: 0, warnings: 0
-	module worklib.RD:v
-		errors: 0, warnings: 0
-	module worklib.Data_Bank:v
-		errors: 0, warnings: 0
-	module worklib.mem_reg:v
-		errors: 0, warnings: 0
-file: ../src/au.v
-	module worklib.mult_inv:v
-		errors: 0, warnings: 0
-	module worklib.au:v
-		errors: 0, warnings: 0
 		Caching library 'worklib' ....... Done
 	Elaborating the design hierarchy:
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
-		worklib.Data_Bank:v <0x271232b3>
-			streams:   4, words:  2086
-		worklib.RD:v <0x364a9b5a>
-			streams:   2, words:   432
-		worklib.RQ:v <0x29c89817>
-			streams:   2, words:   432
-		worklib.au:v <0x5ac84f5e>
-			streams:  34, words:  9573
 		worklib.kf_top:v <0x58b49071>
 			streams:  11, words:  3118
-		worklib.kf_top_tb:v <0x53e32e77>
-			streams:  10, words: 50249
-		worklib.mult_inv:v <0x5391d977>
-			streams:  10, words:  3237
+		worklib.kf_top_tb:v <0x5ad4bbe2>
+			streams:  10, words: 59016
 		worklib.rom_256x16:v <0x5a154731>
 			streams:   4, words:  2312
-		worklib.router_a:v <0x7493e78d>
-			streams:   4, words:  1133
-		worklib.router_b:v <0x77f0b8d2>
-			streams:   7, words:  1689
 		worklib.sequencer:v <0x5ca861ce>
 			streams:   7, words:  2767
 	Building instance specific data structures.
@@ -61,7 +19,7 @@ file: ../src/au.v
 	Design hierarchy summary:
 		                 Instances  Unique
 		Modules:                12      12
-		Registers:              60      60
+		Registers:              63      63
 		Scalar wires:           29       -
 		Vectored wires:         53       -
 		Always blocks:          21      21
@@ -81,67 +39,68 @@ ROM File: kf_2d.mem
 ================================================================
 
 ========================================
-2D Kalman Filter Test
+2D Kalman Filter Test - CONTINUOUS MODE
 ROM File: kf_2d.mem
 ========================================
 Inertial Navigation: State=[position; velocity]
 Phi=[1 0.1; 0 1], H=[1 0], Q=0.01*I, R=0.1
 Initial: x=[0; 1], P=I
-Measurement: y=0.5
+Testing 5 iterations with different measurements
 
---- Executing Kalman Filter ---
-  Cycle   0: PC= 22, READY=0, e=0, f=1
-  Cycle   1: PC= 23, READY=0, e=1, f=0
-  Cycle   2: PC= 24, READY=0, e=0, f=1
-  Cycle   3: PC= 25, READY=0, e=1, f=1
-  Cycle   4: PC= 26, READY=0, e=1, f=0
-  Cycle   5: PC= 27, READY=0, e=0, f=1
-  Cycle   6: PC= 28, READY=0, e=1, f=1
-  Cycle   7: PC= 29, READY=0, e=1, f=0
-  Cycle   8: PC= 30, READY=0, e=0, f=1
-  Cycle   9: PC= 31, READY=0, e=1, f=0
-  Cycle  10: PC= 32, READY=0, e=0, f=1
-  Cycle  11: PC= 33, READY=0, e=1, f=1
-  Cycle  12: PC= 34, READY=0, e=1, f=0
-  Cycle  13: PC= 35, READY=0, e=0, f=1
-  Cycle  14: PC= 36, READY=0, e=1, f=1
-  Cycle  15: PC= 37, READY=0, e=1, f=0
-  Cycle  16: PC= 38, READY=0, e=0, f=1
-  Cycle  17: PC= 39, READY=0, e=1, f=0
-  Cycle  18: PC= 40, READY=0, e=0, f=1
-  Cycle  19: PC= 41, READY=0, e=1, f=1
-  Cycle  20: PC= 42, READY=0, e=1, f=0
-  Cycle  21: PC= 43, READY=0, e=0, f=1
-  Cycle  22: PC= 44, READY=0, e=1, f=0
-  Cycle  23: PC= 45, READY=0, e=0, f=1
-  Cycle  24: PC= 46, READY=0, e=1, f=1
-  Cycle  25: PC= 47, READY=0, e=1, f=0
-  Cycle  26: PC= 48, READY=0, e=0, f=1
-  Cycle  27: PC= 49, READY=0, e=1, f=0
-  Cycle  28: PC= 50, READY=0, e=0, f=1
-  Cycle  29: PC= 51, READY=0, e=1, f=1
-  Cycle  50: PC= 72, READY=0, e=0, f=1
-  Cycle 100: PC=101, READY=0, e=1, f=0
-  Cycle 150: PC=118, READY=0, e=1, f=0
-  KF computation completed at cycle         193
+--- Running 5 KF iterations ---
 
---- Results ---
-  x1 (position) = 0.464233 (expected ~0.464)
-  x2 (velocity) = 1.035645 (expected ~1.036)
-  P11 = 0.091187
-  P12 = 0.008972
-  P21 = 0.091858
-  P22 = 1.009216
+=== Iteration 1 (y = 0.50) ===
+  Cycles: 195
+  x1 (position) = 0.464233
+  x2 (velocity) = 1.035645
+  y  (loaded)   = 0.500000
+  P11 = 0.091187, P12 = 0.008972
+  P21 = 0.091858, P22 = 1.009216
 
---- Expected (manual calculation) ---
-  x^- = [0.1; 1.0]
-  K = [0.911; 0.089]
-  x^+ = [0.464; 1.036]
+=== Iteration 2 (y = 0.70) ===
+  Cycles: 195
+  x1 (position) = 0.640198
+  x2 (velocity) = 1.150818
+  y  (loaded)   = 0.700012
+  P11 = 0.054810, P12 = 0.049683
+  P21 = 0.145020, P22 = 0.975952
+
+=== Iteration 3 (y = 0.90) ===
+  Cycles: 195
+  x1 (position) = 0.825378
+  x2 (velocity) = 1.331848
+  y  (loaded)   = 0.900024
+  P11 = 0.048462, P12 = 0.075928
+  P21 = 0.182007, P22 = 0.891052
+
+=== Iteration 4 (y = 1.20) ===
+  Cycles: 195
+  x1 (position) = 1.074951
+  x2 (velocity) = 1.670776
+  y  (loaded)   = 1.200012
+  P11 = 0.048279, P12 = 0.085449
+  P21 = 0.203308, P22 = 0.781189
+
+=== Iteration 5 (y = 1.50) ===
+  Cycles: 195
+  x1 (position) = 1.367554
+  x2 (velocity) = 2.043335
+  y  (loaded)   = 1.500000
+  P11 = 0.048706, P12 = 0.083923
+  P21 = 0.211060, P22 = 0.670044
+
+--- Final Results after 5 iterations ---
+  x1 (position) = 1.367554
+  x2 (velocity) = 2.043335
+  P11 = 0.048706
+  P12 = 0.083923
+  P21 = 0.211060
+  P22 = 0.670044
 
 ================================================================
 Kalman Filter Test Complete
 ================================================================
 
-Simulation complete via $finish(1) at time 2216 NS + 0
-../src/kf_top_tb.v:296     $finish;
+Simulation complete via $finish(1) at time 10005 NS + 0
+../src/kf_top_tb.v:349     $finish;
 ncsim> exit

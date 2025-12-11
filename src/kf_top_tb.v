@@ -155,17 +155,31 @@ module kf_top_tb();
     end
   endtask
 
-  // 2D Kalman Filter Test
+  // 2D Kalman Filter Test - Continuous Operation
   task test_2d_kf;
+    integer iter;
+    integer cycle_count;
+    real measurements [0:4];  // Test with 5 measurements
     begin
       $display("\n========================================");
-      $display("2D Kalman Filter Test");
+      $display("2D Kalman Filter Test - CONTINUOUS MODE");
       $display("ROM File: %s", ROM_FILE);
       $display("========================================");
       $display("Inertial Navigation: State=[position; velocity]");
       $display("Phi=[1 0.1; 0 1], H=[1 0], Q=0.01*I, R=0.1");
       $display("Initial: x=[0; 1], P=I");
-      $display("Measurement: y=0.5");
+      $display("Testing 5 iterations with different measurements");
+
+      // Define test measurements (simulating a moving target)
+      measurements[0] = 0.5;
+      measurements[1] = 0.7;
+      measurements[2] = 0.9;
+      measurements[3] = 1.2;
+      measurements[4] = 1.5;
+
+      // Set loop_addr to PC=20 (reload y from DATA_IN, then run KF iteration)
+      // PC=20 is "Load -> DB[20] (y)" instruction
+      loop_addr = 8'd20;
 
       // Pre-load first data value
       DATA_IN = real_to_sm(0.0);  // x1 = 0.0
@@ -194,20 +208,63 @@ module kf_top_tb();
       DATA_IN = real_to_sm(0.0);   @(posedge clk);  // g1 = 0.0
       DATA_IN = real_to_sm(0.0);   @(posedge clk);  // g2 = 0.0
       DATA_IN = real_to_sm(0.0);   @(posedge clk);  // u = 0.0
-      DATA_IN = real_to_sm(0.5);   @(posedge clk);  // y = 0.5
+      DATA_IN = real_to_sm(measurements[0]);  @(posedge clk);  // y = first measurement
       DATA_IN = 0;
 
-      // Wait for completion
-      wait_for_ready(500);
+      $display("\n--- Running %0d KF iterations ---", 5);
 
-      // Display results
-      #20;
-      $display("\n--- Results ---");
+      // Run multiple iterations
+      for (iter = 0; iter < 5; iter = iter + 1) begin
+        $display("\n=== Iteration %0d (y = %.2f) ===", iter + 1, measurements[iter]);
+
+        // Wait for this iteration to complete (PC reaches LOOP at 160)
+        cycle_count = 0;
+        begin : wait_loop
+          forever begin
+            @(posedge clk);
+            cycle_count = cycle_count + 1;
 `ifndef SIM_POST_SYN
-      $display("  x1 (position) = %.6f (expected ~0.464)",
-               sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[0]));
-      $display("  x2 (velocity) = %.6f (expected ~1.036)",
-               sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[1]));
+            // Detect when PC reaches LOOP instruction (PC=160 for kf_2d.mem)
+            // At this point, update DATA_IN for next iteration BEFORE the loop executes
+            if (dut.Sequencer.pc == 8'd160 && cycle_count > 20) begin
+              // Prepare next measurement BEFORE the LOOP executes
+              if (iter < 4) begin
+                DATA_IN = real_to_sm(measurements[iter + 1]);
+              end
+              // Wait one more cycle for the LOOP to execute and PC to jump to 20
+              @(posedge clk);
+              cycle_count = cycle_count + 1;
+              disable wait_loop;
+            end
+`endif
+            // Timeout per iteration
+            if (cycle_count > 300) begin
+              $display("  WARNING: Iteration timeout at PC=%0d", dut.Sequencer.pc);
+              disable wait_loop;
+            end
+          end
+        end
+
+        // Display results for this iteration
+`ifndef SIM_POST_SYN
+        $display("  Cycles: %0d", cycle_count);
+        $display("  x1 (position) = %.6f", sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[0]));
+        $display("  x2 (velocity) = %.6f", sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[1]));
+        $display("  y  (loaded)   = %.6f", sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[20]));
+        $display("  P11 = %.6f, P12 = %.6f",
+                 sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[2]),
+                 sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[3]));
+        $display("  P21 = %.6f, P22 = %.6f",
+                 sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[4]),
+                 sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[5]));
+`endif
+      end
+
+      // Final results
+      $display("\n--- Final Results after 5 iterations ---");
+`ifndef SIM_POST_SYN
+      $display("  x1 (position) = %.6f", sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[0]));
+      $display("  x2 (velocity) = %.6f", sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[1]));
       $display("  P11 = %.6f", sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[2]));
       $display("  P12 = %.6f", sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[3]));
       $display("  P21 = %.6f", sm_to_real(dut.Memory_Registers.Data_Bank_inst.mem[4]));
@@ -216,10 +273,6 @@ module kf_top_tb();
       $display("  Post-synthesis mode: internal signals not accessible");
       $display("  DATA_OUT = %.6f", sm_to_real(DATA_OUT));
 `endif
-      $display("\n--- Expected (manual calculation) ---");
-      $display("  x^- = [0.1; 1.0]");
-      $display("  K = [0.911; 0.089]");
-      $display("  x^+ = [0.464; 1.036]");
     end
   endtask
 
