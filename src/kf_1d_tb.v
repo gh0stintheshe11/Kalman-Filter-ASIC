@@ -250,45 +250,50 @@ module kf_1d_tb();
     program_rom;
 
     // Load constants via DATA_IN (timing synchronized with instruction execution)
+    // DATA_IN must be stable BEFORE the clock edge when the instruction executes
     $display("\n--- Loading KF parameters ---");
 
-    // Phi = 1.0
+    // PC=0 will execute on START, so set Phi before START
     DATA_IN = real_to_sm(1.0);
-    $display("  Phi = 1.0 (0x%06h)", DATA_IN);
+    $display("  Phi = 1.0 (0x%06h) -> DB[2]", DATA_IN);
 
-    // Start execution
+    // Start execution - PC=0 executes on this clock edge
     START = 1;
     @(posedge clk);
     #1;
     START = 0;
 
-    // Q = 0.01
-    @(posedge clk);
+    // PC=1 will execute on next clock, so set Q now (before that edge)
     DATA_IN = real_to_sm(0.01);
-    $display("  Q = 0.01 (0x%06h)", DATA_IN);
-
-    // R = 0.1
+    $display("  Q = 0.01 (0x%06h) -> DB[3]", DATA_IN);
     @(posedge clk);
+    #1;
+
+    // PC=2 will execute on next clock, so set R now
     DATA_IN = real_to_sm(0.1);
-    $display("  R = 0.1 (0x%06h)", DATA_IN);
-
-    // x = 0.0
+    $display("  R = 0.1 (0x%06h) -> DB[4]", DATA_IN);
     @(posedge clk);
+    #1;
+
+    // PC=3 will execute on next clock, so set x now
     DATA_IN = real_to_sm(0.0);
-    $display("  x0 = 0.0 (0x%06h)", DATA_IN);
-
-    // P = 1.0
+    $display("  x0 = 0.0 (0x%06h) -> DB[0]", DATA_IN);
     @(posedge clk);
+    #1;
+
+    // PC=4 will execute on next clock, so set P now
     DATA_IN = real_to_sm(1.0);
-    $display("  P0 = 1.0 (0x%06h)", DATA_IN);
-
-    // y = 2.5 (measurement)
+    $display("  P0 = 1.0 (0x%06h) -> DB[1]", DATA_IN);
     @(posedge clk);
+    #1;
+
+    // PC=5 will execute on next clock, so set y now
     DATA_IN = real_to_sm(2.5);
-    $display("  y = 2.5 (0x%06h)", DATA_IN);
-
-    // Clear DATA_IN
+    $display("  y = 2.5 (0x%06h) -> DB[5]", DATA_IN);
     @(posedge clk);
+    #1;
+
+    // Clear DATA_IN after y is captured
     DATA_IN = 0;
 
     // Wait for completion
@@ -302,8 +307,13 @@ module kf_1d_tb();
         @(posedge clk);
         #1;
 `ifndef SIM_POST_SYN
-        if (i % 10 == 0) begin
-          $display("  Cycle %3d: PC=%2d, READY=%b", i, dut.Sequencer.pc, READY);
+        // Detailed debug for all cycles
+        if (i < 60) begin
+          $display("  Cyc %3d: PC=%2d e=%b f=%b done=%b rv=%b R=%h S=%h res=%h DB6=%h DB7=%h",
+                   i, dut.Sequencer.pc, dut.ctl_e, dut.ctl_f, dut.au_done, dut.result_valid,
+                   dut.R_bus, dut.S_bus, dut.au_result,
+                   dut.Memory_Registers.Data_Bank_inst.mem[6],
+                   dut.Memory_Registers.Data_Bank_inst.mem[7]);
         end
 `else
         if (i % 10 == 0) begin

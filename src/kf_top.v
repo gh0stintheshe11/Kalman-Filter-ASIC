@@ -71,6 +71,22 @@ module kf_top
     .pc_dbg     ()
   );
 
+  // ========== Result Valid Tracking ==========
+  // Track when AU result is valid and should be used for next write.
+  // Problem: After AU completes, the next write (ctl_f=1) should store the
+  // AU result, not DATA_IN. But ctl_e=0 for that write instruction.
+  // Solution: Set result_valid when AU completes, clear when result is written.
+  reg result_valid;
+  always @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+      result_valid <= 1'b0;
+    end else if (au_done) begin
+      result_valid <= 1'b1;      // AU completed, result is valid
+    end else if (ctl_f && result_valid) begin
+      result_valid <= 1'b0;      // Result consumed by write
+    end
+  end
+
   // ========== Router A ==========
   // Connects: DATA_IN, AU result -> Data Bank
   wire [W-1:0]     ra_data;       // Data to Data Bank
@@ -78,8 +94,9 @@ module kf_top
   wire [ADDRW-1:0] ra_dirb;       // Address B to Data Bank
   wire             ra_write;      // Write enable to Data Bank
 
-  // Data source selection: write AU result after AU operation, else DATA_IN
-  wire [1:0] sel_data = ctl_e ? 2'b01 : 2'b00;  // 00=DATA_IN, 01=result
+  // Data source selection: write AU result when result_valid, else DATA_IN
+  // result_valid is set when AU completes and cleared after the result is written
+  wire [1:0] sel_data = result_valid ? 2'b01 : 2'b00;  // 00=DATA_IN, 01=result
 
   router_a #(.W(W), .ADDRW(ADDRW)) Router_A (
     // Inputs

@@ -1,32 +1,3 @@
-ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
-file: ../src/kf_1d_tb.v
-	module worklib.kf_1d_tb:v
-		errors: 0, warnings: 0
-		Caching library 'worklib' ....... Done
-	Elaborating the design hierarchy:
-	Building instance overlay tables: .................... Done
-	Generating native compiled code:
-		worklib.kf_1d_tb:v <0x732b9b8e>
-			streams:  13, words: 43202
-		worklib.kf_top:v <0x468faabc>
-			streams:   3, words:   630
-		worklib.sequencer:v <0x090ac586>
-			streams:   6, words:  2393
-	Building instance specific data structures.
-	Loading native compiled code:     .................... Done
-	Design hierarchy summary:
-		                 Instances  Unique
-		Modules:                12      12
-		Registers:              67      67
-		Scalar wires:           25       -
-		Vectored wires:         50       -
-		Always blocks:          19      19
-		Initial blocks:          4       4
-		Cont. assignments:      27      43
-		Pseudo assignments:      5       5
-		Simulation timescale:  1ps
-	Writing initial simulation snapshot: worklib.kf_1d_tb:v
-Loading snapshot worklib.kf_1d_tb:v .................... Done
 ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
 ncsim> run
 ========================================
@@ -37,12 +8,12 @@ Per paper Section 3: KF equations
 [ROM] Programmed 25 instructions for 1D Kalman Filter
 
 --- Loading KF parameters ---
-  Phi = 1.0 (0x004000)
-  Q = 0.01 (0x0000a4)
-  R = 0.1 (0x000666)
-  x0 = 0.0 (0x000000)
-  P0 = 1.0 (0x004000)
-  y = 2.5 (0x00a000)
+  Phi = 1.0 (0x004000) -> DB[2]
+  Q = 0.01 (0x0000a4) -> DB[3]
+  R = 0.1 (0x000666) -> DB[4]
+  x0 = 0.0 (0x000000) -> DB[0]
+  P0 = 1.0 (0x004000) -> DB[1]
+  y = 2.5 (0x00a000) -> DB[5]
 
 --- Executing Kalman Filter ---
 Waiting for computation to complete...
@@ -50,18 +21,18 @@ Waiting for computation to complete...
   Cycle  10: PC=13, READY=0
   Cycle  20: PC=13, READY=0
   Cycle  30: PC=13, READY=0
-  Cycle  40: PC=19, READY=0
-  KF computation completed at cycle          48
+  Cycle  40: PC=18, READY=0
+  KF computation completed at cycle          49
 
 ========================================
 Results
 ========================================
   x_hat (DB[0]) = 0.000000 (0x000000)
-  P     (DB[1]) = 0.000000 (0x000000)
+  P     (DB[1]) = 1.000000 (0x004000)
   Phi   (DB[2]) = 1.000000 (0x004000)
-  Q     (DB[3]) = 1.000000 (0x004000)
-  R     (DB[4]) = 0.010010 (0x0000a4)
-  y     (DB[5]) = 1.000000 (0x004000)
+  Q     (DB[3]) = 0.010010 (0x0000a4)
+  R     (DB[4]) = 0.099976 (0x000666)
+  y     (DB[5]) = 2.500000 (0x00a000)
   P_pred(DB[6]) = 0.000000 (0x000000)
   tmp   (DB[7]) = 0.000000 (0x000000)
 
@@ -77,5 +48,5 @@ Expected (manual calculation)
 ========================================
 
 Simulation complete via $finish(1) at time 876 NS + 0
-../src/kf_1d_tb.v:374     $finish;
+../src/kf_1d_tb.v:379     $finish;
 ncsim> exit

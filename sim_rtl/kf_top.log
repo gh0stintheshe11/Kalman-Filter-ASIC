@@ -1,41 +1,3 @@
-ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
-file: ../src/kf_top_tb.v
-	module worklib.kf_top_tb:v
-		errors: 0, warnings: 0
-file: ../src/kf_top.v
-	module worklib.kf_top:v
-		errors: 0, warnings: 0
-		Caching library 'worklib' ....... Done
-	Elaborating the design hierarchy:
-	Building instance overlay tables: .................... Done
-	Generating native compiled code:
-		worklib.Data_Bank:v <0x3a171fe7>
-			streams:   4, words:  2133
-		worklib.au:v <0x0f390a4d>
-			streams:  32, words:  9059
-		worklib.kf_top:v <0x0087e46f>
-			streams:   4, words:   757
-		worklib.kf_top_tb:v <0x1446f7eb>
-			streams:  10, words: 34664
-		worklib.router_b:v <0x7ee3f2d6>
-			streams:   5, words:  1331
-		worklib.sequencer:v <0x67c3a22f>
-			streams:   6, words:  2393
-	Building instance specific data structures.
-	Loading native compiled code:     .................... Done
-	Design hierarchy summary:
-		                 Instances  Unique
-		Modules:                12      12
-		Registers:              70      70
-		Scalar wires:           25       -
-		Vectored wires:         50       -
-		Always blocks:          19      19
-		Initial blocks:          4       4
-		Cont. assignments:      28      43
-		Pseudo assignments:      5       5
-		Simulation timescale:  1ps
-	Writing initial simulation snapshot: worklib.kf_top_tb:v
-Loading snapshot worklib.kf_top_tb:v .................... Done
 ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
 ncsim> run
 ========================================
@@ -75,11 +37,9 @@ HALT detected - program completed at cycle 4
 Data Bank contents (RTL mode):
   DB[0] = 0x00c000 (3.0000) - expected 3.0
   DB[1] = 0x00a000 (2.5000) - expected 2.5
-  DB[2] = 0x000000 (0.0000) - expected 5.5 (ADD result)
+  DB[2] = 0x016000 (5.5000) - expected 5.5 (ADD result)
 
-ERROR: ADD result mismatch
-  Expected: 0x016000 (5.5000)
-  Got:      0x000000 (0.0000)
+PASS: ADD result correct (3.0 + 2.5 = 5.5)
 
 --- Test 4: Verify system returned to READY ---
 PASS: System READY=1 after HALT
@@ -87,7 +47,7 @@ PASS: System READY=1 after HALT
 ========================================
 Test Summary
 ========================================
-kf_top_tb: 1 ERRORS / 3 checks
+kf_top_tb: PASS (3 checks)
 ========================================
 
 Simulation complete via $finish(1) at time 236 NS + 0
