@@ -1,0 +1,104 @@
+ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+file: ../src/au_tb.v
+	module worklib.au_tb:v
+		errors: 0, warnings: 0
+file: ../src/au.v
+	module worklib.mult_inv:v
+		errors: 0, warnings: 0
+	module worklib.au:v
+		errors: 0, warnings: 0
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.au:v <0x5ac84f5e>
+			streams:  34, words:  9573
+		worklib.au_tb:v <0x75e2abc4>
+			streams:  13, words: 63130
+		worklib.mult_inv:v <0x5391d977>
+			streams:  10, words:  3237
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                 Instances  Unique
+		Modules:                 3       3
+		Registers:              78      78
+		Scalar wires:           11       -
+		Vectored wires:         28       -
+		Always blocks:           7       7
+		Initial blocks:          2       2
+		Cont. assignments:      25      27
+		Pseudo assignments:      1       1
+		Simulation timescale:  1ps
+	Writing initial simulation snapshot: worklib.au_tb:v
+Loading snapshot worklib.au_tb:v .................... Done
+ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
+ncsim> run
+================================================================
+AU Comprehensive Testbench
+Per paper Section 4: ADD/SUB/MUL (1 cycle), DIV (24 cycles)
+Format: Q9.14 sign-magnitude (1 sign + 9 int + 14 frac = 24 bits)
+================================================================
+
+--- Section 1: ADD Tests (ctl_d=00, 1 cycle) ---
+  [1] PASS: 2 DD 3 = 5.0000 (expected 5.0000)
+  [2] PASS: -2 DD 3 = 1.0000 (expected 1.0000)
+  [3] PASS: -2 DD -3 = -5.0000 (expected -5.0000)
+  [4] PASS: 0 DD 5 = 5.0000 (expected 5.0000)
+  [5] PASS: 1.5000 DD 2.2500 = 3.750000 (expected 3.750000)
+  [6] PASS: -1.5000 DD 0.5000 = -1.000000 (expected -1.000000)
+
+--- Section 2: SUB Tests (ctl_d=01, 1 cycle) ---
+  [7] PASS: 5 UB 3 = 2.0000 (expected 2.0000)
+  [8] PASS: 3 UB 5 = -2.0000 (expected -2.0000)
+  [9] PASS: -2 UB 3 = -5.0000 (expected -5.0000)
+  [10] PASS: -2 UB -3 = 1.0000 (expected 1.0000)
+  [11] PASS: 5.5000 UB 2.2500 = 3.250000 (expected 3.250000)
+  [12] PASS: 0.5000 UB 1.5000 = -1.000000 (expected -1.000000)
+
+--- Section 3: MUL Tests (ctl_d=10, 1 cycle) ---
+  [13] PASS: 2 UL 3 = 6.0000 (expected 6.0000)
+  [14] PASS: -2 UL 3 = -6.0000 (expected -6.0000)
+  [15] PASS: -2 UL -3 = 6.0000 (expected 6.0000)
+  [16] PASS: 0 UL 5 = 0.0000 (expected 0.0000)
+  [17] PASS: 1.5000 UL 2.0000 = 3.000000 (expected 3.000000)
+  [18] PASS: 0.5000 UL 0.5000 = 0.250000 (expected 0.250000)
+  [19] PASS: -1.5000 UL 2.5000 = -3.750000 (expected -3.750000)
+
+--- Section 4: DIV Tests (ctl_d=11, 24 cycles) ---
+  [20] PASS: 1 / 1 = 1.000000 (expected 1.000000), 26 cycles
+  [21] PASS: 1 / 2 = 0.500000 (expected 0.500000), 26 cycles
+  [22] PASS: 1 / 4 = 0.250000 (expected 0.250000), 26 cycles
+  [23] PASS: 2 / 4 = 0.500000 (expected 0.500000), 26 cycles
+  [24] PASS: 3 / 2 = 1.500000 (expected 1.500000), 26 cycles
+  [25] PASS: 6 / 3 = 1.999878 (expected 2.000000), 26 cycles
+  [26] PASS: 1 / -2 = -0.500000 (expected -0.500000), 26 cycles
+  [27] PASS: -1 / 2 = -0.500000 (expected -0.500000), 26 cycles
+  [28] PASS: -4 / 2 = -2.000000 (expected -2.000000), 26 cycles
+  [29] PASS: -4 / -2 = 2.000000 (expected 2.000000), 26 cycles
+
+--- Section 5: Fractional DIV (Kalman gain scenarios) ---
+  [30] PASS: 1.0100 / 1.1100 = 0.909851 (expected 0.909910), 26 cycles
+  [31] PASS: 0.5000 / 1.5000 = 0.333313 (expected 0.333333), 26 cycles
+  [32] PASS: 2.5000 / 3.0000 = 0.833252 (expected 0.833333), 26 cycles
+  [33] PASS: 0.1000 / 0.2000 = 0.499817 (expected 0.500000), 26 cycles
+
+--- Section 6: Combinational Timing Tests ---
+  [34] PASS: Combinational result valid before clock edge (op=00)
+  [35] PASS: Combinational result valid before clock edge (op=01)
+  [36] PASS: Combinational result valid before clock edge (op=10)
+  [37] PASS: DIV correctly reports comb_valid=0 (multi-cycle)
+
+================================================================
+Test Summary
+================================================================
+  Total:  37
+  Passed: 37
+  Failed: 0
+----------------------------------------------------------------
+  ALL TESTS PASSED!
+================================================================
+
+Simulation complete via $finish(1) at time 4565 NS + 0
+../src/au_tb.v:436     $finish;
+ncsim> exit

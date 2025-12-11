@@ -172,18 +172,25 @@ module mem_reg_tb;
       db_read_check(ai, bi[ADDRW-1:0], patt(i), patt(NR - 1 - i));
     end
 
-    // 3) Test read-during-write hazard (write-through forwarding)
-    $display("\n--- Testing write-through forwarding ---");
+    // 3) Test read-during-write hazard (write-through forwarding on Port B)
+    // Note: Port A does NOT forward (to avoid read-modify-write hazards)
+    //       Port B DOES forward when FORWARD=1 and dirb==dira
+    $display("\n--- Testing write-through forwarding (Port B only) ---");
     @(negedge clk);
       dira  <= 5'd3;            // Write to address 3
       data  <= 24'hDE_ADBE;
       write <= 1'b1;
-      dirb  <= 5'd2;            // Read from address 2
+      dirb  <= 5'd3;            // Read from same address (3) on port B
     #1;
-    checks = checks + 1;
-    // With FORWARD=1, reading same address during write should get new data
-    if (A !== 24'hDE_ADBE) begin
-      $display("ERR FWD: expected %h got %h", 24'hDE_ADBE, A);
+    checks = checks + 2;
+    // Port A: NO forwarding - reads old value from mem[3] = patt(3)
+    if (A !== patt(3)) begin
+      $display("ERR Port A (no fwd): expected %h got %h", patt(3), A);
+      errors = errors + 1;
+    end
+    // Port B: WITH forwarding - should get new write data immediately
+    if (B !== 24'hDE_ADBE) begin
+      $display("ERR Port B (fwd): expected %h got %h", 24'hDE_ADBE, B);
       errors = errors + 1;
     end
     @(posedge clk);

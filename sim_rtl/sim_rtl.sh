@@ -9,7 +9,7 @@
 #   ./sim_rtl.sh -a           Run all tests including top-level (1D and 2D)
 #
 # Examples:
-#   ./sim_rtl.sh                        # Run AU, router, mem, sequencer tests
+#   ./sim_rtl.sh                        # Run AU (comprehensive), router, mem, sequencer tests
 #   ./sim_rtl.sh -t ../src/kf_1d.mem    # Run 1D KF top-level test
 #   ./sim_rtl.sh -t ../src/kf_2d.mem    # Run 2D KF top-level test
 #   ./sim_rtl.sh -a                     # Run everything
@@ -87,14 +87,8 @@ run_top_test() {
 
 # Function to run all basic module tests
 run_basic_tests() {
-    # AU Basic Testbench (ADD, SUB, MUL)
-    run_tb "au_basic" "$SRC_DIR/au_basic_tb.v" "$SRC_DIR/au.v"
-
-    # AU Inverse Testbench (DIV)
-    run_tb "au_inv" "$SRC_DIR/au_inv_tb.v" "$SRC_DIR/au.v"
-
-    # AU Combinational Testbench
-    run_tb "au_comb" "$SRC_DIR/au_comb_tb.v" "$SRC_DIR/au.v"
+    # AU Comprehensive Testbench (ADD, SUB, MUL, DIV, timing)
+    run_tb "au" "$SRC_DIR/au_tb.v" "$SRC_DIR/au.v"
 
     # Router A Testbench
     run_tb "router_a" "$SRC_DIR/router_a_tb.v" "$SRC_DIR/router_a.v"
@@ -131,7 +125,7 @@ case "$1" in
         echo "  ./sim_rtl.sh -a           Run all tests including top-level (1D and 2D)"
         echo ""
         echo "Examples:"
-        echo "  ./sim_rtl.sh                        # Run AU, router, mem, sequencer tests"
+        echo "  ./sim_rtl.sh                        # Run AU (comprehensive), router, mem, sequencer tests"
         echo "  ./sim_rtl.sh -t ../src/kf_1d.mem    # Run 1D KF top-level test"
         echo "  ./sim_rtl.sh -t ../src/kf_2d.mem    # Run 2D KF top-level test"
         echo "  ./sim_rtl.sh -a                     # Run everything"

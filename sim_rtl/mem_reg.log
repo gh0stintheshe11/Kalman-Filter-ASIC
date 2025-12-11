@@ -21,8 +21,8 @@ file: ../src/mem_reg.v
 			streams:   2, words:   432
 		worklib.RQ:v <0x29c89817>
 			streams:   2, words:   432
-		worklib.mem_reg_tb:v <0x3e9ed8ef>
-			streams:  18, words: 28252
+		worklib.mem_reg_tb:v <0x381c95b7>
+			streams:  18, words: 29436
 	Building instance specific data structures.
 	Loading native compiled code:     .................... Done
 	Design hierarchy summary:
@@ -48,8 +48,7 @@ Data Bank: 32 x 24-bit registers
 
 --- Reading back via both ports ---
 
---- Testing write-through forwarding ---
-ERR FWD: expected deadbe got a5035a
+--- Testing write-through forwarding (Port B only) ---
 
 --- Testing RQ accumulator ---
 
@@ -58,8 +57,8 @@ ERR FWD: expected deadbe got a5035a
 --- Testing RQ/RD hold when WE=0 ---
 
 ========================================
-mem_reg_tb: 1 ERRORS / 71 checks
+mem_reg_tb: PASS (72 checks)
 ========================================
 Simulation complete via $finish(1) at time 736 NS + 0
-../src/mem_reg_tb.v:226     $finish;
+../src/mem_reg_tb.v:233     $finish;
 ncsim> exit
