@@ -6,15 +6,15 @@ Report : timing
         -max_paths 1
 Design : au
 Version: N-2017.09
-Date   : Tue Dec  9 18:25:40 2025
+Date   : Thu Dec 11 20:38:22 2025
 ****************************************
 
 Operating Conditions: WCCOM   Library: tcbn65gpluswc
 Wire Load Model Mode: segmented
 
-  Startpoint: state_reg[0]
-              (rising edge-triggered flip-flop)
-  Endpoint: busy (output port)
+  Startpoint: S[1] (input port)
+  Endpoint: result_comb[6]
+            (output port)
   Path Group: (none)
   Path Type: max
 
@@ -24,11 +24,84 @@ Wire Load Model Mode: segmented
 
   Point                                    Incr       Path
   -----------------------------------------------------------
-  state_reg[0]/CP (DFCNQD1)                0.00       0.00 r
-  state_reg[0]/Q (DFCNQD1)                 0.20       0.20 f
-  U2244/ZN (NR2D0)                         0.05       0.25 r
-  busy (out)                               0.00       0.25 r
-  data arrival time                                   0.25
+  input external delay                     0.00       0.00 f
+  S[1] (in)                                0.00       0.00 f
+  U447/ZN (CKND2D0)                        0.03       0.03 r
+  U1805/ZN (OAI222D0)                      0.11       0.14 f
+  U1806/ZN (INVD0)                         0.05       0.19 r
+  U1868/CO (FA1D0)                         0.16       0.35 r
+  U2078/CO (FA1D0)                         0.14       0.49 r
+  U2077/CO (FA1D0)                         0.14       0.62 r
+  U2075/CO (FA1D0)                         0.14       0.76 r
+  U2084/CO (FA1D0)                         0.14       0.90 r
+  U2074/CO (FA1D0)                         0.14       1.03 r
+  U2073/CO (FA1D0)                         0.14       1.17 r
+  U2072/CO (FA1D0)                         0.14       1.31 r
+  U2071/CO (FA1D0)                         0.14       1.45 r
+  U2070/CO (FA1D0)                         0.14       1.58 r
+  U2069/CO (FA1D0)                         0.14       1.72 r
+  U2068/CO (FA1D0)                         0.14       1.86 r
+  U2067/CO (FA1D0)                         0.14       1.99 r
+  U2066/CO (FA1D0)                         0.13       2.12 r
+  U2065/CO (FA1D0)                         0.15       2.28 r
+  U2064/CO (FA1D0)                         0.14       2.41 r
+  U2063/CO (FA1D0)                         0.14       2.55 r
+  U2062/CO (FA1D0)                         0.14       2.69 r
+  U2061/CO (FA1D0)                         0.14       2.83 r
+  U2060/CO (FA1D0)                         0.14       2.96 r
+  U2059/CO (FA1D0)                         0.13       3.09 r
+  U2058/CO (FA1D0)                         0.08       3.17 r
+  U1849/ZN (INVD0)                         0.03       3.20 f
+  U1850/ZN (MAOI222D0)                     0.29       3.49 r
+  U1851/ZN (INVD0)                         0.13       3.62 f
+  U2079/ZN (AOI31D0)                       0.12       3.74 r
+  U2080/ZN (INVD0)                         0.04       3.78 f
+  U2081/ZN (OAI21D0)                       0.04       3.83 r
+  U2082/ZN (NR2D0)                         0.05       3.87 f
+  U2083/ZN (NR2D0)                         0.06       3.93 r
+  U2086/ZN (NR2D0)                         0.04       3.97 f
+  U2087/ZN (CKND2D0)                       0.04       4.01 r
+  U2088/ZN (CKND2D0)                       0.04       4.05 f
+  U2089/ZN (CKND2D0)                       0.07       4.12 r
+  U2090/ZN (CKND2D0)                       0.04       4.16 f
+  U2091/ZN (CKND2D0)                       0.07       4.22 r
+  U2092/ZN (CKND2D0)                       0.04       4.27 f
+  U2093/ZN (CKND2D0)                       0.07       4.33 r
+  U2094/ZN (CKND2D0)                       0.04       4.37 f
+  U2095/ZN (CKND2D0)                       0.07       4.44 r
+  U2096/ZN (CKND2D0)                       0.04       4.48 f
+  U2097/ZN (CKND2D0)                       0.07       4.55 r
+  U2098/ZN (CKND2D0)                       0.04       4.59 f
+  U2099/ZN (CKND2D0)                       0.07       4.66 r
+  U487/ZN (CKND2D0)                        0.04       4.70 f
+  U2100/ZN (CKND2D0)                       0.07       4.76 r
+  U2101/ZN (CKND2D0)                       0.04       4.81 f
+  U2102/ZN (CKND2D0)                       0.07       4.87 r
+  U2103/ZN (CKND2D0)                       0.04       4.92 f
+  U2104/ZN (CKND2D0)                       0.07       4.98 r
+  U2105/ZN (CKND2D0)                       0.04       5.02 f
+  U2106/ZN (CKND2D0)                       0.07       5.09 r
+  U2107/ZN (CKND2D0)                       0.04       5.13 f
+  U2108/ZN (CKND2D0)                       0.07       5.20 r
+  U2109/ZN (CKND2D0)                       0.04       5.24 f
+  U2110/ZN (CKND2D0)                       0.07       5.31 r
+  U2111/ZN (CKND2D0)                       0.04       5.35 f
+  U2112/ZN (CKND2D0)                       0.07       5.41 r
+  U2113/ZN (CKND2D0)                       0.04       5.46 f
+  U2114/ZN (CKND2D0)                       0.07       5.52 r
+  U2115/ZN (CKND2D0)                       0.04       5.57 f
+  U2116/ZN (CKND2D0)                       0.07       5.63 r
+  U2117/ZN (CKND2D0)                       0.04       5.67 f
+  U2118/ZN (CKND2D0)                       0.07       5.74 r
+  U2119/ZN (CKND2D0)                       0.04       5.78 f
+  U2120/ZN (NR2D0)                         0.07       5.85 r
+  U2121/ZN (AOI211D0)                      0.04       5.89 f
+  U2180/ZN (AOI211XD0)                     0.27       6.16 r
+  U484/ZN (INVD0)                          0.07       6.23 f
+  U2214/ZN (AOI211D0)                      0.12       6.35 r
+  U2216/ZN (OAI211D0)                      0.07       6.43 f
+  result_comb[6] (out)                     0.00       6.43 f
+  data arrival time                                   6.43
   -----------------------------------------------------------
   (Path is unconstrained)
 

@@ -6,16 +6,14 @@ Report : timing
         -max_paths 1
 Design : mem_reg
 Version: N-2017.09
-Date   : Tue Dec  9 17:40:19 2025
+Date   : Thu Dec 11 20:41:30 2025
 ****************************************
 
 Operating Conditions: WCCOM   Library: tcbn65gpluswc
 Wire Load Model Mode: segmented
 
-  Startpoint: db_waddr[2]
-              (input port)
-  Endpoint: db_rdata_b[0]
-            (output port)
+  Startpoint: dira[2] (input port)
+  Endpoint: B[0] (output port)
   Path Group: (none)
   Path Type: max
 
@@ -24,27 +22,27 @@ Wire Load Model Mode: segmented
   mem_reg            ZeroWireload          tcbn65gpluswc
   Data_Bank          ZeroWireload          tcbn65gpluswc
 
-  Point                                                   Incr       Path
-  --------------------------------------------------------------------------
-  input external delay                                    0.00       0.00 f
-  db_waddr[2] (in)                                        0.00       0.00 f
-  Data_Bank_inst/waddr[2] (Data_Bank)                     0.00       0.00 f
-  Data_Bank_inst/U140/ZN (INVD0)                          0.06       0.06 r
-  Data_Bank_inst/U929/ZN (OAI221D0)                       0.09       0.15 f
-  Data_Bank_inst/U930/ZN (AOI221D0)                       0.14       0.29 r
-  Data_Bank_inst/U931/ZN (CKND2D0)                        0.05       0.34 f
-  Data_Bank_inst/U932/ZN (AOI221D0)                       0.19       0.53 r
-  Data_Bank_inst/U5/ZN (NR2D0)                            0.06       0.59 f
-  Data_Bank_inst/U941/ZN (CKND2D0)                        0.09       0.68 r
-  Data_Bank_inst/U992/ZN (NR2D0)                          0.14       0.82 f
-  Data_Bank_inst/U993/ZN (AOI22D0)                        0.11       0.93 r
-  Data_Bank_inst/U47/ZN (ND4D0)                           0.08       1.01 f
-  Data_Bank_inst/U996/ZN (NR3D0)                          0.06       1.08 r
-  Data_Bank_inst/U130/ZN (ND4D0)                          0.06       1.14 f
-  Data_Bank_inst/rdata_b[0] (Data_Bank)                   0.00       1.14 f
-  db_rdata_b[0] (out)                                     0.00       1.14 f
-  data arrival time                                                  1.14
-  --------------------------------------------------------------------------
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                     0.00       0.00 f
+  dira[2] (in)                             0.00       0.00 f
+  Data_Bank_inst/dira[2] (Data_Bank)       0.00       0.00 f
+  Data_Bank_inst/U144/ZN (INVD0)           0.06       0.06 r
+  Data_Bank_inst/U935/ZN (OAI221D0)        0.09       0.15 f
+  Data_Bank_inst/U936/ZN (AOI221D0)        0.14       0.30 r
+  Data_Bank_inst/U937/ZN (CKND2D0)         0.05       0.35 f
+  Data_Bank_inst/U938/ZN (AOI221D0)        0.19       0.54 r
+  Data_Bank_inst/U947/ZN (NR2D0)           0.06       0.60 f
+  Data_Bank_inst/U948/ZN (CKND2D0)         0.09       0.69 r
+  Data_Bank_inst/U1000/ZN (NR2D0)          0.14       0.82 f
+  Data_Bank_inst/U1001/ZN (AOI22D0)        0.11       0.93 r
+  Data_Bank_inst/U27/ZN (ND4D0)            0.08       1.02 f
+  Data_Bank_inst/U1004/ZN (NR3D0)          0.06       1.08 r
+  Data_Bank_inst/U128/ZN (ND4D0)           0.06       1.15 f
+  Data_Bank_inst/B[0] (Data_Bank)          0.00       1.15 f
+  B[0] (out)                               0.00       1.15 f
+  data arrival time                                   1.15
+  -----------------------------------------------------------
   (Path is unconstrained)
 
 

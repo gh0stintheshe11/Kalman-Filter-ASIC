@@ -6,7 +6,7 @@ Report : timing
         -max_paths 1
 Design : sequencer
 Version: N-2017.09
-Date   : Tue Dec  9 17:41:37 2025
+Date   : Thu Dec 11 20:42:52 2025
 ****************************************
 
  # A fanout number of 1000 was used for high fanout net computations.
@@ -29,19 +29,19 @@ Wire Load Model Mode: segmented
   pc_reg[0]/CP (DFQD1)                     0.00 #     0.00 r
   pc_reg[0]/Q (DFQD1)                      0.14       0.14 f
   ROM/addr[0] (rom_256x16)                 0.00       0.14 f
-  ROM/U240/ZN (INVD0)                      0.04       0.19 r
-  ROM/U265/ZN (ND3D0)                      0.14       0.33 f
+  ROM/U239/ZN (INVD0)                      0.05       0.19 r
+  ROM/U264/ZN (ND3D0)                      0.14       0.33 f
   ROM/U290/ZN (NR2D0)                      0.43       0.75 r
   ROM/U291/Z (BUFFD0)                      0.31       1.06 r
   ROM/U1326/ZN (AOI22D0)                   0.11       1.17 f
   ROM/U1329/ZN (ND4D0)                     0.07       1.24 r
   ROM/U1330/ZN (NR4D0)                     0.04       1.28 f
   ROM/U1331/ZN (AOI21D0)                   0.05       1.34 r
-  ROM/U228/ZN (AOI211D0)                   0.05       1.38 f
-  ROM/U1351/ZN (AOI32D0)                   0.12       1.50 r
-  ROM/dout[5] (rom_256x16)                 0.00       1.50 r
-  ctl_c[1] (out)                           0.00       1.50 r
-  data arrival time                                   1.50
+  ROM/U227/ZN (AOI211D0)                   0.05       1.39 f
+  ROM/U1351/ZN (AOI32D0)                   0.14       1.53 r
+  ROM/dout[5] (rom_256x16)                 0.00       1.53 r
+  ctl_c[1] (out)                           0.00       1.53 r
+  data arrival time                                   1.53
   -----------------------------------------------------------
   (Path is unconstrained)
 

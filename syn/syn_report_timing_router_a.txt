@@ -6,16 +6,15 @@ Report : timing
         -max_paths 1
 Design : router_a
 Version: N-2017.09
-Date   : Tue Dec  9 17:39:17 2025
+Date   : Thu Dec 11 20:39:43 2025
 ****************************************
 
 Operating Conditions: WCCOM   Library: tcbn65gpluswc
 Wire Load Model Mode: segmented
 
-  Startpoint: sel_data[0]
+  Startpoint: sel_data[1]
               (input port)
-  Endpoint: db_data[23]
-            (output port)
+  Endpoint: data[23] (output port)
   Path Group: (none)
   Path Type: max
 
@@ -26,11 +25,12 @@ Wire Load Model Mode: segmented
   Point                                    Incr       Path
   -----------------------------------------------------------
   input external delay                     0.00       0.00 f
-  sel_data[0] (in)                         0.00       0.00 f
-  U42/ZN (NR2XD0)                          0.21       0.21 r
-  U60/Z (AO22D0)                           0.13       0.34 r
-  db_data[23] (out)                        0.00       0.34 r
-  data arrival time                                   0.34
+  sel_data[1] (in)                         0.00       0.00 f
+  U81/ZN (NR2D0)                           0.32       0.32 r
+  U115/ZN (AOI22D0)                        0.12       0.43 f
+  U116/ZN (CKND2D0)                        0.04       0.48 r
+  data[23] (out)                           0.00       0.48 r
+  data arrival time                                   0.48
   -----------------------------------------------------------
   (Path is unconstrained)
 
