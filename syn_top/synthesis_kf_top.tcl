@@ -22,7 +22,7 @@ set_ungroup [get_designs mem_reg] false
 set_ungroup [get_designs router_b] false
 set_ungroup [get_designs au] false
 set_ungroup [get_designs sequencer] false
-set_ungroup [get_designs recip_unit] false
+set_ungroup [get_designs mult_inv] false
 set_ungroup [get_designs rom_256x16] false
 set_ungroup [get_designs Data_Bank] false
 set_ungroup [get_designs RQ] false

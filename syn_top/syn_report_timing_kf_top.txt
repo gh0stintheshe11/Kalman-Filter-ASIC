@@ -1,0 +1,112 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : kf_top
+Version: N-2017.09
+Date   : Thu Dec 11 21:38:47 2025
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: WCCOM   Library: tcbn65gpluswc
+Wire Load Model Mode: segmented
+
+  Startpoint: Sequencer/pc_reg[0]
+              (rising edge-triggered flip-flop)
+  Endpoint: DATA_OUT[23]
+            (output port)
+  Path Group: (none)
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  mult_inv           ZeroWireload          tcbn65gpluswc
+  Data_Bank          ZeroWireload          tcbn65gpluswc
+  rom_256x16         ZeroWireload          tcbn65gpluswc
+  au                 ZeroWireload          tcbn65gpluswc
+  mem_reg            ZeroWireload          tcbn65gpluswc
+  kf_top             ZeroWireload          tcbn65gpluswc
+  sequencer          ZeroWireload          tcbn65gpluswc
+  router_a           ZeroWireload          tcbn65gpluswc
+  router_b           ZeroWireload          tcbn65gpluswc
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  Sequencer/pc_reg[0]/CP (DFQD1)                          0.00 #     0.00 r
+  Sequencer/pc_reg[0]/Q (DFQD1)                           0.14       0.14 f
+  Sequencer/ROM/addr[0] (rom_256x16)                      0.00       0.14 f
+  Sequencer/ROM/U232/ZN (INVD0)                           0.05       0.19 r
+  Sequencer/ROM/U233/ZN (ND3D0)                           0.14       0.33 f
+  Sequencer/ROM/U295/ZN (NR2D0)                           0.43       0.75 r
+  Sequencer/ROM/U296/Z (BUFFD0)                           0.31       1.06 r
+  Sequencer/ROM/U2618/ZN (AOI22D0)                        0.11       1.17 f
+  Sequencer/ROM/U2621/ZN (ND4D0)                          0.06       1.23 r
+  Sequencer/ROM/U2622/ZN (NR4D0)                          0.04       1.27 f
+  Sequencer/ROM/U2623/ZN (AOI21D0)                        0.05       1.33 r
+  Sequencer/ROM/U2624/ZN (AOI211D0)                       0.05       1.38 f
+  Sequencer/ROM/U2644/ZN (AOI32D0)                        0.14       1.52 r
+  Sequencer/ROM/dout[2] (rom_256x16)                      0.00       1.52 r
+  Sequencer/ctl_d[0] (sequencer)                          0.00       1.52 r
+  AU/ctl_d[0] (au)                                        0.00       1.52 r
+  AU/U265/ZN (CKND2D0)                                    0.06       1.58 f
+  AU/U262/Z (CKAN2D0)                                     0.19       1.76 f
+  AU/result_comb_valid (au)                               0.00       1.76 f
+  U66/ZN (INVD0)                                          0.09       1.86 r
+  U78/ZN (ND3D1)                                          0.31       2.16 f
+  Router_A/sel_data[0] (router_a)                         0.00       2.16 f
+  Router_A/U3/Z (MUX2D0)                                  0.15       2.31 f
+  Router_A/data[23] (router_a)                            0.00       2.31 f
+  Memory_Registers/data[23] (mem_reg)                     0.00       2.31 f
+  Memory_Registers/Data_Bank_inst/data[23] (Data_Bank)
+                                                          0.00       2.31 f
+  Memory_Registers/Data_Bank_inst/U155/ZN (INVD0)         0.22       2.53 r
+  Memory_Registers/Data_Bank_inst/U167/Z (OA211D0)        0.15       2.68 r
+  Memory_Registers/Data_Bank_inst/U210/ZN (ND4D0)         0.29       2.97 f
+  Memory_Registers/Data_Bank_inst/B[23] (Data_Bank)       0.00       2.97 f
+  Memory_Registers/B[23] (mem_reg)                        0.00       2.97 f
+  Router_B/B[23] (router_b)                               0.00       2.97 f
+  Router_B/S[23] (router_b)                               0.00       2.97 f
+  AU/S[23] (au)                                           0.00       2.97 f
+  AU/U967/ZN (INVD0)                                      0.20       3.16 r
+  AU/U989/ZN (OAI32D0)                                    0.10       3.26 f
+  AU/U990/ZN (INVD0)                                      0.05       3.31 r
+  AU/U991/ZN (CKND2D0)                                    0.05       3.36 f
+  AU/U992/ZN (INVD0)                                      0.04       3.40 r
+  AU/U996/ZN (OAI222D0)                                   0.10       3.50 f
+  AU/U999/ZN (MAOI222D0)                                  0.15       3.65 r
+  AU/U1002/ZN (MAOI222D0)                                 0.12       3.77 f
+  AU/U1005/ZN (MAOI222D0)                                 0.14       3.91 r
+  AU/U1008/ZN (MAOI222D0)                                 0.11       4.03 f
+  AU/U1009/ZN (MAOI222D0)                                 0.15       4.18 r
+  AU/U1013/ZN (MAOI222D0)                                 0.11       4.29 f
+  AU/U1133/ZN (MAOI222D0)                                 0.15       4.44 r
+  AU/U1134/ZN (MAOI222D0)                                 0.11       4.56 f
+  AU/U1135/ZN (MAOI222D0)                                 0.15       4.71 r
+  AU/U1138/ZN (MAOI222D0)                                 0.11       4.82 f
+  AU/U1139/ZN (MAOI222D0)                                 0.15       4.97 r
+  AU/U1142/ZN (MAOI222D0)                                 0.11       5.09 f
+  AU/U1218/ZN (MAOI222D0)                                 0.15       5.24 r
+  AU/U1221/ZN (MAOI222D0)                                 0.11       5.35 f
+  AU/U1222/ZN (MAOI222D0)                                 0.15       5.50 r
+  AU/U1225/ZN (MAOI222D0)                                 0.11       5.61 f
+  AU/U1226/ZN (MAOI222D0)                                 0.15       5.77 r
+  AU/U1228/ZN (MAOI222D0)                                 0.11       5.88 f
+  AU/U1229/ZN (MAOI222D0)                                 0.15       6.03 r
+  AU/U1232/ZN (MAOI222D0)                                 0.12       6.15 f
+  AU/U1283/ZN (MAOI222D0)                                 0.12       6.27 r
+  AU/U1288/ZN (NR2D0)                                     0.05       6.31 f
+  AU/U1384/ZN (NR2D0)                                     0.34       6.66 r
+  AU/U1786/ZN (AOI22D0)                                   0.09       6.74 f
+  AU/U1788/ZN (CKND2D0)                                   0.07       6.82 r
+  AU/result_comb[23] (au)                                 0.00       6.82 r
+  U81/Z (AO222D0)                                         0.09       6.90 r
+  DATA_OUT[23] (out)                                      0.00       6.90 r
+  data arrival time                                                  6.90
+  --------------------------------------------------------------------------
+  (Path is unconstrained)
+
+
+1

@@ -5,11 +5,13 @@
 # Usage:
 #   ./sim_post_syn.sh              Run all sub-module post-syn tests
 #   ./sim_post_syn.sh -m <module>  Run specific module (au, router_a, etc.)
+#   ./sim_post_syn.sh -t           Run kf_top post-syn test
 #   ./sim_post_syn.sh -h           Show help
 # -----------------------------------------------------------------------------
 
 SRC_DIR="../src"
 SYN_DIR="../syn"
+SYN_TOP_DIR="../syn_top"
 STD_CELL_LIB="tcbn65gplus.v"
 
 # Clean up previous artifacts
@@ -77,18 +79,59 @@ run_all_tests() {
     echo "========================================"
 }
 
+# Run kf_top post-syn test
+run_kf_top_test() {
+    local TB_FILE="${SRC_DIR}/kf_top_tb.v"
+    local SYN_FILE="${SYN_TOP_DIR}/kf_top_syn.v"
+    local MEM_FILE="${SRC_DIR}/kf_2d.mem"
+    local LOG_FILE="kf_top_post_syn.log"
+
+    # Check files exist
+    if [ ! -f "$TB_FILE" ]; then
+        echo "ERROR: Testbench not found: $TB_FILE"
+        return 1
+    fi
+    if [ ! -f "$SYN_FILE" ]; then
+        echo "ERROR: Synthesized netlist not found: $SYN_FILE"
+        echo "Run synthesis first: cd ../syn_top && dc_shell -f synthesis_kf_top.tcl"
+        return 1
+    fi
+    if [ ! -f "$MEM_FILE" ]; then
+        echo "ERROR: ROM file not found: $MEM_FILE"
+        return 1
+    fi
+
+    # Copy .mem file to current directory (needed by testbench)
+    cp -f "$MEM_FILE" .
+
+    echo ""
+    echo "--- Post-Syn Test: kf_top ---"
+    ncverilog "$TB_FILE" "$SYN_FILE" "$STD_CELL_LIB" +define+POST_SYN +access+r 2>&1 | tee "$LOG_FILE"
+    rm -f *.history kf_2d.mem 2>/dev/null
+
+    # Check for pass/fail in log
+    if grep -q "POST-SYN TEST PASSED" "$LOG_FILE"; then
+        echo "Result: PASSED"
+    elif grep -q "FAILED" "$LOG_FILE" || grep -q "ERROR" "$LOG_FILE"; then
+        echo "Result: FAILED"
+    fi
+    echo "Log: $LOG_FILE"
+}
+
 # Show help
 show_help() {
     echo "Usage:"
     echo "  ./sim_post_syn.sh              Run all sub-module post-syn tests"
     echo "  ./sim_post_syn.sh -m <module>  Run specific module test"
+    echo "  ./sim_post_syn.sh -t           Run kf_top post-syn test"
     echo "  ./sim_post_syn.sh -h           Show this help"
     echo ""
     echo "Available modules: au, router_a, router_b, mem_reg, sequencer"
     echo ""
     echo "Example:"
     echo "  ./sim_post_syn.sh -m au        # Test AU module only"
-    echo "  ./sim_post_syn.sh              # Test all modules"
+    echo "  ./sim_post_syn.sh -t           # Test kf_top (full design)"
+    echo "  ./sim_post_syn.sh              # Test all sub-modules"
 }
 
 # Parse arguments
@@ -100,6 +143,9 @@ case "$1" in
             exit 1
         fi
         run_post_syn_tb "$2"
+        ;;
+    -t|--top)
+        run_kf_top_test
         ;;
     -h|--help)
         show_help

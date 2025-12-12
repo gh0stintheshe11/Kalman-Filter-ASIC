@@ -1,0 +1,2994 @@
+ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+file: ../src/kf_top_tb.v
+	module worklib.kf_top_tb:v
+		errors: 0, warnings: 0
+file: ../syn_top/kf_top_syn.v
+	module worklib.rom_256x16:v
+		errors: 0, warnings: 0
+	module worklib.sequencer:v
+		errors: 0, warnings: 0
+	module worklib.router_a:v
+		errors: 0, warnings: 0
+	module worklib.Data_Bank:v
+		errors: 0, warnings: 0
+	module worklib.mem_reg:v
+		errors: 0, warnings: 0
+	module worklib.router_b:v
+		errors: 0, warnings: 0
+	module worklib.mult_inv:v
+		errors: 0, warnings: 0
+	module worklib.au:v
+		errors: 0, warnings: 0
+	module worklib.kf_top:v
+		errors: 0, warnings: 0
+file: tcbn65gplus.v
+	module worklib.AN2D0:v
+		errors: 0, warnings: 0
+	module worklib.AN2D1:v
+		errors: 0, warnings: 0
+	module worklib.AN2D2:v
+		errors: 0, warnings: 0
+	module worklib.AN2D4:v
+		errors: 0, warnings: 0
+	module worklib.AN2D8:v
+		errors: 0, warnings: 0
+	module worklib.AN2XD1:v
+		errors: 0, warnings: 0
+	module worklib.AN3D0:v
+		errors: 0, warnings: 0
+	module worklib.AN3D1:v
+		errors: 0, warnings: 0
+	module worklib.AN3D2:v
+		errors: 0, warnings: 0
+	module worklib.AN3D4:v
+		errors: 0, warnings: 0
+	module worklib.AN3D8:v
+		errors: 0, warnings: 0
+	module worklib.AN3XD1:v
+		errors: 0, warnings: 0
+	module worklib.AN4D0:v
+		errors: 0, warnings: 0
+	module worklib.AN4D1:v
+		errors: 0, warnings: 0
+	module worklib.AN4D2:v
+		errors: 0, warnings: 0
+	module worklib.AN4D4:v
+		errors: 0, warnings: 0
+	module worklib.AN4D8:v
+		errors: 0, warnings: 0
+	module worklib.AN4XD1:v
+		errors: 0, warnings: 0
+	module worklib.ANTENNA:v
+		errors: 0, warnings: 0
+	module worklib.AO211D0:v
+		errors: 0, warnings: 0
+	module worklib.AO211D1:v
+		errors: 0, warnings: 0
+	module worklib.AO211D2:v
+		errors: 0, warnings: 0
+	module worklib.AO211D4:v
+		errors: 0, warnings: 0
+	module worklib.AO21D0:v
+		errors: 0, warnings: 0
+	module worklib.AO21D1:v
+		errors: 0, warnings: 0
+	module worklib.AO21D2:v
+		errors: 0, warnings: 0
+	module worklib.AO21D4:v
+		errors: 0, warnings: 0
+	module worklib.AO221D0:v
+		errors: 0, warnings: 0
+	module worklib.AO221D1:v
+		errors: 0, warnings: 0
+	module worklib.AO221D2:v
+		errors: 0, warnings: 0
+	module worklib.AO221D4:v
+		errors: 0, warnings: 0
+	module worklib.AO222D0:v
+		errors: 0, warnings: 0
+	module worklib.AO222D1:v
+		errors: 0, warnings: 0
+	module worklib.AO222D2:v
+		errors: 0, warnings: 0
+	module worklib.AO222D4:v
+		errors: 0, warnings: 0
+	module worklib.AO22D0:v
+		errors: 0, warnings: 0
+	module worklib.AO22D1:v
+		errors: 0, warnings: 0
+	module worklib.AO22D2:v
+		errors: 0, warnings: 0
+	module worklib.AO22D4:v
+		errors: 0, warnings: 0
+	module worklib.AO31D0:v
+		errors: 0, warnings: 0
+	module worklib.AO31D1:v
+		errors: 0, warnings: 0
+	module worklib.AO31D2:v
+		errors: 0, warnings: 0
+	module worklib.AO31D4:v
+		errors: 0, warnings: 0
+	module worklib.AO32D0:v
+		errors: 0, warnings: 0
+	module worklib.AO32D1:v
+		errors: 0, warnings: 0
+	module worklib.AO32D2:v
+		errors: 0, warnings: 0
+	module worklib.AO32D4:v
+		errors: 0, warnings: 0
+	module worklib.AO33D0:v
+		errors: 0, warnings: 0
+	module worklib.AO33D1:v
+		errors: 0, warnings: 0
+	module worklib.AO33D2:v
+		errors: 0, warnings: 0
+	module worklib.AO33D4:v
+		errors: 0, warnings: 0
+	module worklib.AOI211D0:v
+		errors: 0, warnings: 0
+	module worklib.AOI211D1:v
+		errors: 0, warnings: 0
+	module worklib.AOI211D2:v
+		errors: 0, warnings: 0
+	module worklib.AOI211D4:v
+		errors: 0, warnings: 0
+	module worklib.AOI211XD0:v
+		errors: 0, warnings: 0
+	module worklib.AOI211XD1:v
+		errors: 0, warnings: 0
+	module worklib.AOI211XD2:v
+		errors: 0, warnings: 0
+	module worklib.AOI211XD4:v
+		errors: 0, warnings: 0
+	module worklib.AOI21D0:v
+		errors: 0, warnings: 0
+	module worklib.AOI21D1:v
+		errors: 0, warnings: 0
+	module worklib.AOI21D2:v
+		errors: 0, warnings: 0
+	module worklib.AOI21D4:v
+		errors: 0, warnings: 0
+	module worklib.AOI221D0:v
+		errors: 0, warnings: 0
+	module worklib.AOI221D1:v
+		errors: 0, warnings: 0
+	module worklib.AOI221D2:v
+		errors: 0, warnings: 0
+	module worklib.AOI221D4:v
+		errors: 0, warnings: 0
+	module worklib.AOI221XD4:v
+		errors: 0, warnings: 0
+	module worklib.AOI222D0:v
+		errors: 0, warnings: 0
+	module worklib.AOI222D1:v
+		errors: 0, warnings: 0
+	module worklib.AOI222D2:v
+		errors: 0, warnings: 0
+	module worklib.AOI222D4:v
+		errors: 0, warnings: 0
+	module worklib.AOI222XD4:v
+		errors: 0, warnings: 0
+	module worklib.AOI22D0:v
+		errors: 0, warnings: 0
+	module worklib.AOI22D1:v
+		errors: 0, warnings: 0
+	module worklib.AOI22D2:v
+		errors: 0, warnings: 0
+	module worklib.AOI22D4:v
+		errors: 0, warnings: 0
+	module worklib.AOI31D0:v
+		errors: 0, warnings: 0
+	module worklib.AOI31D1:v
+		errors: 0, warnings: 0
+	module worklib.AOI31D2:v
+		errors: 0, warnings: 0
+	module worklib.AOI31D4:v
+		errors: 0, warnings: 0
+	module worklib.AOI32D0:v
+		errors: 0, warnings: 0
+	module worklib.AOI32D1:v
+		errors: 0, warnings: 0
+	module worklib.AOI32D2:v
+		errors: 0, warnings: 0
+	module worklib.AOI32D4:v
+		errors: 0, warnings: 0
+	module worklib.AOI32XD4:v
+		errors: 0, warnings: 0
+	module worklib.AOI33D0:v
+		errors: 0, warnings: 0
+	module worklib.AOI33D1:v
+		errors: 0, warnings: 0
+	module worklib.AOI33D2:v
+		errors: 0, warnings: 0
+	module worklib.AOI33D4:v
+		errors: 0, warnings: 0
+	module worklib.AOI33XD4:v
+		errors: 0, warnings: 0
+	module worklib.BENCD1:v
+		errors: 0, warnings: 0
+	module worklib.BENCD2:v
+		errors: 0, warnings: 0
+	module worklib.BENCD4:v
+		errors: 0, warnings: 0
+	module worklib.BHD:v
+		errors: 0, warnings: 0
+	module worklib.BMLD1:v
+		errors: 0, warnings: 0
+	module worklib.BMLD2:v
+		errors: 0, warnings: 0
+	module worklib.BMLD4:v
+		errors: 0, warnings: 0
+	module worklib.BUFFD0:v
+		errors: 0, warnings: 0
+	module worklib.BUFFD12:v
+		errors: 0, warnings: 0
+	module worklib.BUFFD16:v
+		errors: 0, warnings: 0
+	module worklib.BUFFD1:v
+		errors: 0, warnings: 0
+	module worklib.BUFFD20:v
+		errors: 0, warnings: 0
+	module worklib.BUFFD24:v
+		errors: 0, warnings: 0
+	module worklib.BUFFD2:v
+		errors: 0, warnings: 0
+	module worklib.BUFFD3:v
+		errors: 0, warnings: 0
+	module worklib.BUFFD4:v
+		errors: 0, warnings: 0
+	module worklib.BUFFD6:v
+		errors: 0, warnings: 0
+	module worklib.BUFFD8:v
+		errors: 0, warnings: 0
+	module worklib.BUFTD0:v
+		errors: 0, warnings: 0
+	module worklib.BUFTD12:v
+		errors: 0, warnings: 0
+	module worklib.BUFTD16:v
+		errors: 0, warnings: 0
+	module worklib.BUFTD1:v
+		errors: 0, warnings: 0
+	module worklib.BUFTD20:v
+		errors: 0, warnings: 0
+	module worklib.BUFTD24:v
+		errors: 0, warnings: 0
+	module worklib.BUFTD2:v
+		errors: 0, warnings: 0
+	module worklib.BUFTD3:v
+		errors: 0, warnings: 0
+	module worklib.BUFTD4:v
+		errors: 0, warnings: 0
+	module worklib.BUFTD6:v
+		errors: 0, warnings: 0
+	module worklib.BUFTD8:v
+		errors: 0, warnings: 0
+	module worklib.CKAN2D0:v
+		errors: 0, warnings: 0
+	module worklib.CKAN2D1:v
+		errors: 0, warnings: 0
+	module worklib.CKAN2D2:v
+		errors: 0, warnings: 0
+	module worklib.CKAN2D4:v
+		errors: 0, warnings: 0
+	module worklib.CKAN2D8:v
+		errors: 0, warnings: 0
+	module worklib.CKBD0:v
+		errors: 0, warnings: 0
+	module worklib.CKBD12:v
+		errors: 0, warnings: 0
+	module worklib.CKBD16:v
+		errors: 0, warnings: 0
+	module worklib.CKBD1:v
+		errors: 0, warnings: 0
+	module worklib.CKBD20:v
+		errors: 0, warnings: 0
+	module worklib.CKBD24:v
+		errors: 0, warnings: 0
+	module worklib.CKBD2:v
+		errors: 0, warnings: 0
+	module worklib.CKBD3:v
+		errors: 0, warnings: 0
+	module worklib.CKBD4:v
+		errors: 0, warnings: 0
+	module worklib.CKBD6:v
+		errors: 0, warnings: 0
+	module worklib.CKBD8:v
+		errors: 0, warnings: 0
+	module worklib.CKLHQD12:v
+		errors: 0, warnings: 0
+	module worklib.CKLHQD16:v
+		errors: 0, warnings: 0
+	module worklib.CKLHQD1:v
+		errors: 0, warnings: 0
+	module worklib.CKLHQD20:v
+		errors: 0, warnings: 0
+	module worklib.CKLHQD24:v
+		errors: 0, warnings: 0
+	module worklib.CKLHQD2:v
+		errors: 0, warnings: 0
+	module worklib.CKLHQD3:v
+		errors: 0, warnings: 0
+	module worklib.CKLHQD4:v
+		errors: 0, warnings: 0
+	module worklib.CKLHQD6:v
+		errors: 0, warnings: 0
+	module worklib.CKLHQD8:v
+		errors: 0, warnings: 0
+	module worklib.CKLNQD12:v
+		errors: 0, warnings: 0
+	module worklib.CKLNQD16:v
+		errors: 0, warnings: 0
+	module worklib.CKLNQD1:v
+		errors: 0, warnings: 0
+	module worklib.CKLNQD20:v
+		errors: 0, warnings: 0
+	module worklib.CKLNQD24:v
+		errors: 0, warnings: 0
+	module worklib.CKLNQD2:v
+		errors: 0, warnings: 0
+	module worklib.CKLNQD3:v
+		errors: 0, warnings: 0
+	module worklib.CKLNQD4:v
+		errors: 0, warnings: 0
+	module worklib.CKLNQD6:v
+		errors: 0, warnings: 0
+	module worklib.CKLNQD8:v
+		errors: 0, warnings: 0
+	module worklib.CKMUX2D0:v
+		errors: 0, warnings: 0
+	module worklib.CKMUX2D1:v
+		errors: 0, warnings: 0
+	module worklib.CKMUX2D2:v
+		errors: 0, warnings: 0
+	module worklib.CKMUX2D4:v
+		errors: 0, warnings: 0
+	module worklib.CKND0:v
+		errors: 0, warnings: 0
+	module worklib.CKND12:v
+		errors: 0, warnings: 0
+	module worklib.CKND16:v
+		errors: 0, warnings: 0
+	module worklib.CKND1:v
+		errors: 0, warnings: 0
+	module worklib.CKND20:v
+		errors: 0, warnings: 0
+	module worklib.CKND24:v
+		errors: 0, warnings: 0
+	module worklib.CKND2D0:v
+		errors: 0, warnings: 0
+	module worklib.CKND2D1:v
+		errors: 0, warnings: 0
+	module worklib.CKND2D2:v
+		errors: 0, warnings: 0
+	module worklib.CKND2D3:v
+		errors: 0, warnings: 0
+	module worklib.CKND2D4:v
+		errors: 0, warnings: 0
+	module worklib.CKND2D8:v
+		errors: 0, warnings: 0
+	module worklib.CKND2:v
+		errors: 0, warnings: 0
+	module worklib.CKND3:v
+		errors: 0, warnings: 0
+	module worklib.CKND4:v
+		errors: 0, warnings: 0
+	module worklib.CKND6:v
+		errors: 0, warnings: 0
+	module worklib.CKND8:v
+		errors: 0, warnings: 0
+	module worklib.CKXOR2D0:v
+		errors: 0, warnings: 0
+	module worklib.CKXOR2D1:v
+		errors: 0, warnings: 0
+	module worklib.CKXOR2D2:v
+		errors: 0, warnings: 0
+	module worklib.CKXOR2D4:v
+		errors: 0, warnings: 0
+	module worklib.CMPE42D1:v
+		errors: 0, warnings: 0
+	module worklib.CMPE42D2:v
+		errors: 0, warnings: 0
+	module worklib.DCAP16:v
+		errors: 0, warnings: 0
+	module worklib.DCAP32:v
+		errors: 0, warnings: 0
+	module worklib.DCAP4:v
+		errors: 0, warnings: 0
+	module worklib.DCAP64:v
+		errors: 0, warnings: 0
+	module worklib.DCAP8:v
+		errors: 0, warnings: 0
+	module worklib.DCAP:v
+		errors: 0, warnings: 0
+	module worklib.DEL005:v
+		errors: 0, warnings: 0
+	module worklib.DEL015:v
+		errors: 0, warnings: 0
+	module worklib.DEL01:v
+		errors: 0, warnings: 0
+	module worklib.DEL02:v
+		errors: 0, warnings: 0
+	module worklib.DEL0:v
+		errors: 0, warnings: 0
+	module worklib.DEL1:v
+		errors: 0, warnings: 0
+	module worklib.DEL2:v
+		errors: 0, warnings: 0
+	module worklib.DEL3:v
+		errors: 0, warnings: 0
+	module worklib.DEL4:v
+		errors: 0, warnings: 0
+	module worklib.DFCND1:v
+		errors: 0, warnings: 0
+	module worklib.DFCND2:v
+		errors: 0, warnings: 0
+	module worklib.DFCND4:v
+		errors: 0, warnings: 0
+	module worklib.DFCNQD1:v
+		errors: 0, warnings: 0
+	module worklib.DFCNQD2:v
+		errors: 0, warnings: 0
+	module worklib.DFCNQD4:v
+		errors: 0, warnings: 0
+	module worklib.DFCSND1:v
+		errors: 0, warnings: 0
+	module worklib.DFCSND2:v
+		errors: 0, warnings: 0
+	module worklib.DFCSND4:v
+		errors: 0, warnings: 0
+	module worklib.DFCSNQD1:v
+		errors: 0, warnings: 0
+	module worklib.DFCSNQD2:v
+		errors: 0, warnings: 0
+	module worklib.DFCSNQD4:v
+		errors: 0, warnings: 0
+	module worklib.DFD1:v
+		errors: 0, warnings: 0
+	module worklib.DFD2:v
+		errors: 0, warnings: 0
+	module worklib.DFD4:v
+		errors: 0, warnings: 0
+	module worklib.DFKCND1:v
+		errors: 0, warnings: 0
+	module worklib.DFKCND2:v
+		errors: 0, warnings: 0
+	module worklib.DFKCND4:v
+		errors: 0, warnings: 0
+	module worklib.DFKCNQD1:v
+		errors: 0, warnings: 0
+	module worklib.DFKCNQD2:v
+		errors: 0, warnings: 0
+	module worklib.DFKCNQD4:v
+		errors: 0, warnings: 0
+	module worklib.DFKCSND1:v
+		errors: 0, warnings: 0
+	module worklib.DFKCSND2:v
+		errors: 0, warnings: 0
+	module worklib.DFKCSND4:v
+		errors: 0, warnings: 0
+	module worklib.DFKSND1:v
+		errors: 0, warnings: 0
+	module worklib.DFKSND2:v
+		errors: 0, warnings: 0
+	module worklib.DFKSND4:v
+		errors: 0, warnings: 0
+	module worklib.DFNCND1:v
+		errors: 0, warnings: 0
+	module worklib.DFNCND2:v
+		errors: 0, warnings: 0
+	module worklib.DFNCND4:v
+		errors: 0, warnings: 0
+	module worklib.DFNCSND1:v
+		errors: 0, warnings: 0
+	module worklib.DFNCSND2:v
+		errors: 0, warnings: 0
+	module worklib.DFNCSND4:v
+		errors: 0, warnings: 0
+	module worklib.DFND1:v
+		errors: 0, warnings: 0
+	module worklib.DFND2:v
+		errors: 0, warnings: 0
+	module worklib.DFND4:v
+		errors: 0, warnings: 0
+	module worklib.DFNSND1:v
+		errors: 0, warnings: 0
+	module worklib.DFNSND2:v
+		errors: 0, warnings: 0
+	module worklib.DFNSND4:v
+		errors: 0, warnings: 0
+	module worklib.DFQD1:v
+		errors: 0, warnings: 0
+	module worklib.DFQD2:v
+		errors: 0, warnings: 0
+	module worklib.DFQD4:v
+		errors: 0, warnings: 0
+	module worklib.DFSND1:v
+		errors: 0, warnings: 0
+	module worklib.DFSND2:v
+		errors: 0, warnings: 0
+	module worklib.DFSND4:v
+		errors: 0, warnings: 0
+	module worklib.DFSNQD1:v
+		errors: 0, warnings: 0
+	module worklib.DFSNQD2:v
+		errors: 0, warnings: 0
+	module worklib.DFSNQD4:v
+		errors: 0, warnings: 0
+	module worklib.DFXD1:v
+		errors: 0, warnings: 0
+	module worklib.DFXD2:v
+		errors: 0, warnings: 0
+	module worklib.DFXD4:v
+		errors: 0, warnings: 0
+	module worklib.DFXQD1:v
+		errors: 0, warnings: 0
+	module worklib.DFXQD2:v
+		errors: 0, warnings: 0
+	module worklib.DFXQD4:v
+		errors: 0, warnings: 0
+	module worklib.EDFCND1:v
+		errors: 0, warnings: 0
+	module worklib.EDFCND2:v
+		errors: 0, warnings: 0
+	module worklib.EDFCND4:v
+		errors: 0, warnings: 0
+	module worklib.EDFCNQD1:v
+		errors: 0, warnings: 0
+	module worklib.EDFCNQD2:v
+		errors: 0, warnings: 0
+	module worklib.EDFCNQD4:v
+		errors: 0, warnings: 0
+	module worklib.EDFD1:v
+		errors: 0, warnings: 0
+	module worklib.EDFD2:v
+		errors: 0, warnings: 0
+	module worklib.EDFD4:v
+		errors: 0, warnings: 0
+	module worklib.EDFKCND1:v
+		errors: 0, warnings: 0
+	module worklib.EDFKCND2:v
+		errors: 0, warnings: 0
+	module worklib.EDFKCND4:v
+		errors: 0, warnings: 0
+	module worklib.EDFKCNQD1:v
+		errors: 0, warnings: 0
+	module worklib.EDFKCNQD2:v
+		errors: 0, warnings: 0
+	module worklib.EDFKCNQD4:v
+		errors: 0, warnings: 0
+	module worklib.EDFQD1:v
+		errors: 0, warnings: 0
+	module worklib.EDFQD2:v
+		errors: 0, warnings: 0
+	module worklib.EDFQD4:v
+		errors: 0, warnings: 0
+	module worklib.FA1D0:v
+		errors: 0, warnings: 0
+	module worklib.FA1D1:v
+		errors: 0, warnings: 0
+	module worklib.FA1D2:v
+		errors: 0, warnings: 0
+	module worklib.FA1D4:v
+		errors: 0, warnings: 0
+	module worklib.FCICIND1:v
+		errors: 0, warnings: 0
+	module worklib.FCICIND2:v
+		errors: 0, warnings: 0
+	module worklib.FCICOND1:v
+		errors: 0, warnings: 0
+	module worklib.FCICOND2:v
+		errors: 0, warnings: 0
+	module worklib.FCSICIND1:v
+		errors: 0, warnings: 0
+	module worklib.FCSICIND2:v
+		errors: 0, warnings: 0
+	module worklib.FCSICOND1:v
+		errors: 0, warnings: 0
+	module worklib.FCSICOND2:v
+		errors: 0, warnings: 0
+	module worklib.FICIND1:v
+		errors: 0, warnings: 0
+	module worklib.FICIND2:v
+		errors: 0, warnings: 0
+	module worklib.FICOND1:v
+		errors: 0, warnings: 0
+	module worklib.FICOND2:v
+		errors: 0, warnings: 0
+	module worklib.FIICOND1:v
+		errors: 0, warnings: 0
+	module worklib.FIICOND2:v
+		errors: 0, warnings: 0
+	module worklib.GAN2D1:v
+		errors: 0, warnings: 0
+	module worklib.GAN2D2:v
+		errors: 0, warnings: 0
+	module worklib.GAOI21D1:v
+		errors: 0, warnings: 0
+	module worklib.GAOI21D2:v
+		errors: 0, warnings: 0
+	module worklib.GAOI22D1:v
+		errors: 0, warnings: 0
+	module worklib.GBUFFD1:v
+		errors: 0, warnings: 0
+	module worklib.GBUFFD2:v
+		errors: 0, warnings: 0
+	module worklib.GBUFFD3:v
+		errors: 0, warnings: 0
+	module worklib.GBUFFD4:v
+		errors: 0, warnings: 0
+	module worklib.GBUFFD8:v
+		errors: 0, warnings: 0
+	module worklib.GDCAP10:v
+		errors: 0, warnings: 0
+	module worklib.GDCAP2:v
+		errors: 0, warnings: 0
+	module worklib.GDCAP3:v
+		errors: 0, warnings: 0
+	module worklib.GDCAP4:v
+		errors: 0, warnings: 0
+	module worklib.GDCAP:v
+		errors: 0, warnings: 0
+	module worklib.GDFCNQD1:v
+		errors: 0, warnings: 0
+	module worklib.GDFQD1:v
+		errors: 0, warnings: 0
+	module worklib.GFILL10:v
+		errors: 0, warnings: 0
+	module worklib.GFILL2:v
+		errors: 0, warnings: 0
+	module worklib.GFILL3:v
+		errors: 0, warnings: 0
+	module worklib.GFILL4:v
+		errors: 0, warnings: 0
+	module worklib.GFILL:v
+		errors: 0, warnings: 0
+	module worklib.GINVD1:v
+		errors: 0, warnings: 0
+	module worklib.GINVD2:v
+		errors: 0, warnings: 0
+	module worklib.GINVD3:v
+		errors: 0, warnings: 0
+	module worklib.GINVD4:v
+		errors: 0, warnings: 0
+	module worklib.GINVD8:v
+		errors: 0, warnings: 0
+	module worklib.GMUX2D1:v
+		errors: 0, warnings: 0
+	module worklib.GMUX2D2:v
+		errors: 0, warnings: 0
+	module worklib.GMUX2ND1:v
+		errors: 0, warnings: 0
+	module worklib.GMUX2ND2:v
+		errors: 0, warnings: 0
+	module worklib.GND2D1:v
+		errors: 0, warnings: 0
+	module worklib.GND2D2:v
+		errors: 0, warnings: 0
+	module worklib.GND2D3:v
+		errors: 0, warnings: 0
+	module worklib.GND2D4:v
+		errors: 0, warnings: 0
+	module worklib.GND3D1:v
+		errors: 0, warnings: 0
+	module worklib.GND3D2:v
+		errors: 0, warnings: 0
+	module worklib.GNR2D1:v
+		errors: 0, warnings: 0
+	module worklib.GNR2D2:v
+		errors: 0, warnings: 0
+	module worklib.GNR3D1:v
+		errors: 0, warnings: 0
+	module worklib.GNR3D2:v
+		errors: 0, warnings: 0
+	module worklib.GOAI21D1:v
+		errors: 0, warnings: 0
+	module worklib.GOAI21D2:v
+		errors: 0, warnings: 0
+	module worklib.GOR2D1:v
+		errors: 0, warnings: 0
+	module worklib.GOR2D2:v
+		errors: 0, warnings: 0
+	module worklib.GSDFCNQD1:v
+		errors: 0, warnings: 0
+	module worklib.GTIEH:v
+		errors: 0, warnings: 0
+	module worklib.GTIEL:v
+		errors: 0, warnings: 0
+	module worklib.GXNR2D1:v
+		errors: 0, warnings: 0
+	module worklib.GXNR2D2:v
+		errors: 0, warnings: 0
+	module worklib.GXOR2D1:v
+		errors: 0, warnings: 0
+	module worklib.GXOR2D2:v
+		errors: 0, warnings: 0
+	module worklib.HA1D0:v
+		errors: 0, warnings: 0
+	module worklib.HA1D1:v
+		errors: 0, warnings: 0
+	module worklib.HA1D2:v
+		errors: 0, warnings: 0
+	module worklib.HA1D4:v
+		errors: 0, warnings: 0
+	module worklib.HCOSCIND1:v
+		errors: 0, warnings: 0
+	module worklib.HCOSCIND2:v
+		errors: 0, warnings: 0
+	module worklib.HCOSCOND1:v
+		errors: 0, warnings: 0
+	module worklib.HCOSCOND2:v
+		errors: 0, warnings: 0
+	module worklib.HICIND1:v
+		errors: 0, warnings: 0
+	module worklib.HICIND2:v
+		errors: 0, warnings: 0
+	module worklib.HICOND1:v
+		errors: 0, warnings: 0
+	module worklib.HICOND2:v
+		errors: 0, warnings: 0
+	module worklib.IAO21D0:v
+		errors: 0, warnings: 0
+	module worklib.IAO21D1:v
+		errors: 0, warnings: 0
+	module worklib.IAO21D2:v
+		errors: 0, warnings: 0
+	module worklib.IAO21D4:v
+		errors: 0, warnings: 0
+	module worklib.IAO22D0:v
+		errors: 0, warnings: 0
+	module worklib.IAO22D1:v
+		errors: 0, warnings: 0
+	module worklib.IAO22D2:v
+		errors: 0, warnings: 0
+	module worklib.IAO22D4:v
+		errors: 0, warnings: 0
+	module worklib.IIND4D0:v
+		errors: 0, warnings: 0
+	module worklib.IIND4D1:v
+		errors: 0, warnings: 0
+	module worklib.IIND4D2:v
+		errors: 0, warnings: 0
+	module worklib.IIND4D4:v
+		errors: 0, warnings: 0
+	module worklib.IINR4D0:v
+		errors: 0, warnings: 0
+	module worklib.IINR4D1:v
+		errors: 0, warnings: 0
+	module worklib.IINR4D2:v
+		errors: 0, warnings: 0
+	module worklib.IINR4D4:v
+		errors: 0, warnings: 0
+	module worklib.IND2D0:v
+		errors: 0, warnings: 0
+	module worklib.IND2D1:v
+		errors: 0, warnings: 0
+	module worklib.IND2D2:v
+		errors: 0, warnings: 0
+	module worklib.IND2D4:v
+		errors: 0, warnings: 0
+	module worklib.IND3D0:v
+		errors: 0, warnings: 0
+	module worklib.IND3D1:v
+		errors: 0, warnings: 0
+	module worklib.IND3D2:v
+		errors: 0, warnings: 0
+	module worklib.IND3D4:v
+		errors: 0, warnings: 0
+	module worklib.IND4D0:v
+		errors: 0, warnings: 0
+	module worklib.IND4D1:v
+		errors: 0, warnings: 0
+	module worklib.IND4D2:v
+		errors: 0, warnings: 0
+	module worklib.IND4D4:v
+		errors: 0, warnings: 0
+	module worklib.INR2D0:v
+		errors: 0, warnings: 0
+	module worklib.INR2D1:v
+		errors: 0, warnings: 0
+	module worklib.INR2D2:v
+		errors: 0, warnings: 0
+	module worklib.INR2D4:v
+		errors: 0, warnings: 0
+	module worklib.INR2XD0:v
+		errors: 0, warnings: 0
+	module worklib.INR2XD1:v
+		errors: 0, warnings: 0
+	module worklib.INR2XD2:v
+		errors: 0, warnings: 0
+	module worklib.INR2XD4:v
+		errors: 0, warnings: 0
+	module worklib.INR3D0:v
+		errors: 0, warnings: 0
+	module worklib.INR3D1:v
+		errors: 0, warnings: 0
+	module worklib.INR3D2:v
+		errors: 0, warnings: 0
+	module worklib.INR3D4:v
+		errors: 0, warnings: 0
+	module worklib.INR4D0:v
+		errors: 0, warnings: 0
+	module worklib.INR4D1:v
+		errors: 0, warnings: 0
+	module worklib.INR4D2:v
+		errors: 0, warnings: 0
+	module worklib.INR4D4:v
+		errors: 0, warnings: 0
+	module worklib.INVD0:v
+		errors: 0, warnings: 0
+	module worklib.INVD12:v
+		errors: 0, warnings: 0
+	module worklib.INVD16:v
+		errors: 0, warnings: 0
+	module worklib.INVD1:v
+		errors: 0, warnings: 0
+	module worklib.INVD20:v
+		errors: 0, warnings: 0
+	module worklib.INVD24:v
+		errors: 0, warnings: 0
+	module worklib.INVD2:v
+		errors: 0, warnings: 0
+	module worklib.INVD3:v
+		errors: 0, warnings: 0
+	module worklib.INVD4:v
+		errors: 0, warnings: 0
+	module worklib.INVD6:v
+		errors: 0, warnings: 0
+	module worklib.INVD8:v
+		errors: 0, warnings: 0
+	module worklib.IOA21D0:v
+		errors: 0, warnings: 0
+	module worklib.IOA21D1:v
+		errors: 0, warnings: 0
+	module worklib.IOA21D2:v
+		errors: 0, warnings: 0
+	module worklib.IOA21D4:v
+		errors: 0, warnings: 0
+	module worklib.IOA22D0:v
+		errors: 0, warnings: 0
+	module worklib.IOA22D1:v
+		errors: 0, warnings: 0
+	module worklib.IOA22D2:v
+		errors: 0, warnings: 0
+	module worklib.IOA22D4:v
+		errors: 0, warnings: 0
+	module worklib.LHCND1:v
+		errors: 0, warnings: 0
+	module worklib.LHCND2:v
+		errors: 0, warnings: 0
+	module worklib.LHCND4:v
+		errors: 0, warnings: 0
+	module worklib.LHCNDD1:v
+		errors: 0, warnings: 0
+	module worklib.LHCNDD2:v
+		errors: 0, warnings: 0
+	module worklib.LHCNDD4:v
+		errors: 0, warnings: 0
+	module worklib.LHCNDQD1:v
+		errors: 0, warnings: 0
+	module worklib.LHCNDQD2:v
+		errors: 0, warnings: 0
+	module worklib.LHCNDQD4:v
+		errors: 0, warnings: 0
+	module worklib.LHCNQD1:v
+		errors: 0, warnings: 0
+	module worklib.LHCNQD2:v
+		errors: 0, warnings: 0
+	module worklib.LHCNQD4:v
+		errors: 0, warnings: 0
+	module worklib.LHCSND1:v
+		errors: 0, warnings: 0
+	module worklib.LHCSND2:v
+		errors: 0, warnings: 0
+	module worklib.LHCSND4:v
+		errors: 0, warnings: 0
+	module worklib.LHCSNDD1:v
+		errors: 0, warnings: 0
+	module worklib.LHCSNDD2:v
+		errors: 0, warnings: 0
+	module worklib.LHCSNDD4:v
+		errors: 0, warnings: 0
+	module worklib.LHCSNDQD1:v
+		errors: 0, warnings: 0
+	module worklib.LHCSNDQD2:v
+		errors: 0, warnings: 0
+	module worklib.LHCSNDQD4:v
+		errors: 0, warnings: 0
+	module worklib.LHCSNQD1:v
+		errors: 0, warnings: 0
+	module worklib.LHCSNQD2:v
+		errors: 0, warnings: 0
+	module worklib.LHCSNQD4:v
+		errors: 0, warnings: 0
+	module worklib.LHD1:v
+		errors: 0, warnings: 0
+	module worklib.LHD2:v
+		errors: 0, warnings: 0
+	module worklib.LHD4:v
+		errors: 0, warnings: 0
+	module worklib.LHQD1:v
+		errors: 0, warnings: 0
+	module worklib.LHQD2:v
+		errors: 0, warnings: 0
+	module worklib.LHQD4:v
+		errors: 0, warnings: 0
+	module worklib.LHSND1:v
+		errors: 0, warnings: 0
+	module worklib.LHSND2:v
+		errors: 0, warnings: 0
+	module worklib.LHSND4:v
+		errors: 0, warnings: 0
+	module worklib.LHSNDD1:v
+		errors: 0, warnings: 0
+	module worklib.LHSNDD2:v
+		errors: 0, warnings: 0
+	module worklib.LHSNDD4:v
+		errors: 0, warnings: 0
+	module worklib.LHSNDQD1:v
+		errors: 0, warnings: 0
+	module worklib.LHSNDQD2:v
+		errors: 0, warnings: 0
+	module worklib.LHSNDQD4:v
+		errors: 0, warnings: 0
+	module worklib.LHSNQD1:v
+		errors: 0, warnings: 0
+	module worklib.LHSNQD2:v
+		errors: 0, warnings: 0
+	module worklib.LHSNQD4:v
+		errors: 0, warnings: 0
+	module worklib.LNCND1:v
+		errors: 0, warnings: 0
+	module worklib.LNCND2:v
+		errors: 0, warnings: 0
+	module worklib.LNCND4:v
+		errors: 0, warnings: 0
+	module worklib.LNCNDD1:v
+		errors: 0, warnings: 0
+	module worklib.LNCNDD2:v
+		errors: 0, warnings: 0
+	module worklib.LNCNDD4:v
+		errors: 0, warnings: 0
+	module worklib.LNCNDQD1:v
+		errors: 0, warnings: 0
+	module worklib.LNCNDQD2:v
+		errors: 0, warnings: 0
+	module worklib.LNCNDQD4:v
+		errors: 0, warnings: 0
+	module worklib.LNCNQD1:v
+		errors: 0, warnings: 0
+	module worklib.LNCNQD2:v
+		errors: 0, warnings: 0
+	module worklib.LNCNQD4:v
+		errors: 0, warnings: 0
+	module worklib.LNCSND1:v
+		errors: 0, warnings: 0
+	module worklib.LNCSND2:v
+		errors: 0, warnings: 0
+	module worklib.LNCSND4:v
+		errors: 0, warnings: 0
+	module worklib.LNCSNDD1:v
+		errors: 0, warnings: 0
+	module worklib.LNCSNDD2:v
+		errors: 0, warnings: 0
+	module worklib.LNCSNDD4:v
+		errors: 0, warnings: 0
+	module worklib.LNCSNDQD1:v
+		errors: 0, warnings: 0
+	module worklib.LNCSNDQD2:v
+		errors: 0, warnings: 0
+	module worklib.LNCSNDQD4:v
+		errors: 0, warnings: 0
+	module worklib.LNCSNQD1:v
+		errors: 0, warnings: 0
+	module worklib.LNCSNQD2:v
+		errors: 0, warnings: 0
+	module worklib.LNCSNQD4:v
+		errors: 0, warnings: 0
+	module worklib.LND1:v
+		errors: 0, warnings: 0
+	module worklib.LND2:v
+		errors: 0, warnings: 0
+	module worklib.LND4:v
+		errors: 0, warnings: 0
+	module worklib.LNQD1:v
+		errors: 0, warnings: 0
+	module worklib.LNQD2:v
+		errors: 0, warnings: 0
+	module worklib.LNQD4:v
+		errors: 0, warnings: 0
+	module worklib.LNSND1:v
+		errors: 0, warnings: 0
+	module worklib.LNSND2:v
+		errors: 0, warnings: 0
+	module worklib.LNSND4:v
+		errors: 0, warnings: 0
+	module worklib.LNSNDD1:v
+		errors: 0, warnings: 0
+	module worklib.LNSNDD2:v
+		errors: 0, warnings: 0
+	module worklib.LNSNDD4:v
+		errors: 0, warnings: 0
+	module worklib.LNSNDQD1:v
+		errors: 0, warnings: 0
+	module worklib.LNSNDQD2:v
+		errors: 0, warnings: 0
+	module worklib.LNSNDQD4:v
+		errors: 0, warnings: 0
+	module worklib.LNSNQD1:v
+		errors: 0, warnings: 0
+	module worklib.LNSNQD2:v
+		errors: 0, warnings: 0
+	module worklib.LNSNQD4:v
+		errors: 0, warnings: 0
+	module worklib.MAOI222D0:v
+		errors: 0, warnings: 0
+	module worklib.MAOI222D1:v
+		errors: 0, warnings: 0
+	module worklib.MAOI222D2:v
+		errors: 0, warnings: 0
+	module worklib.MAOI222D4:v
+		errors: 0, warnings: 0
+	module worklib.MAOI22D0:v
+		errors: 0, warnings: 0
+	module worklib.MAOI22D1:v
+		errors: 0, warnings: 0
+	module worklib.MAOI22D2:v
+		errors: 0, warnings: 0
+	module worklib.MAOI22D4:v
+		errors: 0, warnings: 0
+	module worklib.MOAI22D0:v
+		errors: 0, warnings: 0
+	module worklib.MOAI22D1:v
+		errors: 0, warnings: 0
+	module worklib.MOAI22D2:v
+		errors: 0, warnings: 0
+	module worklib.MOAI22D4:v
+		errors: 0, warnings: 0
+	module worklib.MUX2D0:v
+		errors: 0, warnings: 0
+	module worklib.MUX2D1:v
+		errors: 0, warnings: 0
+	module worklib.MUX2D2:v
+		errors: 0, warnings: 0
+	module worklib.MUX2D4:v
+		errors: 0, warnings: 0
+	module worklib.MUX2ND0:v
+		errors: 0, warnings: 0
+	module worklib.MUX2ND1:v
+		errors: 0, warnings: 0
+	module worklib.MUX2ND2:v
+		errors: 0, warnings: 0
+	module worklib.MUX2ND4:v
+		errors: 0, warnings: 0
+	module worklib.MUX3D0:v
+		errors: 0, warnings: 0
+	module worklib.MUX3D1:v
+		errors: 0, warnings: 0
+	module worklib.MUX3D2:v
+		errors: 0, warnings: 0
+	module worklib.MUX3D4:v
+		errors: 0, warnings: 0
+	module worklib.MUX3ND0:v
+		errors: 0, warnings: 0
+	module worklib.MUX3ND1:v
+		errors: 0, warnings: 0
+	module worklib.MUX3ND2:v
+		errors: 0, warnings: 0
+	module worklib.MUX3ND4:v
+		errors: 0, warnings: 0
+	module worklib.MUX4D0:v
+		errors: 0, warnings: 0
+	module worklib.MUX4D1:v
+		errors: 0, warnings: 0
+	module worklib.MUX4D2:v
+		errors: 0, warnings: 0
+	module worklib.MUX4D4:v
+		errors: 0, warnings: 0
+	module worklib.MUX4ND0:v
+		errors: 0, warnings: 0
+	module worklib.MUX4ND1:v
+		errors: 0, warnings: 0
+	module worklib.MUX4ND2:v
+		errors: 0, warnings: 0
+	module worklib.MUX4ND4:v
+		errors: 0, warnings: 0
+	module worklib.ND2D0:v
+		errors: 0, warnings: 0
+	module worklib.ND2D1:v
+		errors: 0, warnings: 0
+	module worklib.ND2D2:v
+		errors: 0, warnings: 0
+	module worklib.ND2D3:v
+		errors: 0, warnings: 0
+	module worklib.ND2D4:v
+		errors: 0, warnings: 0
+	module worklib.ND2D8:v
+		errors: 0, warnings: 0
+	module worklib.ND3D0:v
+		errors: 0, warnings: 0
+	module worklib.ND3D1:v
+		errors: 0, warnings: 0
+	module worklib.ND3D2:v
+		errors: 0, warnings: 0
+	module worklib.ND3D3:v
+		errors: 0, warnings: 0
+	module worklib.ND3D4:v
+		errors: 0, warnings: 0
+	module worklib.ND3D8:v
+		errors: 0, warnings: 0
+	module worklib.ND4D0:v
+		errors: 0, warnings: 0
+	module worklib.ND4D1:v
+		errors: 0, warnings: 0
+	module worklib.ND4D2:v
+		errors: 0, warnings: 0
+	module worklib.ND4D3:v
+		errors: 0, warnings: 0
+	module worklib.ND4D4:v
+		errors: 0, warnings: 0
+	module worklib.ND4D8:v
+		errors: 0, warnings: 0
+	module worklib.NR2D0:v
+		errors: 0, warnings: 0
+	module worklib.NR2D1:v
+		errors: 0, warnings: 0
+	module worklib.NR2D2:v
+		errors: 0, warnings: 0
+	module worklib.NR2D3:v
+		errors: 0, warnings: 0
+	module worklib.NR2D4:v
+		errors: 0, warnings: 0
+	module worklib.NR2D8:v
+		errors: 0, warnings: 0
+	module worklib.NR2XD0:v
+		errors: 0, warnings: 0
+	module worklib.NR2XD1:v
+		errors: 0, warnings: 0
+	module worklib.NR2XD2:v
+		errors: 0, warnings: 0
+	module worklib.NR2XD3:v
+		errors: 0, warnings: 0
+	module worklib.NR2XD4:v
+		errors: 0, warnings: 0
+	module worklib.NR2XD8:v
+		errors: 0, warnings: 0
+	module worklib.NR3D0:v
+		errors: 0, warnings: 0
+	module worklib.NR3D1:v
+		errors: 0, warnings: 0
+	module worklib.NR3D2:v
+		errors: 0, warnings: 0
+	module worklib.NR3D3:v
+		errors: 0, warnings: 0
+	module worklib.NR3D4:v
+		errors: 0, warnings: 0
+	module worklib.NR3D8:v
+		errors: 0, warnings: 0
+	module worklib.NR4D0:v
+		errors: 0, warnings: 0
+	module worklib.NR4D1:v
+		errors: 0, warnings: 0
+	module worklib.NR4D2:v
+		errors: 0, warnings: 0
+	module worklib.NR4D3:v
+		errors: 0, warnings: 0
+	module worklib.NR4D4:v
+		errors: 0, warnings: 0
+	module worklib.NR4D8:v
+		errors: 0, warnings: 0
+	module worklib.OA211D0:v
+		errors: 0, warnings: 0
+	module worklib.OA211D1:v
+		errors: 0, warnings: 0
+	module worklib.OA211D2:v
+		errors: 0, warnings: 0
+	module worklib.OA211D4:v
+		errors: 0, warnings: 0
+	module worklib.OA21D0:v
+		errors: 0, warnings: 0
+	module worklib.OA21D1:v
+		errors: 0, warnings: 0
+	module worklib.OA21D2:v
+		errors: 0, warnings: 0
+	module worklib.OA21D4:v
+		errors: 0, warnings: 0
+	module worklib.OA221D0:v
+		errors: 0, warnings: 0
+	module worklib.OA221D1:v
+		errors: 0, warnings: 0
+	module worklib.OA221D2:v
+		errors: 0, warnings: 0
+	module worklib.OA221D4:v
+		errors: 0, warnings: 0
+	module worklib.OA222D0:v
+		errors: 0, warnings: 0
+	module worklib.OA222D1:v
+		errors: 0, warnings: 0
+	module worklib.OA222D2:v
+		errors: 0, warnings: 0
+	module worklib.OA222D4:v
+		errors: 0, warnings: 0
+	module worklib.OA22D0:v
+		errors: 0, warnings: 0
+	module worklib.OA22D1:v
+		errors: 0, warnings: 0
+	module worklib.OA22D2:v
+		errors: 0, warnings: 0
+	module worklib.OA22D4:v
+		errors: 0, warnings: 0
+	module worklib.OA31D0:v
+		errors: 0, warnings: 0
+	module worklib.OA31D1:v
+		errors: 0, warnings: 0
+	module worklib.OA31D2:v
+		errors: 0, warnings: 0
+	module worklib.OA31D4:v
+		errors: 0, warnings: 0
+	module worklib.OA32D0:v
+		errors: 0, warnings: 0
+	module worklib.OA32D1:v
+		errors: 0, warnings: 0
+	module worklib.OA32D2:v
+		errors: 0, warnings: 0
+	module worklib.OA32D4:v
+		errors: 0, warnings: 0
+	module worklib.OA33D0:v
+		errors: 0, warnings: 0
+	module worklib.OA33D1:v
+		errors: 0, warnings: 0
+	module worklib.OA33D2:v
+		errors: 0, warnings: 0
+	module worklib.OA33D4:v
+		errors: 0, warnings: 0
+	module worklib.OAI211D0:v
+		errors: 0, warnings: 0
+	module worklib.OAI211D1:v
+		errors: 0, warnings: 0
+	module worklib.OAI211D2:v
+		errors: 0, warnings: 0
+	module worklib.OAI211D4:v
+		errors: 0, warnings: 0
+	module worklib.OAI21D0:v
+		errors: 0, warnings: 0
+	module worklib.OAI21D1:v
+		errors: 0, warnings: 0
+	module worklib.OAI21D2:v
+		errors: 0, warnings: 0
+	module worklib.OAI21D4:v
+		errors: 0, warnings: 0
+	module worklib.OAI221D0:v
+		errors: 0, warnings: 0
+	module worklib.OAI221D1:v
+		errors: 0, warnings: 0
+	module worklib.OAI221D2:v
+		errors: 0, warnings: 0
+	module worklib.OAI221D4:v
+		errors: 0, warnings: 0
+	module worklib.OAI221XD4:v
+		errors: 0, warnings: 0
+	module worklib.OAI222D0:v
+		errors: 0, warnings: 0
+	module worklib.OAI222D1:v
+		errors: 0, warnings: 0
+	module worklib.OAI222D2:v
+		errors: 0, warnings: 0
+	module worklib.OAI222D4:v
+		errors: 0, warnings: 0
+	module worklib.OAI222XD4:v
+		errors: 0, warnings: 0
+	module worklib.OAI22D0:v
+		errors: 0, warnings: 0
+	module worklib.OAI22D1:v
+		errors: 0, warnings: 0
+	module worklib.OAI22D2:v
+		errors: 0, warnings: 0
+	module worklib.OAI22D4:v
+		errors: 0, warnings: 0
+	module worklib.OAI31D0:v
+		errors: 0, warnings: 0
+	module worklib.OAI31D1:v
+		errors: 0, warnings: 0
+	module worklib.OAI31D2:v
+		errors: 0, warnings: 0
+	module worklib.OAI31D4:v
+		errors: 0, warnings: 0
+	module worklib.OAI32D0:v
+		errors: 0, warnings: 0
+	module worklib.OAI32D1:v
+		errors: 0, warnings: 0
+	module worklib.OAI32D2:v
+		errors: 0, warnings: 0
+	module worklib.OAI32D4:v
+		errors: 0, warnings: 0
+	module worklib.OAI32XD4:v
+		errors: 0, warnings: 0
+	module worklib.OAI33D0:v
+		errors: 0, warnings: 0
+	module worklib.OAI33D1:v
+		errors: 0, warnings: 0
+	module worklib.OAI33D2:v
+		errors: 0, warnings: 0
+	module worklib.OAI33D4:v
+		errors: 0, warnings: 0
+	module worklib.OAI33XD4:v
+		errors: 0, warnings: 0
+	module worklib.OD18DCAP16:v
+		errors: 0, warnings: 0
+	module worklib.OD18DCAP32:v
+		errors: 0, warnings: 0
+	module worklib.OD18DCAP64:v
+		errors: 0, warnings: 0
+	module worklib.OR2D0:v
+		errors: 0, warnings: 0
+	module worklib.OR2D1:v
+		errors: 0, warnings: 0
+	module worklib.OR2D2:v
+		errors: 0, warnings: 0
+	module worklib.OR2D4:v
+		errors: 0, warnings: 0
+	module worklib.OR2D8:v
+		errors: 0, warnings: 0
+	module worklib.OR2XD1:v
+		errors: 0, warnings: 0
+	module worklib.OR3D0:v
+		errors: 0, warnings: 0
+	module worklib.OR3D1:v
+		errors: 0, warnings: 0
+	module worklib.OR3D2:v
+		errors: 0, warnings: 0
+	module worklib.OR3D4:v
+		errors: 0, warnings: 0
+	module worklib.OR3D8:v
+		errors: 0, warnings: 0
+	module worklib.OR3XD1:v
+		errors: 0, warnings: 0
+	module worklib.OR4D0:v
+		errors: 0, warnings: 0
+	module worklib.OR4D1:v
+		errors: 0, warnings: 0
+	module worklib.OR4D2:v
+		errors: 0, warnings: 0
+	module worklib.OR4D4:v
+		errors: 0, warnings: 0
+	module worklib.OR4D8:v
+		errors: 0, warnings: 0
+	module worklib.OR4XD1:v
+		errors: 0, warnings: 0
+	module worklib.SDFCND0:v
+		errors: 0, warnings: 0
+	module worklib.SDFCND1:v
+		errors: 0, warnings: 0
+	module worklib.SDFCND2:v
+		errors: 0, warnings: 0
+	module worklib.SDFCND4:v
+		errors: 0, warnings: 0
+	module worklib.SDFCNQD0:v
+		errors: 0, warnings: 0
+	module worklib.SDFCNQD1:v
+		errors: 0, warnings: 0
+	module worklib.SDFCNQD2:v
+		errors: 0, warnings: 0
+	module worklib.SDFCNQD4:v
+		errors: 0, warnings: 0
+	module worklib.SDFCSND0:v
+		errors: 0, warnings: 0
+	module worklib.SDFCSND1:v
+		errors: 0, warnings: 0
+	module worklib.SDFCSND2:v
+		errors: 0, warnings: 0
+	module worklib.SDFCSND4:v
+		errors: 0, warnings: 0
+	module worklib.SDFCSNQD0:v
+		errors: 0, warnings: 0
+	module worklib.SDFCSNQD1:v
+		errors: 0, warnings: 0
+	module worklib.SDFCSNQD2:v
+		errors: 0, warnings: 0
+	module worklib.SDFCSNQD4:v
+		errors: 0, warnings: 0
+	module worklib.SDFD0:v
+		errors: 0, warnings: 0
+	module worklib.SDFD1:v
+		errors: 0, warnings: 0
+	module worklib.SDFD2:v
+		errors: 0, warnings: 0
+	module worklib.SDFD4:v
+		errors: 0, warnings: 0
+	module worklib.SDFKCND0:v
+		errors: 0, warnings: 0
+	module worklib.SDFKCND1:v
+		errors: 0, warnings: 0
+	module worklib.SDFKCND2:v
+		errors: 0, warnings: 0
+	module worklib.SDFKCND4:v
+		errors: 0, warnings: 0
+	module worklib.SDFKCNQD0:v
+		errors: 0, warnings: 0
+	module worklib.SDFKCNQD1:v
+		errors: 0, warnings: 0
+	module worklib.SDFKCNQD2:v
+		errors: 0, warnings: 0
+	module worklib.SDFKCNQD4:v
+		errors: 0, warnings: 0
+	module worklib.SDFKCSND0:v
+		errors: 0, warnings: 0
+	module worklib.SDFKCSND1:v
+		errors: 0, warnings: 0
+	module worklib.SDFKCSND2:v
+		errors: 0, warnings: 0
+	module worklib.SDFKCSND4:v
+		errors: 0, warnings: 0
+	module worklib.SDFKCSNQD0:v
+		errors: 0, warnings: 0
+	module worklib.SDFKCSNQD1:v
+		errors: 0, warnings: 0
+	module worklib.SDFKCSNQD2:v
+		errors: 0, warnings: 0
+	module worklib.SDFKCSNQD4:v
+		errors: 0, warnings: 0
+	module worklib.SDFKSND0:v
+		errors: 0, warnings: 0
+	module worklib.SDFKSND1:v
+		errors: 0, warnings: 0
+	module worklib.SDFKSND2:v
+		errors: 0, warnings: 0
+	module worklib.SDFKSND4:v
+		errors: 0, warnings: 0
+	module worklib.SDFKSNQD0:v
+		errors: 0, warnings: 0
+	module worklib.SDFKSNQD1:v
+		errors: 0, warnings: 0
+	module worklib.SDFKSNQD2:v
+		errors: 0, warnings: 0
+	module worklib.SDFKSNQD4:v
+		errors: 0, warnings: 0
+	module worklib.SDFNCND0:v
+		errors: 0, warnings: 0
+	module worklib.SDFNCND1:v
+		errors: 0, warnings: 0
+	module worklib.SDFNCND2:v
+		errors: 0, warnings: 0
+	module worklib.SDFNCND4:v
+		errors: 0, warnings: 0
+	module worklib.SDFNCSND0:v
+		errors: 0, warnings: 0
+	module worklib.SDFNCSND1:v
+		errors: 0, warnings: 0
+	module worklib.SDFNCSND2:v
+		errors: 0, warnings: 0
+	module worklib.SDFNCSND4:v
+		errors: 0, warnings: 0
+	module worklib.SDFND0:v
+		errors: 0, warnings: 0
+	module worklib.SDFND1:v
+		errors: 0, warnings: 0
+	module worklib.SDFND2:v
+		errors: 0, warnings: 0
+	module worklib.SDFND4:v
+		errors: 0, warnings: 0
+	module worklib.SDFNSND0:v
+		errors: 0, warnings: 0
+	module worklib.SDFNSND1:v
+		errors: 0, warnings: 0
+	module worklib.SDFNSND2:v
+		errors: 0, warnings: 0
+	module worklib.SDFNSND4:v
+		errors: 0, warnings: 0
+	module worklib.SDFQD0:v
+		errors: 0, warnings: 0
+	module worklib.SDFQD1:v
+		errors: 0, warnings: 0
+	module worklib.SDFQD2:v
+		errors: 0, warnings: 0
+	module worklib.SDFQD4:v
+		errors: 0, warnings: 0
+	module worklib.SDFQND0:v
+		errors: 0, warnings: 0
+	module worklib.SDFQND1:v
+		errors: 0, warnings: 0
+	module worklib.SDFQND2:v
+		errors: 0, warnings: 0
+	module worklib.SDFQND4:v
+		errors: 0, warnings: 0
+	module worklib.SDFSND0:v
+		errors: 0, warnings: 0
+	module worklib.SDFSND1:v
+		errors: 0, warnings: 0
+	module worklib.SDFSND2:v
+		errors: 0, warnings: 0
+	module worklib.SDFSND4:v
+		errors: 0, warnings: 0
+	module worklib.SDFSNQD0:v
+		errors: 0, warnings: 0
+	module worklib.SDFSNQD1:v
+		errors: 0, warnings: 0
+	module worklib.SDFSNQD2:v
+		errors: 0, warnings: 0
+	module worklib.SDFSNQD4:v
+		errors: 0, warnings: 0
+	module worklib.SDFXD0:v
+		errors: 0, warnings: 0
+	module worklib.SDFXD1:v
+		errors: 0, warnings: 0
+	module worklib.SDFXD2:v
+		errors: 0, warnings: 0
+	module worklib.SDFXD4:v
+		errors: 0, warnings: 0
+	module worklib.SDFXQD0:v
+		errors: 0, warnings: 0
+	module worklib.SDFXQD1:v
+		errors: 0, warnings: 0
+	module worklib.SDFXQD2:v
+		errors: 0, warnings: 0
+	module worklib.SDFXQD4:v
+		errors: 0, warnings: 0
+	module worklib.SEDFCND0:v
+		errors: 0, warnings: 0
+	module worklib.SEDFCND1:v
+		errors: 0, warnings: 0
+	module worklib.SEDFCND2:v
+		errors: 0, warnings: 0
+	module worklib.SEDFCND4:v
+		errors: 0, warnings: 0
+	module worklib.SEDFCNQD0:v
+		errors: 0, warnings: 0
+	module worklib.SEDFCNQD1:v
+		errors: 0, warnings: 0
+	module worklib.SEDFCNQD2:v
+		errors: 0, warnings: 0
+	module worklib.SEDFCNQD4:v
+		errors: 0, warnings: 0
+	module worklib.SEDFD0:v
+		errors: 0, warnings: 0
+	module worklib.SEDFD1:v
+		errors: 0, warnings: 0
+	module worklib.SEDFD2:v
+		errors: 0, warnings: 0
+	module worklib.SEDFD4:v
+		errors: 0, warnings: 0
+	module worklib.SEDFKCND0:v
+		errors: 0, warnings: 0
+	module worklib.SEDFKCND1:v
+		errors: 0, warnings: 0
+	module worklib.SEDFKCND2:v
+		errors: 0, warnings: 0
+	module worklib.SEDFKCND4:v
+		errors: 0, warnings: 0
+	module worklib.SEDFKCNQD0:v
+		errors: 0, warnings: 0
+	module worklib.SEDFKCNQD1:v
+		errors: 0, warnings: 0
+	module worklib.SEDFKCNQD2:v
+		errors: 0, warnings: 0
+	module worklib.SEDFKCNQD4:v
+		errors: 0, warnings: 0
+	module worklib.SEDFQD0:v
+		errors: 0, warnings: 0
+	module worklib.SEDFQD1:v
+		errors: 0, warnings: 0
+	module worklib.SEDFQD2:v
+		errors: 0, warnings: 0
+	module worklib.SEDFQD4:v
+		errors: 0, warnings: 0
+	module worklib.SEDFQND0:v
+		errors: 0, warnings: 0
+	module worklib.SEDFQND1:v
+		errors: 0, warnings: 0
+	module worklib.SEDFQND2:v
+		errors: 0, warnings: 0
+	module worklib.SEDFQND4:v
+		errors: 0, warnings: 0
+	module worklib.SEDFQNXD0:v
+		errors: 0, warnings: 0
+	module worklib.SEDFQNXD1:v
+		errors: 0, warnings: 0
+	module worklib.SEDFQNXD2:v
+		errors: 0, warnings: 0
+	module worklib.SEDFQNXD4:v
+		errors: 0, warnings: 0
+	module worklib.SEDFQXD0:v
+		errors: 0, warnings: 0
+	module worklib.SEDFQXD1:v
+		errors: 0, warnings: 0
+	module worklib.SEDFQXD2:v
+		errors: 0, warnings: 0
+	module worklib.SEDFQXD4:v
+		errors: 0, warnings: 0
+	module worklib.SEDFXD0:v
+		errors: 0, warnings: 0
+	module worklib.SEDFXD1:v
+		errors: 0, warnings: 0
+	module worklib.SEDFXD2:v
+		errors: 0, warnings: 0
+	module worklib.SEDFXD4:v
+		errors: 0, warnings: 0
+	module worklib.TIEH:v
+		errors: 0, warnings: 0
+	module worklib.TIEL:v
+		errors: 0, warnings: 0
+	module worklib.XNR2D0:v
+		errors: 0, warnings: 0
+	module worklib.XNR2D1:v
+		errors: 0, warnings: 0
+	module worklib.XNR2D2:v
+		errors: 0, warnings: 0
+	module worklib.XNR2D4:v
+		errors: 0, warnings: 0
+	module worklib.XNR3D0:v
+		errors: 0, warnings: 0
+	module worklib.XNR3D1:v
+		errors: 0, warnings: 0
+	module worklib.XNR3D2:v
+		errors: 0, warnings: 0
+	module worklib.XNR3D4:v
+		errors: 0, warnings: 0
+	module worklib.XNR4D0:v
+		errors: 0, warnings: 0
+	module worklib.XNR4D1:v
+		errors: 0, warnings: 0
+	module worklib.XNR4D2:v
+		errors: 0, warnings: 0
+	module worklib.XNR4D4:v
+		errors: 0, warnings: 0
+	module worklib.XOR2D0:v
+		errors: 0, warnings: 0
+	module worklib.XOR2D1:v
+		errors: 0, warnings: 0
+	module worklib.XOR2D2:v
+		errors: 0, warnings: 0
+	module worklib.XOR2D4:v
+		errors: 0, warnings: 0
+	module worklib.XOR3D0:v
+		errors: 0, warnings: 0
+	module worklib.XOR3D1:v
+		errors: 0, warnings: 0
+	module worklib.XOR3D2:v
+		errors: 0, warnings: 0
+	module worklib.XOR3D4:v
+		errors: 0, warnings: 0
+	module worklib.XOR4D0:v
+		errors: 0, warnings: 0
+	module worklib.XOR4D1:v
+		errors: 0, warnings: 0
+	module worklib.XOR4D2:v
+		errors: 0, warnings: 0
+	module worklib.XOR4D4:v
+		errors: 0, warnings: 0
+	module worklib.ISOHID1:v
+		errors: 0, warnings: 0
+	module worklib.ISOHID2:v
+		errors: 0, warnings: 0
+	module worklib.ISOHID4:v
+		errors: 0, warnings: 0
+	module worklib.ISOHID8:v
+		errors: 0, warnings: 0
+	module worklib.ISOLOD1:v
+		errors: 0, warnings: 0
+	module worklib.ISOLOD2:v
+		errors: 0, warnings: 0
+	module worklib.ISOLOD4:v
+		errors: 0, warnings: 0
+	module worklib.ISOLOD8:v
+		errors: 0, warnings: 0
+	module worklib.LVLHLD1:v
+		errors: 0, warnings: 0
+	module worklib.LVLHLD2:v
+		errors: 0, warnings: 0
+	module worklib.LVLHLD4:v
+		errors: 0, warnings: 0
+	module worklib.LVLHLD8:v
+		errors: 0, warnings: 0
+	module worklib.LVLLHCD1:v
+		errors: 0, warnings: 0
+	module worklib.LVLLHCD2:v
+		errors: 0, warnings: 0
+	module worklib.LVLLHCD4:v
+		errors: 0, warnings: 0
+	module worklib.LVLLHCD8:v
+		errors: 0, warnings: 0
+	module worklib.LVLLHD1:v
+		errors: 0, warnings: 0
+	module worklib.LVLLHD2:v
+		errors: 0, warnings: 0
+	module worklib.LVLLHD4:v
+		errors: 0, warnings: 0
+	module worklib.LVLLHD8:v
+		errors: 0, warnings: 0
+	module worklib.LVLLHFACD1:v
+		errors: 0, warnings: 0
+	module worklib.LVLLHFACD2:v
+		errors: 0, warnings: 0
+	module worklib.LVLLHFACD4:v
+		errors: 0, warnings: 0
+	module worklib.LVLLHFACD8:v
+		errors: 0, warnings: 0
+	module worklib.LVLLHFAD1:v
+		errors: 0, warnings: 0
+	module worklib.LVLLHFAD2:v
+		errors: 0, warnings: 0
+	module worklib.LVLLHFAD4:v
+		errors: 0, warnings: 0
+	module worklib.LVLLHFAD8:v
+		errors: 0, warnings: 0
+	primitive worklib.tsmc_mux:v
+		errors: 0, warnings: 0
+	primitive worklib.tsmc_dla:v
+		errors: 0, warnings: 0
+	primitive worklib.tsmc_xbuf:v
+		errors: 0, warnings: 0
+	primitive worklib.tsmc_dff:v
+		errors: 0, warnings: 0
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+  sequencer Sequencer ( .clk(clk), .rst_n(rst_n), .start(START), .continue_i(
+                    |
+ncelab: *W,CUVWSP (../syn_top/kf_top_syn.v,29924|20): 2 output ports were not connected:
+ncelab: (../syn_top/kf_top_syn.v,18682): ctl_c
+ncelab: (../syn_top/kf_top_syn.v,18682): pc_dbg
+
+  mem_reg Memory_Registers ( .clk(clk), .write(ra_write), .dira(ra_dira), 
+                         |
+ncelab: *W,CUVWSP (../syn_top/kf_top_syn.v,29932|25): 2 output ports were not connected:
+ncelab: (../syn_top/kf_top_syn.v,23337): RQ
+ncelab: (../syn_top/kf_top_syn.v,23338): RD
+
+  router_b Router_B ( .A(db_A), .B(db_B), .RQ({net26326, net26327, net26328, 
+                  |
+ncelab: *W,CUVWSP (../syn_top/kf_top_syn.v,29935|18): 3 output ports were not connected:
+ncelab: (../syn_top/kf_top_syn.v,23355): I
+ncelab: (../syn_top/kf_top_syn.v,23356): msb_R
+ncelab: (../syn_top/kf_top_syn.v,23356): msb_S
+
+  au AU ( .clk(clk), .rst_n(rst_n), .start(ctl_e), .R(R_bus), .S(S_bus), .I({
+      |
+ncelab: *W,CUVWSP (../syn_top/kf_top_syn.v,29945|6): 1 output port was not connected:
+ncelab: (../syn_top/kf_top_syn.v,25496): busy
+
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.AO211D0:v <0x72c3f8d4>
+			streams:   0, words:     0
+		worklib.AO211D1:v <0x2621da07>
+			streams:   0, words:     0
+		worklib.AO211D2:v <0x1c6a0683>
+			streams:   0, words:     0
+		worklib.AO211D4:v <0x68fdbf8b>
+			streams:   0, words:     0
+		worklib.AO21D0:v <0x7cc28b73>
+			streams:   0, words:     0
+		worklib.AO21D1:v <0x3cb3f79b>
+			streams:   0, words:     0
+		worklib.AO21D2:v <0x1600e26d>
+			streams:   0, words:     0
+		worklib.AO21D4:v <0x20aba8a5>
+			streams:   0, words:     0
+		worklib.AO221D0:v <0x0d36dd94>
+			streams:   0, words:     0
+		worklib.AO221D1:v <0x226b1160>
+			streams:   0, words:     0
+		worklib.AO221D2:v <0x626bf4ee>
+			streams:   0, words:     0
+		worklib.AO221D4:v <0x3041ee44>
+			streams:   0, words:     0
+		worklib.AO222D0:v <0x54afef2e>
+			streams:   0, words:     0
+		worklib.AO222D1:v <0x45540f05>
+			streams:   0, words:     0
+		worklib.AO222D2:v <0x634e3ba2>
+			streams:   0, words:     0
+		worklib.AO222D4:v <0x45ede43f>
+			streams:   0, words:     0
+		worklib.AO22D0:v <0x4bb466bc>
+			streams:   0, words:     0
+		worklib.AO22D1:v <0x64b4fcb0>
+			streams:   0, words:     0
+		worklib.AO22D2:v <0x0f64b348>
+			streams:   0, words:     0
+		worklib.AO22D4:v <0x03b52af9>
+			streams:   0, words:     0
+		worklib.AO31D0:v <0x23fe0ba8>
+			streams:   0, words:     0
+		worklib.AO31D1:v <0x37c3d172>
+			streams:   0, words:     0
+		worklib.AO31D2:v <0x02df69eb>
+			streams:   0, words:     0
+		worklib.AO31D4:v <0x68e618d9>
+			streams:   0, words:     0
+		worklib.AO32D0:v <0x46c3c3bb>
+			streams:   0, words:     0
+		worklib.AO32D1:v <0x65f96667>
+			streams:   0, words:     0
+		worklib.AO32D2:v <0x09ec5ff4>
+			streams:   0, words:     0
+		worklib.AO32D4:v <0x60209c40>
+			streams:   0, words:     0
+		worklib.AO33D0:v <0x071382f1>
+			streams:   0, words:     0
+		worklib.AO33D1:v <0x5407aace>
+			streams:   0, words:     0
+		worklib.AO33D2:v <0x7a4ad4ce>
+			streams:   0, words:     0
+		worklib.AO33D4:v <0x7da12e8f>
+			streams:   0, words:     0
+		worklib.AOI211D0:v <0x4b5abb26>
+			streams:   0, words:     0
+		worklib.AOI211D1:v <0x1fb899f5>
+			streams:   0, words:     0
+		worklib.AOI211D2:v <0x25f34571>
+			streams:   0, words:     0
+		worklib.AOI211D4:v <0x5164fc79>
+			streams:   0, words:     0
+		worklib.AOI211XD0:v <0x45a0f004>
+			streams:   0, words:     0
+		worklib.AOI211XD1:v <0x54aff6d5>
+			streams:   0, words:     0
+		worklib.AOI211XD2:v <0x6ee42a51>
+			streams:   0, words:     0
+		worklib.AOI211XD4:v <0x1a739359>
+			streams:   0, words:     0
+		worklib.AOI21D0:v <0x64195555>
+			streams:   0, words:     0
+		worklib.AOI21D1:v <0x6a1c7b24>
+			streams:   0, words:     0
+		worklib.AOI21D2:v <0x0edb3c4b>
+			streams:   0, words:     0
+		worklib.AOI21D4:v <0x38707683>
+			streams:   0, words:     0
+		worklib.AOI221D0:v <0x7c9df029>
+			streams:   0, words:     0
+		worklib.AOI221D1:v <0x556e61ca>
+			streams:   0, words:     0
+		worklib.AOI221D2:v <0x156e8444>
+			streams:   0, words:     0
+		worklib.AOI221D4:v <0x47449eee>
+			streams:   0, words:     0
+		worklib.AOI221XD4:v <0x192ca28d>
+			streams:   0, words:     0
+		worklib.AOI222D0:v <0x5f15d208>
+			streams:   0, words:     0
+		worklib.AOI222D1:v <0x4eee3223>
+			streams:   0, words:     0
+		worklib.AOI222D2:v <0x68f40684>
+			streams:   0, words:     0
+		worklib.AOI222D4:v <0x4e57d919>
+			streams:   0, words:     0
+		worklib.AOI222XD4:v <0x52aa1ef7>
+			streams:   0, words:     0
+		worklib.AOI22D0:v <0x590b0f02>
+			streams:   0, words:     0
+		worklib.AOI22D1:v <0x760b950e>
+			streams:   0, words:     0
+		worklib.AOI22D2:v <0x1ddbdaf6>
+			streams:   0, words:     0
+		worklib.AOI22D4:v <0x110a4347>
+			streams:   0, words:     0
+		worklib.AOI31D0:v <0x6821c530>
+			streams:   0, words:     0
+		worklib.AOI31D1:v <0x7c1c1fea>
+			streams:   0, words:     0
+		worklib.AOI31D2:v <0x4900a773>
+			streams:   0, words:     0
+		worklib.AOI31D4:v <0x2339d641>
+			streams:   0, words:     0
+		worklib.AOI32D0:v <0x243572fd>
+			streams:   0, words:     0
+		worklib.AOI32D1:v <0x681092b5>
+			streams:   0, words:     0
+		worklib.AOI32D2:v <0x0405ab26>
+			streams:   0, words:     0
+		worklib.AOI32D4:v <0x6dc96892>
+			streams:   0, words:     0
+		worklib.AOI32XD4:v <0x7cc77daf>
+			streams:   0, words:     0
+		worklib.AOI33D0:v <0x79f237b1>
+			streams:   0, words:     0
+		worklib.AOI33D1:v <0x195a144e>
+			streams:   0, words:     0
+		worklib.AOI33D2:v <0x37176a4e>
+			streams:   0, words:     0
+		worklib.AOI33D4:v <0x30fc900f>
+			streams:   0, words:     0
+		worklib.AOI33XD4:v <0x6037ed95>
+			streams:   0, words:     0
+		worklib.BENCD1:v <0x7f5e15f8>
+			streams:   0, words:     0
+		worklib.BENCD2:v <0x6c734f0f>
+			streams:   0, words:     0
+		worklib.BENCD4:v <0x20be4c32>
+			streams:   0, words:     0
+		worklib.BMLD1:v <0x41ffb5e7>
+			streams:   0, words:     0
+		worklib.BMLD2:v <0x4a93abda>
+			streams:   0, words:     0
+		worklib.BMLD4:v <0x6dad2732>
+			streams:   0, words:     0
+		worklib.BUFTD0:v <0x5e92ed65>
+			streams:   1, words:  1114
+		worklib.BUFTD12:v <0x083263ed>
+			streams:   1, words:  1114
+		worklib.BUFTD16:v <0x432a9385>
+			streams:   1, words:  1114
+		worklib.BUFTD1:v <0x7db261ed>
+			streams:   1, words:  1114
+		worklib.BUFTD20:v <0x715f5c52>
+			streams:   1, words:  1114
+		worklib.BUFTD24:v <0x3a47ac3a>
+			streams:   1, words:  1114
+		worklib.BUFTD2:v <0x7b1e9551>
+			streams:   1, words:  1114
+		worklib.BUFTD3:v <0x583e19d9>
+			streams:   1, words:  1114
+		worklib.BUFTD4:v <0x158a1d0d>
+			streams:   1, words:  1114
+		worklib.BUFTD6:v <0x30066539>
+			streams:   1, words:  1114
+		worklib.BUFTD8:v <0x7945bd27>
+			streams:   1, words:  1114
+		worklib.CKLHQD12:v <0x372d8ea9>
+			streams:   0, words:     0
+		worklib.CKLHQD16:v <0x26f45350>
+			streams:   0, words:     0
+		worklib.CKLHQD1:v <0x7075e7b9>
+			streams:   0, words:     0
+		worklib.CKLHQD20:v <0x5a594cae>
+			streams:   0, words:     0
+		worklib.CKLHQD24:v <0x4b809157>
+			streams:   0, words:     0
+		worklib.CKLHQD2:v <0x366d0c19>
+			streams:   0, words:     0
+		worklib.CKLHQD3:v <0x55218a65>
+			streams:   0, words:     0
+		worklib.CKLHQD4:v <0x02e0bc3c>
+			streams:   0, words:     0
+		worklib.CKLHQD6:v <0x27b4d1e0>
+			streams:   0, words:     0
+		worklib.CKLHQD8:v <0x5a1d6ce4>
+			streams:   0, words:     0
+		worklib.CKLNQD12:v <0x452e8089>
+			streams:   0, words:     0
+		worklib.CKLNQD16:v <0x211ff24b>
+			streams:   0, words:     0
+		worklib.CKLNQD1:v <0x2e99a273>
+			streams:   0, words:     0
+		worklib.CKLNQD20:v <0x6d4d0017>
+			streams:   0, words:     0
+		worklib.CKLNQD24:v <0x097c72d5>
+			streams:   0, words:     0
+		worklib.CKLNQD2:v <0x7107b3cf>
+			streams:   0, words:     0
+		worklib.CKLNQD3:v <0x7594f3c9>
+			streams:   0, words:     0
+		worklib.CKLNQD4:v <0x4e3b90b7>
+			streams:   0, words:     0
+		worklib.CKLNQD6:v <0x1536c10d>
+			streams:   0, words:     0
+		worklib.CKLNQD8:v <0x6b32d006>
+			streams:   0, words:     0
+		worklib.CKMUX2D0:v <0x7bf55564>
+			streams:   0, words:     0
+		worklib.CKMUX2D1:v <0x4703f0ab>
+			streams:   0, words:     0
+		worklib.CKMUX2D2:v <0x688fa829>
+			streams:   0, words:     0
+		worklib.CKMUX2D4:v <0x545a7809>
+			streams:   0, words:     0
+		worklib.CKXOR2D0:v <0x248e9959>
+			streams:   0, words:     0
+		worklib.CKXOR2D1:v <0x4f786db8>
+			streams:   0, words:     0
+		worklib.CKXOR2D2:v <0x7f17a47c>
+			streams:   0, words:     0
+		worklib.CKXOR2D4:v <0x4de3e642>
+			streams:   0, words:     0
+		worklib.CMPE42D1:v <0x61797607>
+			streams:   0, words:     0
+		worklib.CMPE42D2:v <0x66fd9a29>
+			streams:   0, words:     0
+		worklib.DFCND1:v <0x2a234c47>
+			streams:   0, words:     0
+		worklib.DFCND2:v <0x4f9ca42c>
+			streams:   0, words:     0
+		worklib.DFCND4:v <0x56c8a54c>
+			streams:   0, words:     0
+		worklib.DFCNQD1:v <0x4926c4a6>
+			streams:   0, words:     0
+		worklib.DFCNQD2:v <0x75cc6879>
+			streams:   0, words:     0
+		worklib.DFCNQD4:v <0x167f82f3>
+			streams:   0, words:     0
+		worklib.DFCSND1:v <0x49fa37b2>
+			streams:   1, words:  2771
+		worklib.DFCSND2:v <0x7779e78e>
+			streams:   1, words:  2771
+		worklib.DFCSND4:v <0x03249001>
+			streams:   1, words:  2771
+		worklib.DFCSNQD1:v <0x0f5851a5>
+			streams:   1, words:  2771
+		worklib.DFCSNQD2:v <0x21152fa5>
+			streams:   1, words:  2771
+		worklib.DFCSNQD4:v <0x26fed5e4>
+			streams:   1, words:  2771
+		worklib.DFD1:v <0x15922de4>
+			streams:   0, words:     0
+		worklib.DFD2:v <0x443778ca>
+			streams:   0, words:     0
+		worklib.DFD4:v <0x6e270561>
+			streams:   0, words:     0
+		worklib.DFKCND1:v <0x16dacd0d>
+			streams:   0, words:     0
+		worklib.DFKCND2:v <0x7549e1da>
+			streams:   0, words:     0
+		worklib.DFKCND4:v <0x038908e6>
+			streams:   0, words:     0
+		worklib.DFKCNQD1:v <0x03aaa218>
+			streams:   0, words:     0
+		worklib.DFKCNQD2:v <0x13d8c0fe>
+			streams:   0, words:     0
+		worklib.DFKCNQD4:v <0x333c0532>
+			streams:   0, words:     0
+		worklib.DFKCSND1:v <0x1c6864e9>
+			streams:   0, words:     0
+		worklib.DFKCSND2:v <0x193d9b78>
+			streams:   0, words:     0
+		worklib.DFKCSND4:v <0x48e7621b>
+			streams:   0, words:     0
+		worklib.DFKSND1:v <0x72b3e47e>
+			streams:   0, words:     0
+		worklib.DFKSND2:v <0x7c47ee24>
+			streams:   0, words:     0
+		worklib.DFKSND4:v <0x0b384c43>
+			streams:   0, words:     0
+		worklib.DFNCND1:v <0x46659552>
+			streams:   0, words:     0
+		worklib.DFNCND2:v <0x19fb84ee>
+			streams:   0, words:     0
+		worklib.DFNCND4:v <0x26c7a796>
+			streams:   0, words:     0
+		worklib.DFNCSND1:v <0x6f7ce047>
+			streams:   1, words:  2771
+		worklib.DFNCSND2:v <0x4966d4e0>
+			streams:   1, words:  2771
+		worklib.DFNCSND4:v <0x6fc50b7d>
+			streams:   1, words:  2771
+		worklib.DFND1:v <0x5fea99f1>
+			streams:   0, words:     0
+		worklib.DFND2:v <0x7952c49e>
+			streams:   0, words:     0
+		worklib.DFND4:v <0x5eb5c893>
+			streams:   0, words:     0
+		worklib.DFNSND1:v <0x2d0f5c7b>
+			streams:   0, words:     0
+		worklib.DFNSND2:v <0x72914dc7>
+			streams:   0, words:     0
+		worklib.DFNSND4:v <0x4dad6ebf>
+			streams:   0, words:     0
+		worklib.DFQD1:v <0x20bc8d9b>
+			streams:   0, words:     0
+		worklib.DFQD2:v <0x4423a09c>
+			streams:   0, words:     0
+		worklib.DFQD4:v <0x768f9b34>
+			streams:   0, words:     0
+		worklib.DFSND1:v <0x6dce34bc>
+			streams:   0, words:     0
+		worklib.DFSND2:v <0x0871dcd7>
+			streams:   0, words:     0
+		worklib.DFSND4:v <0x1125ddb7>
+			streams:   0, words:     0
+		worklib.DFSNQD1:v <0x17374c7f>
+			streams:   0, words:     0
+		worklib.DFSNQD2:v <0x570809a8>
+			streams:   0, words:     0
+		worklib.DFSNQD4:v <0x34bbe322>
+			streams:   0, words:     0
+		worklib.DFXD1:v <0x439ca281>
+			streams:   0, words:     0
+		worklib.DFXD2:v <0x44f81d08>
+			streams:   0, words:     0
+		worklib.DFXD4:v <0x29fc033e>
+			streams:   0, words:     0
+		worklib.DFXQD1:v <0x2d0fdee1>
+			streams:   0, words:     0
+		worklib.DFXQD2:v <0x2f5f731a>
+			streams:   0, words:     0
+		worklib.DFXQD4:v <0x483349c8>
+			streams:   0, words:     0
+		worklib.EDFCND1:v <0x4a867f2c>
+			streams:   0, words:     0
+		worklib.EDFCND2:v <0x29eeac70>
+			streams:   0, words:     0
+		worklib.EDFCND4:v <0x05a8bc1b>
+			streams:   0, words:     0
+		worklib.EDFCNQD1:v <0x431a5538>
+			streams:   0, words:     0
+		worklib.EDFCNQD2:v <0x699af059>
+			streams:   0, words:     0
+		worklib.EDFCNQD4:v <0x67eabcda>
+			streams:   0, words:     0
+		worklib.EDFD1:v <0x4115d295>
+			streams:   0, words:     0
+		worklib.EDFD2:v <0x1e8bc329>
+			streams:   0, words:     0
+		worklib.EDFD4:v <0x21b7e051>
+			streams:   0, words:     0
+		worklib.EDFKCND1:v <0x73e921c8>
+			streams:   0, words:     0
+		worklib.EDFKCND2:v <0x2e365a73>
+			streams:   0, words:     0
+		worklib.EDFKCND4:v <0x7f1f1bd6>
+			streams:   0, words:     0
+		worklib.EDFKCNQD1:v <0x55d0f942>
+			streams:   0, words:     0
+		worklib.EDFKCNQD2:v <0x43dc61c7>
+			streams:   0, words:     0
+		worklib.EDFKCNQD4:v <0x5e23e05f>
+			streams:   0, words:     0
+		worklib.EDFQD1:v <0x072bd0f7>
+			streams:   0, words:     0
+		worklib.EDFQD2:v <0x79550253>
+			streams:   0, words:     0
+		worklib.EDFQD4:v <0x60010333>
+			streams:   0, words:     0
+		worklib.FA1D0:v <0x45dfe655>
+			streams:   0, words:     0
+		worklib.FA1D1:v <0x3342a8a1>
+			streams:   0, words:     0
+		worklib.FA1D2:v <0x1c1a4de6>
+			streams:   0, words:     0
+		worklib.FA1D4:v <0x7a17e00d>
+			streams:   0, words:     0
+		worklib.FCICIND1:v <0x1cf05ca2>
+			streams:   0, words:     0
+		worklib.FCICIND2:v <0x24095618>
+			streams:   0, words:     0
+		worklib.FCICOND1:v <0x1ae858e9>
+			streams:   0, words:     0
+		worklib.FCICOND2:v <0x22115253>
+			streams:   0, words:     0
+		worklib.FCSICIND1:v <0x6a39155f>
+			streams:   0, words:     0
+		worklib.FCSICIND2:v <0x012e0de7>
+			streams:   0, words:     0
+		worklib.FCSICOND1:v <0x37ac59d9>
+			streams:   0, words:     0
+		worklib.FCSICOND2:v <0x5cbb4161>
+			streams:   0, words:     0
+		worklib.FICIND1:v <0x695f2f74>
+			streams:   0, words:     0
+		worklib.FICIND2:v <0x3709fce0>
+			streams:   0, words:     0
+		worklib.FICOND1:v <0x2cc1c84d>
+			streams:   0, words:     0
+		worklib.FICOND2:v <0x72971bd9>
+			streams:   0, words:     0
+		worklib.FIICOND1:v <0x27008c66>
+			streams:   0, words:     0
+		worklib.FIICOND2:v <0x79565ff2>
+			streams:   0, words:     0
+		worklib.GAOI21D1:v <0x037355ce>
+			streams:   0, words:     0
+		worklib.GAOI21D2:v <0x29c04038>
+			streams:   0, words:     0
+		worklib.GAOI22D1:v <0x7da552c5>
+			streams:   0, words:     0
+		worklib.GDFCNQD1:v <0x30a129c9>
+			streams:   0, words:     0
+		worklib.GDFQD1:v <0x268fe71e>
+			streams:   0, words:     0
+		worklib.GMUX2D1:v <0x6ff5a7b3>
+			streams:   0, words:     0
+		worklib.GMUX2D2:v <0x4079ff31>
+			streams:   0, words:     0
+		worklib.GMUX2ND1:v <0x1dfe37de>
+			streams:   0, words:     0
+		worklib.GMUX2ND2:v <0x32726f5c>
+			streams:   0, words:     0
+		worklib.GOAI21D1:v <0x561833ee>
+			streams:   0, words:     0
+		worklib.GOAI21D2:v <0x7cab2618>
+			streams:   0, words:     0
+		worklib.GSDFCNQD1:v <0x6d0ba539>
+			streams:   0, words:     0
+		worklib.GXNR2D1:v <0x273055b3>
+			streams:   0, words:     0
+		worklib.GXNR2D2:v <0x175f9c77>
+			streams:   0, words:     0
+		worklib.GXOR2D1:v <0x3806170d>
+			streams:   0, words:     0
+		worklib.GXOR2D2:v <0x0869dec9>
+			streams:   0, words:     0
+		worklib.HA1D0:v <0x527a841e>
+			streams:   0, words:     0
+		worklib.HA1D1:v <0x5c7faa6f>
+			streams:   0, words:     0
+		worklib.HA1D2:v <0x76ccbf99>
+			streams:   0, words:     0
+		worklib.HA1D4:v <0x4067f551>
+			streams:   0, words:     0
+		worklib.HCOSCIND1:v <0x4bc0213f>
+			streams:   0, words:     0
+		worklib.HCOSCIND2:v <0x4d6cd583>
+			streams:   0, words:     0
+		worklib.HCOSCOND1:v <0x3df74c4d>
+			streams:   0, words:     0
+		worklib.HCOSCOND2:v <0x3b5bb8f1>
+			streams:   0, words:     0
+		worklib.HICIND1:v <0x03e9aad5>
+			streams:   0, words:     0
+		worklib.HICIND2:v <0x6b3aa7f2>
+			streams:   0, words:     0
+		worklib.HICOND1:v <0x4c7d1296>
+			streams:   0, words:     0
+		worklib.HICOND2:v <0x24ae1fb1>
+			streams:   0, words:     0
+		worklib.IAO21D0:v <0x522a372b>
+			streams:   0, words:     0
+		worklib.IAO21D1:v <0x432531fa>
+			streams:   0, words:     0
+		worklib.IAO21D2:v <0x796eed7e>
+			streams:   0, words:     0
+		worklib.IAO21D4:v <0x0df95476>
+			streams:   0, words:     0
+		worklib.IAO22D0:v <0x22867a5f>
+			streams:   0, words:     0
+		worklib.IAO22D1:v <0x2efe5216>
+			streams:   0, words:     0
+		worklib.IAO22D2:v <0x3a762acd>
+			streams:   0, words:     0
+		worklib.IAO22D4:v <0x22806be9>
+			streams:   0, words:     0
+		worklib.IOA21D0:v <0x0b31680c>
+			streams:   0, words:     0
+		worklib.IOA21D1:v <0x5fd34adf>
+			streams:   0, words:     0
+		worklib.IOA21D2:v <0x6598965b>
+			streams:   0, words:     0
+		worklib.IOA21D4:v <0x110f2f53>
+			streams:   0, words:     0
+		worklib.IOA22D0:v <0x7313f092>
+			streams:   0, words:     0
+		worklib.IOA22D1:v <0x7f6bd8db>
+			streams:   0, words:     0
+		worklib.IOA22D2:v <0x6be3a000>
+			streams:   0, words:     0
+		worklib.IOA22D4:v <0x7315e124>
+			streams:   0, words:     0
+		worklib.LHCND1:v <0x3d3ff76e>
+			streams:   0, words:     0
+		worklib.LHCND2:v <0x7d00b2b9>
+			streams:   0, words:     0
+		worklib.LHCND4:v <0x1eb35833>
+			streams:   0, words:     0
+		worklib.LHCNDD1:v <0x574dce7a>
+			streams:   0, words:     0
+		worklib.LHCNDD2:v <0x17728bad>
+			streams:   0, words:     0
+		worklib.LHCNDD4:v <0x74c16127>
+			streams:   0, words:     0
+		worklib.LHCNDQD1:v <0x401a9880>
+			streams:   0, words:     0
+		worklib.LHCNDQD2:v <0x3f86d2e2>
+			streams:   0, words:     0
+		worklib.LHCNDQD4:v <0x40be4626>
+			streams:   0, words:     0
+		worklib.LHCNQD1:v <0x31100c25>
+			streams:   0, words:     0
+		worklib.LHCNQD2:v <0x4e8c4647>
+			streams:   0, words:     0
+		worklib.LHCNQD4:v <0x31b4d283>
+			streams:   0, words:     0
+		worklib.LHCSND1:v <0x5cec32e2>
+			streams:   1, words:  2771
+		worklib.LHCSND2:v <0x04536c73>
+			streams:   1, words:  2771
+		worklib.LHCSND4:v <0x56e0b075>
+			streams:   1, words:  2771
+		worklib.LHCSNDD1:v <0x2fe7839f>
+			streams:   1, words:  2771
+		worklib.LHCSNDD2:v <0x7758dd0e>
+			streams:   1, words:  2771
+		worklib.LHCSNDD4:v <0x25eb0108>
+			streams:   1, words:  2771
+		worklib.LHCSNDQD1:v <0x5b142bcb>
+			streams:   1, words:  2771
+		worklib.LHCSNDQD2:v <0x7adb74c4>
+			streams:   1, words:  2771
+		worklib.LHCSNDQD4:v <0x3945cada>
+			streams:   1, words:  2771
+		worklib.LHCSNQD1:v <0x47531d5d>
+			streams:   1, words:  2771
+		worklib.LHCSNQD2:v <0x669c4252>
+			streams:   1, words:  2771
+		worklib.LHCSNQD4:v <0x2502fc4c>
+			streams:   1, words:  2771
+		worklib.LHD1:v <0x40ebe8c7>
+			streams:   0, words:     0
+		worklib.LHD2:v <0x521e800e>
+			streams:   0, words:     0
+		worklib.LHD4:v <0x2c8557dd>
+			streams:   0, words:     0
+		worklib.LHQD1:v <0x2030a5f6>
+			streams:   0, words:     0
+		worklib.LHQD2:v <0x7ae6752b>
+			streams:   0, words:     0
+		worklib.LHQD4:v <0x143ad2d0>
+			streams:   0, words:     0
+		worklib.LHSND1:v <0x7e87ff06>
+			streams:   0, words:     0
+		worklib.LHSND2:v <0x1b38176d>
+			streams:   0, words:     0
+		worklib.LHSND4:v <0x026c160d>
+			streams:   0, words:     0
+		worklib.LHSNDD1:v <0x37a9467c>
+			streams:   0, words:     0
+		worklib.LHSNDD2:v <0x5216ae17>
+			streams:   0, words:     0
+		worklib.LHSNDD4:v <0x4b42af77>
+			streams:   0, words:     0
+		worklib.LHSNDQD1:v <0x18319094>
+			streams:   0, words:     0
+		worklib.LHSNDQD2:v <0x4994c5ba>
+			streams:   0, words:     0
+		worklib.LHSNDQD4:v <0x6384b811>
+			streams:   0, words:     0
+		worklib.LHSNQD1:v <0x260c522c>
+			streams:   0, words:     0
+		worklib.LHSNQD2:v <0x77a90702>
+			streams:   0, words:     0
+		worklib.LHSNQD4:v <0x5db97aa9>
+			streams:   0, words:     0
+		worklib.LNCND1:v <0x51a9e9fb>
+			streams:   0, words:     0
+		worklib.LNCND2:v <0x22789827>
+			streams:   0, words:     0
+		worklib.LNCND4:v <0x17f1aa29>
+			streams:   0, words:     0
+		worklib.LNCNDD1:v <0x264b9a28>
+			streams:   0, words:     0
+		worklib.LNCNDD2:v <0x559aebf4>
+			streams:   0, words:     0
+		worklib.LNCNDD4:v <0x6013d9fa>
+			streams:   0, words:     0
+		worklib.LNCNDQD1:v <0x59b34949>
+			streams:   0, words:     0
+		worklib.LNCNDQD2:v <0x18160cd4>
+			streams:   0, words:     0
+		worklib.LNCNDQD4:v <0x2aba377c>
+			streams:   0, words:     0
+		worklib.LNCNQD1:v <0x16d6b0a1>
+			streams:   0, words:     0
+		worklib.LNCNQD2:v <0x5773f53c>
+			streams:   0, words:     0
+		worklib.LNCNQD4:v <0x65dfce94>
+			streams:   0, words:     0
+		worklib.LNCSND1:v <0x62474a54>
+			streams:   1, words:  2771
+		worklib.LNCSND2:v <0x2a7eb7e0>
+			streams:   1, words:  2771
+		worklib.LNCSND4:v <0x509afa5b>
+			streams:   1, words:  2771
+		worklib.LNCSNDD1:v <0x0a9cb900>
+			streams:   1, words:  2771
+		worklib.LNCSNDD2:v <0x42a544b4>
+			streams:   1, words:  2771
+		worklib.LNCSNDD4:v <0x3841090f>
+			streams:   1, words:  2771
+		worklib.LNCSNDQD1:v <0x5da8ca4b>
+			streams:   1, words:  2771
+		worklib.LNCSNDQD2:v <0x73e5b44b>
+			streams:   1, words:  2771
+		worklib.LNCSNDQD4:v <0x740e4e0a>
+			streams:   1, words:  2771
+		worklib.LNCSNQD1:v <0x18d599b5>
+			streams:   1, words:  2771
+		worklib.LNCSNQD2:v <0x3698e7b5>
+			streams:   1, words:  2771
+		worklib.LNCSNQD4:v <0x31731df4>
+			streams:   1, words:  2771
+		worklib.LND1:v <0x760c4c94>
+			streams:   0, words:     0
+		worklib.LND2:v <0x4dcdd46c>
+			streams:   0, words:     0
+		worklib.LND4:v <0x613fe3dd>
+			streams:   0, words:     0
+		worklib.LNQD1:v <0x254148bc>
+			streams:   0, words:     0
+		worklib.LNQD2:v <0x37b42075>
+			streams:   0, words:     0
+		worklib.LNQD4:v <0x492ff7a6>
+			streams:   0, words:     0
+		worklib.LNSND1:v <0x2a96e923>
+			streams:   0, words:     0
+		worklib.LNSND2:v <0x4f290148>
+			streams:   0, words:     0
+		worklib.LNSND4:v <0x567d0028>
+			streams:   0, words:     0
+		worklib.LNSNDD1:v <0x328bcbef>
+			streams:   0, words:     0
+		worklib.LNSNDD2:v <0x57342384>
+			streams:   0, words:     0
+		worklib.LNSNDD4:v <0x4e6022e4>
+			streams:   0, words:     0
+		worklib.LNSNDQD1:v <0x402cfe79>
+			streams:   0, words:     0
+		worklib.LNSNDQD2:v <0x6694a316>
+			streams:   0, words:     0
+		worklib.LNSNDQD4:v <0x4173af1b>
+			streams:   0, words:     0
+		worklib.LNSNQD1:v <0x099dc2ea>
+			streams:   0, words:     0
+		worklib.LNSNQD2:v <0x2f259f85>
+			streams:   0, words:     0
+		worklib.LNSNQD4:v <0x08c29388>
+			streams:   0, words:     0
+		worklib.MAOI222D0:v <0x0c50c5ba>
+			streams:   0, words:     0
+		worklib.MAOI222D1:v <0x7e7241e1>
+			streams:   0, words:     0
+		worklib.MAOI222D2:v <0x026bf2c5>
+			streams:   0, words:     0
+		worklib.MAOI222D4:v <0x7a58948d>
+			streams:   0, words:     0
+		worklib.MAOI22D0:v <0x253a4709>
+			streams:   0, words:     0
+		worklib.MAOI22D1:v <0x0a3add05>
+			streams:   0, words:     0
+		worklib.MAOI22D2:v <0x61ea92fd>
+			streams:   0, words:     0
+		worklib.MAOI22D4:v <0x6d3b0b4c>
+			streams:   0, words:     0
+		worklib.MOAI22D0:v <0x7e8b38f7>
+			streams:   0, words:     0
+		worklib.MOAI22D1:v <0x20f2b0f2>
+			streams:   0, words:     0
+		worklib.MOAI22D2:v <0x4b22ff0a>
+			streams:   0, words:     0
+		worklib.MOAI22D4:v <0x47f366bb>
+			streams:   0, words:     0
+		worklib.MUX2D0:v <0x33165243>
+			streams:   0, words:     0
+		worklib.MUX2D1:v <0x252edc70>
+			streams:   0, words:     0
+		worklib.MUX2D2:v <0x0aa284f2>
+			streams:   0, words:     0
+		worklib.MUX2D4:v <0x367754d2>
+			streams:   0, words:     0
+		worklib.MUX2ND0:v <0x26b755d6>
+			streams:   0, words:     0
+		worklib.MUX2ND1:v <0x308fdbe5>
+			streams:   0, words:     0
+		worklib.MUX2ND2:v <0x1f038367>
+			streams:   0, words:     0
+		worklib.MUX2ND4:v <0x23d65347>
+			streams:   0, words:     0
+		worklib.MUX3D0:v <0x175de4f7>
+			streams:   0, words:     0
+		worklib.MUX3D1:v <0x1115adf8>
+			streams:   0, words:     0
+		worklib.MUX3D2:v <0x40bc70a8>
+			streams:   0, words:     0
+		worklib.MUX3D4:v <0x52097a9a>
+			streams:   0, words:     0
+		worklib.MUX3ND0:v <0x08374179>
+			streams:   0, words:     0
+		worklib.MUX3ND1:v <0x0e7f0876>
+			streams:   0, words:     0
+		worklib.MUX3ND2:v <0x5fd6d526>
+			streams:   0, words:     0
+		worklib.MUX3ND4:v <0x4d63df14>
+			streams:   0, words:     0
+		worklib.MUX4D0:v <0x57ade4c6>
+			streams:   0, words:     0
+		worklib.MUX4D1:v <0x01229819>
+			streams:   0, words:     0
+		worklib.MUX4D2:v <0x197e7c5c>
+			streams:   0, words:     0
+		worklib.MUX4D4:v <0x209d6321>
+			streams:   0, words:     0
+		worklib.MUX4ND0:v <0x27e18983>
+			streams:   0, words:     0
+		worklib.MUX4ND1:v <0x716ef55c>
+			streams:   0, words:     0
+		worklib.MUX4ND2:v <0x69321119>
+			streams:   0, words:     0
+		worklib.MUX4ND4:v <0x50d10e64>
+			streams:   0, words:     0
+		worklib.OA211D0:v <0x168d7ea2>
+			streams:   0, words:     0
+		worklib.OA211D1:v <0x426f5c71>
+			streams:   0, words:     0
+		worklib.OA211D2:v <0x782480f5>
+			streams:   0, words:     0
+		worklib.OA211D4:v <0x0cb339fd>
+			streams:   0, words:     0
+		worklib.OA21D0:v <0x23643456>
+			streams:   0, words:     0
+		worklib.OA21D1:v <0x631548be>
+			streams:   0, words:     0
+		worklib.OA21D2:v <0x49a65d48>
+			streams:   0, words:     0
+		worklib.OA21D4:v <0x7f0d1780>
+			streams:   0, words:     0
+		worklib.OA221D0:v <0x0578791a>
+			streams:   0, words:     0
+		worklib.OA221D1:v <0x2a25b5ee>
+			streams:   0, words:     0
+		worklib.OA221D2:v <0x6a255060>
+			streams:   0, words:     0
+		worklib.OA221D4:v <0x380f4aca>
+			streams:   0, words:     0
+		worklib.OA222D0:v <0x71089e3e>
+			streams:   0, words:     0
+		worklib.OA222D1:v <0x60f37e15>
+			streams:   0, words:     0
+		worklib.OA222D2:v <0x46e94ab2>
+			streams:   0, words:     0
+		worklib.OA222D4:v <0x604a952f>
+			streams:   0, words:     0
+		worklib.OA22D0:v <0x6cf20547>
+			streams:   0, words:     0
+		worklib.OA22D1:v <0x43f29f4b>
+			streams:   0, words:     0
+		worklib.OA22D2:v <0x2822d0b3>
+			streams:   0, words:     0
+		worklib.OA22D4:v <0x24f34902>
+			streams:   0, words:     0
+		worklib.OA31D0:v <0x0b50f649>
+			streams:   0, words:     0
+		worklib.OA31D1:v <0x1f6d2c93>
+			streams:   0, words:     0
+		worklib.OA31D2:v <0x2a71940a>
+			streams:   0, words:     0
+		worklib.OA31D4:v <0x4048e538>
+			streams:   0, words:     0
+		worklib.OA32D0:v <0x22ca07c3>
+			streams:   0, words:     0
+		worklib.OA32D1:v <0x01f0a21f>
+			streams:   0, words:     0
+		worklib.OA32D2:v <0x6de59b8c>
+			streams:   0, words:     0
+		worklib.OA32D4:v <0x04295838>
+			streams:   0, words:     0
+		worklib.OA33D0:v <0x276c382f>
+			streams:   0, words:     0
+		worklib.OA33D1:v <0x74781010>
+			streams:   0, words:     0
+		worklib.OA33D2:v <0x5a356e10>
+			streams:   0, words:     0
+		worklib.OA33D4:v <0x5dde9451>
+			streams:   0, words:     0
+		worklib.OAI211D0:v <0x5d8e85e3>
+			streams:   0, words:     0
+		worklib.OAI211D1:v <0x096ca730>
+			streams:   0, words:     0
+		worklib.OAI211D2:v <0x33277bb4>
+			streams:   0, words:     0
+		worklib.OAI211D4:v <0x47b0c2bc>
+			streams:   0, words:     0
+		worklib.OAI21D0:v <0x31723375>
+			streams:   0, words:     0
+		worklib.OAI21D1:v <0x71034f9d>
+			streams:   0, words:     0
+		worklib.OAI21D2:v <0x5bb05a6b>
+			streams:   0, words:     0
+		worklib.OAI21D4:v <0x6d1b10a3>
+			streams:   0, words:     0
+		worklib.OAI221D0:v <0x47f3a038>
+			streams:   0, words:     0
+		worklib.OAI221D1:v <0x6e0031db>
+			streams:   0, words:     0
+		worklib.OAI221D2:v <0x2e00d455>
+			streams:   0, words:     0
+		worklib.OAI221D4:v <0x7c2aceff>
+			streams:   0, words:     0
+		worklib.OAI221XD4:v <0x5c714865>
+			streams:   0, words:     0
+		worklib.OAI222D0:v <0x6dd1c157>
+			streams:   0, words:     0
+		worklib.OAI222D1:v <0x7c2a217c>
+			streams:   0, words:     0
+		worklib.OAI222D2:v <0x5a3015db>
+			streams:   0, words:     0
+		worklib.OAI222D4:v <0x7c93ca46>
+			streams:   0, words:     0
+		worklib.OAI222XD4:v <0x069a32cb>
+			streams:   0, words:     0
+		worklib.OAI22D0:v <0x73c362f5>
+			streams:   0, words:     0
+		worklib.OAI22D1:v <0x5cc3f8f9>
+			streams:   0, words:     0
+		worklib.OAI22D2:v <0x3713b701>
+			streams:   0, words:     0
+		worklib.OAI22D4:v <0x3bc22eb0>
+			streams:   0, words:     0
+		worklib.OAI31D0:v <0x62aa686c>
+			streams:   0, words:     0
+		worklib.OAI31D1:v <0x35897721>
+			streams:   0, words:     0
+		worklib.OAI31D2:v <0x0095cfb8>
+			streams:   0, words:     0
+		worklib.OAI31D4:v <0x6aacbe8a>
+			streams:   0, words:     0
+		worklib.OAI32D0:v <0x0b20d37b>
+			streams:   0, words:     0
+		worklib.OAI32D1:v <0x281a76a7>
+			streams:   0, words:     0
+		worklib.OAI32D2:v <0x440f4f34>
+			streams:   0, words:     0
+		worklib.OAI32D4:v <0x2dc38c80>
+			streams:   0, words:     0
+		worklib.OAI32XD4:v <0x0f3e0603>
+			streams:   0, words:     0
+		worklib.OAI33D0:v <0x2b85bc18>
+			streams:   0, words:     0
+		worklib.OAI33D1:v <0x78919427>
+			streams:   0, words:     0
+		worklib.OAI33D2:v <0x56dcea27>
+			streams:   0, words:     0
+		worklib.OAI33D4:v <0x51371066>
+			streams:   0, words:     0
+		worklib.OAI33XD4:v <0x5438ffe9>
+			streams:   0, words:     0
+		worklib.SDFCND0:v <0x61630347>
+			streams:   0, words:     0
+		worklib.SDFCND1:v <0x4aa17315>
+			streams:   0, words:     0
+		worklib.SDFCND2:v <0x36e7e3e3>
+			streams:   0, words:     0
+		worklib.SDFCND4:v <0x7f8c729d>
+			streams:   0, words:     0
+		worklib.SDFCNQD0:v <0x6574aaa7>
+			streams:   0, words:     0
+		worklib.SDFCNQD1:v <0x5ad73889>
+			streams:   0, words:     0
+		worklib.SDFCNQD2:v <0x48185f4d>
+			streams:   0, words:     0
+		worklib.SDFCNQD4:v <0x6d8690c5>
+			streams:   0, words:     0
+		worklib.SDFCSND0:v <0x42e975b5>
+			streams:   1, words:  2771
+		worklib.SDFCSND1:v <0x50c54224>
+			streams:   1, words:  2771
+		worklib.SDFCSND2:v <0x6febcd60>
+			streams:   1, words:  2771
+		worklib.SDFCSND4:v <0x2050637a>
+			streams:   1, words:  2771
+		worklib.SDFCSNQD0:v <0x54d9dd1e>
+			streams:   1, words:  2771
+		worklib.SDFCSNQD1:v <0x009d38da>
+			streams:   1, words:  2771
+		worklib.SDFCSNQD2:v <0x44ec71f3>
+			streams:   1, words:  2771
+		worklib.SDFCSNQD4:v <0x74b284c4>
+			streams:   1, words:  2771
+		worklib.SDFD0:v <0x63509531>
+			streams:   0, words:     0
+		worklib.SDFD1:v <0x712e9038>
+			streams:   0, words:     0
+		worklib.SDFD2:v <0x764a2fb1>
+			streams:   0, words:     0
+		worklib.SDFD4:v <0x1b4e3187>
+			streams:   0, words:     0
+		worklib.SDFKCND0:v <0x6939ccae>
+			streams:   0, words:     0
+		worklib.SDFKCND1:v <0x0a754ad2>
+			streams:   0, words:     0
+		worklib.SDFKCND2:v <0x4c6da172>
+			streams:   0, words:     0
+		worklib.SDFKCND4:v <0x78e01157>
+			streams:   0, words:     0
+		worklib.SDFKCNQD0:v <0x2bccce2f>
+			streams:   0, words:     0
+		worklib.SDFKCNQD1:v <0x2f5f8e29>
+			streams:   0, words:     0
+		worklib.SDFKCNQD2:v <0x70c19f95>
+			streams:   0, words:     0
+		worklib.SDFKCNQD4:v <0x4ffdbced>
+			streams:   0, words:     0
+		worklib.SDFKCSND0:v <0x286fd357>
+			streams:   0, words:     0
+		worklib.SDFKCSND1:v <0x42456932>
+			streams:   0, words:     0
+		worklib.SDFKCSND2:v <0x4ddc170f>
+			streams:   0, words:     0
+		worklib.SDFKCSND4:v <0x6a528c10>
+			streams:   0, words:     0
+		worklib.SDFKCSNQD0:v <0x0c333fb1>
+			streams:   0, words:     0
+		worklib.SDFKCSNQD1:v <0x53839ce9>
+			streams:   0, words:     0
+		worklib.SDFKCSNQD2:v <0x02b4c993>
+			streams:   0, words:     0
+		worklib.SDFKCSNQD4:v <0x18660402>
+			streams:   0, words:     0
+		worklib.SDFKSND0:v <0x7471b4b2>
+			streams:   0, words:     0
+		worklib.SDFKSND1:v <0x1b022840>
+			streams:   0, words:     0
+		worklib.SDFKSND2:v <0x78bd5ce0>
+			streams:   0, words:     0
+		worklib.SDFKSND4:v <0x64b2b3e1>
+			streams:   0, words:     0
+		worklib.SDFKSNQD0:v <0x4cec39fa>
+			streams:   0, words:     0
+		worklib.SDFKSNQD1:v <0x2fa0bf86>
+			streams:   0, words:     0
+		worklib.SDFKSNQD2:v <0x69b85426>
+			streams:   0, words:     0
+		worklib.SDFKSNQD4:v <0x5d35e403>
+			streams:   0, words:     0
+		worklib.SDFNCND0:v <0x1f0e3100>
+			streams:   0, words:     0
+		worklib.SDFNCND1:v <0x21b82e43>
+			streams:   0, words:     0
+		worklib.SDFNCND2:v <0x62620f86>
+			streams:   0, words:     0
+		worklib.SDFNCND4:v <0x65d64c0c>
+			streams:   0, words:     0
+		worklib.SDFNCSND0:v <0x2e7d972e>
+			streams:   1, words:  2771
+		worklib.SDFNCSND1:v <0x6c101cd9>
+			streams:   1, words:  2771
+		worklib.SDFNCSND2:v <0x1b403052>
+			streams:   1, words:  2771
+		worklib.SDFNCSND4:v <0x4d5c0e21>
+			streams:   1, words:  2771
+		worklib.SDFND0:v <0x611eaf94>
+			streams:   0, words:     0
+		worklib.SDFND1:v <0x7a4dea95>
+			streams:   0, words:     0
+		worklib.SDFND2:v <0x665e9504>
+			streams:   0, words:     0
+		worklib.SDFND4:v <0x0c53bb90>
+			streams:   0, words:     0
+		worklib.SDFNSND0:v <0x40e6129e>
+			streams:   0, words:     0
+		worklib.SDFNSND1:v <0x7e500ddd>
+			streams:   0, words:     0
+		worklib.SDFNSND2:v <0x3d8a2c18>
+			streams:   0, words:     0
+		worklib.SDFNSND4:v <0x3a3e6f92>
+			streams:   0, words:     0
+		worklib.SDFQD0:v <0x13ab16e9>
+			streams:   0, words:     0
+		worklib.SDFQD1:v <0x34161ff1>
+			streams:   0, words:     0
+		worklib.SDFQD2:v <0x3646b20a>
+			streams:   0, words:     0
+		worklib.SDFQD4:v <0x512a88d8>
+			streams:   0, words:     0
+		worklib.SDFQND0:v <0x6a400ac8>
+			streams:   0, words:     0
+		worklib.SDFQND1:v <0x4dfd03d0>
+			streams:   0, words:     0
+		worklib.SDFQND2:v <0x4fadae2b>
+			streams:   0, words:     0
+		worklib.SDFQND4:v <0x28c194f9>
+			streams:   0, words:     0
+		worklib.SDFSND0:v <0x30b5b6a7>
+			streams:   0, words:     0
+		worklib.SDFSND1:v <0x1b77c6f5>
+			streams:   0, words:     0
+		worklib.SDFSND2:v <0x67315603>
+			streams:   0, words:     0
+		worklib.SDFSND4:v <0x2e5ac77d>
+			streams:   0, words:     0
+		worklib.SDFSNQD0:v <0x08cbf417>
+			streams:   0, words:     0
+		worklib.SDFSNQD1:v <0x37686639>
+			streams:   0, words:     0
+		worklib.SDFSNQD2:v <0x25a701fd>
+			streams:   0, words:     0
+		worklib.SDFSNQD4:v <0x0039ce75>
+			streams:   0, words:     0
+		worklib.SDFXD0:v <0x2c57baf6>
+			streams:   0, words:     0
+		worklib.SDFXD1:v <0x219fd820>
+			streams:   0, words:     0
+		worklib.SDFXD2:v <0x5d50c989>
+			streams:   0, words:     0
+		worklib.SDFXD4:v <0x76e53b6d>
+			streams:   0, words:     0
+		worklib.SDFXQD0:v <0x7f2d65c4>
+			streams:   0, words:     0
+		worklib.SDFXQD1:v <0x1507dfa1>
+			streams:   0, words:     0
+		worklib.SDFXQD2:v <0x1a9ea19c>
+			streams:   0, words:     0
+		worklib.SDFXQD4:v <0x3d103a83>
+			streams:   0, words:     0
+		worklib.SEDFCND0:v <0x196044c7>
+			streams:   0, words:     0
+		worklib.SEDFCND1:v <0x7fd940d7>
+			streams:   0, words:     0
+		worklib.SEDFCND2:v <0x06399d51>
+			streams:   0, words:     0
+		worklib.SEDFCND4:v <0x1f6f908e>
+			streams:   0, words:     0
+		worklib.SEDFCNQD0:v <0x04739f94>
+			streams:   0, words:     0
+		worklib.SEDFCNQD1:v <0x0f3130a3>
+			streams:   0, words:     0
+		worklib.SEDFCNQD2:v <0x713ba0de>
+			streams:   0, words:     0
+		worklib.SEDFCNQD4:v <0x6ee3e100>
+			streams:   0, words:     0
+		worklib.SEDFD0:v <0x1a0f401a>
+			streams:   0, words:     0
+		worklib.SEDFD1:v <0x45bfe342>
+			streams:   0, words:     0
+		worklib.SEDFD2:v <0x1488b638>
+			streams:   0, words:     0
+		worklib.SEDFD4:v <0x0e5a7ba9>
+			streams:   0, words:     0
+		worklib.SEDFKCND0:v <0x7803df99>
+			streams:   0, words:     0
+		worklib.SEDFKCND1:v <0x100b6c92>
+			streams:   0, words:     0
+		worklib.SEDFKCND2:v <0x7363bfce>
+			streams:   0, words:     0
+		worklib.SEDFKCND4:v <0x5f25afa5>
+			streams:   0, words:     0
+		worklib.SEDFKCNQD0:v <0x0c7ef1b6>
+			streams:   0, words:     0
+		worklib.SEDFKCNQD1:v <0x550e8b89>
+			streams:   0, words:     0
+		worklib.SEDFKCNQD2:v <0x6cb5d47e>
+			streams:   0, words:     0
+		worklib.SEDFKCNQD4:v <0x7554dd43>
+			streams:   0, words:     0
+		worklib.SEDFQD0:v <0x0b61bf7a>
+			streams:   0, words:     0
+		worklib.SEDFQD1:v <0x1032fa7b>
+			streams:   0, words:     0
+		worklib.SEDFQD2:v <0x0c2185ea>
+			streams:   0, words:     0
+		worklib.SEDFQD4:v <0x662cab7e>
+			streams:   0, words:     0
+		worklib.SEDFQND0:v <0x2a1fc0ea>
+			streams:   0, words:     0
+		worklib.SEDFQND1:v <0x314c85eb>
+			streams:   0, words:     0
+		worklib.SEDFQND2:v <0x2d5ffa7a>
+			streams:   0, words:     0
+		worklib.SEDFQND4:v <0x4752d4ee>
+			streams:   0, words:     0
+		worklib.SEDFQNXD0:v <0x3a74996e>
+			streams:   0, words:     0
+		worklib.SEDFQNXD1:v <0x2127dc6f>
+			streams:   0, words:     0
+		worklib.SEDFQNXD2:v <0x3d34a3fe>
+			streams:   0, words:     0
+		worklib.SEDFQNXD4:v <0x57398d6a>
+			streams:   0, words:     0
+		worklib.SEDFQXD0:v <0x7bbcc4c7>
+			streams:   0, words:     0
+		worklib.SEDFQXD1:v <0x60ef81c6>
+			streams:   0, words:     0
+		worklib.SEDFQXD2:v <0x7cfcfe57>
+			streams:   0, words:     0
+		worklib.SEDFQXD4:v <0x16f1d0c3>
+			streams:   0, words:     0
+		worklib.SEDFXD0:v <0x467100a6>
+			streams:   0, words:     0
+		worklib.SEDFXD1:v <0x19c1a3fe>
+			streams:   0, words:     0
+		worklib.SEDFXD2:v <0x48f6f684>
+			streams:   0, words:     0
+		worklib.SEDFXD4:v <0x52243b15>
+			streams:   0, words:     0
+		worklib.XNR2D0:v <0x116bb0a0>
+			streams:   0, words:     0
+		worklib.XNR2D1:v <0x7a9d4441>
+			streams:   0, words:     0
+		worklib.XNR2D2:v <0x4af28d85>
+			streams:   0, words:     0
+		worklib.XNR2D4:v <0x7806cfbb>
+			streams:   0, words:     0
+		worklib.XNR3D0:v <0x552ba848>
+			streams:   0, words:     0
+		worklib.XNR3D1:v <0x27092c13>
+			streams:   0, words:     0
+		worklib.XNR3D2:v <0x5b109f37>
+			streams:   0, words:     0
+		worklib.XNR3D4:v <0x2323f97f>
+			streams:   0, words:     0
+		worklib.XNR4D0:v <0x561c3c79>
+			streams:   0, words:     0
+		worklib.XNR4D1:v <0x5e3c24ba>
+			streams:   0, words:     0
+		worklib.XNR4D2:v <0x1477dc49>
+			streams:   0, words:     0
+		worklib.XNR4D4:v <0x31069d3d>
+			streams:   0, words:     0
+		worklib.XOR2D0:v <0x621a6360>
+			streams:   0, words:     0
+		worklib.XOR2D1:v <0x65ab06ff>
+			streams:   0, words:     0
+		worklib.XOR2D2:v <0x55c4cf3b>
+			streams:   0, words:     0
+		worklib.XOR2D4:v <0x67308d05>
+			streams:   0, words:     0
+		worklib.XOR3D0:v <0x7d64433f>
+			streams:   0, words:     0
+		worklib.XOR3D1:v <0x0f46c764>
+			streams:   0, words:     0
+		worklib.XOR3D2:v <0x735f7440>
+			streams:   0, words:     0
+		worklib.XOR3D4:v <0x0b6c1208>
+			streams:   0, words:     0
+		worklib.XOR4D0:v <0x3063a0a6>
+			streams:   0, words:     0
+		worklib.XOR4D1:v <0x3843b865>
+			streams:   0, words:     0
+		worklib.XOR4D2:v <0x72084096>
+			streams:   0, words:     0
+		worklib.XOR4D4:v <0x577901e2>
+			streams:   0, words:     0
+		worklib.au:v <0x0f034366>
+			streams:   0, words:     0
+		worklib.kf_top:v <0x501bc2da>
+			streams:   3, words:   514
+		worklib.kf_top_tb:v <0x3abe3c77>
+			streams:  10, words: 40197
+		worklib.router_a:v <0x2ec94f10>
+			streams:   0, words:     0
+		worklib.router_b:v <0x0035436d>
+			streams:   0, words:     0
+		worklib.sequencer:v <0x07b92e9c>
+			streams:   0, words:     0
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                   Instances  Unique
+		Modules:               19516     854
+		UDPs:                  17252       4
+		Primitives:            73073      10
+		Timing outputs:        20172     759
+		Registers:              5381     381
+		Scalar wires:          25548       -
+		Expanded wires:           56       4
+		Vectored wires:            9       -
+		Always blocks:            57      57
+		Initial blocks:            3       3
+		Cont. assignments:         0      59
+		Pseudo assignments:        4       4
+		Timing checks:         34643       -
+		Simulation timescale:    1ps
+	Writing initial simulation snapshot: worklib.kf_top_tb:v
+Loading snapshot worklib.kf_top_tb:v .................... Done
+ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
+ncsim> run
+================================================================
+Kalman Filter ASIC Testbench - Mode: 2D
+================================================================
+
+========================================
+2D Kalman Filter Post-Syn Test
+(10 iterations, uses READY signal)
+========================================
+[POST_SYN] Loading ROM from kf_2d.mem via programming port...
+[POST_SYN] ROM programming complete (256 entries)
+Iter  1 complete
+Iter  2 complete
+Iter  3 complete
+Iter  4 complete
+Iter  5 complete
+Iter  6 complete
+Iter  7 complete
+Iter  8 complete
+Iter  9 complete
+Iter 10 complete
+
+Post-syn test complete
+(Cannot read internal memory - check waveforms for DATA_OUT)
+========================================
+POST-SYN TEST PASSED
+========================================
+
+================================================================
+Test Complete
+================================================================
+
+Simulation complete via $finish(1) at time 27925 NS + 0
+../src/kf_top_tb.v:507     $finish;
+ncsim> exit
