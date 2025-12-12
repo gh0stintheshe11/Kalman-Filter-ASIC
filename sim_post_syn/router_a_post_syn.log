@@ -1,0 +1,98 @@
+ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+file: ../src/router_a_tb.v
+	module worklib.router_a_tb:v
+		errors: 0, warnings: 0
+file: ../syn/router_a_syn.v
+	module worklib.router_a:v
+		errors: 0, warnings: 0
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.AO211D0:v <0x372edcd6>
+			streams:   0, words:     0
+		worklib.AO21D0:v <0x32b6d9ea>
+			streams:   0, words:     0
+		worklib.AO31D0:v <0x23fe0ba8>
+			streams:   0, words:     0
+		worklib.AOI211D0:v <0x0eb79f24>
+			streams:   0, words:     0
+		worklib.AOI21D0:v <0x2a6d07cc>
+			streams:   0, words:     0
+		worklib.AOI221D0:v <0x7a33ad3e>
+			streams:   0, words:     0
+		worklib.AOI222D0:v <0x1a372381>
+			streams:   0, words:     0
+		worklib.AOI31D0:v <0x6821c530>
+			streams:   0, words:     0
+		worklib.AOI32D0:v <0x4b2a3769>
+			streams:   0, words:     0
+		worklib.CKXOR2D0:v <0x48c90827>
+			streams:   0, words:     0
+		worklib.CMPE42D1:v <0x14b23514>
+			streams:   0, words:     0
+		worklib.DFCNQD1:v <0x35f32dae>
+			streams:   0, words:     0
+		worklib.EDFQD1:v <0x1ceaea38>
+			streams:   0, words:     0
+		worklib.FA1D0:v <0x46d76412>
+			streams:   0, words:     0
+		worklib.MAOI222D0:v <0x6355d2c2>
+			streams:   0, words:     0
+		worklib.MAOI22D0:v <0x54435500>
+			streams:   0, words:     0
+		worklib.MUX2D0:v <0x33165243>
+			streams:   0, words:     0
+		worklib.MUX2ND0:v <0x0c797e2a>
+			streams:   0, words:     0
+		worklib.OA21D0:v <0x6d1066cf>
+			streams:   0, words:     0
+		worklib.OAI211D0:v <0x1863a1e1>
+			streams:   0, words:     0
+		worklib.OAI21D0:v <0x7f0661ec>
+			streams:   0, words:     0
+		worklib.OAI222D0:v <0x28f330de>
+			streams:   0, words:     0
+		worklib.OAI22D0:v <0x02ba70fc>
+			streams:   0, words:     0
+		worklib.OAI31D0:v <0x21b4adfb>
+			streams:   0, words:     0
+		worklib.OAI33D1:v <0x78919427>
+			streams:   0, words:     0
+		worklib.XNR2D0:v <0x7d2c21de>
+			streams:   0, words:     0
+		worklib.XNR3D0:v <0x3a2ebf30>
+			streams:   0, words:     0
+		worklib.XOR3D0:v <0x12615447>
+			streams:   0, words:     0
+		worklib.router_a_tb:v <0x7fd5bb87>
+			streams:  11, words: 17060
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                  Instances  Unique
+		Modules:                902     846
+		UDPs:                  1403       4
+		Primitives:            3717      10
+		Timing outputs:        1068     759
+		Registers:              377     379
+		Scalar wires:          1379       -
+		Expanded wires:          67       7
+		Always blocks:           56      56
+		Initial blocks:           1       1
+		Pseudo assignments:       6       6
+		Timing checks:         4170       -
+		Simulation timescale:   1ps
+	Writing initial simulation snapshot: worklib.router_a_tb:v
+Loading snapshot worklib.router_a_tb:v .................... Done
+ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
+ncsim> run
+========================================
+Testing Router A (per paper Figure 3)
+========================================
+========================================
+Router A: 256 tests PASSED
+========================================
+Simulation complete via $finish(1) at time 256 NS + 0
+../src/router_a_tb.v:163     $finish;
+ncsim> exit

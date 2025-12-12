@@ -1,0 +1,62 @@
+ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
+file: ../src/mem_reg_tb.v
+	module worklib.mem_reg_tb:v
+		errors: 0, warnings: 0
+file: ../syn/mem_reg_syn.v
+	module worklib.Data_Bank:v
+		errors: 0, warnings: 0
+	module worklib.mem_reg:v
+		errors: 0, warnings: 0
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.DFQD1:v <0x20bc8d9b>
+			streams:   0, words:     0
+		worklib.OA211D0:v <0x168d7ea2>
+			streams:   0, words:     0
+		worklib.mem_reg_tb:v <0x72c25dd8>
+			streams:  18, words: 31794
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                   Instances  Unique
+		Modules:                3634     847
+		UDPs:                   3930       4
+		Primitives:            14475      10
+		Timing outputs:         3799     759
+		Registers:              1186     374
+		Scalar wires:           4924       -
+		Expanded wires:           82       5
+		Always blocks:            57      57
+		Initial blocks:            2       2
+		Pseudo assignments:        1       1
+		Timing checks:          9242       -
+		Simulation timescale:    1ps
+	Writing initial simulation snapshot: worklib.mem_reg_tb:v
+Loading snapshot worklib.mem_reg_tb:v .................... Done
+ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimrc
+ncsim> run
+========================================
+Testing Memory Registers (per paper Figure 3)
+Data Bank: 32 x 24-bit registers
+========================================
+
+--- Writing patterns to all 32 registers ---
+
+--- Reading back via both ports ---
+
+--- Testing write-through forwarding (Port B only) ---
+
+--- Testing RQ accumulator ---
+
+--- Testing RD accumulator ---
+
+--- Testing RQ/RD hold when WE=0 ---
+
+========================================
+mem_reg_tb: PASS (72 checks)
+========================================
+Simulation complete via $finish(1) at time 736 NS + 0
+../src/mem_reg_tb.v:233     $finish;
+ncsim> exit

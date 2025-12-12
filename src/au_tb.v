@@ -43,7 +43,12 @@ module au_tb();
   integer pass_count, fail_count, test_num;
 
   // Instantiate AU
+  // Use +define+POST_SYN for post-synthesis simulation (no parameters)
+  `ifdef POST_SYN
+  au dut (
+  `else
   au #(.W(W), .FRAC(FRAC)) dut (
+  `endif
     .clk              (clk),
     .rst_n            (rst_n),
     .start            (start),
