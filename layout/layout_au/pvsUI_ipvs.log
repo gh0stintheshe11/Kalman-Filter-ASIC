@@ -1,0 +1,6 @@
+ipvs:   ERROR: The command /CMC/tools/cadence/PVS-ISR4.15.24.000_lnx86/share/oa/bin/sysname returned an error status:
+                            unknown
+ipvs:    INFO: Note that OpenAccess (OA) requires running the Configure phase.
+ipvs:          See the "OpenAccess Installation and Configuration Guide" before
+ipvs:          you complete the configuration step. This manual is included with
+ipvs:          the Cadence product documentation.
