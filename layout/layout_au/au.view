@@ -49,7 +49,7 @@ create_delay_corner -name best_best\
    -library_set best\
    -rc_corner best
 create_constraint_mode -name constraints\
-   -sdc_files "kf_top_syn.sdc"
+   -sdc_files "au_syn.sdc"
 create_analysis_view -name setup_view -constraint_mode constraints -delay_corner worst_worst
 create_analysis_view -name typical_view -constraint_mode constraints -delay_corner typ_typ
 create_analysis_view -name hold_view -constraint_mode constraints -delay_corner best_best

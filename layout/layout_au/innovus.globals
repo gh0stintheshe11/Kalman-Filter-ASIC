@@ -19,11 +19,11 @@ set floorplan_default_site {core}
 set fpIsMaxIoHeight 0
 set init_gnd_net {VSS}
 set init_lef_file {/nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Back_End/lef/tcbn65gplus_200a/lef/tcbn65gplus_9lmT2.lef}
-set init_mmmc_file {kf_top.view}
+set init_mmmc_file {au.view}
 set init_oa_search_lib {}
-set init_original_verilog_files {kf_top_syn.v}
+set init_original_verilog_files {au_syn.v}
 set init_pwr_net {VDD}
-set init_verilog {kf_top_syn.v}
+set init_verilog {au_syn.v}
 set latch_time_borrow_mode max_borrow
 set pegDefaultResScaleFactor 1
 set pegDetailResScaleFactor 1
