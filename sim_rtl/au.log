@@ -100,5 +100,5 @@ Test Summary
 ================================================================
 
 Simulation complete via $finish(1) at time 4565 NS + 0
-../src/au_tb.v:436     $finish;
+../src/au_tb.v:441     $finish;
 ncsim> exit
