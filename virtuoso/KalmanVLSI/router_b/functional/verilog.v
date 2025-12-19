@@ -1,0 +1,66 @@
+// Created by ihdl
+module router_b ( A, B, RQ, RD, sel_R, sel_S, inv_R, inv_S, sel_I, R, S, I, 
+        msb_R, msb_S );
+  input [23:0] A;
+  input [23:0] B;
+  input [23:0] RQ;
+  input [23:0] RD;
+  input [1:0] sel_R;
+  input [1:0] sel_S;
+  input [1:0] sel_I;
+  output [23:0] R;
+  output [23:0] S;
+  output [23:0] I;
+  input inv_R, inv_S;
+  output msb_R, msb_S;
+
+  assign R[23] = A[23];
+  assign R[22] = A[22];
+  assign R[21] = A[21];
+  assign R[20] = A[20];
+  assign R[19] = A[19];
+  assign R[18] = A[18];
+  assign R[17] = A[17];
+  assign R[16] = A[16];
+  assign R[15] = A[15];
+  assign R[14] = A[14];
+  assign R[13] = A[13];
+  assign R[12] = A[12];
+  assign R[11] = A[11];
+  assign R[10] = A[10];
+  assign R[9] = A[9];
+  assign R[8] = A[8];
+  assign R[7] = A[7];
+  assign R[6] = A[6];
+  assign R[5] = A[5];
+  assign R[4] = A[4];
+  assign R[3] = A[3];
+  assign R[2] = A[2];
+  assign R[1] = A[1];
+  assign R[0] = A[0];
+  assign S[23] = B[23];
+  assign S[22] = B[22];
+  assign S[21] = B[21];
+  assign S[20] = B[20];
+  assign S[19] = B[19];
+  assign S[18] = B[18];
+  assign S[17] = B[17];
+  assign S[16] = B[16];
+  assign S[15] = B[15];
+  assign S[14] = B[14];
+  assign S[13] = B[13];
+  assign S[12] = B[12];
+  assign S[11] = B[11];
+  assign S[10] = B[10];
+  assign S[9] = B[9];
+  assign S[8] = B[8];
+  assign S[7] = B[7];
+  assign S[6] = B[6];
+  assign S[5] = B[5];
+  assign S[4] = B[4];
+  assign S[3] = B[3];
+  assign S[2] = B[2];
+  assign S[1] = B[1];
+  assign S[0] = B[0];
+
+endmodule
