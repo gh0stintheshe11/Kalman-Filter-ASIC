@@ -1,6 +1,6 @@
 # PPCMD 1 
 # sroute -connect { blockPin padPin padRing corePin floatingStripe } -layerChangeRange { M1(1) AP(10) } -blockPinTarget { nearestTarget } -padPinPortConnect { allPort oneGeom } -padPinTarget { nearestTarget } -corePinTarget { firstAfterRowEnd } -floatingStripeTarget { blockring padring ring stripe ringpin blockpin followpin } -allowJogging 1 -crossoverViaLayerRange { M1(1) AP(10) } -allowLayerChange 1 -blockPin useLef -targetViaLayerRange { M1(1) AP(10) }
-# 7 
+# 13 
 # 16 
 # 0 
 # 0 
@@ -13,26 +13,23 @@
 # END_PPCMD 1 
 
 # PPCMD 2 
-# addStripe -nets {VDD VSS} -layer M5 -direction horizontal -width 1 -spacing 1 -set_to_set_distance 4 -start_from bottom -switch_layer_over_obs false -max_same_layer_jog_length 2 -padcore_ring_top_layer_limit AP -padcore_ring_bottom_layer_limit M1 -block_ring_top_layer_limit AP -block_ring_bottom_layer_limit M1 -use_wire_group 0 -snap_wire_center_to_grid None -stacked_via_bottom_layer M1 -stacked_via_top_layer AP -via_using_exact_crossover_size false
-# 6 
-# 2 
-# 1 
+# sroute -connect { blockPin padPin padRing corePin floatingStripe } -layerChangeRange { M1(1) AP(10) } -blockPinTarget { nearestTarget } -padPinPortConnect { allPort oneGeom } -padPinTarget { nearestTarget } -corePinTarget { firstAfterRowEnd } -floatingStripeTarget { blockring padring ring stripe ringpin blockpin followpin } -allowJogging 1 -crossoverViaLayerRange { M1(1) AP(10) } -allowLayerChange 1 -blockPin useLef -targetViaLayerRange { M1(1) AP(10) }
+# 12 
+# 16 
 # 0 
 # 0 
-# 1 
+# 0 
+# 0 
 # BOX_LIST 
-# 0 0 641600 640800 0 
 # END_BOX_LIST 
 # NET_INFO_LIST 
-# VSS 2000 5 0 4000 640800 8000 0 0 
-# VDD 2000 5 0 0 640800 8000 0 0 
 # END_NET_INFO_LIST 
 # END_PPCMD 2 
 
 # PPCMD 3 
-# setAddStripeMode -ignore_block_check false -break_at none -route_over_rows_only false -rows_without_stripes_only false -extend_to_closest_target none -stop_at_last_wire_for_area false -partial_set_thru_domain false -ignore_nondefault_domains false -trim_antenna_back_to_shape none -spacing_type edge_to_edge -spacing_from_block 0 -stripe_min_length stripe_width -stacked_via_top_layer AP -stacked_via_bottom_layer M1 -via_using_exact_crossover_size false -split_vias false -orthogonal_only true -allow_jog { padcore_ring  block_ring } -skip_via_on_pin {  standardcell } -skip_via_on_wire_shape {  noshape   }
-# 5 
-# 0 
+# sroute -connect { blockPin padPin padRing corePin floatingStripe } -layerChangeRange { M1(1) AP(10) } -blockPinTarget { nearestTarget } -padPinPortConnect { allPort oneGeom } -padPinTarget { nearestTarget } -corePinTarget { firstAfterRowEnd } -floatingStripeTarget { blockring padring ring stripe ringpin blockpin followpin } -allowJogging 1 -crossoverViaLayerRange { M1(1) AP(10) } -allowLayerChange 1 -blockPin useLef -targetViaLayerRange { M1(1) AP(10) }
+# 11 
+# 16 
 # 0 
 # 0 
 # 0 
@@ -44,26 +41,23 @@
 # END_PPCMD 3 
 
 # PPCMD 4 
-# addStripe -nets {VDD VSS} -layer M5 -direction horizontal -width 1 -spacing 1 -set_to_set_distance 4 -start_from bottom -switch_layer_over_obs false -max_same_layer_jog_length 2 -padcore_ring_top_layer_limit AP -padcore_ring_bottom_layer_limit M1 -block_ring_top_layer_limit AP -block_ring_bottom_layer_limit M1 -use_wire_group 0 -snap_wire_center_to_grid None -stacked_via_bottom_layer M1 -stacked_via_top_layer AP -via_using_exact_crossover_size false
-# 4 
-# 2 
-# 1 
+# sroute -connect { blockPin padPin padRing corePin floatingStripe } -layerChangeRange { M1(1) AP(10) } -blockPinTarget { nearestTarget } -padPinPortConnect { allPort oneGeom } -padPinTarget { nearestTarget } -corePinTarget { firstAfterRowEnd } -floatingStripeTarget { blockring padring ring stripe ringpin blockpin followpin } -allowJogging 1 -crossoverViaLayerRange { M1(1) AP(10) } -allowLayerChange 1 -blockPin useLef -targetViaLayerRange { M1(1) AP(10) }
+# 10 
+# 16 
 # 0 
 # 0 
-# 1 
+# 0 
+# 0 
 # BOX_LIST 
-# 0 0 641600 640800 0 
 # END_BOX_LIST 
 # NET_INFO_LIST 
-# VSS 2000 5 0 4000 640800 8000 0 0 
-# VDD 2000 5 0 0 640800 8000 0 0 
 # END_NET_INFO_LIST 
 # END_PPCMD 4 
 
 # PPCMD 5 
-# setAddStripeMode -ignore_block_check false -break_at none -route_over_rows_only false -rows_without_stripes_only false -extend_to_closest_target none -stop_at_last_wire_for_area false -partial_set_thru_domain false -ignore_nondefault_domains false -trim_antenna_back_to_shape none -spacing_type edge_to_edge -spacing_from_block 0 -stripe_min_length stripe_width -stacked_via_top_layer AP -stacked_via_bottom_layer M1 -via_using_exact_crossover_size false -split_vias false -orthogonal_only true -allow_jog { padcore_ring  block_ring } -skip_via_on_pin {  standardcell } -skip_via_on_wire_shape {  noshape   }
-# 3 
-# 0 
+# sroute -connect { blockPin padPin padRing corePin floatingStripe } -layerChangeRange { M1(1) AP(10) } -blockPinTarget { nearestTarget } -padPinPortConnect { allPort oneGeom } -padPinTarget { nearestTarget } -corePinTarget { firstAfterRowEnd } -floatingStripeTarget { blockring padring ring stripe ringpin blockpin followpin } -allowJogging 1 -crossoverViaLayerRange { M1(1) AP(10) } -allowLayerChange 1 -blockPin useLef -targetViaLayerRange { M1(1) AP(10) }
+# 9 
+# 16 
 # 0 
 # 0 
 # 0 
@@ -76,24 +70,25 @@
 
 # PPCMD 6 
 # addStripe -nets {VDD VSS} -layer M4 -direction vertical -width 1 -spacing 1 -set_to_set_distance 4 -start_from left -switch_layer_over_obs false -max_same_layer_jog_length 2 -padcore_ring_top_layer_limit AP -padcore_ring_bottom_layer_limit M1 -block_ring_top_layer_limit AP -block_ring_bottom_layer_limit M1 -use_wire_group 0 -snap_wire_center_to_grid None -stacked_via_bottom_layer M1 -stacked_via_top_layer AP -via_using_exact_crossover_size false
-# 2 
+# 8 
 # 2 
 # 1 
 # 0 
 # 0 
-# 1 
+# 2 
 # BOX_LIST 
-# 0 0 641600 640800 0 
+# 44000 44000 813600 812800 0 
+# 76000 76000 781600 780800 0 
 # END_BOX_LIST 
 # NET_INFO_LIST 
-# VSS 2000 4 0 4000 641600 8000 0 0 
-# VDD 2000 4 0 0 641600 8000 0 0 
+# VSS 2000 4 0 124000 761600 8000 0 0 
+# VDD 2000 4 0 120000 761600 8000 0 0 
 # END_NET_INFO_LIST 
 # END_PPCMD 6 
 
 # PPCMD 7 
 # setAddStripeMode -ignore_block_check false -break_at none -route_over_rows_only false -rows_without_stripes_only false -extend_to_closest_target none -stop_at_last_wire_for_area false -partial_set_thru_domain false -ignore_nondefault_domains false -trim_antenna_back_to_shape none -spacing_type edge_to_edge -spacing_from_block 0 -stripe_min_length stripe_width -stacked_via_top_layer AP -stacked_via_bottom_layer M1 -via_using_exact_crossover_size false -split_vias false -orthogonal_only true -allow_jog { padcore_ring  block_ring } -skip_via_on_pin {  standardcell } -skip_via_on_wire_shape {  noshape   }
-# 1 
+# 7 
 # 0 
 # 0 
 # 0 
@@ -104,4 +99,112 @@
 # NET_INFO_LIST 
 # END_NET_INFO_LIST 
 # END_PPCMD 7 
+
+# PPCMD 8 
+# addStripe -nets {VDD VSS} -layer M4 -direction vertical -width 1 -spacing 1 -set_to_set_distance 4 -start_from left -switch_layer_over_obs false -max_same_layer_jog_length 2 -padcore_ring_top_layer_limit AP -padcore_ring_bottom_layer_limit M1 -block_ring_top_layer_limit AP -block_ring_bottom_layer_limit M1 -use_wire_group 0 -snap_wire_center_to_grid None -stacked_via_bottom_layer M1 -stacked_via_top_layer AP -via_using_exact_crossover_size false
+# 6 
+# 2 
+# 1 
+# 0 
+# 0 
+# 2 
+# BOX_LIST 
+# 44000 44000 813600 812800 0 
+# 76000 76000 781600 780800 0 
+# END_BOX_LIST 
+# NET_INFO_LIST 
+# VSS 2000 4 0 124000 761600 8000 0 0 
+# VDD 2000 4 0 120000 761600 8000 0 0 
+# END_NET_INFO_LIST 
+# END_PPCMD 8 
+
+# PPCMD 9 
+# setAddStripeMode -ignore_block_check false -break_at none -route_over_rows_only false -rows_without_stripes_only false -extend_to_closest_target none -stop_at_last_wire_for_area false -partial_set_thru_domain false -ignore_nondefault_domains false -trim_antenna_back_to_shape none -spacing_type edge_to_edge -spacing_from_block 0 -stripe_min_length stripe_width -stacked_via_top_layer AP -stacked_via_bottom_layer M1 -via_using_exact_crossover_size false -split_vias false -orthogonal_only true -allow_jog { padcore_ring  block_ring } -skip_via_on_pin {  standardcell } -skip_via_on_wire_shape {  noshape   }
+# 5 
+# 0 
+# 0 
+# 0 
+# 0 
+# 0 
+# BOX_LIST 
+# END_BOX_LIST 
+# NET_INFO_LIST 
+# END_NET_INFO_LIST 
+# END_PPCMD 9 
+
+# PPCMD 10 
+# addStripe -nets {VDD VSS} -layer M5 -direction horizontal -width 1 -spacing 1 -set_to_set_distance 4 -start_from bottom -switch_layer_over_obs false -max_same_layer_jog_length 2 -padcore_ring_top_layer_limit AP -padcore_ring_bottom_layer_limit M1 -block_ring_top_layer_limit AP -block_ring_bottom_layer_limit M1 -use_wire_group 0 -snap_wire_center_to_grid None -stacked_via_bottom_layer M1 -stacked_via_top_layer AP -via_using_exact_crossover_size false
+# 4 
+# 2 
+# 1 
+# 0 
+# 0 
+# 2 
+# BOX_LIST 
+# 44000 68000 813600 836800 0 
+# 76000 100000 781600 804800 0 
+# END_BOX_LIST 
+# NET_INFO_LIST 
+# VSS 2000 5 0 124000 760800 8000 0 0 
+# VDD 2000 5 0 120000 760800 8000 0 0 
+# END_NET_INFO_LIST 
+# END_PPCMD 10 
+
+# PPCMD 11 
+# setAddStripeMode -ignore_block_check false -break_at none -route_over_rows_only false -rows_without_stripes_only false -extend_to_closest_target none -stop_at_last_wire_for_area false -partial_set_thru_domain false -ignore_nondefault_domains false -trim_antenna_back_to_shape none -spacing_type edge_to_edge -spacing_from_block 0 -stripe_min_length stripe_width -stacked_via_top_layer AP -stacked_via_bottom_layer M1 -via_using_exact_crossover_size false -split_vias false -orthogonal_only true -allow_jog { padcore_ring  block_ring } -skip_via_on_pin {  standardcell } -skip_via_on_wire_shape {  noshape   }
+# 3 
+# 0 
+# 0 
+# 0 
+# 0 
+# 0 
+# BOX_LIST 
+# END_BOX_LIST 
+# NET_INFO_LIST 
+# END_NET_INFO_LIST 
+# END_PPCMD 11 
+
+# PPCMD 12 
+# addRing -nets {VDD VSS} -type core_rings -follow core -layer {top M5 bottom M5 left M4 right M4} -width {top 12 bottom 12 left 12 right 12} -spacing {top 4 bottom 4 left 4 right 4} -offset {top 10 bottom 10 left 10 right 10} -center 0 -extend_corner {} -threshold 0 -jog_distance 0 -snap_wire_center_to_grid None
+# 2 
+# 32 
+# 1 
+# 0 
+# 0 
+# 0 
+# BOX_LIST 
+# END_BOX_LIST 
+# NET_INFO_LIST 
+# VSS 24000 5 1 0 0 0 0 0 
+# RING_PT_INFO_LIST 
+# 440800 56000 440800 824800 
+# END_RING_PT_INFO_LIST 
+# VSS 24000 4 1 0 0 0 0 0 
+# RING_PT_INFO_LIST 
+# 56000 440400 825600 440400 
+# END_RING_PT_INFO_LIST 
+# VDD 24000 5 1 0 0 0 0 0 
+# RING_PT_INFO_LIST 
+# 440800 88000 440800 792800 
+# END_RING_PT_INFO_LIST 
+# VDD 24000 4 1 0 0 0 0 0 
+# RING_PT_INFO_LIST 
+# 88000 440400 793600 440400 
+# END_RING_PT_INFO_LIST 
+# END_NET_INFO_LIST 
+# END_PPCMD 12 
+
+# PPCMD 13 
+# setAddRingMode -ring_target default -extend_over_row 0 -ignore_rows 0 -avoid_short 0 -skip_crossing_trunks none -stacked_via_top_layer AP -stacked_via_bottom_layer M1 -via_using_exact_crossover_size 1 -orthogonal_only true -skip_via_on_pin {  standardcell } -skip_via_on_wire_shape {  noshape }
+# 1 
+# 0 
+# 0 
+# 0 
+# 0 
+# 0 
+# BOX_LIST 
+# END_BOX_LIST 
+# NET_INFO_LIST 
+# END_NET_INFO_LIST 
+# END_PPCMD 13 
 

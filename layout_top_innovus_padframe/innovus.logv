@@ -1,0 +1,521 @@
+[01/04 16:16:53      0s] 
+[01/04 16:16:53      0s] Cadence Innovus(TM) Implementation System.
+[01/04 16:16:53      0s] Copyright 2018 Cadence Design Systems, Inc. All rights reserved worldwide.
+[01/04 16:16:53      0s] 
+[01/04 16:16:53      0s] Version:	v18.10-p002_1, built Tue May 29 19:19:55 PDT 2018
+[01/04 16:16:53      0s] Options:	
+[01/04 16:16:53      0s] Date:		Sun Jan  4 16:16:53 2026
+[01/04 16:16:53      0s] Host:		ug253 (x86_64 w/Linux 6.1.0-37-amd64) (12cores*48cpus*Intel(R) Xeon(R) Silver 4310 CPU @ 2.10GHz 18432KB)
+[01/04 16:16:53      0s] OS:		Unsupported OS as /etc does not have release info
+[01/04 16:16:53      0s] 
+[01/04 16:16:53      0s] License:
+[01/04 16:16:53      0s] 		invs	Innovus Implementation System	18.1	checkout succeeded
+[01/04 16:16:53      0s] 		8 CPU jobs allowed with the current license(s). Use setMultiCpuUsage to set your required CPU count.
+[01/04 16:17:03      9s] @(#)CDS: Innovus v18.10-p002_1 (64bit) 05/29/2018 19:19 (Linux 2.6.18-194.el5)
+[01/04 16:17:03      9s] @(#)CDS: NanoRoute 18.10-p002_1 NR180522-1057/18_10-UB (database version 2.30, 418.7.1) {superthreading v1.46}
+[01/04 16:17:03      9s] @(#)CDS: AAE 18.10-p004 (64bit) 05/29/2018 (Linux 2.6.18-194.el5)
+[01/04 16:17:03      9s] @(#)CDS: CTE 18.10-p003_1 () May 15 2018 10:23:07 ( )
+[01/04 16:17:03      9s] @(#)CDS: SYNTECH 18.10-a012_1 () Apr 19 2018 01:27:21 ( )
+[01/04 16:17:03      9s] @(#)CDS: CPE v18.10-p005
+[01/04 16:17:03      9s] @(#)CDS: IQRC/TQRC 18.1.1-s118 (64bit) Fri Mar 23 17:23:45 PDT 2018 (Linux 2.6.18-194.el5)
+[01/04 16:17:03      9s] @(#)CDS: OA 22.50-p083 Tue Jan  2 17:02:41 2018
+[01/04 16:17:03      9s] @(#)CDS: SGN 10.10-p124 (19-Aug-2014) (64 bit executable)
+[01/04 16:17:03      9s] @(#)CDS: RCDB 11.13
+[01/04 16:17:03      9s] Create and set the environment variable TMPDIR to /tmp/innovus_temp_2155825_ug253_sunlang_cFVOp7.
+
+[01/04 16:17:03      9s] Change the soft stacksize limit to 0.2%RAM (515 mbytes). Set global soft_stack_size_limit to change the value.
+[01/04 16:17:03      9s] 
+[01/04 16:17:03      9s] **INFO:  MMMC transition support version v31-84 
+[01/04 16:17:03      9s] 
+[01/04 16:17:03      9s] <CMD> set_global _enable_mmmc_by_default_flow      $CTE::mmmc_default
+[01/04 16:17:03      9s] <CMD> suppressMessage ENCEXT-2799
+[01/04 16:17:03      9s] <CMD> getVersion
+[01/04 16:17:03      9s] [INFO] Loading fill procedures release ... 2017_02_14_15_15 for PVS build 15.23
+[01/04 16:17:04     10s] <CMD> win
+[01/04 16:17:23     13s] <CMD> set ::TimeLib::tsgMarkCellLatchConstructFlag 1
+[01/04 16:17:23     13s] <CMD> set defHierChar /
+[01/04 16:17:23     13s] Set Default Input Pin Transition as 0.1 ps.
+[01/04 16:17:23     13s] <CMD> set delaycal_input_transition_delay 0.1ps
+[01/04 16:17:23     13s] <CMD> set distributed_client_message_echo 1
+[01/04 16:17:23     13s] <CMD> set distributed_mmmc_disable_reports_auto_redirection 0
+[01/04 16:17:23     13s] <CMD> set enc_enable_print_mode_command_reset_options 1
+[01/04 16:17:23     13s] <CMD> set floorplan_default_site core
+[01/04 16:17:23     13s] <CMD> set fpIsMaxIoHeight 0
+[01/04 16:17:23     13s] <CMD> set init_gnd_net VSS
+[01/04 16:17:23     13s] <CMD> set init_lef_file {/nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Back_End/lef/tcbn65gplus_200a/lef/tcbn65gplus_9lmT2.lef /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Back_End/lef/tpan65gpgv2od3_200a/mt/9lm/lef/tpan65gpgv2od3_9lm.lef}
+[01/04 16:17:23     13s] <CMD> set init_mmmc_file kf_top.view
+[01/04 16:17:23     13s] <CMD> set init_oa_search_lib {}
+[01/04 16:17:23     13s] <CMD> set init_original_verilog_files kf_top_syn.v
+[01/04 16:17:23     13s] <CMD> set init_pwr_net VDD
+[01/04 16:17:23     13s] <CMD> set init_verilog kf_top_syn.v
+[01/04 16:17:23     13s] <CMD> set latch_time_borrow_mode max_borrow
+[01/04 16:17:23     13s] <CMD> set pegDefaultResScaleFactor 1
+[01/04 16:17:23     13s] <CMD> set pegDetailResScaleFactor 1
+[01/04 16:17:23     13s] <CMD> set report_inactive_arcs_format {from to when arc_type sense reason}
+[01/04 16:17:23     13s] <CMD> set soft_stack_size_limit 128
+[01/04 16:17:27     14s] <CMD> init_design
+[01/04 16:17:27     14s] #% Begin Load MMMC data ... (date=01/04 16:17:27, mem=589.0M)
+[01/04 16:17:27     14s] #% End Load MMMC data ... (date=01/04 16:17:27, total cpu=0:00:00.0, real=0:00:00.0, peak res=589.3M, current mem=589.3M)
+[01/04 16:17:27     14s] 
+[01/04 16:17:27     14s] Loading LEF file /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Back_End/lef/tcbn65gplus_200a/lef/tcbn65gplus_9lmT2.lef ...
+[01/04 16:17:27     14s] Set DBUPerIGU to M2 pitch 400.
+[01/04 16:17:27     14s] 
+[01/04 16:17:27     14s] Loading LEF file /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Back_End/lef/tpan65gpgv2od3_200a/mt/9lm/lef/tpan65gpgv2od3_9lm.lef ...
+[01/04 16:17:27     14s] WARNING (LEFPARS-2001): No VERSION statement found, using the default value 5.8. See file /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Back_End/lef/tpan65gpgv2od3_200a/mt/9lm/lef/tpan65gpgv2od3_9lm.lef at line 1418.
+[01/04 16:17:27     14s] **WARN: (IMPLF-201):	Pin 'AVSS' in macro 'PVSS3AC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-201' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-200):	Pin 'AVSS' in macro 'PVSS3AC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-200' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-201):	Pin 'AVSS' in macro 'PVSS3A' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-201' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-200):	Pin 'AVSS' in macro 'PVSS3A' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-200' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-201):	Pin 'VSS' in macro 'PVSS2AC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-201' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-200):	Pin 'VSS' in macro 'PVSS2AC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-200' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-201):	Pin 'VSS' in macro 'PVSS2A' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-201' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-200):	Pin 'VSS' in macro 'PVSS2A' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-200' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-201):	Pin 'TACVDD' in macro 'PVDD3AC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-201' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-200):	Pin 'TACVDD' in macro 'PVDD3AC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-200' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-201):	Pin 'AVDD' in macro 'PVDD3AC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-201' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-200):	Pin 'AVDD' in macro 'PVDD3AC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-200' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-201):	Pin 'TAVDD' in macro 'PVDD3A' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-201' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-200):	Pin 'TAVDD' in macro 'PVDD3A' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-200' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-201):	Pin 'AVDD' in macro 'PVDD3A' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-201' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-200):	Pin 'AVDD' in macro 'PVDD3A' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-200' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-201):	Pin 'VBUS' in macro 'PVBUS' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-201' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-200):	Pin 'VBUS' in macro 'PVBUS' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-200' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-201):	Pin 'AIO' in macro 'PDB3AC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-201' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-200):	Pin 'AIO' in macro 'PDB3AC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-200' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-201):	Pin 'AIO' in macro 'PDB3A' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-201' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-200):	Pin 'AIO' in macro 'PDB3A' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-200' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-201):	Pin 'AIO' in macro 'PDB2AC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-201' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-200):	Pin 'AIO' in macro 'PDB2AC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-200' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-201):	Pin 'AIO' in macro 'PDB2A' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-201' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-200):	Pin 'AIO' in macro 'PDB2A' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-200' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-201):	Pin 'AIO' in macro 'PDB1AC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-201' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-200):	Pin 'AIO' in macro 'PDB1AC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-200' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-201):	Pin 'AIO' in macro 'PDB1A' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-201' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-200):	Pin 'AIO' in macro 'PDB1A' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-200' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-201):	Pin 'VSSESD' in macro 'PCLAMPAC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-201' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-200):	Pin 'VSSESD' in macro 'PCLAMPAC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-200' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-201):	Pin 'VDDESD' in macro 'PCLAMPAC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-201' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-200):	Pin 'VDDESD' in macro 'PCLAMPAC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-200' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-201):	Pin 'VSSESD' in macro 'PCLAMPA' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-201' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-200):	Pin 'VSSESD' in macro 'PCLAMPA' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-200' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-201):	Pin 'VDDESD' in macro 'PCLAMPA' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-201' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-200):	Pin 'VDDESD' in macro 'PCLAMPA' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-200' for more detail.
+[01/04 16:17:27     14s] **WARN: (IMPLF-200):	Pin 'I' in macro 'ANTENNA' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+[01/04 16:17:27     14s] Type 'man IMPLF-200' for more detail.
+[01/04 16:17:27     14s] 
+[01/04 16:17:27     14s] viaInitial starts at Sun Jan  4 16:17:27 2026
+viaInitial ends at Sun Jan  4 16:17:27 2026
+Loading view definition file from kf_top.view
+[01/04 16:17:27     14s] Reading worst timing library '/nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib' ...
+[01/04 16:17:27     14s] **WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN2D0' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:27     14s] **WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN2D1' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:27     14s] **WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN2D2' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:27     14s] **WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN2D4' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:27     14s] **WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN2D8' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:27     14s] **WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN2XD1' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:27     14s] **WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN3D0' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:27     14s] **WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN3D1' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:27     14s] **WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN3D2' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:27     14s] **WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN3D4' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:27     14s] **WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN3D8' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:27     14s] **WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN3XD1' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:27     14s] **WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN4D0' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:27     14s] **WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN4D1' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:27     14s] **WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN4D2' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:27     14s] **WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN4D4' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:27     14s] **WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN4D8' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:27     14s] **WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN4XD1' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:27     14s] **WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AO211D0' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:27     14s] **WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AO211D1' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:27     14s] Message <TECHLIB-436> has exceeded the message display limit of '20'. Use 'set_message -no_limit -id list_of_msgIDs' to reset the message limit.
+[01/04 16:17:30     17s] **WARN: (TECHLIB-302):	No function defined for cell 'OD18DCAP64'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:30     17s] **WARN: (TECHLIB-302):	No function defined for cell 'OD18DCAP32'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:30     17s] **WARN: (TECHLIB-302):	No function defined for cell 'OD18DCAP16'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:30     17s] **WARN: (TECHLIB-302):	No function defined for cell 'DCAP8'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:30     17s] **WARN: (TECHLIB-302):	No function defined for cell 'DCAP64'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:30     17s] **WARN: (TECHLIB-302):	No function defined for cell 'DCAP4'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:30     17s] **WARN: (TECHLIB-302):	No function defined for cell 'DCAP32'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:30     17s] **WARN: (TECHLIB-302):	No function defined for cell 'DCAP16'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:30     17s] **WARN: (TECHLIB-302):	No function defined for cell 'DCAP'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:30     17s] **WARN: (TECHLIB-302):	No function defined for cell 'ANTENNA'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+[01/04 16:17:30     18s] Read 816 cells in library 'tcbn65gpluswc' 
+[01/04 16:17:30     18s] Reading worst timing library '/nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib' ...
+[01/04 16:17:30     18s] **WARN: (TECHLIB-302):	No function defined for cell 'PVSS3AC'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+[01/04 16:17:30     18s] **WARN: (TECHLIB-302):	No function defined for cell 'PVSS3A'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+[01/04 16:17:30     18s] **WARN: (TECHLIB-302):	No function defined for cell 'PVSS2AC'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+[01/04 16:17:30     18s] **WARN: (TECHLIB-302):	No function defined for cell 'PVSS2A'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+[01/04 16:17:30     18s] **WARN: (TECHLIB-302):	No function defined for cell 'PVDD3AC'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+[01/04 16:17:30     18s] **WARN: (TECHLIB-302):	No function defined for cell 'PVDD3A'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+[01/04 16:17:30     18s] **WARN: (TECHLIB-302):	No function defined for cell 'PVBUS'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+[01/04 16:17:30     18s] **WARN: (TECHLIB-302):	No function defined for cell 'PRCUTA'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+[01/04 16:17:30     18s] **WARN: (TECHLIB-302):	No function defined for cell 'PDB3AC'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+[01/04 16:17:30     18s] **WARN: (TECHLIB-302):	No function defined for cell 'PDB3A'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+[01/04 16:17:30     18s] Message <TECHLIB-302> has exceeded the message display limit of '20'. Use 'set_message -no_limit -id list_of_msgIDs' to reset the message limit.
+[01/04 16:17:30     18s] Read 16 cells in library 'tpan65gpgv2od3wc' 
+[01/04 16:17:30     18s] Reading best timing library '/nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gplusbc.lib' ...
+[01/04 16:17:33     20s] Read 816 cells in library 'tcbn65gplusbc' 
+[01/04 16:17:33     20s] Reading best timing library '/nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3bc.lib' ...
+[01/04 16:17:33     20s] Read 16 cells in library 'tpan65gpgv2od3bc' 
+[01/04 16:17:33     20s] *** End library_loading (cpu=0.11min, real=0.10min, mem=141.4M, fe_cpu=0.35min, fe_real=0.67min, fe_mem=764.9M) ***
+[01/04 16:17:33     20s] #% Begin Load netlist data ... (date=01/04 16:17:33, mem=636.0M)
+[01/04 16:17:33     20s] *** Begin netlist parsing (mem=764.9M) ***
+[01/04 16:17:33     20s] Created 832 new cells from 4 timing libraries.
+[01/04 16:17:33     20s] Reading netlist ...
+[01/04 16:17:33     20s] Backslashed names will retain backslash and a trailing blank character.
+[01/04 16:17:33     20s] Reading verilog netlist 'kf_top_syn.v'
+[01/04 16:17:33     20s] 
+[01/04 16:17:33     20s] *** Memory Usage v#1 (Current mem = 764.887M, initial mem = 258.629M) ***
+[01/04 16:17:33     20s] *** End netlist parsing (cpu=0:00:00.1, real=0:00:00.0, mem=764.9M) ***
+[01/04 16:17:33     20s] #% End Load netlist data ... (date=01/04 16:17:33, total cpu=0:00:00.1, real=0:00:00.0, peak res=706.4M, current mem=706.4M)
+[01/04 16:17:33     20s] Top level cell is kf_top.
+[01/04 16:17:33     21s] **WARN: (IMPTS-282):	Cell 'PCLAMPAC' is not a level shifter cell but has 'input_signal_level' and 'output_signal_level' specified on pins, or it has different related_power_pin specified on input and output pins. To mark this cell as level shifter, use 'is_level_shifter' attribute.
+[01/04 16:17:33     21s] Type 'man IMPTS-282' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPTS-282):	Cell 'PCLAMPAC' is not a level shifter cell but has 'input_signal_level' and 'output_signal_level' specified on pins, or it has different related_power_pin specified on input and output pins. To mark this cell as level shifter, use 'is_level_shifter' attribute.
+[01/04 16:17:34     21s] Type 'man IMPTS-282' for more detail.
+[01/04 16:17:34     21s] Hooked 1664 DB cells to tlib cells.
+[01/04 16:17:34     21s] Starting recursive module instantiation check.
+[01/04 16:17:34     21s] No recursion found.
+[01/04 16:17:34     21s] Building hierarchical netlist for Cell kf_top ...
+[01/04 16:17:34     21s] *** Netlist is unique.
+[01/04 16:17:34     21s] Setting Std. cell height to 3600 DBU (smallest netlist inst).
+[01/04 16:17:34     21s] ** info: there are 1719 modules.
+[01/04 16:17:34     21s] ** info: there are 18727 stdCell insts.
+[01/04 16:17:34     21s] 
+[01/04 16:17:34     21s] *** Memory Usage v#1 (Current mem = 836.301M, initial mem = 258.629M) ***
+[01/04 16:17:34     21s] **WARN: (IMPFP-3961):	The techSite 'corner' has no related standard cells in LEF/OA library. Cannot make calculations for this site type unless standard cell models of this type exist in the LEF/OA library. If the SITE is not used by the library you can ignore this warning or remove the SITE definition from the LEF/OA to avoid this message.
+[01/04 16:17:34     21s] Type 'man IMPFP-3961' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPFP-3961):	The techSite 'pad' has no related standard cells in LEF/OA library. Cannot make calculations for this site type unless standard cell models of this type exist in the LEF/OA library. If the SITE is not used by the library you can ignore this warning or remove the SITE definition from the LEF/OA to avoid this message.
+[01/04 16:17:34     21s] Type 'man IMPFP-3961' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPFP-3961):	The techSite 'dcore' has no related standard cells in LEF/OA library. Cannot make calculations for this site type unless standard cell models of this type exist in the LEF/OA library. If the SITE is not used by the library you can ignore this warning or remove the SITE definition from the LEF/OA to avoid this message.
+[01/04 16:17:34     21s] Type 'man IMPFP-3961' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPFP-3961):	The techSite 'ccore' has no related standard cells in LEF/OA library. Cannot make calculations for this site type unless standard cell models of this type exist in the LEF/OA library. If the SITE is not used by the library you can ignore this warning or remove the SITE definition from the LEF/OA to avoid this message.
+[01/04 16:17:34     21s] Type 'man IMPFP-3961' for more detail.
+[01/04 16:17:34     21s] Set Default Net Delay as 1000 ps.
+[01/04 16:17:34     21s] Set Default Net Load as 0.5 pF. 
+[01/04 16:17:34     21s] Set Default Input Pin Transition as 0.1 ps.
+[01/04 16:17:34     21s] Extraction setup Started 
+[01/04 16:17:34     21s] Initializing multi-corner RC extraction with 2 active RC Corners ...
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2773):	The via resistance between layers M0 and M1 could not be determined from the LEF technology file because the via resistance specification is missing. A default of 4 Ohms will be used as via resistance between these layers.
+[01/04 16:17:34     21s] Type 'man IMPEXT-2773' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2776):	The via resistance between layers M1 and M2 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+[01/04 16:17:34     21s] Type 'man IMPEXT-2776' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2776):	The via resistance between layers M2 and M3 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+[01/04 16:17:34     21s] Type 'man IMPEXT-2776' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2776):	The via resistance between layers M3 and M4 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+[01/04 16:17:34     21s] Type 'man IMPEXT-2776' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2776):	The via resistance between layers M4 and M5 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+[01/04 16:17:34     21s] Type 'man IMPEXT-2776' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2776):	The via resistance between layers M5 and M6 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+[01/04 16:17:34     21s] Type 'man IMPEXT-2776' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2776):	The via resistance between layers M6 and M7 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+[01/04 16:17:34     21s] Type 'man IMPEXT-2776' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2776):	The via resistance between layers M7 and M8 is not defined in the capacitance table file. The via resistance of 0.22 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+[01/04 16:17:34     21s] Type 'man IMPEXT-2776' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2776):	The via resistance between layers M8 and M9 is not defined in the capacitance table file. The via resistance of 0.22 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+[01/04 16:17:34     21s] Type 'man IMPEXT-2776' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2776):	The via resistance between layers M9 and M10 is not defined in the capacitance table file. The via resistance of 0.041 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+[01/04 16:17:34     21s] Type 'man IMPEXT-2776' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2766):	The sheet resistance for layer M1 is not defined in the cap table. Therefore, the LEF value 0.16 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2766):	The sheet resistance for layer M2 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2766):	The sheet resistance for layer M3 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2766):	The sheet resistance for layer M4 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2766):	The sheet resistance for layer M5 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2766):	The sheet resistance for layer M6 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2766):	The sheet resistance for layer M7 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2766):	The sheet resistance for layer M8 is not defined in the cap table. Therefore, the LEF value 0.0218 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2766):	The sheet resistance for layer M9 is not defined in the cap table. Therefore, the LEF value 0.0218 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2766):	The sheet resistance for layer M10 is not defined in the cap table. Therefore, the LEF value 0.021 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2773):	The via resistance between layers M0 and M1 could not be determined from the LEF technology file because the via resistance specification is missing. A default of 4 Ohms will be used as via resistance between these layers.
+[01/04 16:17:34     21s] Type 'man IMPEXT-2773' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2776):	The via resistance between layers M1 and M2 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+[01/04 16:17:34     21s] Type 'man IMPEXT-2776' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2776):	The via resistance between layers M2 and M3 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+[01/04 16:17:34     21s] Type 'man IMPEXT-2776' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2776):	The via resistance between layers M3 and M4 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+[01/04 16:17:34     21s] Type 'man IMPEXT-2776' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2776):	The via resistance between layers M4 and M5 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+[01/04 16:17:34     21s] Type 'man IMPEXT-2776' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2776):	The via resistance between layers M5 and M6 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+[01/04 16:17:34     21s] Type 'man IMPEXT-2776' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2776):	The via resistance between layers M6 and M7 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+[01/04 16:17:34     21s] Type 'man IMPEXT-2776' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2776):	The via resistance between layers M7 and M8 is not defined in the capacitance table file. The via resistance of 0.22 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+[01/04 16:17:34     21s] Type 'man IMPEXT-2776' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2776):	The via resistance between layers M8 and M9 is not defined in the capacitance table file. The via resistance of 0.22 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+[01/04 16:17:34     21s] Type 'man IMPEXT-2776' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2776):	The via resistance between layers M9 and M10 is not defined in the capacitance table file. The via resistance of 0.041 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+[01/04 16:17:34     21s] Type 'man IMPEXT-2776' for more detail.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2766):	The sheet resistance for layer M1 is not defined in the cap table. Therefore, the LEF value 0.16 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2766):	The sheet resistance for layer M2 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2766):	The sheet resistance for layer M3 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2766):	The sheet resistance for layer M4 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2766):	The sheet resistance for layer M5 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2766):	The sheet resistance for layer M6 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2766):	The sheet resistance for layer M7 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2766):	The sheet resistance for layer M8 is not defined in the cap table. Therefore, the LEF value 0.0218 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2766):	The sheet resistance for layer M9 is not defined in the cap table. Therefore, the LEF value 0.0218 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+[01/04 16:17:34     21s] **WARN: (IMPEXT-2766):	The sheet resistance for layer M10 is not defined in the cap table. Therefore, the LEF value 0.021 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+[01/04 16:17:34     21s] Summary of Active RC-Corners : 
+[01/04 16:17:34     21s]  
+[01/04 16:17:34     21s]  Analysis View: setup_view
+[01/04 16:17:34     21s]     RC-Corner Name        : worst
+[01/04 16:17:34     21s]     RC-Corner Index       : 0
+[01/04 16:17:34     21s]     RC-Corner Temperature : 25 Celsius
+[01/04 16:17:34     21s]     RC-Corner Cap Table   : ''
+[01/04 16:17:34     21s]     RC-Corner PreRoute Res Factor         : 1
+[01/04 16:17:34     21s]     RC-Corner PreRoute Cap Factor         : 1
+[01/04 16:17:34     21s]     RC-Corner PostRoute Res Factor        : 1 {1 1 1}
+[01/04 16:17:34     21s]     RC-Corner PostRoute Cap Factor        : 1 {1 1 1}
+[01/04 16:17:34     21s]     RC-Corner PostRoute XCap Factor       : 1 {1 1 1}
+[01/04 16:17:34     21s]     RC-Corner PreRoute Clock Res Factor   : 1
+[01/04 16:17:34     21s]     RC-Corner PreRoute Clock Cap Factor   : 1
+[01/04 16:17:34     21s]     RC-Corner PostRoute Clock Cap Factor  : 1 {1 1 1} 
+[01/04 16:17:34     21s]     RC-Corner PostRoute Clock Res Factor  : 1 {1 1 1} 
+[01/04 16:17:34     21s]  
+[01/04 16:17:34     21s]  Analysis View: hold_view
+[01/04 16:17:34     21s]     RC-Corner Name        : best
+[01/04 16:17:34     21s]     RC-Corner Index       : 1
+[01/04 16:17:34     21s]     RC-Corner Temperature : 25 Celsius
+[01/04 16:17:34     21s]     RC-Corner Cap Table   : ''
+[01/04 16:17:34     21s]     RC-Corner PreRoute Res Factor         : 1
+[01/04 16:17:34     21s]     RC-Corner PreRoute Cap Factor         : 1
+[01/04 16:17:34     21s]     RC-Corner PostRoute Res Factor        : 1 {1 1 1}
+[01/04 16:17:34     21s]     RC-Corner PostRoute Cap Factor        : 1 {1 1 1}
+[01/04 16:17:34     21s]     RC-Corner PostRoute XCap Factor       : 1 {1 1 1}
+[01/04 16:17:34     21s]     RC-Corner PreRoute Clock Res Factor   : 1
+[01/04 16:17:34     21s]     RC-Corner PreRoute Clock Cap Factor   : 1
+[01/04 16:17:34     21s]     RC-Corner PostRoute Clock Cap Factor  : 1 {1 1 1} 
+[01/04 16:17:34     21s]     RC-Corner PostRoute Clock Res Factor  : 1 {1 1 1} 
+[01/04 16:17:34     21s] Updating RC grid for preRoute extraction ...
+[01/04 16:17:34     21s] Initializing multi-corner resistance tables ...
+[01/04 16:17:34     21s] *Info: initialize multi-corner CTS.
+[01/04 16:17:34     21s] Reading timing constraints file 'kf_top_syn.sdc' ...
+[01/04 16:17:34     21s] Current (total cpu=0:00:21.7, real=0:00:41.0, peak res=925.9M, current mem=925.9M)
+[01/04 16:17:34     21s] **WARN: (TCLCMD-1461):	Skipped unsupported command: set_units (File kf_top_syn.sdc, Line 8).
+[01/04 16:17:34     21s] 
+[01/04 16:17:34     21s] INFO (CTE): Reading of timing constraints file kf_top_syn.sdc completed, with 1 WARNING
+[01/04 16:17:34     21s] Ending "Constraint file reading stats" (total cpu=0:00:00.0, real=0:00:00.0, peak res=926.7M, current mem=926.7M)
+[01/04 16:17:34     21s] Current (total cpu=0:00:21.7, real=0:00:41.0, peak res=926.7M, current mem=926.7M)
+[01/04 16:17:34     21s] Creating Cell Server ...(0, 1, 1, 1)
+[01/04 16:17:34     21s] Summary for sequential cells identification: 
+[01/04 16:17:34     21s]   Identified SBFF number: 199
+[01/04 16:17:34     21s]   Identified MBFF number: 0
+[01/04 16:17:34     21s]   Identified SB Latch number: 0
+[01/04 16:17:34     21s]   Identified MB Latch number: 0
+[01/04 16:17:34     21s]   Not identified SBFF number: 0
+[01/04 16:17:34     21s]   Not identified MBFF number: 0
+[01/04 16:17:34     21s]   Not identified SB Latch number: 0
+[01/04 16:17:34     21s]   Not identified MB Latch number: 0
+[01/04 16:17:34     21s]   Number of sequential cells which are not FFs: 104
+[01/04 16:17:34     21s] Total number of combinational cells: 502
+[01/04 16:17:34     21s] Total number of sequential cells: 303
+[01/04 16:17:34     21s] Total number of tristate cells: 11
+[01/04 16:17:34     21s] Total number of level shifter cells: 0
+[01/04 16:17:34     21s] Total number of power gating cells: 0
+[01/04 16:17:34     21s] Total number of isolation cells: 0
+[01/04 16:17:34     21s] Total number of power switch cells: 0
+[01/04 16:17:34     21s] Total number of pulse generator cells: 0
+[01/04 16:17:34     21s] Total number of always on buffers: 0
+[01/04 16:17:34     21s] Total number of retention cells: 0
+[01/04 16:17:34     21s] List of usable buffers: BUFFD1 BUFFD0 BUFFD2 BUFFD12 BUFFD16 BUFFD3 BUFFD4 BUFFD6 BUFFD8 CKBD1 CKBD0 CKBD2 CKBD12 CKBD16 CKBD3 CKBD4 CKBD6 CKBD8
+[01/04 16:17:34     21s] Total number of usable buffers: 18
+[01/04 16:17:34     21s] List of unusable buffers: BUFFD20 BUFFD24 CKBD20 CKBD24 GBUFFD1 GBUFFD3 GBUFFD2 GBUFFD4 GBUFFD8
+[01/04 16:17:34     21s] Total number of unusable buffers: 9
+[01/04 16:17:34     21s] List of usable inverters: CKND1 CKND0 CKND2 CKND12 CKND16 CKND3 CKND4 CKND6 CKND8 INVD1 INVD0 INVD2 INVD12 INVD16 INVD3 INVD4 INVD6 INVD8
+[01/04 16:17:34     21s] Total number of usable inverters: 18
+[01/04 16:17:34     21s] List of unusable inverters: CKND20 CKND24 GINVD2 GINVD1 GINVD4 GINVD3 GINVD8 INVD20 INVD24
+[01/04 16:17:34     21s] Total number of unusable inverters: 9
+[01/04 16:17:34     21s] List of identified usable delay cells: DEL0 DEL005 DEL01 DEL015 DEL02 DEL1 DEL2 DEL3 DEL4
+[01/04 16:17:34     21s] Total number of identified usable delay cells: 9
+[01/04 16:17:34     21s] List of identified unusable delay cells:
+[01/04 16:17:34     21s] Total number of identified unusable delay cells: 0
+[01/04 16:17:34     21s] Creating Cell Server, finished. 
+[01/04 16:17:34     21s] 
+[01/04 16:17:34     21s] Deleting Cell Server ...
+[01/04 16:17:34     21s] 
+[01/04 16:17:34     21s] *** Summary of all messages that are not suppressed in this session:
+[01/04 16:17:34     21s] Severity  ID               Count  Summary                                  
+[01/04 16:17:34     21s] WARNING   IMPLF-200           20  Pin '%s' in macro '%s' has no ANTENNAGAT...
+[01/04 16:17:34     21s] WARNING   IMPLF-201           19  Pin '%s' in macro '%s' has no ANTENNADIF...
+[01/04 16:17:34     21s] WARNING   IMPFP-3961           4  The techSite '%s' has no related standar...
+[01/04 16:17:34     21s] WARNING   IMPTS-282            2  Cell '%s' is not a level shifter cell bu...
+[01/04 16:17:34     21s] WARNING   IMPEXT-2766         20  The sheet resistance for layer %s is not...
+[01/04 16:17:34     21s] WARNING   IMPEXT-2773          2  The via resistance between layers %s and...
+[01/04 16:17:34     21s] WARNING   IMPEXT-2776         18  The via resistance between layers %s and...
+[01/04 16:17:34     21s] WARNING   TCLCMD-1461          1  Skipped unsupported command: %s          
+[01/04 16:17:34     21s] WARNING   TECHLIB-302         20  No function defined for cell '%s'. The c...
+[01/04 16:17:34     21s] WARNING   TECHLIB-436         20  Attribute '%s' on '%s' pin '%s' of cell ...
+[01/04 16:17:34     21s] *** Message Summary: 126 warning(s), 0 error(s)
+[01/04 16:17:34     21s] 
+[01/04 16:17:38     22s] <CMD> getIoFlowFlag
+[01/04 16:18:09     27s] <CMD> setIoFlowFlag 0
+[01/04 16:18:09     27s] <CMD> floorPlan -site core -r 1 0.7 240 240 240 240
+[01/04 16:18:09     27s] <CMD> uiSetTool select
+[01/04 16:18:09     27s] <CMD> getIoFlowFlag
+[01/04 16:18:09     27s] <CMD> fit
+[01/04 16:18:51     34s] <CMD> createIoRow -site pad -beginOffset 240 -endOffset 240
+[01/04 16:18:51     34s] **ERROR: (IMPTCM-113):	Option "-side" is required when option "[-beginOffset]" is specified. Type 'man createIoRow' for more details.
+<CMD> createIoRow -site corner -corner BL
+[01/04 16:19:04     36s] <CMD> createIoRow -site corner -corner BR
+[01/04 16:19:06     36s] <CMD> createIoRow -site corner -corner TR
+[01/04 16:19:08     37s] <CMD> createIoRow -site corner -corner TL
+[01/04 16:19:09     37s] <CMD> createIoRow -site corner -corner TL
+[01/04 16:19:12     37s] <CMD> gui_select -rect {-18.586 810.382 835.959 -24.483}
+[01/04 16:19:13     38s] <CMD> deselectAll
+[01/04 16:19:28     40s] <CMD> createIoRow -site corner -side N -beginOffset 240 -endOffset 240
+[01/04 16:19:31     41s] <CMD> createIoRow -site corner -side W -beginOffset 240 -endOffset 240
+[01/04 16:19:34     41s] <CMD> createIoRow -site corner -side S -beginOffset 240 -endOffset 240
+[01/04 16:19:37     42s] <CMD> createIoRow -site corner -side E -beginOffset 240 -endOffset 240
+[01/04 16:19:38     42s] <CMD> createIoRow -site corner -side E -beginOffset 240 -endOffset 240
+[01/04 16:19:41     42s] <CMD> gui_select -rect {-21.693 817.632 816.279 -17.232}
+[01/04 16:19:45     43s] <CMD> deselectAll
+[01/04 16:19:45     43s] <CMD> selectObject StdRow (480000,1220800,860000,1600800)
+[01/04 16:19:46     43s] <CMD> deleteSelectedFromFPlan
+[01/04 16:19:47     44s] <CMD> selectObject StdRow (0,480000,380000,860000)
+[01/04 16:19:47     44s] <CMD> deleteSelectedFromFPlan
+[01/04 16:19:48     44s] <CMD> selectObject StdRow (480000,0,860000,380000)
+[01/04 16:19:49     44s] <CMD> deleteSelectedFromFPlan
+[01/04 16:19:50     44s] <CMD> selectObject StdRow (1221600,480000,1601600,860000)
+[01/04 16:19:50     44s] <CMD> deleteSelectedFromFPlan
+[01/04 16:19:51     45s] <CMD> selectObject StdRow (1221600,480000,1601600,860000)
+[01/04 16:19:52     45s] <CMD> deleteSelectedFromFPlan
+[01/04 16:20:08     47s] <CMD> createIoRow -site pad -beginOffset 240 -endOffset 240
+[01/04 16:20:08     47s] **ERROR: (IMPTCM-113):	Option "-side" is required when option "[-beginOffset]" is specified. Type 'man createIoRow' for more details.
+<CMD> gui_select -rect {377.094 742.018 72.566 797.952}
+[01/04 16:20:25     50s] <CMD> createIoRow -site pad -side N -beginOffset 240 -endOffset 240
+[01/04 16:20:28     51s] <CMD> createIoRow -site pad -side W -beginOffset 240 -endOffset 240
+[01/04 16:20:31     51s] <CMD> createIoRow -site pad -side S -beginOffset 240 -endOffset 240
+[01/04 16:20:34     52s] <CMD> createIoRow -site pad -side E -beginOffset 240 -endOffset 240
+[01/04 16:20:35     52s] <CMD> createIoRow -site pad -side E -beginOffset 240 -endOffset 240
+[01/04 16:20:36     52s] <CMD> selectObject StdRow (0,480000,380000,1120800)
+[01/04 16:20:36     52s] <CMD> deselectAll
+[01/04 16:20:36     52s] <CMD> selectObject StdRow (480000,1220800,1121600,1600800)
+[01/04 16:20:37     52s] <CMD> deselectAll
+[01/04 16:20:37     52s] <CMD> selectObject StdRow (1221600,480000,1601600,1120800)
+[01/04 16:20:37     52s] <CMD> deselectAll
+[01/04 16:20:37     52s] <CMD> selectObject StdRow (480000,0,1121600,380000)
+[01/04 16:20:44     53s] <CMD> deselectAll
+[01/04 16:20:44     53s] <CMD> selectObject StdRow (0,0,380000,380000)
+[01/04 16:20:44     54s] <CMD> deselectAll
+[01/04 16:20:44     54s] <CMD> selectObject StdRow (480000,0,1121600,380000)
+[01/04 16:20:45     54s] <CMD> deselectAll
+[01/04 16:20:45     54s] <CMD> selectObject StdRow (0,1220800,380000,1600800)
+[01/04 16:20:46     54s] <CMD> deselectAll
+[01/04 16:20:46     54s] <CMD> selectObject StdRow (1221600,1220800,1601600,1600800)
+[01/04 16:20:47     54s] <CMD> deselectAll
+[01/04 16:20:47     54s] <CMD> selectObject StdRow (1221600,480000,1601600,1120800)
+[01/04 16:20:47     54s] <CMD> deselectAll
+[01/04 16:20:47     54s] <CMD> selectObject StdRow (480000,1220800,1121600,1600800)
+[01/04 16:20:48     54s] <CMD> deselectAll
+[01/04 16:20:57     56s] <CMD> gui_select -rect {-22.729 823.847 853.567 -9.982}
+[01/04 16:21:00     57s] <CMD> deselectAll
+[01/04 16:21:06     58s] <CMD> set sprCreateIeRingOffset 1.0
+[01/04 16:21:06     58s] <CMD> set sprCreateIeRingThreshold 1.0
+[01/04 16:21:06     58s] <CMD> set sprCreateIeRingJogDistance 1.0
+[01/04 16:21:06     58s] <CMD> set sprCreateIeRingLayers {}
+[01/04 16:21:06     58s] <CMD> set sprCreateIeRingOffset 1.0
+[01/04 16:21:06     58s] <CMD> set sprCreateIeRingThreshold 1.0
+[01/04 16:21:06     58s] <CMD> set sprCreateIeRingJogDistance 1.0
+[01/04 16:21:06     58s] <CMD> set sprCreateIeRingLayers {}
+[01/04 16:21:06     58s] <CMD> set sprCreateIeStripeWidth 10.0
+[01/04 16:21:06     58s] <CMD> set sprCreateIeStripeThreshold 1.0
+[01/04 16:21:06     58s] <CMD> set sprCreateIeStripeWidth 10.0
+[01/04 16:21:06     58s] <CMD> set sprCreateIeStripeThreshold 1.0
+[01/04 16:21:06     58s] <CMD> set sprCreateIeRingOffset 1.0
+[01/04 16:21:06     58s] <CMD> set sprCreateIeRingThreshold 1.0
+[01/04 16:21:06     58s] <CMD> set sprCreateIeRingJogDistance 1.0
+[01/04 16:21:06     58s] <CMD> set sprCreateIeRingLayers {}
+[01/04 16:21:06     58s] <CMD> set sprCreateIeStripeWidth 10.0
+[01/04 16:21:06     58s] <CMD> set sprCreateIeStripeThreshold 1.0
+[01/04 16:21:40     63s] <CMD> setAddRingMode -ring_target default -extend_over_row 0 -ignore_rows 0 -avoid_short 0 -skip_crossing_trunks none -stacked_via_top_layer AP -stacked_via_bottom_layer M1 -via_using_exact_crossover_size 1 -orthogonal_only true -skip_via_on_pin {  standardcell } -skip_via_on_wire_shape {  noshape }
+[01/04 16:21:40     63s] The ring targets are set to core/block ring wires.
+[01/04 16:21:40     63s] addRing command will consider rows while creating rings.
+[01/04 16:21:40     63s] addRing command will disallow rings to go over rows.
+[01/04 16:21:40     63s] addRing command will ignore shorts while creating rings.
+[01/04 16:21:40     63s] <CMD> addRing -nets {} -type core_rings -follow core -layer {top M5 bottom M5 left M4 right M4} -width {top 20 bottom 20 left 20 right 201} -spacing {top 2 bottom 2 left 2 right 2} -offset {top 2 bottom 2 left 2 right 2} -center 0 -extend_corner {} -threshold 0 -jog_distance 0 -snap_wire_center_to_grid None
+[01/04 16:21:40     63s] 
+[01/04 16:21:40     63s] **ERROR: Error: Invalid net names specified. 
+[01/04 16:22:07     68s] <CMD> setAddRingMode -ring_target default -extend_over_row 0 -ignore_rows 0 -avoid_short 0 -skip_crossing_trunks none -stacked_via_top_layer AP -stacked_via_bottom_layer M1 -via_using_exact_crossover_size 1 -orthogonal_only true -skip_via_on_pin {  standardcell } -skip_via_on_wire_shape {  noshape }
+[01/04 16:22:07     68s] The ring targets are set to core/block ring wires.
+[01/04 16:22:07     68s] addRing command will consider rows while creating rings.
+[01/04 16:22:07     68s] addRing command will disallow rings to go over rows.
+[01/04 16:22:07     68s] addRing command will ignore shorts while creating rings.
+[01/04 16:22:07     68s] <CMD> addRing -nets {VDD VSS} -type core_rings -follow core -layer {top M5 bottom M5 left M4 right M4} -width {top 20 bottom 20 left 20 right 201} -spacing {top 2 bottom 2 left 2 right 2} -offset {top 2 bottom 2 left 2 right 2} -center 0 -extend_corner {} -threshold 0 -jog_distance 0 -snap_wire_center_to_grid None
+[01/04 16:22:07     68s] 
+[01/04 16:22:07     68s] **ERROR: (IMPPP-137):	The top width 20.00 currently specified is larger than the permitted maximum width 12.00.
+**ERROR: (IMPPP-137):	The top width 20.00 currently specified is larger than the permitted maximum width 12.00.
+<CMD> setAddRingMode -ring_target default -extend_over_row 0 -ignore_rows 0 -avoid_short 0 -skip_crossing_trunks none -stacked_via_top_layer AP -stacked_via_bottom_layer M1 -via_using_exact_crossover_size 1 -orthogonal_only true -skip_via_on_pin {  standardcell } -skip_via_on_wire_shape {  noshape }
+[01/04 16:22:14     69s] The ring targets are set to core/block ring wires.
+[01/04 16:22:14     69s] addRing command will consider rows while creating rings.
+[01/04 16:22:14     69s] addRing command will disallow rings to go over rows.
+[01/04 16:22:14     69s] addRing command will ignore shorts while creating rings.
+[01/04 16:22:14     69s] <CMD> addRing -nets {VDD VSS} -type core_rings -follow core -layer {top M5 bottom M5 left M4 right M4} -width {top 20 bottom 20 left 20 right 20} -spacing {top 2 bottom 2 left 2 right 2} -offset {top 2 bottom 2 left 2 right 2} -center 0 -extend_corner {} -threshold 0 -jog_distance 0 -snap_wire_center_to_grid None
+[01/04 16:22:14     69s] 
+[01/04 16:22:14     69s] **ERROR: (IMPPP-137):	The top width 20.00 currently specified is larger than the permitted maximum width 12.00.
+**ERROR: (IMPPP-137):	The top width 20.00 currently specified is larger than the permitted maximum width 12.00.
+<CMD> gui_select -rect {-24.800 822.811 840.102 -14.125}
+[01/04 16:22:19     70s] <CMD> deselectAll
+[01/04 16:23:11     79s] <CMD> setAddRingMode -ring_target default -extend_over_row 0 -ignore_rows 0 -avoid_short 0 -skip_crossing_trunks none -stacked_via_top_layer AP -stacked_via_bottom_layer M1 -via_using_exact_crossover_size 1 -orthogonal_only true -skip_via_on_pin {  standardcell } -skip_via_on_wire_shape {  noshape }
+[01/04 16:23:11     79s] The ring targets are set to core/block ring wires.
+[01/04 16:23:11     79s] addRing command will consider rows while creating rings.
+[01/04 16:23:11     79s] addRing command will disallow rings to go over rows.
+[01/04 16:23:11     79s] addRing command will ignore shorts while creating rings.
+[01/04 16:23:11     79s] <CMD> addRing -nets {VDD VSS} -type core_rings -follow core -layer {top M5 bottom M5 left M4 right M4} -width {top 12 bottom 12 left 12 right 12} -spacing {top 2 bottom 2 left 2 right 2} -offset {top 2 bottom 2 left 2 right 2} -center 0 -extend_corner {} -threshold 0 -jog_distance 0 -snap_wire_center_to_grid None
+[01/04 16:23:11     79s] 
+[01/04 16:23:11     79s] Ring generation is complete.
+[01/04 16:23:11     79s] vias are now being generated.
+[01/04 16:23:11     79s] addRing created 8 wires.
+[01/04 16:23:11     79s] ViaGen created 8 vias, deleted 0 via to avoid violation.
+[01/04 16:23:11     79s] +--------+----------------+----------------+
+[01/04 16:23:11     79s] |  Layer |     Created    |     Deleted    |
+[01/04 16:23:11     79s] +--------+----------------+----------------+
+[01/04 16:23:11     79s] |   M4   |        4       |       NA       |
+[01/04 16:23:11     79s] |  VIA4  |        8       |        0       |
+[01/04 16:23:11     79s] |   M5   |        4       |       NA       |
+[01/04 16:23:11     79s] +--------+----------------+----------------+
+[01/04 16:23:13     79s] <CMD> setAddRingMode -ring_target default -extend_over_row 0 -ignore_rows 0 -avoid_short 0 -skip_crossing_trunks none -stacked_via_top_layer AP -stacked_via_bottom_layer M1 -via_using_exact_crossover_size 1 -orthogonal_only true -skip_via_on_pin {  standardcell } -skip_via_on_wire_shape {  noshape }
+[01/04 16:23:13     79s] The ring targets are set to core/block ring wires.
+[01/04 16:23:13     79s] addRing command will consider rows while creating rings.
+[01/04 16:23:13     79s] addRing command will disallow rings to go over rows.
+[01/04 16:23:13     79s] addRing command will ignore shorts while creating rings.
+[01/04 16:23:13     79s] <CMD> addRing -nets {VDD VSS} -type core_rings -follow core -layer {top M5 bottom M5 left M4 right M4} -width {top 12 bottom 12 left 12 right 12} -spacing {top 2 bottom 2 left 2 right 2} -offset {top 2 bottom 2 left 2 right 2} -center 0 -extend_corner {} -threshold 0 -jog_distance 0 -snap_wire_center_to_grid None
+[01/04 16:23:13     79s] 
+[01/04 16:23:13     79s] Ring generation is complete.
