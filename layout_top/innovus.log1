@@ -155,3 +155,15 @@ Analyze timing ...
 Analyze floorplan/placement ... 
 Analysis Routing ...
 Report saved in file summaryReport/kf_top.main.htm.ascii.
+
+--------------------------------------------------------------------------------
+Exiting Innovus on Thu Dec 18 18:43:43 2025
+  Total CPU time:     0:03:15
+  Total real time:    0:18:09
+  Peak memory (main): 1091.48MB
+
+
+*** Memory Usage v#1 (Current mem = 1124.184M, initial mem = 258.629M) ***
+*** Message Summary: 85 warning(s), 0 error(s)
+
+--- Ending "Innovus" (totcpu=0:03:14, real=0:18:08, mem=1124.2M) ---

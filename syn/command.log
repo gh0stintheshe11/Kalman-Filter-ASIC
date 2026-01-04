@@ -1,6 +1,6 @@
 #@ # 
 #@ # Running dc_shell Version N-2017.09 for linux64 -- Aug 17, 2017
-#@ # Date:   Thu Dec 11 20:36:40 2025
+#@ # Date:   Thu Dec 18 18:44:02 2025
 #@ # Run by: sunlang@ug253
 #@ 
 
@@ -42921,159 +42921,34 @@ gui_start
 #@ 
 #@ # -- End source /CMC/tools/synopsys/syn_vN-2017.09/auxx/tcllib/lib/iwidgets4.1/watch.itk
 
-uplevel #0 source /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn/synthesis_au.tcl
-#@ # -- Starting source /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn/synthesis_au.tcl
-
-#@ # define standard cell libraries
-#@ set search_path {. /CMC/kits/tsmc_65nm_libs/tcbn65gplus/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b}
-#@ set link_library {tcbn65gpluswc.db}
-#@ set target_library {tcbn65gpluswc.db}
-#@ set symbol_library {tcbn65gpluswc.db}
-#@ 
-#@ # read Verilog RTL - read all module files
-#@ read_file -format verilog ../src/au.v
-#@ 
-#@ # Set top-level design
-#@ current_design au
-#@ link
-#@ 
-#@ # synthesize/compile design
-#@ compile_ultra
-#@ 
-#@ # reports
-#@ report_timing
-#@ report_area
-#@ report_timing > ./syn_report_timing_au.txt
-#@ report_area > ./syn_report_area_au.txt
-#@ 
-#@ # export files for next step: place & route
-#@ write -hierarchy -format verilog -output au_syn.v
-#@ write_sdc au_syn.sdc
-#@ write -hierarchy -format ddc -output au_syn.ddc
-#@ # -- End source /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn/synthesis_au.tcl
-
-uplevel #0 source /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn/synthesis_router_a.tcl
-#@ # -- Starting source /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn/synthesis_router_a.tcl
-
-#@ # define standard cell libraries
-#@ set search_path {. /CMC/kits/tsmc_65nm_libs/tcbn65gplus/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b}
-#@ set link_library {tcbn65gpluswc.db}
-#@ set target_library {tcbn65gpluswc.db}
-#@ set symbol_library {tcbn65gpluswc.db}
-#@ 
-#@ # read Verilog RTL - read all module files
-#@ read_file -format verilog ../src/router_a.v 
-#@ 
-#@ # Set top-level design
-#@ current_design router_a
-#@ link
-#@ 
-#@ # synthesize/compile design
-#@ compile_ultra
-#@ 
-#@ # reports
-#@ report_timing
-#@ report_area
-#@ report_timing > ./syn_report_timing_router_a.txt
-#@ report_area > ./syn_report_area_router_a.txt
-#@ 
-#@ # export files for next step: place & route
-#@ write -hierarchy -format verilog -output router_a_syn.v
-#@ write_sdc router_a_syn.sdc
-#@ write -hierarchy -format ddc -output router_a_syn.ddc
-#@ # -- End source /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn/synthesis_router_a.tcl
-
-uplevel #0 source /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn/synthesis_router_b.tcl
-#@ # -- Starting source /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn/synthesis_router_b.tcl
-
-#@ # define standard cell libraries
-#@ set search_path {. /CMC/kits/tsmc_65nm_libs/tcbn65gplus/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b}
-#@ set link_library {tcbn65gpluswc.db}
-#@ set target_library {tcbn65gpluswc.db}
-#@ set symbol_library {tcbn65gpluswc.db}
-#@ 
-#@ # read Verilog RTL - read all module files
-#@ read_file -format verilog ../src/router_b.v 
-#@ 
-#@ # Set top-level design
-#@ current_design router_b
-#@ link
-#@ 
-#@ # synthesize/compile design
-#@ compile_ultra
-#@ 
-#@ # reports
-#@ report_timing
-#@ report_area
-#@ report_timing > ./syn_report_timing_router_b.txt
-#@ report_area > ./syn_report_area_router_b.txt
-#@ 
-#@ # export files for next step: place & route
-#@ write -hierarchy -format verilog -output router_b_syn.v
-#@ write_sdc router_b_syn.sdc
-#@ write -hierarchy -format ddc -output router_b_syn.ddc
-#@ # -- End source /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn/synthesis_router_b.tcl
-
-uplevel #0 source /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn/synthesis_router_mem_reg.tcl
-#@ # -- Starting source /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn/synthesis_router_mem_reg.tcl
-
-#@ # define standard cell libraries
-#@ set search_path {. /CMC/kits/tsmc_65nm_libs/tcbn65gplus/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b}
-#@ set link_library {tcbn65gpluswc.db}
-#@ set target_library {tcbn65gpluswc.db}
-#@ set symbol_library {tcbn65gpluswc.db}
-#@ 
-#@ # read Verilog RTL - read all module files
-#@ read_file -format verilog ../src/mem_reg.v
-#@ 
-#@ # Set top-level design
-#@ current_design mem_reg
-#@ link
-#@ 
-#@ # synthesize/compile design
-#@ compile_ultra
-#@ 
-#@ # reports
-#@ report_timing
-#@ report_area
-#@ report_timing > ./syn_report_timing_mem_reg.txt
-#@ report_area > ./syn_report_area_mem_reg.txt
-#@ 
-#@ # export files for next step: place & route
-#@ write -hierarchy -format verilog -output mem_reg_syn.v
-#@ write_sdc mem_reg_syn.sdc
-#@ write -hierarchy -format ddc -output mem_reg_syn.ddc
-#@ # -- End source /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn/synthesis_router_mem_reg.tcl
-
-uplevel #0 source /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn/synthesis_router_sequencer.tcl
-#@ # -- Starting source /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn/synthesis_router_sequencer.tcl
-
-#@ # define standard cell libraries
-#@ set search_path {. /CMC/kits/tsmc_65nm_libs/tcbn65gplus/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b}
-#@ set link_library {tcbn65gpluswc.db}
-#@ set target_library {tcbn65gpluswc.db}
-#@ set symbol_library {tcbn65gpluswc.db}
-#@ 
-#@ # read Verilog RTL - read all module files
-#@ read_file -format verilog ../src/sequencer.v
-#@ 
-#@ # Set top-level design
-#@ current_design sequencer
-#@ link
-#@ 
-#@ # synthesize/compile design
-#@ compile_ultra
-#@ 
-#@ # reports
-#@ report_timing
-#@ report_area
-#@ report_timing > ./syn_report_timing_sequencer.txt
-#@ report_area > ./syn_report_area_sequencer.txt
-#@ 
-#@ # export files for next step: place & route
-#@ write -hierarchy -format verilog -output sequencer_syn.v
-#@ write_sdc sequencer_syn.sdc
-#@ write -hierarchy -format ddc -output sequencer_syn.ddc
-#@ # -- End source /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn/synthesis_router_sequencer.tcl
-
+read_file -format ddc {/nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn/au_syn.ddc}
+change_selection [get_s au]
+change_selection [get_s au]
+change_selection 
+gui_zoom -window [gui_get_current_window -view] -full
+read_file -format ddc {/nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn/mem_reg_syn.ddc}
+change_selection [get_s mem_reg]
+change_selection [get_s mem_reg]
+change_selection 
+gui_zoom -window [gui_get_current_window -view] -full
+change_selection [get_s Data_Bank_inst]
+change_selection [get_s mem_reg]
+change_selection [get_s mem_reg]
+gui_zoom -window [gui_get_current_window -view] -full
+read_file -format ddc {/nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn/router_a_syn.ddc}
+change_selection [get_s router_a]
+change_selection [get_s router_a]
+gui_zoom -window [gui_get_current_window -view] -full
+read_file -format ddc {/nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn/router_b_syn.ddc}
+change_selection [get_s router_b]
+change_selection [get_s router_b]
+gui_zoom -window [gui_get_current_window -view] -full
+read_file -format ddc {/nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn/sequencer_syn.ddc}
+change_selection [get_s sequencer]
+change_selection [get_s sequencer]
+gui_zoom -window [gui_get_current_window -view] -full
+change_selection [get_s ROM]
+change_selection [get_s ROM]
+change_selection 
+change_selection [get_s ROM]
 quit

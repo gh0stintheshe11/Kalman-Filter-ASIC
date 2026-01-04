@@ -59,14 +59,14 @@ module kf_top_tb();
   reg  [15:0]      rom_wdata;
   reg  [7:0]       loop_addr;
 
-  // Test data arrays
-  real ext_meas [0:511];
-  real ext_truth [0:511];
-  real ext_kf_x1 [0:511];
-  real ext_kf_x2 [0:511];
+  // Test data arrays (dynamically sized based on EXT_NUM_ITERS)
+  real ext_meas [0:EXT_NUM_ITERS-1];
+  real ext_truth [0:EXT_NUM_ITERS-1];
+  real ext_kf_x1 [0:EXT_NUM_ITERS-1];
+  real ext_kf_x2 [0:EXT_NUM_ITERS-1];
   // ASIC output arrays (for plotting)
-  real asic_x1 [0:511];
-  real asic_x2 [0:511];
+  real asic_x1 [0:EXT_NUM_ITERS-1];
+  real asic_x2 [0:EXT_NUM_ITERS-1];
 
   // =========================================================================
   // DUT Instantiation
