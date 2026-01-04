@@ -2,58 +2,16 @@ ncverilog(64): 15.20-s079: (c) Copyright 1995-2019 Cadence Design Systems, Inc.
 file: ../src/kf_top_tb.v
 	module worklib.kf_top_tb:v
 		errors: 0, warnings: 0
-file: ../src/kf_top.v
-	module worklib.kf_top:v
-		errors: 0, warnings: 0
-file: ../src/sequencer.v
-	module worklib.rom_256x16:v
-		errors: 0, warnings: 0
-	module worklib.sequencer:v
-		errors: 0, warnings: 0
-file: ../src/router_a.v
-	module worklib.router_a:v
-		errors: 0, warnings: 0
-file: ../src/router_b.v
-	module worklib.router_b:v
-		errors: 0, warnings: 0
-file: ../src/mem_reg.v
-	module worklib.RQ:v
-		errors: 0, warnings: 0
-	module worklib.RD:v
-		errors: 0, warnings: 0
-	module worklib.Data_Bank:v
-		errors: 0, warnings: 0
-	module worklib.mem_reg:v
-		errors: 0, warnings: 0
-file: ../src/au.v
-	module worklib.mult_inv:v
-		errors: 0, warnings: 0
-	module worklib.au:v
-		errors: 0, warnings: 0
 		Caching library 'worklib' ....... Done
 	Elaborating the design hierarchy:
 	Building instance overlay tables: .................... Done
 	Generating native compiled code:
-		worklib.Data_Bank:v <0x271232b3>
-			streams:   4, words:  2086
-		worklib.RD:v <0x364a9b5a>
-			streams:   2, words:   432
-		worklib.RQ:v <0x29c89817>
-			streams:   2, words:   432
-		worklib.au:v <0x5ac84f5e>
-			streams:  34, words:  9573
-		worklib.kf_top:v <0x58b49071>
+		worklib.kf_top:v <0x656e2e3f>
 			streams:  11, words:  3118
-		worklib.kf_top_tb:v <0x6721fa13>
-			streams:  11, words: 100479
-		worklib.mult_inv:v <0x5391d977>
-			streams:  10, words:  3237
+		worklib.kf_top_tb:v <0x2210d43a>
+			streams:  11, words: 86476
 		worklib.rom_256x16:v <0x5a154731>
 			streams:   4, words:  2312
-		worklib.router_a:v <0x7493e78d>
-			streams:   4, words:  1133
-		worklib.router_b:v <0x77f0b8d2>
-			streams:   7, words:  1689
 		worklib.sequencer:v <0x5ca861ce>
 			streams:   7, words:  2767
 	Building instance specific data structures.
@@ -61,12 +19,12 @@ file: ../src/au.v
 	Design hierarchy summary:
 		                 Instances  Unique
 		Modules:                12      12
-		Registers:              80      80
-		Scalar wires:           29       -
+		Registers:              82      82
+		Scalar wires:           30       -
 		Vectored wires:         53       -
 		Always blocks:          21      21
 		Initial blocks:          5       5
-		Cont. assignments:      39      50
+		Cont. assignments:      39      52
 		Pseudo assignments:      3       3
 		Simulation timescale:  1ps
 	Writing initial simulation snapshot: worklib.kf_top_tb:v
@@ -75,48 +33,29 @@ ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimr
 ncsim> run
 [ROM] Loaded instructions from kf_2d.mem
 ================================================================
-Kalman Filter ASIC Unified Testbench
-Test Mode: 2D
-ROM File: kf_2d.mem
+Kalman Filter ASIC Testbench - Mode: 2D
 ================================================================
 
 ========================================
-2D Kalman Filter Test - NOISY DATA MODE
-ROM File: kf_2d.mem
+2D Kalman Filter Test (10 iterations)
 ========================================
-Testing KF noise filtering capability
-Phi=[1 0.1; 0 1], H=[1 0], Q=0.01*I, R=0.1
-Initial: x=[0; 1], P=I
-Testing 10 iterations with noisy measurements
+Iter  1: x1=0.210632, x2=1.010803
+Iter  2: x1=0.253052, x2=0.954224
+Iter  3: x1=0.317322, x2=0.898987
+Iter  4: x1=0.360474, x2=0.802368
+Iter  5: x1=0.337402, x2=0.592041
+Iter  6: x1=0.437683, x2=0.669678
+Iter  7: x1=0.555786, x2=0.757507
+Iter  8: x1=0.870361, x2=1.129089
+Iter  9: x1=0.957458, x2=1.092590
+Iter 10: x1=0.760681, x2=0.694092
 
---- Running 10 KF iterations ---
-Iter | Measured |  True Pos |    KF Est |  Raw Err |   KF Err
------|----------|-----------|-----------|----------|----------
-   1 |   0.2215 |    0.0000 |    0.2106 |   0.2215 |   0.2106
-   2 |   0.2011 |    0.1497 |    0.2531 |   0.0514 |   0.1034
-   3 |   0.2796 |    0.3143 |    0.3173 |   0.0347 |   0.0030
-   4 |   0.3019 |    0.3923 |    0.3605 |   0.0904 |   0.0318
-   5 |   0.2078 |    0.6513 |    0.3374 |   0.4435 |   0.3139
-   6 |   0.4904 |    0.7063 |    0.4377 |   0.2159 |   0.2686
-   7 |   0.6242 |    0.7624 |    0.5558 |   0.1382 |   0.2066
-   8 |   1.2058 |    0.8886 |    0.8704 |   0.3172 |   0.0182
-   9 |   0.9193 |    0.8162 |    0.9575 |   0.1031 |   0.1413
-  10 |   0.2855 |    0.8144 |    0.7607 |   0.5289 |   0.0537
-
---- Final Results after 10 iterations ---
-  ASIC KF Position:  0.760681
-  ASIC KF Velocity:  0.694092
-  True Position:     0.814400
-  Python Reference:  x1=0.760534, x2=0.693580
-
-  Covariance Matrix:
-  P11 = 0.039185, P12 = 0.051025
-  P21 = 0.051025, P22 = 0.234375
+Final: x1=0.760681, x2=0.694092
 
 ================================================================
-Kalman Filter Test Complete
+Test Complete
 ================================================================
 
 Simulation complete via $finish(1) at time 19755 NS + 0
-../src/kf_top_tb.v:541     $finish;
+../src/kf_top_tb.v:507     $finish;
 ncsim> exit

@@ -1,6 +1,6 @@
 #@ # 
 #@ # Running dc_shell Version N-2017.09 for linux64 -- Aug 17, 2017
-#@ # Date:   Thu Dec 18 18:57:04 2025
+#@ # Date:   Sun Jan  4 18:18:41 2026
 #@ # Run by: sunlang@ug253
 #@ 
 
@@ -42921,29 +42921,52 @@ gui_start
 #@ 
 #@ # -- End source /CMC/tools/synopsys/syn_vN-2017.09/auxx/tcllib/lib/iwidgets4.1/watch.itk
 
-read_file -format ddc {/nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn_top/kf_top_syn.ddc}
-change_selection [get_s AU]
-change_selection [get_s kf_top]
-change_selection [get_s kf_top]
-change_selection [get_s AU]
-change_selection [get_s Sequencer]
-change_selection [get_s div_result_valid_reg]
-change_selection [get_s comb_result_valid_reg]
-change_selection [get_s Router_A]
-change_selection [get_s Memory_Registers]
-change_selection [get_s Router_B]
-change_selection [get_s Sequencer/ROM]
-change_selection [get_s U88]
-change_selection [get_s {{comb_result_lat_reg[9]}}]
-change_selection [get_s {{comb_result_lat_reg[8]}}]
-change_selection [get_s U115]
-change_selection [get_s U116]
-change_selection [get_s div_result_valid_reg]
-change_selection [get_s comb_result_valid_reg]
-change_selection [get_s U78]
-change_selection [get_s {{comb_result_lat_reg[22]}}]
-change_selection [get_s Sequencer/ROM]
-change_selection [get_s Sequencer/ROM]
-change_selection 
-change_selection [get_s {{ctl_a[4]} {ctl_a[3]} {ctl_a[2]} {ctl_a[1]} {ctl_a[0]} {ctl_a[](size:5)}}]
-quit
+uplevel #0 source /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn_top/synthesis_kf_top.tcl
+#@ # -- Starting source /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn_top/synthesis_kf_top.tcl
+
+#@ # define standard cell libraries
+#@ set search_path {. /CMC/kits/tsmc_65nm_libs/tcbn65gplus/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b}
+#@ set link_library {tcbn65gpluswc.db}
+#@ set target_library {tcbn65gpluswc.db}
+#@ set symbol_library {tcbn65gpluswc.db}
+#@ 
+#@ # read Verilog RTL - read all module files
+#@ read_file -format verilog {../src/router_a.v ../src/mem_reg.v ../src/router_b.v ../src/au.v ../src/sequencer.v ../src/kf_top.v}
+#@ 
+#@ # Set top-level design
+#@ current_design kf_top
+#@ link
+#@ 
+#@ # Uniquify the design to avoid conflicts
+#@ uniquify
+#@ 
+#@ # Preserve hierarchy by preventing ungrouping of sub-designs
+#@ # This is different from set_dont_touch - it allows technology mapping
+#@ # but prevents the modules from being merged together
+#@ set_ungroup [get_designs router_a] false
+#@ set_ungroup [get_designs mem_reg] false
+#@ set_ungroup [get_designs router_b] false
+#@ set_ungroup [get_designs au] false
+#@ set_ungroup [get_designs sequencer] false
+#@ set_ungroup [get_designs mult_inv] false
+#@ set_ungroup [get_designs rom_256x16] false
+#@ set_ungroup [get_designs Data_Bank] false
+#@ set_ungroup [get_designs RQ] false
+#@ set_ungroup [get_designs RD] false
+#@ 
+#@ # synthesize/compile design
+#@ compile_ultra
+#@ 
+#@ # reports
+#@ report_timing
+#@ report_area
+#@ report_timing > ./syn_report_timing_kf_top.txt
+#@ report_area > ./syn_report_area_kf_top.txt
+#@ 
+#@ # export files for next step: place & route
+#@ write -hierarchy -format verilog -output kf_top_syn.v
+#@ write_sdc kf_top_syn.sdc
+#@ write -hierarchy -format ddc -output kf_top_syn.ddc
+#@ # -- End source /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/syn_top/synthesis_kf_top.tcl
+
+write -hierarchy -format ddc

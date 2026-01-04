@@ -11,10 +11,10 @@ file: ../src/kf_top.v
 	Generating native compiled code:
 		worklib.Data_Bank:v <0x271232b3>
 			streams:   4, words:  2086
-		worklib.kf_top:v <0x090860a6>
+		worklib.kf_top:v <0x54baa543>
 			streams:  11, words:  3118
-		worklib.kf_top_tb:v <0x787671e2>
-			streams:  10, words: 59016
+		worklib.kf_top_tb:v <0x3e5766f9>
+			streams:  11, words: 86476
 		worklib.rom_256x16:v <0x776afbe3>
 			streams:   4, words:  2312
 		worklib.sequencer:v <0x4f8e4f84>
@@ -24,12 +24,12 @@ file: ../src/kf_top.v
 	Design hierarchy summary:
 		                 Instances  Unique
 		Modules:                12      12
-		Registers:              63      63
-		Scalar wires:           29       -
+		Registers:              82      82
+		Scalar wires:           30       -
 		Vectored wires:         53       -
 		Always blocks:          21      21
 		Initial blocks:          5       5
-		Cont. assignments:      39      50
+		Cont. assignments:      39      52
 		Pseudo assignments:      3       3
 		Simulation timescale:  1ps
 	Writing initial simulation snapshot: worklib.kf_top_tb:v
@@ -38,60 +38,19 @@ ncsim> source /CMC/tools/cadence/INCISIVE15.20.079_lnx86/tools/inca/files/ncsimr
 ncsim> run
 [ROM] Loaded instructions from kf_1d.mem
 ================================================================
-Kalman Filter ASIC Unified Testbench
-Test Mode: 1D
-ROM File: kf_1d.mem
+Kalman Filter ASIC Testbench - Mode: 1D
 ================================================================
 
 ========================================
 1D Kalman Filter Test
-ROM File: kf_1d.mem
 ========================================
-Parameters: Phi=1.0, Q=0.01, R=0.1, x0=0, P0=1.0, y=2.5
-Expected result: x_hat ~= 2.275
-
---- Executing Kalman Filter ---
-  Cycle   0: PC=  7, READY=0, e=0, f=1
-  Cycle   1: PC=  8, READY=0, e=1, f=0
-  Cycle   2: PC=  9, READY=0, e=0, f=1
-  Cycle   3: PC= 10, READY=0, e=1, f=0
-  Cycle   4: PC= 10, READY=0, e=1, f=0
-  Cycle   5: PC= 10, READY=0, e=1, f=0
-  Cycle   6: PC= 10, READY=0, e=1, f=0
-  Cycle   7: PC= 10, READY=0, e=1, f=0
-  Cycle   8: PC= 10, READY=0, e=1, f=0
-  Cycle   9: PC= 10, READY=0, e=1, f=0
-  Cycle  10: PC= 10, READY=0, e=1, f=0
-  Cycle  11: PC= 10, READY=0, e=1, f=0
-  Cycle  12: PC= 10, READY=0, e=1, f=0
-  Cycle  13: PC= 10, READY=0, e=1, f=0
-  Cycle  14: PC= 10, READY=0, e=1, f=0
-  Cycle  15: PC= 10, READY=0, e=1, f=0
-  Cycle  16: PC= 10, READY=0, e=1, f=0
-  Cycle  17: PC= 10, READY=0, e=1, f=0
-  Cycle  18: PC= 10, READY=0, e=1, f=0
-  Cycle  19: PC= 10, READY=0, e=1, f=0
-  Cycle  20: PC= 10, READY=0, e=1, f=0
-  Cycle  21: PC= 10, READY=0, e=1, f=0
-  Cycle  22: PC= 10, READY=0, e=1, f=0
-  Cycle  23: PC= 10, READY=0, e=1, f=0
-  Cycle  24: PC= 10, READY=0, e=1, f=0
-  Cycle  25: PC= 10, READY=0, e=1, f=0
-  Cycle  26: PC= 10, READY=0, e=1, f=0
-  Cycle  27: PC= 10, READY=0, e=1, f=0
-  Cycle  28: PC= 10, READY=0, e=1, f=0
-  Cycle  29: PC= 10, READY=0, e=1, f=0
-  KF computation completed at cycle          39
-
---- Results ---
-  x_hat (DB[0]) = 2.274597
-  K     (DB[6]) = 0.909851
-  Expected: x_hat = 2.275 (K = 0.9099)
+  Completed at cycle          40
+  x_hat = 2.274597 (expected: 2.275)
 
 ================================================================
-Kalman Filter Test Complete
+Test Complete
 ================================================================
 
-Simulation complete via $finish(1) at time 526 NS + 0
-../src/kf_top_tb.v:349     $finish;
+Simulation complete via $finish(1) at time 535 NS + 0
+../src/kf_top_tb.v:507     $finish;
 ncsim> exit

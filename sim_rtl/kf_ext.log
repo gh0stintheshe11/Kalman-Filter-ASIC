@@ -42,7 +42,7 @@ file: ../src/au.v
 			streams:   2, words:   432
 		worklib.au:v <0x5ac84f5e>
 			streams:  34, words:  9573
-		worklib.kf_top:v <0x01cd95d9>
+		worklib.kf_top:v <0x656e2e3f>
 			streams:  11, words:  3118
 		worklib.kf_top_tb:v <0x61da227c>
 			streams:  11, words: 86483
@@ -62,11 +62,11 @@ file: ../src/au.v
 		                 Instances  Unique
 		Modules:                12      12
 		Registers:              82      82
-		Scalar wires:           29       -
+		Scalar wires:           30       -
 		Vectored wires:         53       -
 		Always blocks:          21      21
 		Initial blocks:          5       5
-		Cont. assignments:      39      50
+		Cont. assignments:      39      52
 		Pseudo assignments:      3       3
 		Simulation timescale:  1ps
 	Writing initial simulation snapshot: worklib.kf_top_tb:v

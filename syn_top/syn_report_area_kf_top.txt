@@ -3,7 +3,7 @@
 Report : area
 Design : kf_top
 Version: N-2017.09
-Date   : Thu Dec 11 21:38:47 2025
+Date   : Sun Jan  4 18:20:40 2026
 ****************************************
 
 Library(s) Used:
@@ -11,20 +11,20 @@ Library(s) Used:
     tcbn65gpluswc (File: /CMC/kits/tsmc_65nm_libs/tcbn65gplus/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.db)
 
 Number of ports:                          931
-Number of nets:                         19937
+Number of nets:                         19949
 Number of cells:                        18770
-Number of combinational cells:          13722
-Number of sequential cells:              5040
+Number of combinational cells:          13728
+Number of sequential cells:              5034
 Number of macros/black boxes:               0
 Number of buf/inv:                        905
 Number of references:                      15
 
-Combinational area:              37439.280621
+Combinational area:              37458.720621
 Buf/Inv area:                     1000.800040
 Noncombinational area:           34480.440723
 Macro/Black Box area:                0.000000
 Net Interconnect area:      undefined  (Wire load has zero net area)
 
-Total cell area:                 71919.721344
+Total cell area:                 71939.161344
 Total area:                 undefined
 1
