@@ -1,14 +1,14 @@
 ###############################################################
-#  IO File for kf_top (Kalman Filter ASIC)
+#  IO File for kf_top_padframe (Kalman Filter ASIC)
 #  TSMC 65nm with tpan65gpgv2od3 IO pad library
 #
-#  Total: 91 signal pins + 8 power/ground + 4 corners = 103
+#  Total: 91 signal pins + 8 power/ground + 1 filler + 4 corners = 104
 #
-#  Layout (clockwise from topleft):
-#    Left:   DATA_IN[23:0] + VDD + VSS = 26 pads
-#    Top:    Control + loop_addr + VDD + VSS = 20 pads
-#    Right:  DATA_OUT[23:0] + VDD + VSS = 26 pads
-#    Bottom: ROM signals + VDD + VSS = 27 pads
+#  Perfectly Balanced Layout (25 pads per side):
+#    Left:   DATA_IN[22:0] + VDD + VSS = 25 pads
+#    Top:    Control + loop_addr + DATA_IN[23] + DATA_OUT[23] + rom_wdata[14:15] + filler + VDD + VSS = 25 pads
+#    Right:  DATA_OUT[22:0] + VDD + VSS = 25 pads
+#    Bottom: rom_we + rom_waddr + rom_wdata[0:13] + VDD + VSS = 25 pads
 #
 #  Corner orientations:
 #    TopLeft: R180, TopRight: R90, BottomRight: R0, BottomLeft: R270
@@ -50,7 +50,6 @@
         (inst name="pad_DATA_IN_20"  cell=PDB2A place_status=fixed)
         (inst name="pad_DATA_IN_21"  cell=PDB2A place_status=fixed)
         (inst name="pad_DATA_IN_22"  cell=PDB2A place_status=fixed)
-        (inst name="pad_DATA_IN_23"  cell=PDB2A place_status=fixed)
     )
 
     (bottomleft
@@ -58,33 +57,31 @@
     )
 
     (bottom
-        (inst name="pad_rom_we"       cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_waddr_0"  cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_waddr_1"  cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_waddr_2"  cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_waddr_3"  cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_waddr_4"  cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_waddr_5"  cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_waddr_6"  cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_waddr_7"  cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_wdata_0"  cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_wdata_1"  cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_wdata_2"  cell=PDB2A place_status=fixed)
-        (inst name="pad_VDD_S"        cell=PVDD3A place_status=fixed)
-        (inst name="pad_VSS_S"        cell=PVSS2A place_status=fixed)
-        (inst name="pad_rom_wdata_3"  cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_wdata_4"  cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_wdata_5"  cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_wdata_6"  cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_wdata_7"  cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_wdata_8"  cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_wdata_9"  cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_wdata_10" cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_wdata_11" cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_wdata_12" cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_wdata_13" cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_wdata_14" cell=PDB2A place_status=fixed)
-        (inst name="pad_rom_wdata_15" cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_we"       cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_waddr_0"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_waddr_1"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_waddr_2"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_waddr_3"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_waddr_4"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_waddr_5"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_waddr_6"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_waddr_7"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_wdata_0"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_wdata_1"  cell=PDB2A place_status=fixed)
+        (inst name="pad_VDD_S"          cell=PVDD3A place_status=fixed)
+        (inst name="pad_VSS_S"          cell=PVSS2A place_status=fixed)
+        (inst name="u_pad_rom_wdata_2"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_wdata_3"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_wdata_4"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_wdata_5"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_wdata_6"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_wdata_7"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_wdata_8"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_wdata_9"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_wdata_10" cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_wdata_11" cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_wdata_12" cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_wdata_13" cell=PDB2A place_status=fixed)
     )
 
     (bottomright
@@ -117,7 +114,6 @@
         (inst name="pad_DATA_OUT_20" cell=PDB2A place_status=fixed)
         (inst name="pad_DATA_OUT_21" cell=PDB2A place_status=fixed)
         (inst name="pad_DATA_OUT_22" cell=PDB2A place_status=fixed)
-        (inst name="pad_DATA_OUT_23" cell=PDB2A place_status=fixed)
     )
 
     (topright
@@ -125,25 +121,30 @@
     )
 
     (top
-        (inst name="pad_clk"         cell=PDB2A place_status=fixed)
-        (inst name="pad_rst_n"       cell=PDB2A place_status=fixed)
-        (inst name="pad_START"       cell=PDB2A place_status=fixed)
-        (inst name="pad_WRITE"       cell=PDB2A place_status=fixed)
-        (inst name="pad_DIR_0"       cell=PDB2A place_status=fixed)
-        (inst name="pad_DIR_1"       cell=PDB2A place_status=fixed)
-        (inst name="pad_DIR_2"       cell=PDB2A place_status=fixed)
-        (inst name="pad_DIR_3"       cell=PDB2A place_status=fixed)
-        (inst name="pad_DIR_4"       cell=PDB2A place_status=fixed)
-        (inst name="pad_VDD_N"       cell=PVDD3A place_status=fixed)
-        (inst name="pad_VSS_N"       cell=PVSS2A place_status=fixed)
-        (inst name="pad_READY"       cell=PDB2A place_status=fixed)
-        (inst name="pad_loop_addr_0" cell=PDB2A place_status=fixed)
-        (inst name="pad_loop_addr_1" cell=PDB2A place_status=fixed)
-        (inst name="pad_loop_addr_2" cell=PDB2A place_status=fixed)
-        (inst name="pad_loop_addr_3" cell=PDB2A place_status=fixed)
-        (inst name="pad_loop_addr_4" cell=PDB2A place_status=fixed)
-        (inst name="pad_loop_addr_5" cell=PDB2A place_status=fixed)
-        (inst name="pad_loop_addr_6" cell=PDB2A place_status=fixed)
-        (inst name="pad_loop_addr_7" cell=PDB2A place_status=fixed)
+        (inst name="u_pad_clk"          cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rst_n"        cell=PDB2A place_status=fixed)
+        (inst name="u_pad_START"        cell=PDB2A place_status=fixed)
+        (inst name="u_pad_WRITE"        cell=PDB2A place_status=fixed)
+        (inst name="u_pad_DIR_0"        cell=PDB2A place_status=fixed)
+        (inst name="u_pad_DIR_1"        cell=PDB2A place_status=fixed)
+        (inst name="u_pad_DIR_2"        cell=PDB2A place_status=fixed)
+        (inst name="u_pad_DIR_3"        cell=PDB2A place_status=fixed)
+        (inst name="u_pad_DIR_4"        cell=PDB2A place_status=fixed)
+        (inst name="u_pad_READY"        cell=PDB2A place_status=fixed)
+        (inst name="u_pad_loop_addr_0"  cell=PDB2A place_status=fixed)
+        (inst name="pad_VDD_N"          cell=PVDD3A place_status=fixed)
+        (inst name="pad_VSS_N"          cell=PVSS2A place_status=fixed)
+        (inst name="u_pad_loop_addr_1"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_loop_addr_2"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_loop_addr_3"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_loop_addr_4"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_loop_addr_5"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_loop_addr_6"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_loop_addr_7"  cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_wdata_14" cell=PDB2A place_status=fixed)
+        (inst name="u_pad_rom_wdata_15" cell=PDB2A place_status=fixed)
+        (inst name="pad_DATA_IN_23"     cell=PDB2A place_status=fixed)
+        (inst name="pad_DATA_OUT_23"    cell=PDB2A place_status=fixed)
+        (inst name="pad_FILLER_N"       cell=PFILLER20A place_status=fixed)
     )
 )

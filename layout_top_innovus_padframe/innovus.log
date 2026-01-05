@@ -1,0 +1,355 @@
+
+Cadence Innovus(TM) Implementation System.
+Copyright 2018 Cadence Design Systems, Inc. All rights reserved worldwide.
+
+Version:	v18.10-p002_1, built Tue May 29 19:19:55 PDT 2018
+Options:	
+Date:		Sun Jan  4 21:03:00 2026
+Host:		ug253 (x86_64 w/Linux 6.1.0-37-amd64) (12cores*48cpus*Intel(R) Xeon(R) Silver 4310 CPU @ 2.10GHz 18432KB)
+OS:		Unsupported OS as /etc does not have release info
+
+License:
+		invs	Innovus Implementation System	18.1	checkout succeeded
+		8 CPU jobs allowed with the current license(s). Use setMultiCpuUsage to set your required CPU count.
+Change the soft stacksize limit to 0.2%RAM (515 mbytes). Set global soft_stack_size_limit to change the value.
+
+**INFO:  MMMC transition support version v31-84 
+
+<CMD> set_global _enable_mmmc_by_default_flow      $CTE::mmmc_default
+<CMD> suppressMessage ENCEXT-2799
+<CMD> getVersion
+[INFO] Loading fill procedures release ... 2017_02_14_15_15 for PVS build 15.23
+<CMD> win
+<CMD> set ::TimeLib::tsgMarkCellLatchConstructFlag 1
+<CMD> set defHierChar /
+Set Default Input Pin Transition as 0.1 ps.
+<CMD> set delaycal_input_transition_delay 0.1ps
+<CMD> set distributed_client_message_echo 1
+<CMD> set distributed_mmmc_disable_reports_auto_redirection 0
+<CMD> set enc_enable_print_mode_command_reset_options 1
+<CMD> set floorplan_default_site core
+<CMD> set fpIsMaxIoHeight 0
+<CMD> set init_gnd_net VSS
+<CMD> set init_lef_file {/nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Back_End/lef/tcbn65gplus_200a/lef/tcbn65gplus_9lmT2.lef /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Back_End/lef/tpan65gpgv2od3_200a/mt/9lm/lef/tpan65gpgv2od3_9lm.lef}
+<CMD> set init_mmmc_file kf_top.view
+<CMD> set init_oa_search_lib {}
+<CMD> set init_original_verilog_files {kf_top_padframe.v kf_top_syn.v}
+<CMD> set init_pwr_net VDD
+<CMD> set init_verilog {kf_top_padframe.v kf_top_syn.v}
+<CMD> set init_top_cell kf_top_padframe
+<CMD> set init_io_file kf_top.io
+<CMD> set latch_time_borrow_mode max_borrow
+<CMD> set pegDefaultResScaleFactor 1
+<CMD> set pegDetailResScaleFactor 1
+<CMD> set report_inactive_arcs_format {from to when arc_type sense reason}
+<CMD> set soft_stack_size_limit 128
+<CMD> init_design
+#% Begin Load MMMC data ... (date=01/04 21:03:30, mem=573.8M)
+#% End Load MMMC data ... (date=01/04 21:03:30, total cpu=0:00:00.0, real=0:00:00.0, peak res=574.2M, current mem=574.2M)
+worst best typical
+
+Loading LEF file /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Back_End/lef/tcbn65gplus_200a/lef/tcbn65gplus_9lmT2.lef ...
+Set DBUPerIGU to M2 pitch 400.
+
+Loading LEF file /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Back_End/lef/tpan65gpgv2od3_200a/mt/9lm/lef/tpan65gpgv2od3_9lm.lef ...
+WARNING (LEFPARS-2001): No VERSION statement found, using the default value 5.8. See file /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Back_End/lef/tpan65gpgv2od3_200a/mt/9lm/lef/tpan65gpgv2od3_9lm.lef at line 1418.
+**WARN: (IMPLF-201):	Pin 'AVSS' in macro 'PVSS3AC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'AVSS' in macro 'PVSS3AC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'AVSS' in macro 'PVSS3A' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'AVSS' in macro 'PVSS3A' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'VSS' in macro 'PVSS2AC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'VSS' in macro 'PVSS2AC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'VSS' in macro 'PVSS2A' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'VSS' in macro 'PVSS2A' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'TACVDD' in macro 'PVDD3AC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'TACVDD' in macro 'PVDD3AC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'AVDD' in macro 'PVDD3AC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'AVDD' in macro 'PVDD3AC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'TAVDD' in macro 'PVDD3A' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'TAVDD' in macro 'PVDD3A' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'AVDD' in macro 'PVDD3A' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'AVDD' in macro 'PVDD3A' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'VBUS' in macro 'PVBUS' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'VBUS' in macro 'PVBUS' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'AIO' in macro 'PDB3AC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'AIO' in macro 'PDB3AC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'AIO' in macro 'PDB3A' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'AIO' in macro 'PDB3A' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'AIO' in macro 'PDB2AC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'AIO' in macro 'PDB2AC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'AIO' in macro 'PDB2A' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'AIO' in macro 'PDB2A' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'AIO' in macro 'PDB1AC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'AIO' in macro 'PDB1AC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'AIO' in macro 'PDB1A' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'AIO' in macro 'PDB1A' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'VSSESD' in macro 'PCLAMPAC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'VSSESD' in macro 'PCLAMPAC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'VDDESD' in macro 'PCLAMPAC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'VDDESD' in macro 'PCLAMPAC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'VSSESD' in macro 'PCLAMPA' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'VSSESD' in macro 'PCLAMPA' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'VDDESD' in macro 'PCLAMPA' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'VDDESD' in macro 'PCLAMPA' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-200):	Pin 'I' in macro 'ANTENNA' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+
+viaInitial starts at Sun Jan  4 21:03:30 2026
+viaInitial ends at Sun Jan  4 21:03:30 2026
+Loading view definition file from kf_top.view
+Reading worst timing library '/nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib' ...
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN2D0' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN2D1' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN2D2' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN2D4' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN2D8' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN2XD1' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN3D0' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN3D1' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN3D2' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN3D4' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN3D8' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN3XD1' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN4D0' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN4D1' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN4D2' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN4D4' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN4D8' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN4XD1' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AO211D0' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AO211D1' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+Message <TECHLIB-436> has exceeded the message display limit of '20'. Use 'set_message -no_limit -id list_of_msgIDs' to reset the message limit.
+**WARN: (TECHLIB-302):	No function defined for cell 'OD18DCAP64'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'OD18DCAP32'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'OD18DCAP16'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DCAP8'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DCAP64'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DCAP4'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DCAP32'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DCAP16'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DCAP'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'ANTENNA'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+Read 816 cells in library 'tcbn65gpluswc' 
+Reading worst timing library '/nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib' ...
+**WARN: (TECHLIB-302):	No function defined for cell 'PVSS3AC'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'PVSS3A'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'PVSS2AC'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'PVSS2A'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'PVDD3AC'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'PVDD3A'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'PVBUS'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'PRCUTA'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'PDB3AC'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'PDB3A'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+Message <TECHLIB-302> has exceeded the message display limit of '20'. Use 'set_message -no_limit -id list_of_msgIDs' to reset the message limit.
+Read 16 cells in library 'tpan65gpgv2od3wc' 
+Reading best timing library '/nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gplusbc.lib' ...
+Read 816 cells in library 'tcbn65gplusbc' 
+Reading best timing library '/nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3bc.lib' ...
+Read 16 cells in library 'tpan65gpgv2od3bc' 
+*** End library_loading (cpu=0.11min, real=0.10min, mem=138.9M, fe_cpu=0.35min, fe_real=0.60min, fe_mem=749.6M) ***
+#% Begin Load netlist data ... (date=01/04 21:03:36, mem=625.8M)
+*** Begin netlist parsing (mem=749.6M) ***
+Created 832 new cells from 4 timing libraries.
+Reading netlist ...
+Backslashed names will retain backslash and a trailing blank character.
+Reading verilog netlist 'kf_top_padframe.v'
+**ERROR: (IMPVL-320):	Module 'kf_top_padframe' has an instance and a net with the same name 'pad_rom_we'. This is illegal per IEEE standard.  Fix the netlist to have unique instance and net names in the module.
+**ERROR: (IMPVL-320):	Module 'kf_top_padframe' has an instance and a net with the same name 'pad_READY'. This is illegal per IEEE standard.  Fix the netlist to have unique instance and net names in the module.
+**ERROR: (IMPVL-320):	Module 'kf_top_padframe' has an instance and a net with the same name 'pad_WRITE'. This is illegal per IEEE standard.  Fix the netlist to have unique instance and net names in the module.
+**ERROR: (IMPVL-320):	Module 'kf_top_padframe' has an instance and a net with the same name 'pad_START'. This is illegal per IEEE standard.  Fix the netlist to have unique instance and net names in the module.
+**ERROR: (IMPVL-320):	Module 'kf_top_padframe' has an instance and a net with the same name 'pad_rst_n'. This is illegal per IEEE standard.  Fix the netlist to have unique instance and net names in the module.
+**ERROR: (IMPVL-320):	Module 'kf_top_padframe' has an instance and a net with the same name 'pad_clk'. This is illegal per IEEE standard.  Fix the netlist to have unique instance and net names in the module.
+Verilog file 'kf_top_padframe.v' has errors!  See above.
+Reading verilog netlist 'kf_top_syn.v'
+
+*** Memory Usage v#1 (Current mem = 749.551M, initial mem = 258.629M) ***
+#% End Load netlist data ... (date=01/04 21:03:37, total cpu=0:00:00.1, real=0:00:01.0, peak res=697.1M, current mem=697.1M)
+**ERROR: **ERROR: (IMPVL-902):	Failed to read netlist kf_top_padframe.v kf_top_syn.v. See previous error messages for details.  Resolve the issues and reload the design.
+
+<CMD> set ::TimeLib::tsgMarkCellLatchConstructFlag 1
+<CMD> set defHierChar /
+Set Default Input Pin Transition as 0.1 ps.
+<CMD> set delaycal_input_transition_delay 0.1ps
+<CMD> set distributed_client_message_echo 1
+<CMD> set distributed_mmmc_disable_reports_auto_redirection 0
+<CMD> set enc_enable_print_mode_command_reset_options 1
+<CMD> set floorplan_default_site core
+<CMD> set fpIsMaxIoHeight 0
+<CMD> set init_gnd_net VSS
+<CMD> set init_lef_file {/nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Back_End/lef/tcbn65gplus_200a/lef/tcbn65gplus_9lmT2.lef /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Back_End/lef/tpan65gpgv2od3_200a/mt/9lm/lef/tpan65gpgv2od3_9lm.lef}
+<CMD> set init_mmmc_file kf_top.view
+<CMD> set init_oa_search_lib {}
+<CMD> set init_original_verilog_files {kf_top_padframe.v kf_top_syn.v}
+<CMD> set init_pwr_net VDD
+<CMD> set init_verilog {kf_top_padframe.v kf_top_syn.v}
+<CMD> set init_top_cell kf_top_padframe
+<CMD> set init_io_file kf_top.io
+<CMD> set latch_time_borrow_mode max_borrow
+<CMD> set pegDefaultResScaleFactor 1
+<CMD> set pegDetailResScaleFactor 1
+<CMD> set report_inactive_arcs_format {from to when arc_type sense reason}
+<CMD> set soft_stack_size_limit 128
+<CMD> set ::TimeLib::tsgMarkCellLatchConstructFlag 1
+<CMD> set defHierChar /
+Set Default Input Pin Transition as 0.1 ps.
+<CMD> set delaycal_input_transition_delay 0.1ps
+<CMD> set distributed_client_message_echo 1
+<CMD> set distributed_mmmc_disable_reports_auto_redirection 0
+<CMD> set enc_enable_print_mode_command_reset_options 1
+<CMD> set floorplan_default_site core
+<CMD> set fpIsMaxIoHeight 0
+<CMD> set init_gnd_net VSS
+<CMD> set init_lef_file {/nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Back_End/lef/tcbn65gplus_200a/lef/tcbn65gplus_9lmT2.lef /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Back_End/lef/tpan65gpgv2od3_200a/mt/9lm/lef/tpan65gpgv2od3_9lm.lef}
+<CMD> set init_mmmc_file kf_top.view
+<CMD> set init_oa_search_lib {}
+<CMD> set init_original_verilog_files {kf_top_padframe.v kf_top_syn.v}
+<CMD> set init_pwr_net VDD
+<CMD> set init_verilog {kf_top_padframe.v kf_top_syn.v}
+<CMD> set init_top_cell kf_top_padframe
+<CMD> set init_io_file kf_top.io
+<CMD> set latch_time_borrow_mode max_borrow
+<CMD> set pegDefaultResScaleFactor 1
+<CMD> set pegDetailResScaleFactor 1
+<CMD> set report_inactive_arcs_format {from to when arc_type sense reason}
+<CMD> set soft_stack_size_limit 128
+<CMD> init_design
+#% Begin Load MMMC data ... (date=01/04 21:08:51, mem=699.8M)
+Extraction setup Started 
+Innovus terminated by internal (SEGV) error/signal...
+*** Stack trace:
+*** Stack trace:
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus[0xfc83a5b]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(syStackTrace+0x6b)[0xfc83e62]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus[0x40836c5]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0x3c050)[0x7ff9b485a050]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(_ZN12peLayerPitch17computeLayerPitchEv+0x2c6)[0xaaac886]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(_ZN14peEngineClient12getLayerInfoERSt6vectorI11eeLayerInfoSaIS1_EE+0x82e)[0xaaa767e]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(_ZN21eeExtEngineDesignData12setLayerInfoEv+0x3e)[0x453e74e]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus[0xa9d3f35]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(_Z10dbMCRCInitv+0xb)[0xa9dabcb]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(_Z28peiInitializeExtractionSetUpb+0x2b)[0xa9db1bb]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus[0xcd2fbee]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(_ZN6TAMmmc14updateRcCornerEP14TAMmmcRcCornerPKcf9tabooleanR18TAMmmcTripleFactorS4_fS4_S6_S4_S6_S4_fS4_fS4_S6_S4_S6_S4_S3_S3_S3_fS4_+0x40b)[0xfe9d6fb]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(_Z30TaCmd_createOrUpdate_rc_cornerPvP10Tcl_InterpiPPc9tabooleanP6tcmCmd+0x84b)[0x10c9a65b]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(_ZN10tcmBaseCmd7executeEP10Tcl_InterpiPPc+0x15e)[0x11a9b3de]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(_ZN6tcmMgr9cmdParserEPvP10Tcl_InterpiPPc+0x6a4)[0x11a847b4]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(TclInvokeStringCommand+0x80)[0x14bfa100]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(TclNRRunCallbacks+0x47)[0x14bfe9b7]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus[0x14c00aa1]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(Tcl_EvalEx+0x16)[0x14c014a6]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(TclNREvalObjEx+0x6f)[0x14c0154f]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus[0x14cb585b]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus[0x14c141c1]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(TclNRRunCallbacks+0x47)[0x14bfe9b7]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus[0x14c00aa1]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus[0x14cc81d2]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus[0x14c008da]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(Tcl_EvalEx+0x16)[0x14c014a6]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(Tcl_Eval+0x15)[0x14c014c5]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(_Z10qtfTclEvalPcb+0x69)[0xe44a0d9]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(_ZN8qtfsItem10fUpdateVarEv+0x310)[0xe3fd230]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/Qt/64bit/lib/libcdsQtCore.so.4(_ZN11QMetaObject8activateEP7QObjectPKS_iPPv+0x29a)[0x7ff9b240e4ca]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/Qt/64bit/lib/libcdsQtGui.so.4(_ZN15QAbstractButton7clickedEb+0x32)[0x7ff9b31febe2]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/Qt/64bit/lib/libcdsQtGui.so.4(_ZN22QAbstractButtonPrivate11emitClickedEv+0x33)[0x7ff9b2f23f83]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/Qt/64bit/lib/libcdsQtGui.so.4(_ZN22QAbstractButtonPrivate5clickEv+0x83)[0x7ff9b2f24fe3]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/Qt/64bit/lib/libcdsQtGui.so.4(_ZN15QAbstractButton17mouseReleaseEventEP11QMouseEvent+0x6c)[0x7ff9b2f250cc]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/Qt/64bit/lib/libcdsQtGui.so.4(_ZN7QWidget5eventEP6QEvent+0xbbb)[0x7ff9b2b6844b]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/Qt/64bit/lib/libcdsQtGui.so.4(_ZN19QApplicationPrivate13notify_helperEP7QObjectP6QEvent+0x8c)[0x7ff9b2b1236c]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/Qt/64bit/lib/libcdsQtGui.so.4(_ZN12QApplication6notifyEP7QObjectP6QEvent+0x3d6)[0x7ff9b2b1ae56]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/Qt/64bit/lib/libcdsQtCore.so.4(_ZN16QCoreApplication14notifyInternalEP7QObjectP6QEvent+0x6d)[0x7ff9b23f3e8d]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/Qt/64bit/lib/libcdsQtGui.so.4(_ZN19QApplicationPrivate14sendMouseEventEP7QWidgetP11QMouseEventS1_S1_PS1_R8QPointerIS0_Eb+0x153)[0x7ff9b2b1a5e3]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/Qt/64bit/lib/libcdsQtGui.so.4(_ZN9QETWidget19translateMouseEventEPK7_XEvent+0xa5d)[0x7ff9b2b9260d]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/Qt/64bit/lib/libcdsQtGui.so.4(_ZN12QApplication15x11ProcessEventEP7_XEvent+0x78e)[0x7ff9b2b90bbe]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/Qt/64bit/lib/libcdsQtGui.so.4(_ZN19QEventDispatcherX1113processEventsE6QFlagsIN10QEventLoop17ProcessEventsFlagEE+0x24e)[0x7ff9b2bb973e]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libtq.so(_ZN17TqEventDispatcher13processEventsE6QFlagsIN10QEventLoop17ProcessEventsFlagEE+0x153)[0x7ff9b4220523]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/Qt/64bit/lib/libcdsQtCore.so.4(_ZN16QCoreApplication13processEventsE6QFlagsIN10QEventLoop17ProcessEventsFlagEE+0x2f)[0x7ff9b23f8c4f]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libtq.so(+0x1db74)[0x7ff9b421db74]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(Tcl_DoOneEvent+0xc0)[0x14cc1bf0]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libtq.so(_ZN17TqEventDispatcher13processEventsE6QFlagsIN10QEventLoop17ProcessEventsFlagEE+0x68)[0x7ff9b4220438]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/Qt/64bit/lib/libcdsQtCore.so.4(_ZN10QEventLoop13processEventsE6QFlagsINS_17ProcessEventsFlagEE+0x2f)[0x7ff9b23f202f]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/Qt/64bit/lib/libcdsQtCore.so.4(_ZN10QEventLoop4execE6QFlagsINS_17ProcessEventsFlagEE+0x17d)[0x7ff9b23f232d]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/Qt/64bit/lib/libcdsQtCore.so.4(_ZN16QCoreApplication4execEv+0x89)[0x7ff9b23f95a9]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libtq.so(_ZN13TqApplication4execEv+0xd4)[0x7ff9b421ff84]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(_Z12edi_app_initP10Tcl_Interp+0x279)[0x4127869]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(Tcl_MainEx+0x177)[0x14cbc497]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus(main+0x1de)[0x39cee4e]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0x2724a)[0x7ff9b484524a]
+/usr/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x85)[0x7ff9b4845305]
+/CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/innovus/bin/64bit/innovus[0x407ffd1]
+========================================
+                gdb
+========================================
+Using: gdb
+gdb: /CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libstdc++.so.6: version `CXXABI_1.3.8' not found (required by gdb)
+gdb: /CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libstdc++.so.6: version `GLIBCXX_3.4.30' not found (required by gdb)
+gdb: /CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libstdc++.so.6: version `GLIBCXX_3.4.29' not found (required by gdb)
+gdb: /CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libstdc++.so.6: version `CXXABI_1.3.11' not found (required by gdb)
+gdb: /CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libstdc++.so.6: version `GLIBCXX_3.4.22' not found (required by gdb)
+gdb: /CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libstdc++.so.6: version `CXXABI_1.3.13' not found (required by gdb)
+gdb: /CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libstdc++.so.6: version `GLIBCXX_3.4.21' not found (required by gdb)
+gdb: /CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libstdc++.so.6: version `GLIBCXX_3.4.20' not found (required by gdb)
+gdb: /CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libstdc++.so.6: version `GLIBCXX_3.4.20' not found (required by /usr/lib/x86_64-linux-gnu/libsource-highlight.so.4)
+gdb: /CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libstdc++.so.6: version `GLIBCXX_3.4.26' not found (required by /usr/lib/x86_64-linux-gnu/libsource-highlight.so.4)
+gdb: /CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libstdc++.so.6: version `CXXABI_1.3.9' not found (required by /usr/lib/x86_64-linux-gnu/libsource-highlight.so.4)
+gdb: /CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libstdc++.so.6: version `GLIBCXX_3.4.29' not found (required by /usr/lib/x86_64-linux-gnu/libsource-highlight.so.4)
+gdb: /CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libstdc++.so.6: version `GLIBCXX_3.4.21' not found (required by /usr/lib/x86_64-linux-gnu/libsource-highlight.so.4)
+gdb: /CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libstdc++.so.6: version `GLIBCXX_3.4.20' not found (required by /usr/lib/x86_64-linux-gnu/libboost_regex.so.1.74.0)
+gdb: /CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libstdc++.so.6: version `CXXABI_1.3.8' not found (required by /usr/lib/x86_64-linux-gnu/libboost_regex.so.1.74.0)
+gdb: /CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libstdc++.so.6: version `CXXABI_1.3.9' not found (required by /usr/lib/x86_64-linux-gnu/libboost_regex.so.1.74.0)
+gdb: /CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libstdc++.so.6: version `GLIBCXX_3.4.29' not found (required by /usr/lib/x86_64-linux-gnu/libboost_regex.so.1.74.0)
+gdb: /CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libstdc++.so.6: version `GLIBCXX_3.4.26' not found (required by /usr/lib/x86_64-linux-gnu/libboost_regex.so.1.74.0)
+gdb: /CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libstdc++.so.6: version `GLIBCXX_3.4.21' not found (required by /usr/lib/x86_64-linux-gnu/libboost_regex.so.1.74.0)
+gdb: /CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libstdc++.so.6: version `CXXABI_1.3.8' not found (required by /usr/lib/x86_64-linux-gnu/libicui18n.so.72)
+gdb: /CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libstdc++.so.6: version `CXXABI_1.3.8' not found (required by /usr/lib/x86_64-linux-gnu/libicuuc.so.72)
+gdb: /CMC/tools/cadence/INNOVUS18.10.000_lnx86/tools.lnx86/lib/64bit/libstdc++.so.6: version `GLIBCXX_3.4.30' not found (required by /usr/lib/x86_64-linux-gnu/libicuuc.so.72)
+
+--------------------------------------------------------------------------------
+Exiting Innovus on Sun Jan  4 21:08:52 2026
+  Total CPU time:     0:01:26
+  Total real time:    0:05:55
+  Peak memory (main): 702.43MB
+
+
+*** Memory Usage v#1 (Current mem = 746.527M, initial mem = 258.629M) ***
+*** Message Summary: 79 warning(s), 8 error(s)
+
+--- Ending "Innovus" (totcpu=0:01:26, real=0:05:52, mem=746.5M) ---

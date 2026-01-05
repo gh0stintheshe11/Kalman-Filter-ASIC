@@ -1,0 +1,170 @@
+#######################################################
+#                                                     
+#  Innovus Command Logging File                     
+#  Created on Sun Jan  4 21:09:33 2026                
+#                                                     
+#######################################################
+
+#@(#)CDS: Innovus v18.10-p002_1 (64bit) 05/29/2018 19:19 (Linux 2.6.18-194.el5)
+#@(#)CDS: NanoRoute 18.10-p002_1 NR180522-1057/18_10-UB (database version 2.30, 418.7.1) {superthreading v1.46}
+#@(#)CDS: AAE 18.10-p004 (64bit) 05/29/2018 (Linux 2.6.18-194.el5)
+#@(#)CDS: CTE 18.10-p003_1 () May 15 2018 10:23:07 ( )
+#@(#)CDS: SYNTECH 18.10-a012_1 () Apr 19 2018 01:27:21 ( )
+#@(#)CDS: CPE v18.10-p005
+#@(#)CDS: IQRC/TQRC 18.1.1-s118 (64bit) Fri Mar 23 17:23:45 PDT 2018 (Linux 2.6.18-194.el5)
+
+set_global _enable_mmmc_by_default_flow      $CTE::mmmc_default
+suppressMessage ENCEXT-2799
+getVersion
+win
+set ::TimeLib::tsgMarkCellLatchConstructFlag 1
+set defHierChar /
+set delaycal_input_transition_delay 0.1ps
+set distributed_client_message_echo 1
+set distributed_mmmc_disable_reports_auto_redirection 0
+set enc_enable_print_mode_command_reset_options 1
+set floorplan_default_site core
+set fpIsMaxIoHeight 0
+set init_gnd_net VSS
+set init_lef_file {/nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Back_End/lef/tcbn65gplus_200a/lef/tcbn65gplus_9lmT2.lef /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Back_End/lef/tpan65gpgv2od3_200a/mt/9lm/lef/tpan65gpgv2od3_9lm.lef}
+set init_mmmc_file kf_top.view
+set init_oa_search_lib {}
+set init_original_verilog_files {kf_top_padframe.v kf_top_syn.v}
+set init_pwr_net VDD
+set init_verilog {kf_top_padframe.v kf_top_syn.v}
+set init_top_cell kf_top_padframe
+set init_io_file kf_top.io
+set latch_time_borrow_mode max_borrow
+set pegDefaultResScaleFactor 1
+set pegDetailResScaleFactor 1
+set report_inactive_arcs_format {from to when arc_type sense reason}
+set soft_stack_size_limit 128
+init_design
+fit
+gui_select -rect {-78.298 1991.810 2113.446 -51.809}
+deselectAll
+getIoFlowFlag
+setIoFlowFlag 0
+floorPlan -site core -r 1 0.7 60 60 60 60
+uiSetTool select
+getIoFlowFlag
+fit
+setIoFlowFlag 0
+floorPlan -site core -r 1 0.7 60.0 60.0 60.0 60.0
+uiSetTool select
+getIoFlowFlag
+fit
+setDrawView ameba
+setDrawView fplan
+setDrawView place
+getIoFlowFlag
+zoomBox 2025.575 1773.388 1950.257 1738.240
+zoomBox 1995.366 1754.073 2002.586 1747.058
+fit
+getIoFlowFlag
+setIoFlowFlag 0
+floorPlan -fplanOrigin center -site core -r 1 0.7 0 0 0 0
+uiSetTool select
+getIoFlowFlag
+fit
+setIoFlowFlag 0
+floorPlan -coreMarginsBy die -site core -r 1 0.7 190.0 190.0 190.0 191.2
+uiSetTool select
+getIoFlowFlag
+fit
+setIoFlowFlag 0
+floorPlan -coreMarginsBy io -site core -r 1 0.7 0.0 0.0 0.0 1.2
+uiSetTool select
+getIoFlowFlag
+fit
+setIoFlowFlag 0
+floorPlan -site core -r 0.962222222222 0.028488 0.0 0.0 0.0 1.2
+uiSetTool select
+getIoFlowFlag
+fit
+selectInst u_pad_rom_we
+deselectAll
+selectInst u_pad_rom_waddr_0
+deselectAll
+selectInst u_pad_rom_waddr_1
+deselectAll
+selectInst u_pad_rom_waddr_2
+deselectAll
+selectInst u_pad_rom_waddr_3
+deselectAll
+selectInst u_pad_rom_waddr_4
+deselectAll
+selectInst pad_VSS_S
+deselectAll
+selectInst pad_VDD_S
+deselectAll
+selectInst pad_VSS_E
+deselectAll
+selectInst pad_VDD_E
+deselectAll
+selectInst pad_VDD_W
+deselectAll
+selectInst pad_VSS_W
+deselectAll
+selectInst pad_VDD_N
+deselectAll
+selectInst pad_VSS_N
+deselectAll
+getIoFlowFlag
+setIoFlowFlag 0
+floorPlan -site core -r 1 0.7 300 300 300 300
+uiSetTool select
+getIoFlowFlag
+fit
+setIoFlowFlag 0
+floorPlan -site core -r 0.940588235294 0.073513 500 500 500 500
+uiSetTool select
+getIoFlowFlag
+fit
+setIoFlowFlag 0
+floorPlan -site core -r 1 0.7 500.0 500.0 500.0 500.0
+uiSetTool select
+getIoFlowFlag
+fit
+setIoFlowFlag 0
+floorPlan -site core -r 1 0.7 1000 1000 1000 1000
+uiSetTool select
+getIoFlowFlag
+fit
+setIoFlowFlag 0
+floorPlan -site core -r 0.998753117207 0.699904 1000.0 1000.0 1000.0 1000.0
+uiSetTool select
+getIoFlowFlag
+fit
+gui_select -rect {-281.319 373.926 361.695 -352.958}
+gui_select -rect {1078.094 -349.464 1445.032 -510.217}
+deselectAll
+zoomBox 1382.128 -384.410 1287.773 -496.238
+fit
+set ::TimeLib::tsgMarkCellLatchConstructFlag 1
+set defHierChar /
+set delaycal_input_transition_delay 0.1ps
+set distributed_client_message_echo 1
+set distributed_mmmc_disable_reports_auto_redirection 0
+set enc_enable_print_mode_command_reset_options 1
+set floorplan_default_site core
+set fpIsMaxIoHeight 0
+set init_gnd_net VSS
+set init_lef_file {/nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Back_End/lef/tcbn65gplus_200a/lef/tcbn65gplus_9lmT2.lef /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Back_End/lef/tpan65gpgv2od3_200a/mt/9lm/lef/tpan65gpgv2od3_9lm.lef}
+set init_mmmc_file kf_top.view
+set init_oa_search_lib {}
+set init_original_verilog_files {kf_top_padframe.v kf_top_syn.v}
+set init_pwr_net VDD
+set init_verilog {kf_top_padframe.v kf_top_syn.v}
+set init_top_cell kf_top_padframe
+set init_io_file kf_top.io
+set latch_time_borrow_mode max_borrow
+set pegDefaultResScaleFactor 1
+set pegDetailResScaleFactor 1
+set report_inactive_arcs_format {from to when arc_type sense reason}
+set soft_stack_size_limit 128
+init_design
+gui_select -rect {-1424.064 1418.822 1452.021 -1404.843}
+deleteSelectedFromFPlan
+deleteSelectedFromFPlan
+gui_select -rect {550.405 -73.388 2081.055 -1306.994}

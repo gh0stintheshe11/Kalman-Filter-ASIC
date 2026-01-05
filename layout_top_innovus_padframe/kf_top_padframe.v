@@ -7,8 +7,10 @@
 //   - PVDD3A: VDD power pad (pins: AVDD, TAVDD)
 //   - PVSS2A: VSS ground pad (pin: VSS)
 //   - PCORNERA: Corner cell (no pins)
+//   - PFILLER20A: Filler pad (no pins)
 //
-// Total: 91 signal + 8 power/ground + 4 corners = 103 pads
+// Total: 91 signal + 8 power/ground + 1 filler + 4 corners = 104 pads
+// Perfectly balanced: 25 pads per side
 /////////////////////////////////////////////////////////////
 
 module kf_top_padframe (
@@ -74,6 +76,11 @@ module kf_top_padframe (
     PCORNERA corner_BR ();
 
     //===========================================================
+    // FILLER PAD (1 total - on top side)
+    //===========================================================
+    PFILLER20A pad_FILLER_N ();
+
+    //===========================================================
     // POWER PADS (4 VDD + 4 VSS = 8 total)
     //===========================================================
     // North side power
@@ -93,7 +100,7 @@ module kf_top_padframe (
     PVSS2A pad_VSS_W (.VSS(TVSS_W));
 
     //===========================================================
-    // LEFT SIDE - DATA_IN[23:0] (24 pads)
+    // LEFT SIDE - DATA_IN[22:0] (23 pads) - DATA_IN[23] moved to top
     //===========================================================
     PDB2A pad_DATA_IN_0  (.AIO(pad_DATA_IN[0]));
     PDB2A pad_DATA_IN_1  (.AIO(pad_DATA_IN[1]));
@@ -118,7 +125,6 @@ module kf_top_padframe (
     PDB2A pad_DATA_IN_20 (.AIO(pad_DATA_IN[20]));
     PDB2A pad_DATA_IN_21 (.AIO(pad_DATA_IN[21]));
     PDB2A pad_DATA_IN_22 (.AIO(pad_DATA_IN[22]));
-    PDB2A pad_DATA_IN_23 (.AIO(pad_DATA_IN[23]));
 
     // Connect pads to core (DATA_IN is input to core)
     assign DATA_IN_core = {pad_DATA_IN[23], pad_DATA_IN[22], pad_DATA_IN[21], pad_DATA_IN[20],
@@ -129,7 +135,7 @@ module kf_top_padframe (
                            pad_DATA_IN[3],  pad_DATA_IN[2],  pad_DATA_IN[1],  pad_DATA_IN[0]};
 
     //===========================================================
-    // RIGHT SIDE - DATA_OUT[23:0] (24 pads)
+    // RIGHT SIDE - DATA_OUT[22:0] (23 pads) - DATA_OUT[23] moved to top
     //===========================================================
     PDB2A pad_DATA_OUT_0  (.AIO(pad_DATA_OUT[0]));
     PDB2A pad_DATA_OUT_1  (.AIO(pad_DATA_OUT[1]));
@@ -154,32 +160,35 @@ module kf_top_padframe (
     PDB2A pad_DATA_OUT_20 (.AIO(pad_DATA_OUT[20]));
     PDB2A pad_DATA_OUT_21 (.AIO(pad_DATA_OUT[21]));
     PDB2A pad_DATA_OUT_22 (.AIO(pad_DATA_OUT[22]));
-    PDB2A pad_DATA_OUT_23 (.AIO(pad_DATA_OUT[23]));
 
     // Connect core output to pads (DATA_OUT is output from core)
     assign pad_DATA_OUT = DATA_OUT_core;
 
     //===========================================================
-    // TOP SIDE - Control signals + loop_addr (20 pads including power)
+    // TOP SIDE - Control + loop_addr + DATA_IN[23] + DATA_OUT[23] + rom_wdata[14:15] (22 signal pads)
     //===========================================================
-    PDB2A pad_clk   (.AIO(pad_clk));
-    PDB2A pad_rst_n (.AIO(pad_rst_n));
-    PDB2A pad_START (.AIO(pad_START));
-    PDB2A pad_WRITE (.AIO(pad_WRITE));
-    PDB2A pad_DIR_0 (.AIO(pad_DIR[0]));
-    PDB2A pad_DIR_1 (.AIO(pad_DIR[1]));
-    PDB2A pad_DIR_2 (.AIO(pad_DIR[2]));
-    PDB2A pad_DIR_3 (.AIO(pad_DIR[3]));
-    PDB2A pad_DIR_4 (.AIO(pad_DIR[4]));
-    PDB2A pad_READY (.AIO(pad_READY));
-    PDB2A pad_loop_addr_0 (.AIO(pad_loop_addr[0]));
-    PDB2A pad_loop_addr_1 (.AIO(pad_loop_addr[1]));
-    PDB2A pad_loop_addr_2 (.AIO(pad_loop_addr[2]));
-    PDB2A pad_loop_addr_3 (.AIO(pad_loop_addr[3]));
-    PDB2A pad_loop_addr_4 (.AIO(pad_loop_addr[4]));
-    PDB2A pad_loop_addr_5 (.AIO(pad_loop_addr[5]));
-    PDB2A pad_loop_addr_6 (.AIO(pad_loop_addr[6]));
-    PDB2A pad_loop_addr_7 (.AIO(pad_loop_addr[7]));
+    PDB2A u_pad_clk   (.AIO(pad_clk));
+    PDB2A u_pad_rst_n (.AIO(pad_rst_n));
+    PDB2A u_pad_START (.AIO(pad_START));
+    PDB2A u_pad_WRITE (.AIO(pad_WRITE));
+    PDB2A u_pad_DIR_0 (.AIO(pad_DIR[0]));
+    PDB2A u_pad_DIR_1 (.AIO(pad_DIR[1]));
+    PDB2A u_pad_DIR_2 (.AIO(pad_DIR[2]));
+    PDB2A u_pad_DIR_3 (.AIO(pad_DIR[3]));
+    PDB2A u_pad_DIR_4 (.AIO(pad_DIR[4]));
+    PDB2A u_pad_READY (.AIO(pad_READY));
+    PDB2A u_pad_loop_addr_0 (.AIO(pad_loop_addr[0]));
+    PDB2A u_pad_loop_addr_1 (.AIO(pad_loop_addr[1]));
+    PDB2A u_pad_loop_addr_2 (.AIO(pad_loop_addr[2]));
+    PDB2A u_pad_loop_addr_3 (.AIO(pad_loop_addr[3]));
+    PDB2A u_pad_loop_addr_4 (.AIO(pad_loop_addr[4]));
+    PDB2A u_pad_loop_addr_5 (.AIO(pad_loop_addr[5]));
+    PDB2A u_pad_loop_addr_6 (.AIO(pad_loop_addr[6]));
+    PDB2A u_pad_loop_addr_7 (.AIO(pad_loop_addr[7]));
+    PDB2A u_pad_rom_wdata_14 (.AIO(pad_rom_wdata[14]));
+    PDB2A u_pad_rom_wdata_15 (.AIO(pad_rom_wdata[15]));
+    PDB2A pad_DATA_IN_23  (.AIO(pad_DATA_IN[23]));
+    PDB2A pad_DATA_OUT_23 (.AIO(pad_DATA_OUT[23]));
 
     // Connect pads to core (inputs)
     assign clk_core = pad_clk;
@@ -193,33 +202,31 @@ module kf_top_padframe (
     assign pad_READY = READY_core;
 
     //===========================================================
-    // BOTTOM SIDE - ROM signals (27 pads including power)
+    // BOTTOM SIDE - ROM signals: rom_we + rom_waddr[7:0] + rom_wdata[13:0] (23 signal pads)
     //===========================================================
-    PDB2A pad_rom_we       (.AIO(pad_rom_we));
-    PDB2A pad_rom_waddr_0  (.AIO(pad_rom_waddr[0]));
-    PDB2A pad_rom_waddr_1  (.AIO(pad_rom_waddr[1]));
-    PDB2A pad_rom_waddr_2  (.AIO(pad_rom_waddr[2]));
-    PDB2A pad_rom_waddr_3  (.AIO(pad_rom_waddr[3]));
-    PDB2A pad_rom_waddr_4  (.AIO(pad_rom_waddr[4]));
-    PDB2A pad_rom_waddr_5  (.AIO(pad_rom_waddr[5]));
-    PDB2A pad_rom_waddr_6  (.AIO(pad_rom_waddr[6]));
-    PDB2A pad_rom_waddr_7  (.AIO(pad_rom_waddr[7]));
-    PDB2A pad_rom_wdata_0  (.AIO(pad_rom_wdata[0]));
-    PDB2A pad_rom_wdata_1  (.AIO(pad_rom_wdata[1]));
-    PDB2A pad_rom_wdata_2  (.AIO(pad_rom_wdata[2]));
-    PDB2A pad_rom_wdata_3  (.AIO(pad_rom_wdata[3]));
-    PDB2A pad_rom_wdata_4  (.AIO(pad_rom_wdata[4]));
-    PDB2A pad_rom_wdata_5  (.AIO(pad_rom_wdata[5]));
-    PDB2A pad_rom_wdata_6  (.AIO(pad_rom_wdata[6]));
-    PDB2A pad_rom_wdata_7  (.AIO(pad_rom_wdata[7]));
-    PDB2A pad_rom_wdata_8  (.AIO(pad_rom_wdata[8]));
-    PDB2A pad_rom_wdata_9  (.AIO(pad_rom_wdata[9]));
-    PDB2A pad_rom_wdata_10 (.AIO(pad_rom_wdata[10]));
-    PDB2A pad_rom_wdata_11 (.AIO(pad_rom_wdata[11]));
-    PDB2A pad_rom_wdata_12 (.AIO(pad_rom_wdata[12]));
-    PDB2A pad_rom_wdata_13 (.AIO(pad_rom_wdata[13]));
-    PDB2A pad_rom_wdata_14 (.AIO(pad_rom_wdata[14]));
-    PDB2A pad_rom_wdata_15 (.AIO(pad_rom_wdata[15]));
+    PDB2A u_pad_rom_we       (.AIO(pad_rom_we));
+    PDB2A u_pad_rom_waddr_0  (.AIO(pad_rom_waddr[0]));
+    PDB2A u_pad_rom_waddr_1  (.AIO(pad_rom_waddr[1]));
+    PDB2A u_pad_rom_waddr_2  (.AIO(pad_rom_waddr[2]));
+    PDB2A u_pad_rom_waddr_3  (.AIO(pad_rom_waddr[3]));
+    PDB2A u_pad_rom_waddr_4  (.AIO(pad_rom_waddr[4]));
+    PDB2A u_pad_rom_waddr_5  (.AIO(pad_rom_waddr[5]));
+    PDB2A u_pad_rom_waddr_6  (.AIO(pad_rom_waddr[6]));
+    PDB2A u_pad_rom_waddr_7  (.AIO(pad_rom_waddr[7]));
+    PDB2A u_pad_rom_wdata_0  (.AIO(pad_rom_wdata[0]));
+    PDB2A u_pad_rom_wdata_1  (.AIO(pad_rom_wdata[1]));
+    PDB2A u_pad_rom_wdata_2  (.AIO(pad_rom_wdata[2]));
+    PDB2A u_pad_rom_wdata_3  (.AIO(pad_rom_wdata[3]));
+    PDB2A u_pad_rom_wdata_4  (.AIO(pad_rom_wdata[4]));
+    PDB2A u_pad_rom_wdata_5  (.AIO(pad_rom_wdata[5]));
+    PDB2A u_pad_rom_wdata_6  (.AIO(pad_rom_wdata[6]));
+    PDB2A u_pad_rom_wdata_7  (.AIO(pad_rom_wdata[7]));
+    PDB2A u_pad_rom_wdata_8  (.AIO(pad_rom_wdata[8]));
+    PDB2A u_pad_rom_wdata_9  (.AIO(pad_rom_wdata[9]));
+    PDB2A u_pad_rom_wdata_10 (.AIO(pad_rom_wdata[10]));
+    PDB2A u_pad_rom_wdata_11 (.AIO(pad_rom_wdata[11]));
+    PDB2A u_pad_rom_wdata_12 (.AIO(pad_rom_wdata[12]));
+    PDB2A u_pad_rom_wdata_13 (.AIO(pad_rom_wdata[13]));
 
     // Connect pads to core (inputs)
     assign rom_we_core = pad_rom_we;

@@ -1,0 +1,2406 @@
+
+Cadence Innovus(TM) Implementation System.
+Copyright 2018 Cadence Design Systems, Inc. All rights reserved worldwide.
+
+Version:	v18.10-p002_1, built Tue May 29 19:19:55 PDT 2018
+Options:	
+Date:		Sun Jan  4 21:25:50 2026
+Host:		ug253 (x86_64 w/Linux 6.1.0-37-amd64) (12cores*48cpus*Intel(R) Xeon(R) Silver 4310 CPU @ 2.10GHz 18432KB)
+OS:		Unsupported OS as /etc does not have release info
+
+License:
+		invs	Innovus Implementation System	18.1	checkout succeeded
+		8 CPU jobs allowed with the current license(s). Use setMultiCpuUsage to set your required CPU count.
+Change the soft stacksize limit to 0.2%RAM (515 mbytes). Set global soft_stack_size_limit to change the value.
+
+**INFO:  MMMC transition support version v31-84 
+
+<CMD> set_global _enable_mmmc_by_default_flow      $CTE::mmmc_default
+<CMD> suppressMessage ENCEXT-2799
+<CMD> getVersion
+[INFO] Loading fill procedures release ... 2017_02_14_15_15 for PVS build 15.23
+<CMD> win
+<CMD> set ::TimeLib::tsgMarkCellLatchConstructFlag 1
+<CMD> set defHierChar /
+Set Default Input Pin Transition as 0.1 ps.
+<CMD> set delaycal_input_transition_delay 0.1ps
+<CMD> set distributed_client_message_echo 1
+<CMD> set distributed_mmmc_disable_reports_auto_redirection 0
+<CMD> set enc_enable_print_mode_command_reset_options 1
+<CMD> set floorplan_default_site core
+<CMD> set fpIsMaxIoHeight 0
+<CMD> set init_gnd_net VSS
+<CMD> set init_lef_file {/nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Back_End/lef/tcbn65gplus_200a/lef/tcbn65gplus_9lmT2.lef /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Back_End/lef/tpan65gpgv2od3_200a/mt/9lm/lef/tpan65gpgv2od3_9lm.lef}
+<CMD> set init_mmmc_file kf_top.view
+<CMD> set init_oa_search_lib {}
+<CMD> set init_original_verilog_files {kf_top_padframe.v kf_top_syn.v}
+<CMD> set init_pwr_net VDD
+<CMD> set init_verilog {kf_top_padframe.v kf_top_syn.v}
+<CMD> set init_top_cell kf_top_padframe
+<CMD> set init_io_file kf_top.io
+<CMD> set latch_time_borrow_mode max_borrow
+<CMD> set pegDefaultResScaleFactor 1
+<CMD> set pegDetailResScaleFactor 1
+<CMD> set report_inactive_arcs_format {from to when arc_type sense reason}
+<CMD> set soft_stack_size_limit 128
+<CMD> init_design
+#% Begin Load MMMC data ... (date=01/04 21:26:08, mem=576.4M)
+#% End Load MMMC data ... (date=01/04 21:26:08, total cpu=0:00:00.0, real=0:00:00.0, peak res=576.6M, current mem=576.6M)
+worst best typical
+
+Loading LEF file /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Back_End/lef/tcbn65gplus_200a/lef/tcbn65gplus_9lmT2.lef ...
+Set DBUPerIGU to M2 pitch 400.
+
+Loading LEF file /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Back_End/lef/tpan65gpgv2od3_200a/mt/9lm/lef/tpan65gpgv2od3_9lm.lef ...
+WARNING (LEFPARS-2001): No VERSION statement found, using the default value 5.8. See file /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Back_End/lef/tpan65gpgv2od3_200a/mt/9lm/lef/tpan65gpgv2od3_9lm.lef at line 1418.
+**WARN: (IMPLF-201):	Pin 'AVSS' in macro 'PVSS3AC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'AVSS' in macro 'PVSS3AC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'AVSS' in macro 'PVSS3A' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'AVSS' in macro 'PVSS3A' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'VSS' in macro 'PVSS2AC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'VSS' in macro 'PVSS2AC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'VSS' in macro 'PVSS2A' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'VSS' in macro 'PVSS2A' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'TACVDD' in macro 'PVDD3AC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'TACVDD' in macro 'PVDD3AC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'AVDD' in macro 'PVDD3AC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'AVDD' in macro 'PVDD3AC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'TAVDD' in macro 'PVDD3A' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'TAVDD' in macro 'PVDD3A' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'AVDD' in macro 'PVDD3A' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'AVDD' in macro 'PVDD3A' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'VBUS' in macro 'PVBUS' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'VBUS' in macro 'PVBUS' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'AIO' in macro 'PDB3AC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'AIO' in macro 'PDB3AC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'AIO' in macro 'PDB3A' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'AIO' in macro 'PDB3A' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'AIO' in macro 'PDB2AC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'AIO' in macro 'PDB2AC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'AIO' in macro 'PDB2A' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'AIO' in macro 'PDB2A' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'AIO' in macro 'PDB1AC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'AIO' in macro 'PDB1AC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'AIO' in macro 'PDB1A' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'AIO' in macro 'PDB1A' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'VSSESD' in macro 'PCLAMPAC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'VSSESD' in macro 'PCLAMPAC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'VDDESD' in macro 'PCLAMPAC' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'VDDESD' in macro 'PCLAMPAC' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'VSSESD' in macro 'PCLAMPA' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'VSSESD' in macro 'PCLAMPA' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-201):	Pin 'VDDESD' in macro 'PCLAMPA' has no ANTENNADIFFAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-201' for more detail.
+**WARN: (IMPLF-200):	Pin 'VDDESD' in macro 'PCLAMPA' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+**WARN: (IMPLF-200):	Pin 'I' in macro 'ANTENNA' has no ANTENNAGATEAREA value defined. The library data is incomplete and some process antenna rules will not be checked correctly.
+Type 'man IMPLF-200' for more detail.
+
+viaInitial starts at Sun Jan  4 21:26:08 2026
+viaInitial ends at Sun Jan  4 21:26:08 2026
+Loading view definition file from kf_top.view
+Reading worst timing library '/nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib' ...
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN2D0' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN2D1' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN2D2' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN2D4' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN2D8' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN2XD1' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN3D0' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN3D1' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN3D2' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN3D4' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN3D8' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN3XD1' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN4D0' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN4D1' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN4D2' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN4D4' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN4D8' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AN4XD1' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AO211D0' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-436):	Attribute 'max_fanout' on 'output/inout' pin 'Z' of cell 'AO211D1' is not defined in the library. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+Message <TECHLIB-436> has exceeded the message display limit of '20'. Use 'set_message -no_limit -id list_of_msgIDs' to reset the message limit.
+**WARN: (TECHLIB-302):	No function defined for cell 'OD18DCAP64'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'OD18DCAP32'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'OD18DCAP16'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DCAP8'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DCAP64'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DCAP4'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DCAP32'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DCAP16'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'DCAP'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'ANTENNA'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gpluswc.lib)
+Read 816 cells in library 'tcbn65gpluswc' 
+Reading worst timing library '/nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib' ...
+**WARN: (TECHLIB-302):	No function defined for cell 'PVSS3AC'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'PVSS3A'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'PVSS2AC'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'PVSS2A'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'PVDD3AC'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'PVDD3A'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'PVBUS'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'PRCUTA'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'PDB3AC'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+**WARN: (TECHLIB-302):	No function defined for cell 'PDB3A'. The cell will only be used for analysis. (File /nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3wc.lib)
+Message <TECHLIB-302> has exceeded the message display limit of '20'. Use 'set_message -no_limit -id list_of_msgIDs' to reset the message limit.
+Read 16 cells in library 'tpan65gpgv2od3wc' 
+Reading best timing library '/nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tcbn65gplus/tcbn65gplus_200a/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tcbn65gplus_140b/tcbn65gplusbc.lib' ...
+Read 816 cells in library 'tcbn65gplusbc' 
+Reading best timing library '/nfs/vrg/cmc/cmc/kits/tsmc_65nm_libs/OA_libs/tpan65gpgv2od3/tpan65gpgv2od3_200b/TSMCHOME/digital/Front_End/timing_power_noise/NLDM/tpan65gpgv2od3_200a/tpan65gpgv2od3bc.lib' ...
+Read 16 cells in library 'tpan65gpgv2od3bc' 
+*** End library_loading (cpu=0.08min, real=0.08min, mem=132.0M, fe_cpu=0.27min, fe_real=0.38min, fe_mem=751.1M) ***
+#% Begin Load netlist data ... (date=01/04 21:26:13, mem=624.3M)
+*** Begin netlist parsing (mem=751.1M) ***
+Created 832 new cells from 4 timing libraries.
+Reading netlist ...
+Backslashed names will retain backslash and a trailing blank character.
+Reading verilog netlist 'kf_top_padframe.v'
+Reading verilog netlist 'kf_top_syn.v'
+
+*** Memory Usage v#1 (Current mem = 751.059M, initial mem = 258.629M) ***
+*** End netlist parsing (cpu=0:00:00.1, real=0:00:00.0, mem=751.1M) ***
+#% End Load netlist data ... (date=01/04 21:26:13, total cpu=0:00:00.1, real=0:00:00.0, peak res=694.9M, current mem=694.9M)
+Set top cell to kf_top_padframe.
+**WARN: (IMPTS-282):	Cell 'PCLAMPAC' is not a level shifter cell but has 'input_signal_level' and 'output_signal_level' specified on pins, or it has different related_power_pin specified on input and output pins. To mark this cell as level shifter, use 'is_level_shifter' attribute.
+Type 'man IMPTS-282' for more detail.
+**WARN: (IMPTS-282):	Cell 'PCLAMPAC' is not a level shifter cell but has 'input_signal_level' and 'output_signal_level' specified on pins, or it has different related_power_pin specified on input and output pins. To mark this cell as level shifter, use 'is_level_shifter' attribute.
+Type 'man IMPTS-282' for more detail.
+Hooked 1664 DB cells to tlib cells.
+Starting recursive module instantiation check.
+No recursion found.
+Building hierarchical netlist for Cell kf_top_padframe ...
+*** Netlist is unique.
+** info: there are 1720 modules.
+** info: there are 18733 stdCell insts.
+** info: there are 104 Pad insts.
+
+*** Memory Usage v#1 (Current mem = 833.973M, initial mem = 258.629M) ***
+Reading IO assignment file "kf_top.io" ...
+**WARN: (IMPFP-3961):	The techSite 'corner' has no related standard cells in LEF/OA library. Cannot make calculations for this site type unless standard cell models of this type exist in the LEF/OA library. If the SITE is not used by the library you can ignore this warning or remove the SITE definition from the LEF/OA to avoid this message.
+Type 'man IMPFP-3961' for more detail.
+**WARN: (IMPFP-3961):	The techSite 'pad' has no related standard cells in LEF/OA library. Cannot make calculations for this site type unless standard cell models of this type exist in the LEF/OA library. If the SITE is not used by the library you can ignore this warning or remove the SITE definition from the LEF/OA to avoid this message.
+Type 'man IMPFP-3961' for more detail.
+**WARN: (IMPFP-3961):	The techSite 'dcore' has no related standard cells in LEF/OA library. Cannot make calculations for this site type unless standard cell models of this type exist in the LEF/OA library. If the SITE is not used by the library you can ignore this warning or remove the SITE definition from the LEF/OA to avoid this message.
+Type 'man IMPFP-3961' for more detail.
+**WARN: (IMPFP-3961):	The techSite 'ccore' has no related standard cells in LEF/OA library. Cannot make calculations for this site type unless standard cell models of this type exist in the LEF/OA library. If the SITE is not used by the library you can ignore this warning or remove the SITE definition from the LEF/OA to avoid this message.
+Type 'man IMPFP-3961' for more detail.
+Set Default Net Delay as 1000 ps.
+Set Default Net Load as 0.5 pF. 
+Set Default Input Pin Transition as 0.1 ps.
+Extraction setup Started 
+Initializing multi-corner RC extraction with 2 active RC Corners ...
+**WARN: (IMPEXT-2773):	The via resistance between layers M0 and M1 could not be determined from the LEF technology file because the via resistance specification is missing. A default of 4 Ohms will be used as via resistance between these layers.
+Type 'man IMPEXT-2773' for more detail.
+**WARN: (IMPEXT-2776):	The via resistance between layers M1 and M2 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+Type 'man IMPEXT-2776' for more detail.
+**WARN: (IMPEXT-2776):	The via resistance between layers M2 and M3 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+Type 'man IMPEXT-2776' for more detail.
+**WARN: (IMPEXT-2776):	The via resistance between layers M3 and M4 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+Type 'man IMPEXT-2776' for more detail.
+**WARN: (IMPEXT-2776):	The via resistance between layers M4 and M5 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+Type 'man IMPEXT-2776' for more detail.
+**WARN: (IMPEXT-2776):	The via resistance between layers M5 and M6 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+Type 'man IMPEXT-2776' for more detail.
+**WARN: (IMPEXT-2776):	The via resistance between layers M6 and M7 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+Type 'man IMPEXT-2776' for more detail.
+**WARN: (IMPEXT-2776):	The via resistance between layers M7 and M8 is not defined in the capacitance table file. The via resistance of 0.22 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+Type 'man IMPEXT-2776' for more detail.
+**WARN: (IMPEXT-2776):	The via resistance between layers M8 and M9 is not defined in the capacitance table file. The via resistance of 0.22 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+Type 'man IMPEXT-2776' for more detail.
+**WARN: (IMPEXT-2776):	The via resistance between layers M9 and M10 is not defined in the capacitance table file. The via resistance of 0.041 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+Type 'man IMPEXT-2776' for more detail.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M1 is not defined in the cap table. Therefore, the LEF value 0.16 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M2 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M3 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M4 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M5 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M6 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M7 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M8 is not defined in the cap table. Therefore, the LEF value 0.0218 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M9 is not defined in the cap table. Therefore, the LEF value 0.0218 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M10 is not defined in the cap table. Therefore, the LEF value 0.021 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2773):	The via resistance between layers M0 and M1 could not be determined from the LEF technology file because the via resistance specification is missing. A default of 4 Ohms will be used as via resistance between these layers.
+Type 'man IMPEXT-2773' for more detail.
+**WARN: (IMPEXT-2776):	The via resistance between layers M1 and M2 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+Type 'man IMPEXT-2776' for more detail.
+**WARN: (IMPEXT-2776):	The via resistance between layers M2 and M3 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+Type 'man IMPEXT-2776' for more detail.
+**WARN: (IMPEXT-2776):	The via resistance between layers M3 and M4 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+Type 'man IMPEXT-2776' for more detail.
+**WARN: (IMPEXT-2776):	The via resistance between layers M4 and M5 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+Type 'man IMPEXT-2776' for more detail.
+**WARN: (IMPEXT-2776):	The via resistance between layers M5 and M6 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+Type 'man IMPEXT-2776' for more detail.
+**WARN: (IMPEXT-2776):	The via resistance between layers M6 and M7 is not defined in the capacitance table file. The via resistance of 1.5 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+Type 'man IMPEXT-2776' for more detail.
+**WARN: (IMPEXT-2776):	The via resistance between layers M7 and M8 is not defined in the capacitance table file. The via resistance of 0.22 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+Type 'man IMPEXT-2776' for more detail.
+**WARN: (IMPEXT-2776):	The via resistance between layers M8 and M9 is not defined in the capacitance table file. The via resistance of 0.22 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+Type 'man IMPEXT-2776' for more detail.
+**WARN: (IMPEXT-2776):	The via resistance between layers M9 and M10 is not defined in the capacitance table file. The via resistance of 0.041 Ohms defined in the LEF technology file will be used as via resistance between these layers.
+Type 'man IMPEXT-2776' for more detail.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M1 is not defined in the cap table. Therefore, the LEF value 0.16 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M2 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M3 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M4 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M5 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M6 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M7 is not defined in the cap table. Therefore, the LEF value 0.1399 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M8 is not defined in the cap table. Therefore, the LEF value 0.0218 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M9 is not defined in the cap table. Therefore, the LEF value 0.0218 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+**WARN: (IMPEXT-2766):	The sheet resistance for layer M10 is not defined in the cap table. Therefore, the LEF value 0.021 will be used instead. To avoid this message, update the relevant cap table to include the sheet resistance for the specified layer and read it back in.
+Summary of Active RC-Corners : 
+ 
+ Analysis View: setup_view
+    RC-Corner Name        : worst
+    RC-Corner Index       : 0
+    RC-Corner Temperature : 25 Celsius
+    RC-Corner Cap Table   : ''
+    RC-Corner PreRoute Res Factor         : 1
+    RC-Corner PreRoute Cap Factor         : 1
+    RC-Corner PostRoute Res Factor        : 1 {1 1 1}
+    RC-Corner PostRoute Cap Factor        : 1 {1 1 1}
+    RC-Corner PostRoute XCap Factor       : 1 {1 1 1}
+    RC-Corner PreRoute Clock Res Factor   : 1
+    RC-Corner PreRoute Clock Cap Factor   : 1
+    RC-Corner PostRoute Clock Cap Factor  : 1 {1 1 1} 
+    RC-Corner PostRoute Clock Res Factor  : 1 {1 1 1} 
+ 
+ Analysis View: hold_view
+    RC-Corner Name        : best
+    RC-Corner Index       : 1
+    RC-Corner Temperature : 25 Celsius
+    RC-Corner Cap Table   : ''
+    RC-Corner PreRoute Res Factor         : 1
+    RC-Corner PreRoute Cap Factor         : 1
+    RC-Corner PostRoute Res Factor        : 1 {1 1 1}
+    RC-Corner PostRoute Cap Factor        : 1 {1 1 1}
+    RC-Corner PostRoute XCap Factor       : 1 {1 1 1}
+    RC-Corner PreRoute Clock Res Factor   : 1
+    RC-Corner PreRoute Clock Cap Factor   : 1
+    RC-Corner PostRoute Clock Cap Factor  : 1 {1 1 1} 
+    RC-Corner PostRoute Clock Res Factor  : 1 {1 1 1} 
+Updating RC grid for preRoute extraction ...
+Initializing multi-corner resistance tables ...
+*Info: initialize multi-corner CTS.
+Reading timing constraints file 'kf_top_syn.sdc' ...
+Current (total cpu=0:00:17.2, real=0:00:24.0, peak res=922.2M, current mem=922.2M)
+**WARN: (TCLCMD-1461):	Skipped unsupported command: set_units (File kf_top_syn.sdc, Line 8).
+
+INFO (CTE): Reading of timing constraints file kf_top_syn.sdc completed, with 1 WARNING
+Ending "Constraint file reading stats" (total cpu=0:00:00.0, real=0:00:00.0, peak res=923.0M, current mem=923.0M)
+Current (total cpu=0:00:17.2, real=0:00:24.0, peak res=923.0M, current mem=923.0M)
+Total number of combinational cells: 502
+Total number of sequential cells: 303
+Total number of tristate cells: 11
+Total number of level shifter cells: 0
+Total number of power gating cells: 0
+Total number of isolation cells: 0
+Total number of power switch cells: 0
+Total number of pulse generator cells: 0
+Total number of always on buffers: 0
+Total number of retention cells: 0
+List of usable buffers: BUFFD1 BUFFD0 BUFFD2 BUFFD12 BUFFD16 BUFFD3 BUFFD4 BUFFD6 BUFFD8 CKBD1 CKBD0 CKBD2 CKBD12 CKBD16 CKBD3 CKBD4 CKBD6 CKBD8
+Total number of usable buffers: 18
+List of unusable buffers: BUFFD20 BUFFD24 CKBD20 CKBD24 GBUFFD1 GBUFFD3 GBUFFD2 GBUFFD4 GBUFFD8
+Total number of unusable buffers: 9
+List of usable inverters: CKND1 CKND0 CKND2 CKND12 CKND16 CKND3 CKND4 CKND6 CKND8 INVD1 INVD0 INVD2 INVD12 INVD16 INVD3 INVD4 INVD6 INVD8
+Total number of usable inverters: 18
+List of unusable inverters: CKND20 CKND24 GINVD2 GINVD1 GINVD4 GINVD3 GINVD8 INVD20 INVD24
+Total number of unusable inverters: 9
+List of identified usable delay cells: DEL0 DEL005 DEL01 DEL015 DEL02 DEL1 DEL2 DEL3 DEL4
+Total number of identified usable delay cells: 9
+List of identified unusable delay cells:
+Total number of identified unusable delay cells: 0
+**WARN: (IMPSYC-2):	Timing information is not defined for cell PFILLER20A; Check the timing library (.lib) file and make sure the timing information exists for the cell and you can run the checkTimingLibrary command to verify if the timing library has complete information after the design is loaded.
+Type 'man IMPSYC-2' for more detail.
+**WARN: (IMPSYC-2):	Timing information is not defined for cell PCORNERA; Check the timing library (.lib) file and make sure the timing information exists for the cell and you can run the checkTimingLibrary command to verify if the timing library has complete information after the design is loaded.
+Type 'man IMPSYC-2' for more detail.
+
+*** Summary of all messages that are not suppressed in this session:
+Severity  ID               Count  Summary                                  
+WARNING   IMPLF-200           20  Pin '%s' in macro '%s' has no ANTENNAGAT...
+WARNING   IMPLF-201           19  Pin '%s' in macro '%s' has no ANTENNADIF...
+WARNING   IMPFP-3961           4  The techSite '%s' has no related standar...
+WARNING   IMPTS-282            2  Cell '%s' is not a level shifter cell bu...
+WARNING   IMPEXT-2766         20  The sheet resistance for layer %s is not...
+WARNING   IMPEXT-2773          2  The via resistance between layers %s and...
+WARNING   IMPEXT-2776         18  The via resistance between layers %s and...
+WARNING   IMPSYC-2             2  Timing information is not defined for ce...
+WARNING   TCLCMD-1461          1  Skipped unsupported command: %s          
+WARNING   TECHLIB-302         20  No function defined for cell '%s'. The c...
+WARNING   TECHLIB-436         20  Attribute '%s' on '%s' pin '%s' of cell ...
+*** Message Summary: 128 warning(s), 0 error(s)
+
+<CMD> fit
+<CMD> getIoFlowFlag
+<CMD> setIoFlowFlag 0
+<CMD> floorPlan -site core -r 1 0.7 1000 1000 1000 1000
+**WARN: (IMPFP-325):	Floorplan of the design is resized. All current floorplan objects are automatically derived based on specified new floorplan. This may change blocks, fixed standard cells, existing routes and blockages.
+<CMD> uiSetTool select
+<CMD> getIoFlowFlag
+<CMD> fit
+<CMD> getIoFlowFlag
+<CMD> setIoFlowFlag 0
+<CMD> floorPlan -site core -r 0.998753117207 0.699904 1000.0 1000.0 1000.0 1000.0
+<CMD> uiSetTool select
+<CMD> getIoFlowFlag
+<CMD> fit
+<CMD> set sprCreateIeRingOffset 1.0
+<CMD> set sprCreateIeRingThreshold 1.0
+<CMD> set sprCreateIeRingJogDistance 1.0
+<CMD> set sprCreateIeRingLayers {}
+<CMD> set sprCreateIeRingOffset 1.0
+<CMD> set sprCreateIeRingThreshold 1.0
+<CMD> set sprCreateIeRingJogDistance 1.0
+<CMD> set sprCreateIeRingLayers {}
+<CMD> set sprCreateIeStripeWidth 10.0
+<CMD> set sprCreateIeStripeThreshold 1.0
+<CMD> set sprCreateIeStripeWidth 10.0
+<CMD> set sprCreateIeStripeThreshold 1.0
+<CMD> set sprCreateIeRingOffset 1.0
+<CMD> set sprCreateIeRingThreshold 1.0
+<CMD> set sprCreateIeRingJogDistance 1.0
+<CMD> set sprCreateIeRingLayers {}
+<CMD> set sprCreateIeStripeWidth 10.0
+<CMD> set sprCreateIeStripeThreshold 1.0
+<CMD> setAddRingMode -ring_target default -extend_over_row 0 -ignore_rows 0 -avoid_short 0 -skip_crossing_trunks none -stacked_via_top_layer AP -stacked_via_bottom_layer M1 -via_using_exact_crossover_size 1 -orthogonal_only true -skip_via_on_pin {  standardcell } -skip_via_on_wire_shape {  noshape }
+The ring targets are set to core/block ring wires.
+addRing command will consider rows while creating rings.
+addRing command will disallow rings to go over rows.
+addRing command will ignore shorts while creating rings.
+<CMD> addRing -nets {VDD VSS} -type core_rings -follow core -layer {top M1 bottom M1 left M2 right M2} -width {top 12 bottom 12 left 12 right 1.8} -spacing {top 1.8 bottom 1.8 left 1.8 right 1.8} -offset {top 1.8 bottom 1.8 left 1.8 right 1.8} -center 0 -extend_corner {} -threshold 0 -jog_distance 0 -snap_wire_center_to_grid None
+
+Ring generation is complete.
+vias are now being generated.
+addRing created 8 wires.
+ViaGen created 8 vias, deleted 0 via to avoid violation.
++--------+----------------+----------------+
+|  Layer |     Created    |     Deleted    |
++--------+----------------+----------------+
+|   M1   |        4       |       NA       |
+|  VIA1  |        8       |        0       |
+|   M2   |        4       |       NA       |
++--------+----------------+----------------+
+<CMD> setAddRingMode -ring_target default -extend_over_row 0 -ignore_rows 0 -avoid_short 0 -skip_crossing_trunks none -stacked_via_top_layer AP -stacked_via_bottom_layer M1 -via_using_exact_crossover_size 1 -orthogonal_only true -skip_via_on_pin {  standardcell } -skip_via_on_wire_shape {  noshape }
+The ring targets are set to core/block ring wires.
+addRing command will consider rows while creating rings.
+addRing command will disallow rings to go over rows.
+addRing command will ignore shorts while creating rings.
+<CMD> addRing -nets {VDD VSS} -type core_rings -follow core -layer {top M1 bottom M1 left M2 right M2} -width {top 12 bottom 12 left 12 right 12} -spacing {top 4 bottom 4 left 4 right 4} -offset {top 1.8 bottom 1.8 left 1.8 right 1.8} -center 1 -extend_corner {} -threshold 0 -jog_distance 0 -snap_wire_center_to_grid None
+
+Ring generation is complete.
+vias are now being generated.
+addRing created 8 wires.
+ViaGen created 8 vias, deleted 0 via to avoid violation.
++--------+----------------+----------------+
+|  Layer |     Created    |     Deleted    |
++--------+----------------+----------------+
+|   M1   |        4       |       NA       |
+|  VIA1  |        8       |        0       |
+|   M2   |        4       |       NA       |
++--------+----------------+----------------+
+<CMD> gui_select -rect {1079.565 1682.190 1726.073 1091.597}
+<CMD> deleteSelectedFromFPlan
+<CMD> gui_select -rect {447.036 2251.816 2187.365 549.928}
+<CMD> deselectAll
+<CMD> gui_select -rect {520.424 2167.945 2208.332 539.445}
+<CMD> deleteSelectedFromFPlan
+<CMD> setAddRingMode -ring_target default -extend_over_row 0 -ignore_rows 0 -avoid_short 0 -skip_crossing_trunks none -stacked_via_top_layer AP -stacked_via_bottom_layer M1 -via_using_exact_crossover_size 1 -orthogonal_only true -skip_via_on_pin {  standardcell } -skip_via_on_wire_shape {  noshape }
+The ring targets are set to core/block ring wires.
+addRing command will consider rows while creating rings.
+addRing command will disallow rings to go over rows.
+addRing command will ignore shorts while creating rings.
+<CMD> addRing -nets {VDD VSS} -type core_rings -follow core -layer {top M1 bottom M1 left M2 right M2} -width {top 12 bottom 12 left 12 right 12} -spacing {top 4 bottom 4 left 4 right 4} -offset {top 10 bottom 10 left 10 right 10} -center 0 -extend_corner {} -threshold 0 -jog_distance 0 -snap_wire_center_to_grid None
+
+Ring generation is complete.
+vias are now being generated.
+addRing created 8 wires.
+ViaGen created 8 vias, deleted 0 via to avoid violation.
++--------+----------------+----------------+
+|  Layer |     Created    |     Deleted    |
++--------+----------------+----------------+
+|   M1   |        4       |       NA       |
+|  VIA1  |        8       |        0       |
+|   M2   |        4       |       NA       |
++--------+----------------+----------------+
+<CMD> set sprCreateIeRingOffset 1.0
+<CMD> set sprCreateIeRingThreshold 1.0
+<CMD> set sprCreateIeRingJogDistance 1.0
+<CMD> set sprCreateIeRingLayers {}
+<CMD> set sprCreateIeRingOffset 1.0
+<CMD> set sprCreateIeRingThreshold 1.0
+<CMD> set sprCreateIeRingJogDistance 1.0
+<CMD> set sprCreateIeRingLayers {}
+<CMD> set sprCreateIeStripeWidth 10.0
+<CMD> set sprCreateIeStripeThreshold 1.0
+<CMD> set sprCreateIeStripeWidth 10.0
+<CMD> set sprCreateIeStripeThreshold 1.0
+<CMD> set sprCreateIeRingOffset 1.0
+<CMD> set sprCreateIeRingThreshold 1.0
+<CMD> set sprCreateIeRingJogDistance 1.0
+<CMD> set sprCreateIeRingLayers {}
+<CMD> set sprCreateIeStripeWidth 10.0
+<CMD> set sprCreateIeStripeThreshold 1.0
+<CMD> setAddStripeMode -ignore_block_check false -break_at none -route_over_rows_only false -rows_without_stripes_only false -extend_to_closest_target none -stop_at_last_wire_for_area false -partial_set_thru_domain false -ignore_nondefault_domains false -trim_antenna_back_to_shape none -spacing_type edge_to_edge -spacing_from_block 0 -stripe_min_length stripe_width -stacked_via_top_layer AP -stacked_via_bottom_layer M1 -via_using_exact_crossover_size false -split_vias false -orthogonal_only true -allow_jog { padcore_ring  block_ring } -skip_via_on_pin {  standardcell } -skip_via_on_wire_shape {  noshape   }
+addStripe will allow jog to connect padcore ring and block ring.
+
+Stripes will stop at the boundary of the specified area.
+When breaking rings, the power planner will consider the existence of blocks.
+Stripes will not extend to closest target.
+The power planner will set stripe antenna targets to none (no trimming allowed).
+Stripes will not be created over regions without power planning wires.
+The entire stripe set will break at the domain if one of the nets is not in the domain.
+addStripe will break automatically at non-default domains when generating global stripes over the core area or default domain.
+Offset for stripe breaking is set to 0.
+<CMD> addStripe -nets {VDD VSS} -layer M4 -direction vertical -width 1 -spacing 1 -set_to_set_distance 4 -start_from left -switch_layer_over_obs false -max_same_layer_jog_length 2 -padcore_ring_top_layer_limit AP -padcore_ring_bottom_layer_limit M1 -block_ring_top_layer_limit AP -block_ring_bottom_layer_limit M1 -use_wire_group 0 -snap_wire_center_to_grid None
+
+Starting stripe generation ...
+Non-Default Mode Option Settings :
+  NONE
+Stripe generation is complete.
+vias are now being generated.
+addStripe created 160 wires.
+ViaGen created 960 vias, deleted 0 via to avoid violation.
++--------+----------------+----------------+
+|  Layer |     Created    |     Deleted    |
++--------+----------------+----------------+
+|  VIA1  |       320      |        0       |
+|  VIA2  |       320      |        0       |
+|  VIA3  |       320      |        0       |
+|   M4   |       160      |       NA       |
++--------+----------------+----------------+
+<CMD> setAddStripeMode -ignore_block_check false -break_at none -route_over_rows_only false -rows_without_stripes_only false -extend_to_closest_target none -stop_at_last_wire_for_area false -partial_set_thru_domain false -ignore_nondefault_domains false -trim_antenna_back_to_shape none -spacing_type edge_to_edge -spacing_from_block 0 -stripe_min_length stripe_width -stacked_via_top_layer AP -stacked_via_bottom_layer M1 -via_using_exact_crossover_size false -split_vias false -orthogonal_only true -allow_jog { padcore_ring  block_ring } -skip_via_on_pin {  standardcell } -skip_via_on_wire_shape {  noshape   }
+addStripe will allow jog to connect padcore ring and block ring.
+
+Stripes will stop at the boundary of the specified area.
+When breaking rings, the power planner will consider the existence of blocks.
+Stripes will not extend to closest target.
+The power planner will set stripe antenna targets to none (no trimming allowed).
+Stripes will not be created over regions without power planning wires.
+The entire stripe set will break at the domain if one of the nets is not in the domain.
+addStripe will break automatically at non-default domains when generating global stripes over the core area or default domain.
+Offset for stripe breaking is set to 0.
+<CMD> addStripe -nets {VDD VSS} -layer M5 -direction horizontal -width 1 -spacing 1 -set_to_set_distance 4 -start_from bottom -switch_layer_over_obs false -max_same_layer_jog_length 2 -padcore_ring_top_layer_limit AP -padcore_ring_bottom_layer_limit M1 -block_ring_top_layer_limit AP -block_ring_bottom_layer_limit M1 -use_wire_group 0 -snap_wire_center_to_grid None
+
+Starting stripe generation ...
+Non-Default Mode Option Settings :
+  -trim_antenna_max_distance  0.00
+Stripe generation is complete.
+vias are now being generated.
+addStripe created 160 wires.
+ViaGen created 13760 vias, deleted 0 via to avoid violation.
++--------+----------------+----------------+
+|  Layer |     Created    |     Deleted    |
++--------+----------------+----------------+
+|  VIA2  |       320      |        0       |
+|  VIA3  |       320      |        0       |
+|  VIA4  |      13120     |        0       |
+|   M5   |       160      |       NA       |
++--------+----------------+----------------+
+<CMD> setAddStripeMode -ignore_block_check false -break_at none -route_over_rows_only false -rows_without_stripes_only false -extend_to_closest_target none -stop_at_last_wire_for_area false -partial_set_thru_domain false -ignore_nondefault_domains false -trim_antenna_back_to_shape none -spacing_type edge_to_edge -spacing_from_block 0 -stripe_min_length stripe_width -stacked_via_top_layer AP -stacked_via_bottom_layer M1 -via_using_exact_crossover_size false -split_vias false -orthogonal_only true -allow_jog { padcore_ring  block_ring } -skip_via_on_pin {  standardcell } -skip_via_on_wire_shape {  noshape   }
+addStripe will allow jog to connect padcore ring and block ring.
+
+Stripes will stop at the boundary of the specified area.
+When breaking rings, the power planner will consider the existence of blocks.
+Stripes will not extend to closest target.
+The power planner will set stripe antenna targets to none (no trimming allowed).
+Stripes will not be created over regions without power planning wires.
+The entire stripe set will break at the domain if one of the nets is not in the domain.
+addStripe will break automatically at non-default domains when generating global stripes over the core area or default domain.
+Offset for stripe breaking is set to 0.
+<CMD> addStripe -nets {VDD VSS} -layer M5 -direction horizontal -width 1 -spacing 1 -set_to_set_distance 4 -start_from bottom -switch_layer_over_obs false -max_same_layer_jog_length 2 -padcore_ring_top_layer_limit AP -padcore_ring_bottom_layer_limit M1 -block_ring_top_layer_limit AP -block_ring_bottom_layer_limit M1 -use_wire_group 0 -snap_wire_center_to_grid None
+
+Starting stripe generation ...
+Non-Default Mode Option Settings :
+  -trim_antenna_max_distance  0.00
+**WARN: (IMPPP-170):	The power planner failed to create a wire at (1168.00, 1190.50) (1532.80, 1190.50) because same wire already exists.
+**WARN: (IMPPP-170):	The power planner failed to create a wire at (1168.00, 1194.50) (1532.80, 1194.50) because same wire already exists.
+**WARN: (IMPPP-170):	The power planner failed to create a wire at (1168.00, 1198.50) (1532.80, 1198.50) because same wire already exists.
+**WARN: (IMPPP-170):	The power planner failed to create a wire at (1168.00, 1202.50) (1532.80, 1202.50) because same wire already exists.
+**WARN: (IMPPP-170):	The power planner failed to create a wire at (1168.00, 1206.50) (1532.80, 1206.50) because same wire already exists.
+**WARN: (IMPPP-170):	The power planner failed to create a wire at (1168.00, 1210.50) (1532.80, 1210.50) because same wire already exists.
+**WARN: (IMPPP-170):	The power planner failed to create a wire at (1168.00, 1214.50) (1532.80, 1214.50) because same wire already exists.
+**WARN: (IMPPP-170):	The power planner failed to create a wire at (1168.00, 1218.50) (1532.80, 1218.50) because same wire already exists.
+**WARN: (IMPPP-170):	The power planner failed to create a wire at (1168.00, 1222.50) (1532.80, 1222.50) because same wire already exists.
+**WARN: (IMPPP-170):	The power planner failed to create a wire at (1168.00, 1226.50) (1532.80, 1226.50) because same wire already exists.
+**WARN: (IMPPP-170):	The power planner failed to create a wire at (1168.00, 1230.50) (1532.80, 1230.50) because same wire already exists.
+**WARN: (IMPPP-170):	The power planner failed to create a wire at (1168.00, 1234.50) (1532.80, 1234.50) because same wire already exists.
+**WARN: (IMPPP-170):	The power planner failed to create a wire at (1168.00, 1238.50) (1532.80, 1238.50) because same wire already exists.
+**WARN: (IMPPP-170):	The power planner failed to create a wire at (1168.00, 1242.50) (1532.80, 1242.50) because same wire already exists.
+**WARN: (IMPPP-170):	The power planner failed to create a wire at (1168.00, 1246.50) (1532.80, 1246.50) because same wire already exists.
+**WARN: (IMPPP-170):	The power planner failed to create a wire at (1168.00, 1250.50) (1532.80, 1250.50) because same wire already exists.
+**WARN: (IMPPP-170):	The power planner failed to create a wire at (1168.00, 1254.50) (1532.80, 1254.50) because same wire already exists.
+**WARN: (IMPPP-170):	The power planner failed to create a wire at (1168.00, 1258.50) (1532.80, 1258.50) because same wire already exists.
+**WARN: (IMPPP-170):	The power planner failed to create a wire at (1168.00, 1262.50) (1532.80, 1262.50) because same wire already exists.
+**WARN: (IMPPP-170):	The power planner failed to create a wire at (1168.00, 1266.50) (1532.80, 1266.50) because same wire already exists.
+**WARN: (EMS-27):	Message (IMPPP-170) has exceeded the current message display limit of 20.
+To increase the message display limit, refer to the product command reference manual.
+Stripe generation is complete.
+<CMD> setSrouteMode -viaConnectToShape { stripe }
+<CMD> sroute -connect { blockPin padPin padRing corePin floatingStripe } -layerChangeRange { M1(1) AP(10) } -blockPinTarget { nearestTarget } -padPinPortConnect { allPort oneGeom } -padPinTarget { nearestTarget } -corePinTarget { firstAfterRowEnd } -floatingStripeTarget { blockring padring ring stripe ringpin blockpin followpin } -allowJogging 1 -crossoverViaLayerRange { M1(1) AP(10) } -allowLayerChange 1 -blockPin useLef -targetViaLayerRange { M1(1) AP(10) }
+*** Begin SPECIAL ROUTE on Sun Jan  4 21:30:46 2026 ***
+SPECIAL ROUTE ran on directory: /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/layout_top_innovus_padframe
+SPECIAL ROUTE ran on machine: ug253 (Linux 6.1.0-37-amd64 Xeon 800Mhz)
+
+Begin option processing ...
+srouteConnectPowerBump set to false
+routeSpecial set to true
+srouteBlockPin set to "useLef"
+srouteBottomLayerLimit set to 1
+srouteBottomTargetLayerLimit set to 1
+srouteConnectConverterPin set to false
+srouteCrossoverViaBottomLayer set to 1
+srouteCrossoverViaTopLayer set to 10
+srouteFloatingStripeTarget set to "blockring padring ring stripe ringpin blockpin followpin"
+srouteFollowCorePinEnd set to 3
+srouteJogControl set to "preferWithChanges differentLayer"
+srouteNoViaOnWireShape set to "padring ring blockring blockpin coverpin noshape blockwire corewire followpin iowire"
+sroutePadPinAllPorts set to true
+sroutePreserveExistingRoutes set to true
+srouteRoutePowerBarPortOnBothDir set to true
+srouteStopBlockPin set to "nearestTarget"
+srouteTopLayerLimit set to 10
+srouteTopTargetLayerLimit set to 10
+End option processing: cpu: 0:00:00, real: 0:00:00, peak: 1825.00 megs.
+
+Reading DB technology information...
+Finished reading DB technology information.
+Reading floorplan and netlist information...
+Finished reading floorplan and netlist information.
+Read in 21 layers, 10 routing layers, 1 overlap layer
+Read in 860 macros, 70 used
+Read in 169 components
+  65 core components: 65 unplaced, 0 placed, 0 fixed
+  100 pad components: 0 unplaced, 0 placed, 100 fixed
+  4 other components: 0 unplaced, 0 placed, 4 fixed
+Read in 103 logical pins
+Read in 103 nets
+Read in 2 special nets, 2 routed
+Begin power routing ...
+**WARN: (IMPSR-1253):	Cannot find any standard cell pin connected to net VDD.
+Run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as 'USE POWER' or 'USE GROUND'.
+**WARN: (IMPSR-1254):	Cannot find any block pin of net VDD. Check netlist, or change option to include the pin.
+**WARN: (IMPSR-1256):	Cannot find any CORE class pad pin of net VDD. Change routing area or layer to include the expected pin, or check netlist, or change port class in the technology file.
+Type 'man IMPSR-1256' for more detail.
+Cannot find any AREAIO class pad pin of net VDD. Check net list, or change port class in the technology file, or change option to include pin in given range.
+**WARN: (IMPSR-1253):	Cannot find any standard cell pin connected to net VSS.
+Run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as 'USE POWER' or 'USE GROUND'.
+**WARN: (IMPSR-1254):	Cannot find any block pin of net VSS. Check netlist, or change option to include the pin.
+**WARN: (IMPSR-1256):	Cannot find any CORE class pad pin of net VSS. Change routing area or layer to include the expected pin, or check netlist, or change port class in the technology file.
+Type 'man IMPSR-1256' for more detail.
+Cannot find any AREAIO class pad pin of net VSS. Check net list, or change port class in the technology file, or change option to include pin in given range.
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VDD.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VDD.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+CPU time for FollowPin 1 seconds
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VSS.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VSS.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+CPU time for FollowPin 1 seconds
+  Number of IO ports routed: 0
+  Number of Block ports routed: 0
+  Number of Stripe ports routed: 0
+  Number of Core ports routed: 358
+  Number of Pad ports routed: 0
+  Number of Power Bump ports routed: 0
+  Number of Followpin connections: 179
+End power routing: cpu: 0:00:03, real: 0:00:03, peak: 1854.00 megs.
+
+
+
+ Begin updating DB with routing results ...
+ Updating DB with 0 via definition ...Extracting standard cell pins and blockage ...... 
+Pin and blockage extraction finished
+
+sroute created 537 wires.
+ViaGen created 43318 vias, deleted 0 via to avoid violation.
++--------+----------------+----------------+
+|  Layer |     Created    |     Deleted    |
++--------+----------------+----------------+
+|   M1   |       537      |       NA       |
+|  VIA1  |      14678     |        0       |
+|  VIA2  |      14320     |        0       |
+|  VIA3  |      14320     |        0       |
++--------+----------------+----------------+
+<CMD> setPlaceMode -fp false
+<CMD> place_design
+*** Starting placeDesign default flow ***
+*** Start deleteBufferTree ***
+The software has determined that multi-drive net pad_clk is comprised of  10012 timing arcs which is above the threshold of 10000 specified by the timing_reduce_multi_drive_net_arcs_threshold setting.  The net will be reduced to a single-driver model.  The reduction can affect SDF generation and annotation - you should consult the read_sdf documentation in the Command Reference for more information on controlling multi-drive net reduction and related SDF flow issues.
+**WARN: (TA-146):	A combinational timing loop(s) was found in the design. You can find detailed information about all timing loops in the file './CTE_loops.rpt'. You should examine loop break points chosen automatically by the tool to ensure they are the most appropriate break locations. It is further recommended that validated loop break points be added to the constraint set via set_disable_timing to ensure consistent handling during the design flow.
+Message <TA-112> has exceeded the message display limit of '20'. Use 'set_message -no_limit -id list_of_msgIDs' to reset the message limit.
+Info: Detect buffers to remove automatically.
+Analyzing netlist ...
+Updating netlist
+AAE DB initialization (MEM=1170.16 CPU=0:00:00.1 REAL=0:00:00.0) 
+
+*summary: 71 instances (buffers/inverters) removed
+*** Finish deleteBufferTree (0:00:01.6) ***
+**INFO: Enable pre-place timing setting for timing analysis
+Set Using Default Delay Limit as 101.
+**WARN: (IMPDC-1629):	The default delay limit was set to 101. This is less than the default of 1000 and may result in inaccurate delay calculation for nets with a fanout higher than the setting.  If needed, the default delay limit may be adjusted by running the command 'set delaycal_use_default_delay_limit'.
+Set Default Net Delay as 0 ps.
+Set Default Net Load as 0 pF. 
+**INFO: Analyzing IO path groups for slack adjustment
+**INFO: Disable pre-place timing setting for timing analysis
+Set Using Default Delay Limit as 1000.
+Set Default Net Delay as 1000 ps.
+Set Default Net Load as 0.5 pF. 
+**INFO: Pre-place timing setting for timing analysis already disabled
+Deleted 0 physical inst  (cell - / prefix -).
+*** Starting "NanoPlace(TM) placement v#1 (mem=1198.8M)" ...
+*** Build Buffered Sizing Timing Model
+(cpu=0:00:09.6 mem=1298.5M) ***
+*** Build Virtual Sizing Timing Model
+(cpu=0:00:10.1 mem=1341.5M) ***
+No user-set net weight.
+Options: timingDriven clkGateAware ignoreScan pinGuide congEffort=auto gpeffort=medium 
+Scan chains were not defined.
+#std cell=18665 (0 fixed + 18665 movable) #block=0 (0 floating + 0 preplaced)
+#ioInst=104 #net=19244 #term=77893 #term/net=4.05, #fixedIo=104, #floatIo=0, #fixedPin=103, #floatPin=0
+stdCell: 18665 single + 0 double + 0 multi
+Total standard cell length = 39.9124 (mm), area = 0.0718 (mm^2)
+Estimated cell power/ground rail width = 0.365 um
+Average module density = 0.699.
+Density for the design = 0.699.
+       = stdcell_area 199562 sites (71842 um^2) / alloc_area 285512 sites (102784 um^2).
+Pin Density = 0.2728.
+            = total # of pins 77893 / total area 285512.
+=== lastAutoLevel = 9 
+**WARN: (TA-146):	A combinational timing loop(s) was found in the design. You can find detailed information about all timing loops in the file './CTE_loops.rpt'. You should examine loop break points chosen automatically by the tool to ensure they are the most appropriate break locations. It is further recommended that validated loop break points be added to the constraint set via set_disable_timing to ensure consistent handling during the design flow.
+Clock gating cells determined by native netlist tracing.
+**WARN: (TA-146):	A combinational timing loop(s) was found in the design. You can find detailed information about all timing loops in the file './CTE_loops.rpt'. You should examine loop break points chosen automatically by the tool to ensure they are the most appropriate break locations. It is further recommended that validated loop break points be added to the constraint set via set_disable_timing to ensure consistent handling during the design flow.
+Iteration  1: Total net bbox = 7.906e+05 (3.33e+05 4.58e+05)
+              Est.  stn bbox = 9.436e+05 (3.86e+05 5.58e+05)
+              cpu = 0:00:00.2 real = 0:00:01.0 mem = 1408.4M
+Iteration  2: Total net bbox = 7.906e+05 (3.33e+05 4.58e+05)
+              Est.  stn bbox = 9.436e+05 (3.86e+05 5.58e+05)
+              cpu = 0:00:00.0 real = 0:00:00.0 mem = 1408.4M
+Iteration  3: Total net bbox = 2.904e+05 (1.50e+05 1.41e+05)
+              Est.  stn bbox = 4.075e+05 (1.94e+05 2.13e+05)
+              cpu = 0:00:04.4 real = 0:00:04.0 mem = 1426.6M
+Active setup views:
+    setup_view
+Iteration  4: Total net bbox = 3.448e+05 (1.94e+05 1.51e+05)
+              Est.  stn bbox = 5.011e+05 (2.67e+05 2.34e+05)
+              cpu = 0:00:06.0 real = 0:00:07.0 mem = 1426.6M
+Iteration  5: Total net bbox = 4.452e+05 (2.31e+05 2.14e+05)
+              Est.  stn bbox = 6.556e+05 (3.26e+05 3.30e+05)
+              cpu = 0:00:05.1 real = 0:00:05.0 mem = 1426.6M
+Iteration  6: Total net bbox = 5.294e+05 (2.72e+05 2.57e+05)
+              Est.  stn bbox = 7.608e+05 (3.80e+05 3.81e+05)
+              cpu = 0:00:12.8 real = 0:00:13.0 mem = 1430.6M
+Iteration  7: Total net bbox = 5.324e+05 (2.75e+05 2.57e+05)
+              Est.  stn bbox = 7.656e+05 (3.83e+05 3.83e+05)
+              cpu = 0:00:00.6 real = 0:00:01.0 mem = 1439.3M
+**WARN: (TA-146):	A combinational timing loop(s) was found in the design. You can find detailed information about all timing loops in the file './CTE_loops.rpt'. You should examine loop break points chosen automatically by the tool to ensure they are the most appropriate break locations. It is further recommended that validated loop break points be added to the constraint set via set_disable_timing to ensure consistent handling during the design flow.
+Iteration  8: Total net bbox = 5.324e+05 (2.75e+05 2.57e+05)
+              Est.  stn bbox = 7.656e+05 (3.83e+05 3.83e+05)
+              cpu = 0:00:05.7 real = 0:00:06.0 mem = 1455.7M
+Iteration  9: Total net bbox = 5.340e+05 (2.75e+05 2.59e+05)
+              Est.  stn bbox = 7.689e+05 (3.83e+05 3.85e+05)
+              cpu = 0:00:09.6 real = 0:00:09.0 mem = 1479.4M
+**WARN: (TA-146):	A combinational timing loop(s) was found in the design. You can find detailed information about all timing loops in the file './CTE_loops.rpt'. You should examine loop break points chosen automatically by the tool to ensure they are the most appropriate break locations. It is further recommended that validated loop break points be added to the constraint set via set_disable_timing to ensure consistent handling during the design flow.
+**WARN: (TA-146):	A combinational timing loop(s) was found in the design. You can find detailed information about all timing loops in the file './CTE_loops.rpt'. You should examine loop break points chosen automatically by the tool to ensure they are the most appropriate break locations. It is further recommended that validated loop break points be added to the constraint set via set_disable_timing to ensure consistent handling during the design flow.
+Iteration 10: Total net bbox = 5.340e+05 (2.75e+05 2.59e+05)
+              Est.  stn bbox = 7.689e+05 (3.83e+05 3.85e+05)
+              cpu = 0:00:07.2 real = 0:00:08.0 mem = 1479.4M
+Iteration 11: Total net bbox = 5.330e+05 (2.75e+05 2.58e+05)
+              Est.  stn bbox = 7.683e+05 (3.84e+05 3.84e+05)
+              cpu = 0:00:04.7 real = 0:00:04.0 mem = 1521.3M
+**WARN: (TA-146):	A combinational timing loop(s) was found in the design. You can find detailed information about all timing loops in the file './CTE_loops.rpt'. You should examine loop break points chosen automatically by the tool to ensure they are the most appropriate break locations. It is further recommended that validated loop break points be added to the constraint set via set_disable_timing to ensure consistent handling during the design flow.
+**WARN: (TA-146):	A combinational timing loop(s) was found in the design. You can find detailed information about all timing loops in the file './CTE_loops.rpt'. You should examine loop break points chosen automatically by the tool to ensure they are the most appropriate break locations. It is further recommended that validated loop break points be added to the constraint set via set_disable_timing to ensure consistent handling during the design flow.
+Iteration 12: Total net bbox = 5.330e+05 (2.75e+05 2.58e+05)
+              Est.  stn bbox = 7.683e+05 (3.84e+05 3.84e+05)
+              cpu = 0:00:06.9 real = 0:00:07.0 mem = 1521.3M
+Iteration 13: Total net bbox = 5.516e+05 (2.83e+05 2.69e+05)
+              Est.  stn bbox = 7.869e+05 (3.92e+05 3.95e+05)
+              cpu = 0:00:11.7 real = 0:00:12.0 mem = 1521.3M
+Iteration 14: Total net bbox = 5.516e+05 (2.83e+05 2.69e+05)
+              Est.  stn bbox = 7.869e+05 (3.92e+05 3.95e+05)
+              cpu = 0:00:00.0 real = 0:00:00.0 mem = 1521.3M
+*** cost = 5.516e+05 (2.83e+05 2.69e+05) (cpu for global=0:01:16) real=0:01:18***
+Info: 0 clock gating cells identified, 0 (on average) moved 0/7
+net ignore based on current view = 0
+Solver runtime cpu: 0:00:51.0 real: 0:00:52.7
+Core Placement runtime cpu: 0:00:53.9 real: 0:00:55.0
+**WARN: (IMPSP-9025):	No scan chain specified/traced.
+Type 'man IMPSP-9025' for more detail.
+*** Starting refinePlace (0:02:43 mem=1521.3M) ***
+Total net bbox length = 5.145e+05 (2.586e+05 2.559e+05) (ext = 1.341e+05)
+Move report: Detail placement moves 18665 insts, mean move: 1.26 um, max move: 45.81 um
+	Max move on inst (u_core/Sequencer/U32): (1191.63, 1508.56) --> (1237.40, 1508.60)
+	Runtime: CPU: 0:00:04.5 REAL: 0:00:04.0 MEM: 1521.3MB
+Summary Report:
+Instances move: 18665 (out of 18665 movable)
+Instances flipped: 0
+Mean displacement: 1.26 um
+Max displacement: 45.81 um (Instance: u_core/Sequencer/U32) (1191.63, 1508.56) -> (1237.4, 1508.6)
+	Length: 4 sites, height: 1 rows, site name: core, cell type: CKND2D0
+Total net bbox length = 5.017e+05 (2.457e+05 2.560e+05) (ext = 1.342e+05)
+Runtime: CPU: 0:00:04.5 REAL: 0:00:04.0 MEM: 1521.3MB
+*** Finished refinePlace (0:02:47 mem=1521.3M) ***
+*** End of Placement (cpu=0:01:32, real=0:01:35, mem=1521.3M) ***
+default core: bins with density > 0.750 =  5.25 % ( 17 / 324 )
+Density distribution unevenness ratio = 1.868%
+*** Free Virtual Timing Model ...(mem=1521.3M)
+
+Starting congestion repair ...
+[NR-eGR] honorMsvRouteConstraint: false
+[NR-eGR] honorClockSpecNDR      : 0
+[NR-eGR] minRouteLayer          : 2
+[NR-eGR] maxRouteLayer          : 127
+[NR-eGR] numTracksPerClockWire  : 0
+[NR-eGR] M1 has no routable track
+[NR-eGR] M2 has single uniform track structure
+[NR-eGR] M3 has single uniform track structure
+[NR-eGR] M4 has single uniform track structure
+[NR-eGR] M5 has single uniform track structure
+[NR-eGR] M6 has single uniform track structure
+[NR-eGR] M7 has single uniform track structure
+[NR-eGR] M8 has single uniform track structure
+[NR-eGR] M9 has single uniform track structure
+[NR-eGR] AP has single uniform track structure
+[NR-eGR] Read 101410 PG shapes in 0.013 seconds
+
+[NR-eGR] numRoutingBlks=0 numInstBlks=935 numPGBlocks=101410 numBumpBlks=0 numBoundaryFakeBlks=0
+[NR-eGR] Num Prerouted Nets = 0  Num Prerouted Wires = 0
+[NR-eGR] Read numTotalNets=19244  numIgnoredNets=0
+[NR-eGR] ============ Routing rule table ============
+[NR-eGR] Rule id: 0  Nets: 19232 
+[NR-eGR] ========================================
+[NR-eGR] 
+[NR-eGR] Layer group 1: route 19232 net(s) in layer range [2, 10]
+[NR-eGR] earlyGlobalRoute overflow of layer group 1: 0.00% H + 0.00% V. EstWL: 6.659856e+05um
+[NR-eGR] 
+[NR-eGR] Congestion Analysis By layer: (blocked Gcells are excluded) 
+[NR-eGR]                        OverCon           OverCon           OverCon           OverCon            
+[NR-eGR]                         #Gcell            #Gcell            #Gcell            #Gcell     %Gcell
+[NR-eGR]       Layer              (1-4)             (5-8)            (9-12)           (13-15)    OverCon 
+[NR-eGR] -------------------------------------------------------------------------------------------------
+[NR-eGR]      M1  (1)         0( 0.00%)         0( 0.00%)         0( 0.00%)         0( 0.00%)   ( 0.00%) 
+[NR-eGR]      M2  (2)       124( 0.01%)         0( 0.00%)         0( 0.00%)         0( 0.00%)   ( 0.01%) 
+[NR-eGR]      M3  (3)        52( 0.00%)         0( 0.00%)         0( 0.00%)         0( 0.00%)   ( 0.00%) 
+[NR-eGR]      M4  (4)       637( 0.03%)         0( 0.00%)         0( 0.00%)         0( 0.00%)   ( 0.03%) 
+[NR-eGR]      M5  (5)       890( 0.05%)         0( 0.00%)         0( 0.00%)         0( 0.00%)   ( 0.05%) 
+[NR-eGR]      M6  (6)         0( 0.00%)         0( 0.00%)         0( 0.00%)         0( 0.00%)   ( 0.00%) 
+[NR-eGR]      M7  (7)        18( 0.00%)         0( 0.00%)         0( 0.00%)         0( 0.00%)   ( 0.00%) 
+[NR-eGR]      M8  (8)         1( 0.00%)         0( 0.00%)         0( 0.00%)         0( 0.00%)   ( 0.00%) 
+[NR-eGR]      M9  (9)        24( 0.00%)         7( 0.00%)         0( 0.00%)        12( 0.00%)   ( 0.00%) 
+[NR-eGR]      AP (10)         0( 0.00%)         0( 0.00%)         0( 0.00%)         0( 0.00%)   ( 0.00%) 
+[NR-eGR] -------------------------------------------------------------------------------------------------
+[NR-eGR] Total             1746( 0.01%)         7( 0.00%)         0( 0.00%)        12( 0.00%)   ( 0.01%) 
+[NR-eGR] 
+[NR-eGR] Overflow after earlyGlobalRoute (GR compatible) 0.00% H + 0.00% V
+[NR-eGR] Overflow after earlyGlobalRoute 0.00% H + 0.00% V
+Early Global Route congestion estimation runtime: 2.85 seconds, mem = 1648.2M
+Local HotSpot Analysis: normalized max congestion hotspot area = 0.00, normalized total congestion hotspot area = 0.00 (area is in unit of 4 std-cell row bins)
+
+=== incrementalPlace Internal Loop 1 ===
+Skipped repairing congestion.
+[NR-eGR] --------------------------------------------------------------------------
+[NR-eGR]     M1  (1F) length: 0.000000e+00um, number of vias: 77687
+[NR-eGR]     M2  (2V) length: 1.272386e+05um, number of vias: 128321
+[NR-eGR]     M3  (3H) length: 1.638211e+05um, number of vias: 19987
+[NR-eGR]     M4  (4V) length: 3.830560e+04um, number of vias: 13168
+[NR-eGR]     M5  (5H) length: 1.583079e+04um, number of vias: 12343
+[NR-eGR]     M6  (6V) length: 1.191933e+05um, number of vias: 11313
+[NR-eGR]     M7  (7H) length: 1.341562e+05um, number of vias: 420
+[NR-eGR]     M8  (8V) length: 5.923680e+04um, number of vias: 97
+[NR-eGR]     M9  (9H) length: 3.720214e+04um, number of vias: 38
+[NR-eGR]     AP (10V) length: 4.199950e+01um, number of vias: 0
+[NR-eGR] Total length: 6.950265e+05um, number of vias: 263374
+[NR-eGR] --------------------------------------------------------------------------
+[NR-eGR] Total eGR-routed clock nets wire length: 0.000000e+00um 
+[NR-eGR] --------------------------------------------------------------------------
+Early Global Route wiring runtime: 1.02 seconds, mem = 1648.2M
+End of congRepair (cpu=0:00:04.0, real=0:00:04.0)
+*** Finishing placeDesign default flow ***
+**placeDesign ... cpu = 0: 1:38, real = 0: 1:42, mem = 1464.5M **
+
+*** Summary of all messages that are not suppressed in this session:
+Severity  ID               Count  Summary                                  
+WARNING   IMPDC-1629           1  The default delay limit was set to %d. T...
+WARNING   IMPSP-9025           1  No scan chain specified/traced.          
+WARNING   TA-112              20  A timing loop was found in the design. T...
+WARNING   TA-146               8  A combinational timing loop(s) was found...
+*** Message Summary: 30 warning(s), 0 error(s)
+
+<CMD> setSrouteMode -viaConnectToShape { stripe }
+<CMD> sroute -connect { blockPin padPin padRing corePin floatingStripe } -layerChangeRange { M1(1) AP(10) } -blockPinTarget { nearestTarget } -padPinPortConnect { allPort oneGeom } -padPinTarget { nearestTarget } -corePinTarget { firstAfterRowEnd } -floatingStripeTarget { blockring padring ring stripe ringpin blockpin followpin } -allowJogging 1 -crossoverViaLayerRange { M1(1) AP(10) } -allowLayerChange 1 -blockPin useLef -targetViaLayerRange { M1(1) AP(10) }
+*** Begin SPECIAL ROUTE on Sun Jan  4 21:33:10 2026 ***
+SPECIAL ROUTE ran on directory: /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/layout_top_innovus_padframe
+SPECIAL ROUTE ran on machine: ug253 (Linux 6.1.0-37-amd64 Xeon 800Mhz)
+
+Begin option processing ...
+srouteConnectPowerBump set to false
+routeSpecial set to true
+srouteBlockPin set to "useLef"
+srouteBottomLayerLimit set to 1
+srouteBottomTargetLayerLimit set to 1
+srouteConnectConverterPin set to false
+srouteCrossoverViaBottomLayer set to 1
+srouteCrossoverViaTopLayer set to 10
+srouteFloatingStripeTarget set to "blockring padring ring stripe ringpin blockpin followpin"
+srouteFollowCorePinEnd set to 3
+srouteJogControl set to "preferWithChanges differentLayer"
+srouteNoViaOnWireShape set to "padring ring blockring blockpin coverpin noshape blockwire corewire followpin iowire"
+sroutePadPinAllPorts set to true
+sroutePreserveExistingRoutes set to true
+srouteRoutePowerBarPortOnBothDir set to true
+srouteStopBlockPin set to "nearestTarget"
+srouteTopLayerLimit set to 10
+srouteTopTargetLayerLimit set to 10
+End option processing: cpu: 0:00:00, real: 0:00:00, peak: 2107.00 megs.
+
+Reading DB technology information...
+Finished reading DB technology information.
+Reading floorplan and netlist information...
+Finished reading floorplan and netlist information.
+Read in 21 layers, 10 routing layers, 1 overlap layer
+Read in 860 macros, 68 used
+Read in 18769 components
+  18665 core components: 0 unplaced, 18665 placed, 0 fixed
+  100 pad components: 0 unplaced, 0 placed, 100 fixed
+  4 other components: 0 unplaced, 0 placed, 4 fixed
+Read in 103 logical pins
+Read in 103 nets
+Read in 2 special nets, 2 routed
+Begin power routing ...
+**WARN: (IMPSR-1253):	Cannot find any standard cell pin connected to net VDD.
+Run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as 'USE POWER' or 'USE GROUND'.
+**WARN: (IMPSR-1254):	Cannot find any block pin of net VDD. Check netlist, or change option to include the pin.
+**WARN: (IMPSR-1256):	Cannot find any CORE class pad pin of net VDD. Change routing area or layer to include the expected pin, or check netlist, or change port class in the technology file.
+Type 'man IMPSR-1256' for more detail.
+Cannot find any AREAIO class pad pin of net VDD. Check net list, or change port class in the technology file, or change option to include pin in given range.
+**WARN: (IMPSR-1253):	Cannot find any standard cell pin connected to net VSS.
+Run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as 'USE POWER' or 'USE GROUND'.
+**WARN: (IMPSR-1254):	Cannot find any block pin of net VSS. Check netlist, or change option to include the pin.
+**WARN: (IMPSR-1256):	Cannot find any CORE class pad pin of net VSS. Change routing area or layer to include the expected pin, or check netlist, or change port class in the technology file.
+Type 'man IMPSR-1256' for more detail.
+Cannot find any AREAIO class pad pin of net VSS. Check net list, or change port class in the technology file, or change option to include pin in given range.
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VDD.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VDD.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+CPU time for FollowPin 0 seconds
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VSS.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VSS.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+CPU time for FollowPin 0 seconds
+  Number of IO ports routed: 0
+  Number of Block ports routed: 0
+  Number of Stripe ports routed: 0
+  Number of Core ports routed: 0
+  Number of Pad ports routed: 0
+  Number of Power Bump ports routed: 0
+End power routing: cpu: 0:00:00, real: 0:00:00, peak: 2109.00 megs.
+
+
+
+ Begin updating DB with routing results ...
+ Updating DB with 0 via definition ...
+sroute created 0 wire.
+ViaGen created 0 via, deleted 0 via to avoid violation.
+<CMD> setNanoRouteMode -quiet -timingEngine {}
+<CMD> setNanoRouteMode -quiet -routeTopRoutingLayer default
+<CMD> setNanoRouteMode -quiet -routeBottomRoutingLayer default
+<CMD> setNanoRouteMode -quiet -drouteEndIteration default
+**WARN: (IMPTCM-77):	Option "-routeEcoOnlyInLayers" for command getNanoRouteMode is obsolete and will be removed in a future release. The obsolete option still works in this release but to avoid this warning and to ensure compatibility with future releases, remove the obsolete option from your script.
+<CMD> setNanoRouteMode -quiet -routeWithTimingDriven false
+<CMD> setNanoRouteMode -quiet -routeWithSiDriven false
+Running Native NanoRoute ...
+<CMD> routeDesign -globalDetail
+#routeDesign: cpu time = 00:00:00, elapsed time = 00:00:00, memory = 1262.18 (MB), peak = 1598.11 (MB)
+#WARNING (NRIG-96) Selected single pass global detail route "-globalDetail". Clock eco and post optimizations will not be run. See "man NRIG-96" for more details.
+#**INFO: setDesignMode -flowEffort standard
+#**INFO: multi-cut via swapping will not be performed after routing.
+#**INFO: All auto set options tuned by routeDesign will be restored to their original settings on command completion.
+Begin checking placement ... (start mem=1367.6M, init mem=1367.6M)
+*info: Placed = 18665         
+*info: Unplaced = 0           
+Placement Density:69.90%(71842/102784)
+Placement Density (including fixed std cells):69.90%(71842/102784)
+Finished checkPlace (total: cpu=0:00:00.1, real=0:00:00.0; vio checks: cpu=0:00:00.1, real=0:00:00.0; mem=1367.6M)
+**WARN: (IMPCK-8086):	The command changeUseClockNetStatus is obsolete and will be removed in the next release. This command still works in this release, but by the next release you must transition to the CCOpt-based CTS flow.
+
+changeUseClockNetStatus Option :  -noFixedNetWires 
+*** Changed status on (0) nets in Clock.
+*** End changeUseClockNetStatus (cpu=0:00:00.0, real=0:00:00.0, mem=1367.6M) ***
+#ROUTE-DESIGN-CMD: N5-process: 0 [db_process_node=]
+
+globalDetailRoute
+
+#setNanoRouteMode -routeConcurrentMinimizeViaCountEffort "high"
+#setNanoRouteMode -routeReserveSpaceForMultiCut true
+#setNanoRouteMode -routeWithSiDriven false
+#setNanoRouteMode -routeWithTimingDriven false
+#Start globalDetailRoute on Sun Jan  4 21:33:20 2026
+#
+#WARNING (NRDB-728) PIN AVSS in CELL_VIEW PVSS3AC does not have antenna diff area.
+#WARNING (NRDB-728) PIN AVSS in CELL_VIEW PVSS3A does not have antenna diff area.
+#WARNING (NRDB-728) PIN VSS in CELL_VIEW PVSS2AC does not have antenna diff area.
+#WARNING (NRDB-728) PIN VSS in CELL_VIEW PVSS2A does not have antenna diff area.
+#WARNING (NRDB-728) PIN TACVDD in CELL_VIEW PVDD3AC does not have antenna diff area.
+#WARNING (NRDB-728) PIN AVDD in CELL_VIEW PVDD3AC does not have antenna diff area.
+#WARNING (NRDB-728) PIN TAVDD in CELL_VIEW PVDD3A does not have antenna diff area.
+#WARNING (NRDB-728) PIN AVDD in CELL_VIEW PVDD3A does not have antenna diff area.
+#WARNING (NRDB-728) PIN VBUS in CELL_VIEW PVBUS does not have antenna diff area.
+#WARNING (NRDB-728) PIN AIO in CELL_VIEW PDB3AC does not have antenna diff area.
+#WARNING (NRDB-728) PIN AIO in CELL_VIEW PDB3A does not have antenna diff area.
+#WARNING (NRDB-728) PIN AIO in CELL_VIEW PDB2AC does not have antenna diff area.
+#WARNING (NRDB-728) PIN AIO in CELL_VIEW PDB2A does not have antenna diff area.
+#WARNING (NRDB-728) PIN AIO in CELL_VIEW PDB1AC does not have antenna diff area.
+#WARNING (NRDB-728) PIN AIO in CELL_VIEW PDB1A does not have antenna diff area.
+#WARNING (NRDB-728) PIN VSSESD in CELL_VIEW PCLAMPAC does not have antenna diff area.
+#WARNING (NRDB-728) PIN VDDESD in CELL_VIEW PCLAMPAC does not have antenna diff area.
+#WARNING (NRDB-728) PIN VSSESD in CELL_VIEW PCLAMPA does not have antenna diff area.
+#WARNING (NRDB-728) PIN VDDESD in CELL_VIEW PCLAMPA does not have antenna diff area.
+#WARNING (NRDB-2005) SPECIAL_NET VDD has special wires but no definitions for instance pins or top level pins. This will cause routability problems later.
+#WARNING (NRDB-2005) SPECIAL_NET VSS has special wires but no definitions for instance pins or top level pins. This will cause routability problems later.
+#WARNING (NRDB-733) PIN AVDD_E in CELL_VIEW kf_top_padframe does not have physical port.
+#WARNING (NRDB-733) PIN AVDD_N in CELL_VIEW kf_top_padframe does not have physical port.
+#WARNING (NRDB-733) PIN AVDD_S in CELL_VIEW kf_top_padframe does not have physical port.
+#WARNING (NRDB-733) PIN AVDD_W in CELL_VIEW kf_top_padframe does not have physical port.
+#WARNING (NRDB-733) PIN TAVDD_E in CELL_VIEW kf_top_padframe does not have physical port.
+#WARNING (NRDB-733) PIN TAVDD_N in CELL_VIEW kf_top_padframe does not have physical port.
+#WARNING (NRDB-733) PIN TAVDD_S in CELL_VIEW kf_top_padframe does not have physical port.
+#WARNING (NRDB-733) PIN TAVDD_W in CELL_VIEW kf_top_padframe does not have physical port.
+#WARNING (NRDB-733) PIN TVSS_E in CELL_VIEW kf_top_padframe does not have physical port.
+#WARNING (NRDB-733) PIN TVSS_N in CELL_VIEW kf_top_padframe does not have physical port.
+#WARNING (NRDB-733) PIN TVSS_S in CELL_VIEW kf_top_padframe does not have physical port.
+#WARNING (NRDB-733) PIN TVSS_W in CELL_VIEW kf_top_padframe does not have physical port.
+#WARNING (NRDB-733) PIN pad_DATA_IN[0] in CELL_VIEW kf_top_padframe does not have physical port.
+#WARNING (NRDB-733) PIN pad_DATA_IN[10] in CELL_VIEW kf_top_padframe does not have physical port.
+#WARNING (NRDB-733) PIN pad_DATA_IN[11] in CELL_VIEW kf_top_padframe does not have physical port.
+#WARNING (NRDB-733) PIN pad_DATA_IN[12] in CELL_VIEW kf_top_padframe does not have physical port.
+#WARNING (NRDB-733) PIN pad_DATA_IN[13] in CELL_VIEW kf_top_padframe does not have physical port.
+#WARNING (NRDB-733) PIN pad_DATA_IN[14] in CELL_VIEW kf_top_padframe does not have physical port.
+#WARNING (NRDB-733) PIN pad_DATA_IN[15] in CELL_VIEW kf_top_padframe does not have physical port.
+#WARNING (NRDB-733) PIN pad_DATA_IN[16] in CELL_VIEW kf_top_padframe does not have physical port.
+#WARNING (EMS-27) Message (NRDB-733) has exceeded the current message display limit of 20.
+#To increase the message display limit, refer to the product command reference manual.
+#NanoRoute Version 18.10-p002_1 NR180522-1057/18_10-UB
+#Start routing data preparation on Sun Jan  4 21:33:21 2026
+#
+#WARNING (NRDB-2077) The below via enclosure for LAYER M1 is not specified for width 0.09000.
+#WARNING (NRDB-2078) The above via enclosure for LAYER M2 is not specified for width 0.10000.
+#WARNING (NRDB-2077) The below via enclosure for LAYER M1 is not specified for width 0.09000.
+#WARNING (NRDB-2078) The above via enclosure for LAYER M2 is not specified for width 0.10000.
+#WARNING (NRDB-2077) The below via enclosure for LAYER M2 is not specified for width 0.10000.
+#WARNING (NRDB-2078) The above via enclosure for LAYER M3 is not specified for width 0.10000.
+#WARNING (NRDB-2077) The below via enclosure for LAYER M2 is not specified for width 0.10000.
+#WARNING (NRDB-2078) The above via enclosure for LAYER M3 is not specified for width 0.10000.
+#WARNING (NRDB-2077) The below via enclosure for LAYER M3 is not specified for width 0.10000.
+#WARNING (NRDB-2078) The above via enclosure for LAYER M4 is not specified for width 0.10000.
+#WARNING (NRDB-2077) The below via enclosure for LAYER M3 is not specified for width 0.10000.
+#WARNING (NRDB-2078) The above via enclosure for LAYER M4 is not specified for width 0.10000.
+#WARNING (NRDB-2077) The below via enclosure for LAYER M4 is not specified for width 0.10000.
+#WARNING (NRDB-2078) The above via enclosure for LAYER M5 is not specified for width 0.10000.
+#WARNING (NRDB-2077) The below via enclosure for LAYER M4 is not specified for width 0.10000.
+#WARNING (NRDB-2078) The above via enclosure for LAYER M5 is not specified for width 0.10000.
+#WARNING (NRDB-2077) The below via enclosure for LAYER M5 is not specified for width 0.10000.
+#WARNING (NRDB-2078) The above via enclosure for LAYER M6 is not specified for width 0.10000.
+#WARNING (NRDB-2077) The below via enclosure for LAYER M5 is not specified for width 0.10000.
+#WARNING (NRDB-2078) The above via enclosure for LAYER M6 is not specified for width 0.10000.
+#WARNING (NRDB-2077) The below via enclosure for LAYER M6 is not specified for width 0.10000.
+#WARNING (NRDB-2078) The above via enclosure for LAYER M7 is not specified for width 0.10000.
+#WARNING (NRDB-2077) The below via enclosure for LAYER M6 is not specified for width 0.10000.
+#WARNING (NRDB-2078) The above via enclosure for LAYER M7 is not specified for width 0.10000.
+#WARNING (NRDB-2077) The below via enclosure for LAYER M7 is not specified for width 0.10000.
+#WARNING (NRDB-2078) The above via enclosure for LAYER M8 is not specified for width 0.40000.
+#WARNING (NRDB-2077) The below via enclosure for LAYER M7 is not specified for width 0.10000.
+#WARNING (NRDB-2078) The above via enclosure for LAYER M8 is not specified for width 0.40000.
+#WARNING (NRDB-2077) The below via enclosure for LAYER M8 is not specified for width 0.40000.
+#WARNING (NRDB-2078) The above via enclosure for LAYER M9 is not specified for width 0.40000.
+#WARNING (NRDB-2077) The below via enclosure for LAYER M8 is not specified for width 0.40000.
+#WARNING (NRDB-2078) The above via enclosure for LAYER M9 is not specified for width 0.40000.
+#WARNING (NRDB-2077) The below via enclosure for LAYER M9 is not specified for width 0.40000.
+#WARNING (NRDB-2078) The above via enclosure for LAYER AP is not specified for width 3.00000.
+#WARNING (NRDB-2077) The below via enclosure for LAYER M9 is not specified for width 0.40000.
+#WARNING (NRDB-2078) The above via enclosure for LAYER AP is not specified for width 3.00000.
+#Minimum voltage of a net in the design = 0.000.
+#Maximum voltage of a net in the design = 1.100.
+#Voltage range [0.000 - 0.000] has 30 nets.
+#Voltage range [0.900 - 1.100] has 1 net.
+#Voltage range [0.000 - 1.100] has 19535 nets.
+# M1           H   Track-Pitch = 0.20000    Line-2-Via Pitch = 0.18500
+# M2           V   Track-Pitch = 0.20000    Line-2-Via Pitch = 0.20000
+# M3           H   Track-Pitch = 0.20000    Line-2-Via Pitch = 0.20000
+# M4           V   Track-Pitch = 0.20000    Line-2-Via Pitch = 0.20000
+# M5           H   Track-Pitch = 0.20000    Line-2-Via Pitch = 0.20000
+# M6           V   Track-Pitch = 0.20000    Line-2-Via Pitch = 0.20000
+# M7           H   Track-Pitch = 0.20000    Line-2-Via Pitch = 0.20000
+# M8           V   Track-Pitch = 0.80000    Line-2-Via Pitch = 0.80000
+# M9           H   Track-Pitch = 0.80000    Line-2-Via Pitch = 0.80000
+# AP           V   Track-Pitch = 6.50000    Line-2-Via Pitch = 6.50000
+#Regenerating Ggrids automatically.
+#Auto generating G-grids with size=15 tracks, using layer M3's pitch = 0.20000.
+#Using automatically generated G-grids.
+#Done routing data preparation.
+#cpu time = 00:00:10, elapsed time = 00:00:10, memory = 1297.59 (MB), peak = 1598.11 (MB)
+#Merging special wires...
+#
+#Finished routing data preparation on Sun Jan  4 21:33:31 2026
+#
+#Cpu time = 00:00:10
+#Elapsed time = 00:00:10
+#Increased memory = 30.49 (MB)
+#Total memory = 1299.61 (MB)
+#Peak memory = 1598.11 (MB)
+#
+#
+#Start global routing on Sun Jan  4 21:33:31 2026
+#
+#Number of eco nets is 0
+#
+#Start global routing data preparation on Sun Jan  4 21:33:31 2026
+#
+#Start routing resource analysis on Sun Jan  4 21:33:31 2026
+#
+#Routing resource analysis is done on Sun Jan  4 21:33:33 2026
+#
+#  Resource Analysis:
+#
+#               Routing  #Avail      #Track     #Total     %Gcell
+#  Layer      Direction   Track     Blocked      Gcell    Blocked
+#  --------------------------------------------------------------
+#  M1             H       11024        2477      810000    19.16%
+#  M2             V       11013        2491      810000    17.85%
+#  M3             H       11052        2449      810000    17.77%
+#  M4             V       10909        2595      810000    17.78%
+#  M5             H       10884        2617      810000    17.63%
+#  M6             V       11068        2436      810000    17.59%
+#  M7             H       11065        2436      810000    17.63%
+#  M8             V        2762         614      810000    17.82%
+#  M9             H        2762         613      810000    17.81%
+#  AP             V         415           0      810000    53.89%
+#  --------------------------------------------------------------
+#  Total                  82956      16.59%     8100000    21.49%
+#
+#
+#
+#
+#Global routing data preparation is done on Sun Jan  4 21:33:33 2026
+#
+#cpu time = 00:00:01, elapsed time = 00:00:01, memory = 1411.09 (MB), peak = 1598.11 (MB)
+#
+#cpu time = 00:00:02, elapsed time = 00:00:02, memory = 1430.83 (MB), peak = 1598.11 (MB)
+#
+#start global routing iteration 1...
+#cpu time = 00:00:03, elapsed time = 00:00:03, memory = 1449.00 (MB), peak = 1598.11 (MB)
+#
+#start global routing iteration 2...
+#cpu time = 00:00:06, elapsed time = 00:00:06, memory = 1469.40 (MB), peak = 1598.11 (MB)
+#
+#start global routing iteration 3...
+#cpu time = 00:00:03, elapsed time = 00:00:03, memory = 1475.15 (MB), peak = 1598.11 (MB)
+#
+#start global routing iteration 4...
+#cpu time = 00:02:01, elapsed time = 00:02:01, memory = 1544.99 (MB), peak = 1598.11 (MB)
+#
+#
+#Total number of trivial nets (e.g. < 2 pins) = 334 (skipped).
+#Total number of routable nets = 19232.
+#Total number of nets in the design = 19566.
+#
+#19232 routable nets have only global wires.
+#
+#Routed nets constraints summary:
+#-----------------------------
+#        Rules   Unconstrained  
+#-----------------------------
+#      Default           19232  
+#-----------------------------
+#        Total           19232  
+#-----------------------------
+#
+#Routing constraints summary of the whole design:
+#-----------------------------
+#        Rules   Unconstrained  
+#-----------------------------
+#      Default           19232  
+#-----------------------------
+#        Total           19232  
+#-----------------------------
+#
+#
+#  Congestion Analysis: (blocked Gcells are excluded)
+#
+#                 OverCon       OverCon       OverCon       OverCon          
+#                  #Gcell        #Gcell        #Gcell        #Gcell    %Gcell
+#     Layer         (1-2)         (3-4)         (5-6)           (7)   OverCon
+#  --------------------------------------------------------------------------
+#  M1            0(0.00%)      0(0.00%)      0(0.00%)      0(0.00%)   (0.00%)
+#  M2         3345(0.50%)    864(0.13%)    138(0.02%)      8(0.00%)   (0.65%)
+#  M3          519(0.08%)      6(0.00%)      0(0.00%)      0(0.00%)   (0.08%)
+#  M4          713(0.11%)      1(0.00%)      0(0.00%)      0(0.00%)   (0.11%)
+#  M5          149(0.02%)      0(0.00%)      0(0.00%)      0(0.00%)   (0.02%)
+#  M6            0(0.00%)      0(0.00%)      0(0.00%)      0(0.00%)   (0.00%)
+#  M7            0(0.00%)      0(0.00%)      0(0.00%)      0(0.00%)   (0.00%)
+#  M8            0(0.00%)      0(0.00%)      0(0.00%)      0(0.00%)   (0.00%)
+#  M9            0(0.00%)      0(0.00%)      0(0.00%)      0(0.00%)   (0.00%)
+#  AP            0(0.00%)      0(0.00%)      0(0.00%)      0(0.00%)   (0.00%)
+#  --------------------------------------------------------------------------
+#     Total   4726(0.07%)    871(0.01%)    138(0.00%)      8(0.00%)   (0.09%)
+#
+#  The worst congested Gcell overcon (routing demand over resource in number of tracks) = 7
+#  Overflow after GR: 0.01% H + 0.08% V
+#
+**WARN: (IMPSP-9105):	Global router needs be called before using this command.
+#Hotspot report including placement blocked areas
+[hotspot] +------------+---------------+---------------+
+[hotspot] |    layer   |  max hotspot  | total hotspot |
+[hotspot] +------------+---------------+---------------+
+[hotspot] |    M1(H)   |        438.11 |        533.38 |
+[hotspot] |    M2(V)   |       1169.82 |       1325.22 |
+[hotspot] |    M3(H)   |          1.39 |         15.44 |
+[hotspot] |    M4(V)   |         30.61 |        125.18 |
+[hotspot] |    M5(H)   |          4.77 |         12.75 |
+[hotspot] |    M6(V)   |          0.00 |          0.00 |
+[hotspot] |    M7(H)   |          0.00 |          0.00 |
+[hotspot] |    M8(V)   |          0.00 |          0.00 |
+[hotspot] |    M9(H)   |          0.00 |          0.00 |
+[hotspot] |    AP(V)   |          0.00 |          0.00 |
+[hotspot] +------------+---------------+---------------+
+[hotspot] |   worst    | (M2)  1169.82 | (M2)  1325.22 |
+[hotspot] +------------+---------------+---------------+
+[hotspot] | all layers |          0.00 |          0.00 |
+[hotspot] +------------+---------------+---------------+
+Local HotSpot Analysis (3d): normalized congestion max/total hotspot area = 0.00/0.00 (area is in unit of 4 std-cell row bins)
+#Complete Global Routing.
+#Total wire length = 770892 um.
+#Total half perimeter of net bounding box = 534609 um.
+#Total wire length on LAYER M1 = 2361 um.
+#Total wire length on LAYER M2 = 44562 um.
+#Total wire length on LAYER M3 = 181557 um.
+#Total wire length on LAYER M4 = 80250 um.
+#Total wire length on LAYER M5 = 11661 um.
+#Total wire length on LAYER M6 = 195510 um.
+#Total wire length on LAYER M7 = 208638 um.
+#Total wire length on LAYER M8 = 28863 um.
+#Total wire length on LAYER M9 = 17490 um.
+#Total wire length on LAYER AP = 0 um.
+#Total number of vias = 236609
+#Up-Via Summary (total 236609):
+#           
+#-----------------------
+# M1              75169
+# M2              58964
+# M3              35993
+# M4              21745
+# M5              21667
+# M6              20139
+# M7               2066
+# M8                866
+#-----------------------
+#                236609 
+#
+#Max overcon = 7 tracks.
+#Total overcon = 0.09%.
+#Worst layer Gcell overcon rate = 0.11%.
+#
+#Global routing statistics:
+#Cpu time = 00:02:17
+#Elapsed time = 00:02:17
+#Increased memory = 265.62 (MB)
+#Total memory = 1565.23 (MB)
+#Peak memory = 1598.11 (MB)
+#
+#Finished global routing on Sun Jan  4 21:35:48 2026
+#
+#
+#cpu time = 00:00:00, elapsed time = 00:00:00, memory = 1372.63 (MB), peak = 1598.11 (MB)
+#Start Track Assignment.
+#Done with 52940 horizontal wires in 7 hboxes and 40932 vertical wires in 7 hboxes.
+#Done with 12405 horizontal wires in 7 hboxes and 6096 vertical wires in 7 hboxes.
+#Done with 7 horizontal wires in 7 hboxes and 7 vertical wires in 7 hboxes.
+#
+#Track assignment summary:
+# layer   (wire length)   (overlap)     (long ovlp)	(with obs/pg/clk)  
+#------------------------------------------------------------------------
+# M1          2356.63 	  0.06%  	  0.00% 	  0.06%
+# M2         43763.60 	  0.05%  	  0.00% 	  0.00%
+# M3        175974.61 	  0.15%  	  0.00% 	  0.00%
+# M4         77360.90 	  0.05%  	  0.00% 	  0.00%
+# M5         11335.30 	  0.00%  	  0.00% 	  0.00%
+# M6        193929.91 	  0.03%  	  0.00% 	  0.00%
+# M7        206447.61 	  0.02%  	  0.00% 	  0.00%
+# M8         29133.40 	  0.00%  	  0.00% 	  0.00%
+# M9         17646.40 	  0.00%  	  0.00% 	  0.00%
+# AP             0.00 	  0.00%  	  0.00% 	  0.00%
+#------------------------------------------------------------------------
+# All      757948.37  	  0.05% 	  0.00% 	  0.00%
+#Complete Track Assignment.
+#Total wire length = 793693 um.
+#Total half perimeter of net bounding box = 534609 um.
+#Total wire length on LAYER M1 = 25563 um.
+#Total wire length on LAYER M2 = 43744 um.
+#Total wire length on LAYER M3 = 184674 um.
+#Total wire length on LAYER M4 = 79253 um.
+#Total wire length on LAYER M5 = 11488 um.
+#Total wire length on LAYER M6 = 194583 um.
+#Total wire length on LAYER M7 = 207950 um.
+#Total wire length on LAYER M8 = 28824 um.
+#Total wire length on LAYER M9 = 17612 um.
+#Total wire length on LAYER AP = 0 um.
+#Total number of vias = 236609
+#Up-Via Summary (total 236609):
+#           
+#-----------------------
+# M1              75169
+# M2              58964
+# M3              35993
+# M4              21745
+# M5              21667
+# M6              20139
+# M7               2066
+# M8                866
+#-----------------------
+#                236609 
+#
+#cpu time = 00:00:07, elapsed time = 00:00:07, memory = 1400.68 (MB), peak = 1598.11 (MB)
+#
+#Routing data preparation, pin analysis, global routing and track assignment statistics:
+#Cpu time = 00:02:34
+#Elapsed time = 00:02:34
+#Increased memory = 131.62 (MB)
+#Total memory = 1400.74 (MB)
+#Peak memory = 1598.11 (MB)
+#
+#Start Detail Routing..
+#start initial detail routing ...
+#   Improving pin accessing ...
+#    cpu time = 00:00:01, elapsed time = 00:00:01, memory = 1452.77 (MB), peak = 1598.11 (MB)
+#   Improving pin accessing ...
+#    cpu time = 00:00:02, elapsed time = 00:00:02, memory = 1439.71 (MB), peak = 1598.11 (MB)
+#   Improving pin accessing ...
+#    cpu time = 00:00:03, elapsed time = 00:00:03, memory = 1442.32 (MB), peak = 1598.11 (MB)
+#   Improving pin accessing ...
+#    cpu time = 00:00:04, elapsed time = 00:00:04, memory = 1436.53 (MB), peak = 1598.11 (MB)
+#    completing 50% with 14 violations
+#    cpu time = 00:01:39, elapsed time = 00:01:39, memory = 1462.85 (MB), peak = 1598.11 (MB)
+#    completing 60% with 32 violations
+#    cpu time = 00:03:06, elapsed time = 00:03:06, memory = 1460.25 (MB), peak = 1598.11 (MB)
+#    completing 70% with 32 violations
+#    cpu time = 00:03:07, elapsed time = 00:03:07, memory = 1457.58 (MB), peak = 1598.11 (MB)
+#    completing 80% with 32 violations
+#    cpu time = 00:03:08, elapsed time = 00:03:08, memory = 1451.58 (MB), peak = 1598.11 (MB)
+#    completing 90% with 32 violations
+#    cpu time = 00:03:10, elapsed time = 00:03:10, memory = 1455.27 (MB), peak = 1598.11 (MB)
+#    completing 100% with 32 violations
+#    cpu time = 00:03:11, elapsed time = 00:03:10, memory = 1458.85 (MB), peak = 1598.11 (MB)
+#   number of violations = 32
+#
+#    By Layer and Type :
+#	         MetSpc   EOLSpc    Short   MinStp   MinCut   Totals
+#	M1            1        3        0        1        0        5
+#	M2            1        1       15        0        0       17
+#	M3            0        0        2        0        0        2
+#	M4            0        0        0        0        0        0
+#	M5            6        0        0        0        0        6
+#	M6            0        0        0        0        2        2
+#	Totals        8        4       17        1        2       32
+#cpu time = 00:03:11, elapsed time = 00:03:11, memory = 1459.08 (MB), peak = 1598.11 (MB)
+#start 1st optimization iteration ...
+#   number of violations = 0
+#    number of process antenna violations = 482
+#cpu time = 00:00:01, elapsed time = 00:00:01, memory = 1462.62 (MB), peak = 1598.11 (MB)
+#Complete Detail Routing.
+#Total wire length = 751353 um.
+#Total half perimeter of net bounding box = 534609 um.
+#Total wire length on LAYER M1 = 11221 um.
+#Total wire length on LAYER M2 = 109295 um.
+#Total wire length on LAYER M3 = 163675 um.
+#Total wire length on LAYER M4 = 84708 um.
+#Total wire length on LAYER M5 = 27008 um.
+#Total wire length on LAYER M6 = 150526 um.
+#Total wire length on LAYER M7 = 162408 um.
+#Total wire length on LAYER M8 = 25984 um.
+#Total wire length on LAYER M9 = 16529 um.
+#Total wire length on LAYER AP = 0 um.
+#Total number of vias = 209321
+#Total number of multi-cut vias = 656 (  0.3%)
+#Total number of single cut vias = 208665 ( 99.7%)
+#Up-Via Summary (total 209321):
+#                   single-cut          multi-cut      Total
+#-----------------------------------------------------------
+# M1             77509 (100.0%)         0 (  0.0%)      77509
+# M2             58593 (100.0%)         0 (  0.0%)      58593
+# M3             23820 (100.0%)         0 (  0.0%)      23820
+# M4             16893 (100.0%)         0 (  0.0%)      16893
+# M5             17130 (100.0%)         0 (  0.0%)      17130
+# M6             12045 ( 94.8%)       656 (  5.2%)      12701
+# M7              1866 (100.0%)         0 (  0.0%)       1866
+# M8               809 (100.0%)         0 (  0.0%)        809
+#-----------------------------------------------------------
+#               208665 ( 99.7%)       656 (  0.3%)     209321 
+#
+#Total number of DRC violations = 0
+#Cpu time = 00:03:14
+#Elapsed time = 00:03:13
+#Increased memory = 1.05 (MB)
+#Total memory = 1401.79 (MB)
+#Peak memory = 1598.11 (MB)
+#
+#start routing for process antenna violation fix ...
+#cpu time = 00:00:04, elapsed time = 00:00:04, memory = 1419.65 (MB), peak = 1598.11 (MB)
+#
+#Total wire length = 751378 um.
+#Total half perimeter of net bounding box = 534609 um.
+#Total wire length on LAYER M1 = 11221 um.
+#Total wire length on LAYER M2 = 109295 um.
+#Total wire length on LAYER M3 = 163105 um.
+#Total wire length on LAYER M4 = 84502 um.
+#Total wire length on LAYER M5 = 27578 um.
+#Total wire length on LAYER M6 = 150734 um.
+#Total wire length on LAYER M7 = 162366 um.
+#Total wire length on LAYER M8 = 25992 um.
+#Total wire length on LAYER M9 = 16586 um.
+#Total wire length on LAYER AP = 0 um.
+#Total number of vias = 209809
+#Total number of multi-cut vias = 656 (  0.3%)
+#Total number of single cut vias = 209153 ( 99.7%)
+#Up-Via Summary (total 209809):
+#                   single-cut          multi-cut      Total
+#-----------------------------------------------------------
+# M1             77509 (100.0%)         0 (  0.0%)      77509
+# M2             58593 (100.0%)         0 (  0.0%)      58593
+# M3             23964 (100.0%)         0 (  0.0%)      23964
+# M4             17071 (100.0%)         0 (  0.0%)      17071
+# M5             17176 (100.0%)         0 (  0.0%)      17176
+# M6             12097 ( 94.9%)       656 (  5.1%)      12753
+# M7              1886 (100.0%)         0 (  0.0%)       1886
+# M8               857 (100.0%)         0 (  0.0%)        857
+#-----------------------------------------------------------
+#               209153 ( 99.7%)       656 (  0.3%)     209809 
+#
+#Total number of DRC violations = 0
+#Total number of net violated process antenna rule = 3
+#
+#
+#start delete and reroute for process antenna violation fix ...
+#cpu time = 00:00:11, elapsed time = 00:00:11, memory = 1408.73 (MB), peak = 1598.11 (MB)
+#Total wire length = 751425 um.
+#Total half perimeter of net bounding box = 534609 um.
+#Total wire length on LAYER M1 = 11221 um.
+#Total wire length on LAYER M2 = 112280 um.
+#Total wire length on LAYER M3 = 163157 um.
+#Total wire length on LAYER M4 = 81524 um.
+#Total wire length on LAYER M5 = 27563 um.
+#Total wire length on LAYER M6 = 150734 um.
+#Total wire length on LAYER M7 = 162416 um.
+#Total wire length on LAYER M8 = 25979 um.
+#Total wire length on LAYER M9 = 16550 um.
+#Total wire length on LAYER AP = 0 um.
+#Total number of vias = 209803
+#Total number of multi-cut vias = 654 (  0.3%)
+#Total number of single cut vias = 209149 ( 99.7%)
+#Up-Via Summary (total 209803):
+#                   single-cut          multi-cut      Total
+#-----------------------------------------------------------
+# M1             77509 (100.0%)         0 (  0.0%)      77509
+# M2             58597 (100.0%)         0 (  0.0%)      58597
+# M3             23962 (100.0%)         0 (  0.0%)      23962
+# M4             17071 (100.0%)         0 (  0.0%)      17071
+# M5             17176 (100.0%)         0 (  0.0%)      17176
+# M6             12099 ( 94.9%)       654 (  5.1%)      12753
+# M7              1886 (100.0%)         0 (  0.0%)       1886
+# M8               849 (100.0%)         0 (  0.0%)        849
+#-----------------------------------------------------------
+#               209149 ( 99.7%)       654 (  0.3%)     209803 
+#
+#Total number of DRC violations = 0
+#Total number of net violated process antenna rule = 0
+#
+#
+#Total wire length = 751425 um.
+#Total half perimeter of net bounding box = 534609 um.
+#Total wire length on LAYER M1 = 11221 um.
+#Total wire length on LAYER M2 = 112280 um.
+#Total wire length on LAYER M3 = 163157 um.
+#Total wire length on LAYER M4 = 81524 um.
+#Total wire length on LAYER M5 = 27563 um.
+#Total wire length on LAYER M6 = 150734 um.
+#Total wire length on LAYER M7 = 162416 um.
+#Total wire length on LAYER M8 = 25979 um.
+#Total wire length on LAYER M9 = 16550 um.
+#Total wire length on LAYER AP = 0 um.
+#Total number of vias = 209803
+#Total number of multi-cut vias = 654 (  0.3%)
+#Total number of single cut vias = 209149 ( 99.7%)
+#Up-Via Summary (total 209803):
+#                   single-cut          multi-cut      Total
+#-----------------------------------------------------------
+# M1             77509 (100.0%)         0 (  0.0%)      77509
+# M2             58597 (100.0%)         0 (  0.0%)      58597
+# M3             23962 (100.0%)         0 (  0.0%)      23962
+# M4             17071 (100.0%)         0 (  0.0%)      17071
+# M5             17176 (100.0%)         0 (  0.0%)      17176
+# M6             12099 ( 94.9%)       654 (  5.1%)      12753
+# M7              1886 (100.0%)         0 (  0.0%)       1886
+# M8               849 (100.0%)         0 (  0.0%)        849
+#-----------------------------------------------------------
+#               209149 ( 99.7%)       654 (  0.3%)     209803 
+#
+#Total number of DRC violations = 0
+#Total number of net violated process antenna rule = 0
+#
+#
+#Start Post Route wire spreading..
+#
+#Start DRC checking..
+#   number of violations = 0
+#cpu time = 00:00:16, elapsed time = 00:00:16, memory = 1431.88 (MB), peak = 1598.11 (MB)
+#CELL_VIEW kf_top_padframe,init has no DRC violation.
+#Total number of DRC violations = 0
+#Total number of net violated process antenna rule = 0
+#
+#Start data preparation for wire spreading...
+#
+#Data preparation is done on Sun Jan  4 21:39:41 2026
+#
+#
+#Start Post Route Wire Spread.
+#Done with 7879 horizontal wires in 15 hboxes and 8954 vertical wires in 15 hboxes.
+#Complete Post Route Wire Spread.
+#
+#Total wire length = 758595 um.
+#Total half perimeter of net bounding box = 534609 um.
+#Total wire length on LAYER M1 = 11238 um.
+#Total wire length on LAYER M2 = 112498 um.
+#Total wire length on LAYER M3 = 163927 um.
+#Total wire length on LAYER M4 = 82117 um.
+#Total wire length on LAYER M5 = 27583 um.
+#Total wire length on LAYER M6 = 153467 um.
+#Total wire length on LAYER M7 = 164495 um.
+#Total wire length on LAYER M8 = 26437 um.
+#Total wire length on LAYER M9 = 16834 um.
+#Total wire length on LAYER AP = 0 um.
+#Total number of vias = 209803
+#Total number of multi-cut vias = 654 (  0.3%)
+#Total number of single cut vias = 209149 ( 99.7%)
+#Up-Via Summary (total 209803):
+#                   single-cut          multi-cut      Total
+#-----------------------------------------------------------
+# M1             77509 (100.0%)         0 (  0.0%)      77509
+# M2             58597 (100.0%)         0 (  0.0%)      58597
+# M3             23962 (100.0%)         0 (  0.0%)      23962
+# M4             17071 (100.0%)         0 (  0.0%)      17071
+# M5             17176 (100.0%)         0 (  0.0%)      17176
+# M6             12099 ( 94.9%)       654 (  5.1%)      12753
+# M7              1886 (100.0%)         0 (  0.0%)       1886
+# M8               849 (100.0%)         0 (  0.0%)        849
+#-----------------------------------------------------------
+#               209149 ( 99.7%)       654 (  0.3%)     209803 
+#
+#
+#Start DRC checking..
+#   number of violations = 0
+#cpu time = 00:00:18, elapsed time = 00:00:17, memory = 1472.07 (MB), peak = 1598.11 (MB)
+#CELL_VIEW kf_top_padframe,init has no DRC violation.
+#Total number of DRC violations = 0
+#Total number of net violated process antenna rule = 0
+#   number of violations = 0
+#cpu time = 00:00:22, elapsed time = 00:00:22, memory = 1404.31 (MB), peak = 1598.11 (MB)
+#CELL_VIEW kf_top_padframe,init has no DRC violation.
+#Total number of DRC violations = 0
+#Total number of net violated process antenna rule = 0
+#Post Route wire spread is done.
+#Total wire length = 758595 um.
+#Total half perimeter of net bounding box = 534609 um.
+#Total wire length on LAYER M1 = 11238 um.
+#Total wire length on LAYER M2 = 112498 um.
+#Total wire length on LAYER M3 = 163927 um.
+#Total wire length on LAYER M4 = 82117 um.
+#Total wire length on LAYER M5 = 27583 um.
+#Total wire length on LAYER M6 = 153467 um.
+#Total wire length on LAYER M7 = 164495 um.
+#Total wire length on LAYER M8 = 26437 um.
+#Total wire length on LAYER M9 = 16834 um.
+#Total wire length on LAYER AP = 0 um.
+#Total number of vias = 209803
+#Total number of multi-cut vias = 654 (  0.3%)
+#Total number of single cut vias = 209149 ( 99.7%)
+#Up-Via Summary (total 209803):
+#                   single-cut          multi-cut      Total
+#-----------------------------------------------------------
+# M1             77509 (100.0%)         0 (  0.0%)      77509
+# M2             58597 (100.0%)         0 (  0.0%)      58597
+# M3             23962 (100.0%)         0 (  0.0%)      23962
+# M4             17071 (100.0%)         0 (  0.0%)      17071
+# M5             17176 (100.0%)         0 (  0.0%)      17176
+# M6             12099 ( 94.9%)       654 (  5.1%)      12753
+# M7              1886 (100.0%)         0 (  0.0%)       1886
+# M8               849 (100.0%)         0 (  0.0%)        849
+#-----------------------------------------------------------
+#               209149 ( 99.7%)       654 (  0.3%)     209803 
+#
+#detailRoute Statistics:
+#Cpu time = 00:04:09
+#Elapsed time = 00:04:08
+#Increased memory = 0.68 (MB)
+#Total memory = 1401.42 (MB)
+#Peak memory = 1598.11 (MB)
+#
+#globalDetailRoute statistics:
+#Cpu time = 00:06:44
+#Elapsed time = 00:06:43
+#Increased memory = 102.55 (MB)
+#Total memory = 1370.36 (MB)
+#Peak memory = 1598.11 (MB)
+#Number of warnings = 78
+#Total number of warnings = 79
+#Number of fails = 0
+#Total number of fails = 0
+#Complete globalDetailRoute on Sun Jan  4 21:40:04 2026
+#
+#routeDesign: cpu time = 00:06:44, elapsed time = 00:06:44, memory = 1367.78 (MB), peak = 1598.11 (MB)
+
+*** Summary of all messages that are not suppressed in this session:
+Severity  ID               Count  Summary                                  
+WARNING   IMPCK-8086           1  The command %s is obsolete and will be r...
+WARNING   IMPSP-9105           1  %sGlobal router needs be called before u...
+*** Message Summary: 2 warning(s), 0 error(s)
+
+<CMD> getFillerMode -quiet
+<CMD> addFiller -cell FILL1 FILL16 FILL2 FILL32 FILL4 FILL64 FILL8 -prefix FILLER
+**WARN: (IMPSP-5217):	addFiller command is running on a postRoute database. It is recommended to be followed by ecoRoute -target command to make the DRC clean.
+Type 'man IMPSP-5217' for more detail.
+*INFO: Adding fillers to top-module.
+*INFO:   Added 5 filler insts (cell FILL64 / prefix FILLER).
+*INFO:   Added 148 filler insts (cell FILL32 / prefix FILLER).
+*INFO:   Added 726 filler insts (cell FILL16 / prefix FILLER).
+*INFO:   Added 1685 filler insts (cell FILL8 / prefix FILLER).
+*INFO:   Added 6407 filler insts (cell FILL4 / prefix FILLER).
+*INFO:   Added 10145 filler insts (cell FILL2 / prefix FILLER).
+*INFO:   Added 9880 filler insts (cell FILL1 / prefix FILLER).
+*INFO: Total 28996 filler insts added - prefix FILLER (CPU: 0:00:02.0).
+For 28996 new insts, *** Applied 0 GNC rules (cpu = 0:00:00.0)
+<CMD> gui_select -rect {-101.621 2783.001 2907.260 -65.127}
+<CMD> displaySpareCell
+<CMD> setDrawView place
+<CMD> setSrouteMode -viaConnectToShape { ring }
+<CMD> sroute -connect { blockPin padPin padRing corePin floatingStripe } -layerChangeRange { M1(1) AP(10) } -blockPinTarget { nearestTarget } -padPinPortConnect { allPort oneGeom } -padPinTarget { nearestTarget } -corePinTarget { firstAfterRowEnd } -floatingStripeTarget { blockring padring ring stripe ringpin blockpin followpin } -allowJogging 1 -crossoverViaLayerRange { M1(1) AP(10) } -allowLayerChange 1 -blockPin useLef -targetViaLayerRange { M1(1) AP(10) }
+*** Begin SPECIAL ROUTE on Sun Jan  4 21:41:55 2026 ***
+SPECIAL ROUTE ran on directory: /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/layout_top_innovus_padframe
+SPECIAL ROUTE ran on machine: ug253 (Linux 6.1.0-37-amd64 Xeon 800Mhz)
+
+Begin option processing ...
+srouteConnectPowerBump set to false
+routeSpecial set to true
+srouteBlockPin set to "useLef"
+srouteBottomLayerLimit set to 1
+srouteBottomTargetLayerLimit set to 1
+srouteConnectConverterPin set to false
+srouteCrossoverViaBottomLayer set to 1
+srouteCrossoverViaTopLayer set to 10
+srouteFloatingStripeTarget set to "blockring padring ring stripe ringpin blockpin followpin"
+srouteFollowCorePinEnd set to 3
+srouteJogControl set to "preferWithChanges differentLayer"
+srouteNoViaOnWireShape set to "padring stripe blockring blockpin coverpin noshape blockwire corewire followpin iowire"
+sroutePadPinAllPorts set to true
+sroutePreserveExistingRoutes set to true
+srouteRoutePowerBarPortOnBothDir set to true
+srouteStopBlockPin set to "nearestTarget"
+srouteTopLayerLimit set to 10
+srouteTopTargetLayerLimit set to 10
+End option processing: cpu: 0:00:00, real: 0:00:00, peak: 2273.00 megs.
+
+Reading DB technology information...
+Finished reading DB technology information.
+Reading floorplan and netlist information...
+Finished reading floorplan and netlist information.
+Read in 21 layers, 10 routing layers, 1 overlap layer
+Read in 860 macros, 75 used
+Read in 47765 components
+  47661 core components: 0 unplaced, 47661 placed, 0 fixed
+  100 pad components: 0 unplaced, 0 placed, 100 fixed
+  4 other components: 0 unplaced, 0 placed, 4 fixed
+Read in 103 logical pins
+Read in 103 nets
+Read in 2 special nets, 2 routed
+Begin power routing ...
+**WARN: (IMPSR-1253):	Cannot find any standard cell pin connected to net VDD.
+Run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as 'USE POWER' or 'USE GROUND'.
+**WARN: (IMPSR-1254):	Cannot find any block pin of net VDD. Check netlist, or change option to include the pin.
+**WARN: (IMPSR-1256):	Cannot find any CORE class pad pin of net VDD. Change routing area or layer to include the expected pin, or check netlist, or change port class in the technology file.
+Type 'man IMPSR-1256' for more detail.
+Cannot find any AREAIO class pad pin of net VDD. Check net list, or change port class in the technology file, or change option to include pin in given range.
+**WARN: (IMPSR-1253):	Cannot find any standard cell pin connected to net VSS.
+Run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as 'USE POWER' or 'USE GROUND'.
+**WARN: (IMPSR-1254):	Cannot find any block pin of net VSS. Check netlist, or change option to include the pin.
+**WARN: (IMPSR-1256):	Cannot find any CORE class pad pin of net VSS. Change routing area or layer to include the expected pin, or check netlist, or change port class in the technology file.
+Type 'man IMPSR-1256' for more detail.
+Cannot find any AREAIO class pad pin of net VSS. Check net list, or change port class in the technology file, or change option to include pin in given range.
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VDD.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VDD.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+CPU time for FollowPin 0 seconds
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VSS.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VSS.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+CPU time for FollowPin 0 seconds
+  Number of IO ports routed: 0
+  Number of Block ports routed: 0
+  Number of Stripe ports routed: 0
+  Number of Core ports routed: 0
+  Number of Pad ports routed: 0
+  Number of Power Bump ports routed: 0
+End power routing: cpu: 0:00:00, real: 0:00:01, peak: 2275.00 megs.
+
+
+
+ Begin updating DB with routing results ...
+ Updating DB with 0 via definition ...
+sroute created 0 wire.
+ViaGen created 0 via, deleted 0 via to avoid violation.
+<CMD> setSrouteMode -viaConnectToShape { padring ring }
+<CMD> sroute -connect { blockPin padPin padRing corePin floatingStripe } -layerChangeRange { M1(1) AP(10) } -blockPinTarget { nearestTarget } -padPinPortConnect { allPort oneGeom } -padPinTarget { nearestTarget } -corePinTarget { firstAfterRowEnd } -floatingStripeTarget { blockring padring ring stripe ringpin blockpin followpin } -allowJogging 1 -crossoverViaLayerRange { M1(1) AP(10) } -allowLayerChange 1 -blockPin useLef -targetViaLayerRange { M1(1) AP(10) }
+*** Begin SPECIAL ROUTE on Sun Jan  4 21:42:13 2026 ***
+SPECIAL ROUTE ran on directory: /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/layout_top_innovus_padframe
+SPECIAL ROUTE ran on machine: ug253 (Linux 6.1.0-37-amd64 Xeon 800Mhz)
+
+Begin option processing ...
+srouteConnectPowerBump set to false
+routeSpecial set to true
+srouteBlockPin set to "useLef"
+srouteBottomLayerLimit set to 1
+srouteBottomTargetLayerLimit set to 1
+srouteConnectConverterPin set to false
+srouteCrossoverViaBottomLayer set to 1
+srouteCrossoverViaTopLayer set to 10
+srouteFloatingStripeTarget set to "blockring padring ring stripe ringpin blockpin followpin"
+srouteFollowCorePinEnd set to 3
+srouteJogControl set to "preferWithChanges differentLayer"
+srouteNoViaOnWireShape set to "stripe blockring blockpin coverpin noshape blockwire corewire followpin iowire"
+sroutePadPinAllPorts set to true
+sroutePreserveExistingRoutes set to true
+srouteRoutePowerBarPortOnBothDir set to true
+srouteStopBlockPin set to "nearestTarget"
+srouteTopLayerLimit set to 10
+srouteTopTargetLayerLimit set to 10
+End option processing: cpu: 0:00:00, real: 0:00:00, peak: 2275.00 megs.
+
+Reading DB technology information...
+Finished reading DB technology information.
+Reading floorplan and netlist information...
+Finished reading floorplan and netlist information.
+Read in 21 layers, 10 routing layers, 1 overlap layer
+Read in 860 macros, 75 used
+Read in 47765 components
+  47661 core components: 0 unplaced, 47661 placed, 0 fixed
+  100 pad components: 0 unplaced, 0 placed, 100 fixed
+  4 other components: 0 unplaced, 0 placed, 4 fixed
+Read in 103 logical pins
+Read in 103 nets
+Read in 2 special nets, 2 routed
+Begin power routing ...
+**WARN: (IMPSR-1253):	Cannot find any standard cell pin connected to net VDD.
+Run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as 'USE POWER' or 'USE GROUND'.
+**WARN: (IMPSR-1254):	Cannot find any block pin of net VDD. Check netlist, or change option to include the pin.
+**WARN: (IMPSR-1256):	Cannot find any CORE class pad pin of net VDD. Change routing area or layer to include the expected pin, or check netlist, or change port class in the technology file.
+Type 'man IMPSR-1256' for more detail.
+Cannot find any AREAIO class pad pin of net VDD. Check net list, or change port class in the technology file, or change option to include pin in given range.
+**WARN: (IMPSR-1253):	Cannot find any standard cell pin connected to net VSS.
+Run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as 'USE POWER' or 'USE GROUND'.
+**WARN: (IMPSR-1254):	Cannot find any block pin of net VSS. Check netlist, or change option to include the pin.
+**WARN: (IMPSR-1256):	Cannot find any CORE class pad pin of net VSS. Change routing area or layer to include the expected pin, or check netlist, or change port class in the technology file.
+Type 'man IMPSR-1256' for more detail.
+Cannot find any AREAIO class pad pin of net VSS. Check net list, or change port class in the technology file, or change option to include pin in given range.
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VDD.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VDD.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+CPU time for FollowPin 0 seconds
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VSS.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VSS.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+CPU time for FollowPin 0 seconds
+  Number of IO ports routed: 0
+  Number of Block ports routed: 0
+  Number of Stripe ports routed: 0
+  Number of Core ports routed: 0
+  Number of Pad ports routed: 0
+  Number of Power Bump ports routed: 0
+End power routing: cpu: 0:00:00, real: 0:00:00, peak: 2275.00 megs.
+
+
+
+ Begin updating DB with routing results ...
+ Updating DB with 0 via definition ...
+sroute created 0 wire.
+ViaGen created 0 via, deleted 0 via to avoid violation.
+<CMD> setSrouteMode -viaConnectToShape { padring ring }
+<CMD> sroute -connect { padPin padRing } -layerChangeRange { M1(1) AP(10) } -blockPinTarget { nearestTarget } -padPinPortConnect { allPort oneGeom } -padPinTarget { nearestTarget } -allowJogging 1 -crossoverViaLayerRange { M1(1) AP(10) } -nets { VDD VSS } -allowLayerChange 1 -targetViaLayerRange { M1(1) AP(10) }
+**WARN: (IMPSR-4058):	Sroute option: blockPinTarget should be used in conjunction with option: -connect blockPin. 
+*** Begin SPECIAL ROUTE on Sun Jan  4 21:48:23 2026 ***
+SPECIAL ROUTE ran on directory: /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/layout_top_innovus_padframe
+SPECIAL ROUTE ran on machine: ug253 (Linux 6.1.0-37-amd64 Xeon 800Mhz)
+
+Begin option processing ...
+srouteConnectPowerBump set to false
+routeSelectNet set to "VDD VSS"
+routeSpecial set to true
+srouteBottomLayerLimit set to 1
+srouteBottomTargetLayerLimit set to 1
+srouteConnectBlockPin set to false
+srouteConnectConverterPin set to false
+srouteConnectCorePin set to false
+srouteConnectStripe set to false
+srouteCrossoverViaBottomLayer set to 1
+srouteCrossoverViaTopLayer set to 10
+srouteFollowCorePinEnd set to 3
+srouteJogControl set to "preferWithChanges differentLayer"
+srouteNoViaOnWireShape set to "stripe blockring blockpin coverpin noshape blockwire corewire followpin iowire"
+sroutePadPinAllPorts set to true
+sroutePreserveExistingRoutes set to true
+srouteRoutePowerBarPortOnBothDir set to true
+srouteStopBlockPin set to "nearestTarget"
+srouteTopLayerLimit set to 10
+srouteTopTargetLayerLimit set to 10
+End option processing: cpu: 0:00:00, real: 0:00:00, peak: 2275.00 megs.
+
+Reading DB technology information...
+Finished reading DB technology information.
+Reading floorplan and netlist information...
+Finished reading floorplan and netlist information.
+Read in 21 layers, 10 routing layers, 1 overlap layer
+Read in 75 macros, 75 used
+Read in 174 components
+  70 core components: 0 unplaced, 70 placed, 0 fixed
+  100 pad components: 0 unplaced, 0 placed, 100 fixed
+  4 other components: 0 unplaced, 0 placed, 4 fixed
+Read in 103 logical pins
+Read in 103 nets
+Read in 2 special nets, 2 routed
+2 nets selected.
+
+Begin power routing ...
+**WARN: (IMPSR-1256):	Cannot find any CORE class pad pin of net VDD. Change routing area or layer to include the expected pin, or check netlist, or change port class in the technology file.
+Type 'man IMPSR-1256' for more detail.
+Cannot find any AREAIO class pad pin of net VDD. Check net list, or change port class in the technology file, or change option to include pin in given range.
+**WARN: (IMPSR-1256):	Cannot find any CORE class pad pin of net VSS. Change routing area or layer to include the expected pin, or check netlist, or change port class in the technology file.
+Type 'man IMPSR-1256' for more detail.
+Cannot find any AREAIO class pad pin of net VSS. Check net list, or change port class in the technology file, or change option to include pin in given range.
+  Number of IO ports routed: 0
+  Number of Pad ports routed: 0
+End power routing: cpu: 0:00:00, real: 0:00:01, peak: 2276.00 megs.
+
+
+
+ Begin updating DB with routing results ...
+ Updating DB with 0 via definition ...
+sroute created 0 wire.
+ViaGen created 0 via, deleted 0 via to avoid violation.
+<CMD> selectInst pad_VDD_S
+<CMD> zoomBox 1247.308 263.368 1387.093 120.088
+<CMD> deselectAll
+<CMD> zoomBox 1333.804 197.291 1346.109 185.997
+<CMD> fit
+<CMD> globalNetConnect VDD -type pgpin -pin AVDD -inst pad_VDD_*
+**ERROR: (IMPDB-1221):	A global net connection rule was specified to connect power pins with the name pattern 'AVDD' to a global net.  But the connections cannot be made because there is no such power pin with name matching the pattern in any cell.  Check the pin name pattern and make sure it is correct.
+<CMD> setLayerPreference violation -isVisible 1
+<CMD> violationBrowser -all -no_display_false
+<CMD_INTERNAL> violationBrowserClose
+<CMD> fit
+<CMD> gui_select -rect {-112.105 2779.506 317.735 2342.677}
+<CMD> deselectAll
+<CMD> selectInst corner_TL
+<CMD> setLayerPreference node_overlay -isVisible 1
+<CMD> fit
+<CMD> setLayerPreference node_overlay -isVisible 0
+<CMD> setLayerPreference node_track -isVisible 1
+<CMD> setLayerPreference node_track -isVisible 0
+<CMD> setLayerPreference node_track -isVisible 1
+<CMD> setLayerPreference node_track -isVisible 0
+<CMD> setLayerPreference node_power -isVisible 1
+<CMD> setLayerPreference node_power -isSelectable 1
+<CMD> setLayerPreference node_gird -isVisible 1
+<CMD> setLayerPreference node_gird -isVisible 0
+<CMD> setLayerPreference node_track -isVisible 1
+<CMD> setLayerPreference node_track -isVisible 0
+<CMD> deselectAll
+<CMD> redraw
+<CMD> setPreference ShowFPObjInPlace 1
+<CMD> setPreference ShowFPObjInPlace 0
+<CMD> setPreference DisplayCellPattern 1
+<CMD> setPreference DisplayCellPattern 0
+<CMD> setPreference FullViewOutsideDieArea 1
+<CMD> setPreference FullViewOutsideDieArea 0
+<CMD> getSrouteMode -allowWrongWayRoute -quiet
+<CMD> getSrouteMode -viaThruToClosestRing -quiet
+<CMD> getSrouteMode -extendNearestTarget -quiet
+<CMD> getSrouteMode -targetNumber -quiet
+<CMD> getSrouteMode -targetSearchDistance -quiet
+<CMD> getSrouteMode -jogThresholdRatio -quiet
+<CMD> getSrouteMode -blockPinConnectRingPinCorners -quiet
+<CMD> getSrouteMode -blockPinRouteWithPinWidth -quiet
+<CMD> getSrouteMode -padPinMinViaSize -quiet
+<CMD> getSrouteMode -padPinSplit -quiet
+<CMD> getSrouteMode -padRingLefConvention -quiet
+<CMD> getSrouteMode -signalPinAsPG -quiet
+<CMD> getSrouteMode -corePinJoinLimit -quiet
+<CMD> getSrouteMode -corePinLength -quiet
+<CMD> getSrouteMode -corePinLengthAsInstance -quiet
+<CMD> getSrouteMode -corePinReferenceMacro -quiet
+<CMD> getSrouteMode -treatEndcapAsCore -quiet
+<CMD> getSrouteMode -secondaryPinMaxGap -quiet
+<CMD> getSrouteMode -secondaryPinRailWidth -quiet
+<CMD> getSrouteMode -srpgAonCellPin -quiet
+<CMD> getSrouteMode -viaConnectToShape -quiet
+<CMD> getSrouteMode -layerNormalCost -quiet
+<CMD> getSrouteMode -layerWrongWayCost -quiet
+<CMD> setSrouteMode -viaConnectToShape { padring ring blockring }
+<CMD> sroute -connect { blockPin padPin padRing corePin floatingStripe } -layerChangeRange { M1(1) AP(10) } -blockPinTarget { nearestTarget } -padPinPortConnect { allPort oneGeom } -padPinTarget { nearestTarget } -corePinTarget { firstAfterRowEnd } -floatingStripeTarget { blockring padring ring stripe ringpin blockpin followpin } -allowJogging 1 -crossoverViaLayerRange { M1(1) AP(10) } -nets { VDD VSS } -allowLayerChange 1 -blockPin useLef -targetViaLayerRange { M1(1) AP(10) }
+*** Begin SPECIAL ROUTE on Sun Jan  4 21:55:42 2026 ***
+SPECIAL ROUTE ran on directory: /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/layout_top_innovus_padframe
+SPECIAL ROUTE ran on machine: ug253 (Linux 6.1.0-37-amd64 Xeon 800Mhz)
+
+Begin option processing ...
+srouteConnectPowerBump set to false
+routeSelectNet set to "VDD VSS"
+routeSpecial set to true
+srouteBlockPin set to "useLef"
+srouteBottomLayerLimit set to 1
+srouteBottomTargetLayerLimit set to 1
+srouteConnectConverterPin set to false
+srouteCrossoverViaBottomLayer set to 1
+srouteCrossoverViaTopLayer set to 10
+srouteFloatingStripeTarget set to "blockring padring ring stripe ringpin blockpin followpin"
+srouteFollowCorePinEnd set to 3
+srouteJogControl set to "preferWithChanges differentLayer"
+srouteNoViaOnWireShape set to "stripe blockpin coverpin noshape blockwire corewire followpin iowire"
+sroutePadPinAllPorts set to true
+sroutePreserveExistingRoutes set to true
+srouteRoutePowerBarPortOnBothDir set to true
+srouteStopBlockPin set to "nearestTarget"
+srouteTopLayerLimit set to 10
+srouteTopTargetLayerLimit set to 10
+End option processing: cpu: 0:00:00, real: 0:00:00, peak: 2421.00 megs.
+
+Reading DB technology information...
+Finished reading DB technology information.
+Reading floorplan and netlist information...
+Finished reading floorplan and netlist information.
+Read in 21 layers, 10 routing layers, 1 overlap layer
+Read in 860 macros, 75 used
+Read in 47765 components
+  47661 core components: 0 unplaced, 47661 placed, 0 fixed
+  100 pad components: 0 unplaced, 0 placed, 100 fixed
+  4 other components: 0 unplaced, 0 placed, 4 fixed
+Read in 103 logical pins
+Read in 103 nets
+Read in 2 special nets, 2 routed
+2 nets selected.
+
+Begin power routing ...
+**WARN: (IMPSR-1253):	Cannot find any standard cell pin connected to net VDD.
+Run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as 'USE POWER' or 'USE GROUND'.
+**WARN: (IMPSR-1254):	Cannot find any block pin of net VDD. Check netlist, or change option to include the pin.
+**WARN: (IMPSR-1256):	Cannot find any CORE class pad pin of net VDD. Change routing area or layer to include the expected pin, or check netlist, or change port class in the technology file.
+Type 'man IMPSR-1256' for more detail.
+Cannot find any AREAIO class pad pin of net VDD. Check net list, or change port class in the technology file, or change option to include pin in given range.
+**WARN: (IMPSR-1253):	Cannot find any standard cell pin connected to net VSS.
+Run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as 'USE POWER' or 'USE GROUND'.
+**WARN: (IMPSR-1254):	Cannot find any block pin of net VSS. Check netlist, or change option to include the pin.
+**WARN: (IMPSR-1256):	Cannot find any CORE class pad pin of net VSS. Change routing area or layer to include the expected pin, or check netlist, or change port class in the technology file.
+Type 'man IMPSR-1256' for more detail.
+Cannot find any AREAIO class pad pin of net VSS. Check net list, or change port class in the technology file, or change option to include pin in given range.
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VDD.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VDD.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+CPU time for FollowPin 0 seconds
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VSS.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VSS.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+CPU time for FollowPin 0 seconds
+  Number of IO ports routed: 0
+  Number of Block ports routed: 0
+  Number of Stripe ports routed: 0
+  Number of Core ports routed: 0
+  Number of Pad ports routed: 0
+  Number of Power Bump ports routed: 0
+End power routing: cpu: 0:00:00, real: 0:00:01, peak: 2423.00 megs.
+
+
+
+ Begin updating DB with routing results ...
+ Updating DB with 0 via definition ...
+sroute created 0 wire.
+ViaGen created 0 via, deleted 0 via to avoid violation.
+<CMD> setSrouteMode -viaConnectToShape { padring ring blockring }
+<CMD> sroute -connect { blockPin padPin padRing corePin floatingStripe } -layerChangeRange { M1(1) AP(10) } -blockPinTarget { nearestTarget } -padPinPortConnect { allPort oneGeom } -padPinTarget { nearestTarget } -corePinTarget { firstAfterRowEnd } -floatingStripeTarget { blockring padring ring stripe ringpin blockpin followpin } -allowJogging 1 -crossoverViaLayerRange { M1(1) AP(10) } -nets { VDD VSS } -allowLayerChange 1 -blockPin useLef -targetViaLayerRange { M1(1) AP(10) }
+*** Begin SPECIAL ROUTE on Sun Jan  4 21:55:48 2026 ***
+SPECIAL ROUTE ran on directory: /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/layout_top_innovus_padframe
+SPECIAL ROUTE ran on machine: ug253 (Linux 6.1.0-37-amd64 Xeon 800Mhz)
+
+Begin option processing ...
+srouteConnectPowerBump set to false
+routeSelectNet set to "VDD VSS"
+routeSpecial set to true
+srouteBlockPin set to "useLef"
+srouteBottomLayerLimit set to 1
+srouteBottomTargetLayerLimit set to 1
+srouteConnectConverterPin set to false
+srouteCrossoverViaBottomLayer set to 1
+srouteCrossoverViaTopLayer set to 10
+srouteFloatingStripeTarget set to "blockring padring ring stripe ringpin blockpin followpin"
+srouteFollowCorePinEnd set to 3
+srouteJogControl set to "preferWithChanges differentLayer"
+srouteNoViaOnWireShape set to "stripe blockpin coverpin noshape blockwire corewire followpin iowire"
+sroutePadPinAllPorts set to true
+sroutePreserveExistingRoutes set to true
+srouteRoutePowerBarPortOnBothDir set to true
+srouteStopBlockPin set to "nearestTarget"
+srouteTopLayerLimit set to 10
+srouteTopTargetLayerLimit set to 10
+End option processing: cpu: 0:00:00, real: 0:00:00, peak: 2423.00 megs.
+
+Reading DB technology information...
+Finished reading DB technology information.
+Reading floorplan and netlist information...
+Finished reading floorplan and netlist information.
+Read in 21 layers, 10 routing layers, 1 overlap layer
+Read in 860 macros, 75 used
+Read in 47765 components
+  47661 core components: 0 unplaced, 47661 placed, 0 fixed
+  100 pad components: 0 unplaced, 0 placed, 100 fixed
+  4 other components: 0 unplaced, 0 placed, 4 fixed
+Read in 103 logical pins
+Read in 103 nets
+Read in 2 special nets, 2 routed
+2 nets selected.
+
+Begin power routing ...
+**WARN: (IMPSR-1253):	Cannot find any standard cell pin connected to net VDD.
+Run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as 'USE POWER' or 'USE GROUND'.
+**WARN: (IMPSR-1254):	Cannot find any block pin of net VDD. Check netlist, or change option to include the pin.
+**WARN: (IMPSR-1256):	Cannot find any CORE class pad pin of net VDD. Change routing area or layer to include the expected pin, or check netlist, or change port class in the technology file.
+Type 'man IMPSR-1256' for more detail.
+Cannot find any AREAIO class pad pin of net VDD. Check net list, or change port class in the technology file, or change option to include pin in given range.
+**WARN: (IMPSR-1253):	Cannot find any standard cell pin connected to net VSS.
+Run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as 'USE POWER' or 'USE GROUND'.
+**WARN: (IMPSR-1254):	Cannot find any block pin of net VSS. Check netlist, or change option to include the pin.
+**WARN: (IMPSR-1256):	Cannot find any CORE class pad pin of net VSS. Change routing area or layer to include the expected pin, or check netlist, or change port class in the technology file.
+Type 'man IMPSR-1256' for more detail.
+Cannot find any AREAIO class pad pin of net VSS. Check net list, or change port class in the technology file, or change option to include pin in given range.
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VDD.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VDD.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+CPU time for FollowPin 0 seconds
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VSS.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+**WARN: (IMPSR-468):	Cannot find any standard cell pin connected to net VSS.
+Use setSrouteMode -corePinReferenceMacro <standard cell> to specify a reference macro for followpin connection, or run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as "USE POWER" or "USE GROUND".
+CPU time for FollowPin 0 seconds
+  Number of IO ports routed: 0
+  Number of Block ports routed: 0
+  Number of Stripe ports routed: 0
+  Number of Core ports routed: 0
+  Number of Pad ports routed: 0
+  Number of Power Bump ports routed: 0
+End power routing: cpu: 0:00:00, real: 0:00:00, peak: 2423.00 megs.
+
+
+
+ Begin updating DB with routing results ...
+ Updating DB with 0 via definition ...
+sroute created 0 wire.
+ViaGen created 0 via, deleted 0 via to avoid violation.
+<CMD> selectInst pad_VSS_W
+<CMD> deselectAll
+<CMD> selectInst pad_VDD_W
+<CMD> deselectAll
+<CMD> selectInst pad_VSS_W
+<CMD> deselectAll
+<CMD> selectInst pad_VDD_W
+<CMD> deselectAll
+<CMD> selectInst pad_VSS_W
+<CMD> deselectAll
+<CMD> gui_select -rect {2398.791 2793.485 2943.954 1741.599}
+<CMD> setDrawView fplan
+<CMD> deselectAll
+<CMD> setDrawView ameba
+<CMD> setDrawView place
+**ERROR: (IMPSYT-16175):	<To Global Net> field must be specified.
+invalid command name "streamIn"
+invalid command name "streamRead"
+invalid command name "loadGDS"
+<CMD> gui_select -rect {-99.874 2776.011 364.913 2381.117}
+<CMD> deselectAll
+<CMD> selectInst corner_TL
+<CMD> deselectAll
+<CMD> saveDesign kf_top_padframe
+#% Begin save design ... (date=01/04 22:02:25, mem=1548.9M)
+% Begin Save ccopt configuration ... (date=01/04 22:02:25, mem=1548.9M)
+% End Save ccopt configuration ... (date=01/04 22:02:25, total cpu=0:00:00.0, real=0:00:00.0, peak res=1550.5M, current mem=1550.5M)
+% Begin Save netlist data ... (date=01/04 22:02:25, mem=1550.5M)
+Writing Binary DB to kf_top_padframe.dat/kf_top_padframe.v.bin in single-threaded mode...
+% End Save netlist data ... (date=01/04 22:02:25, total cpu=0:00:00.1, real=0:00:00.0, peak res=1551.9M, current mem=1551.9M)
+Saving congestion map file kf_top_padframe.dat/kf_top_padframe.route.congmap.gz ...
+% Begin Save AAE data ... (date=01/04 22:02:25, mem=1552.2M)
+Saving AAE Data ...
+% End Save AAE data ... (date=01/04 22:02:25, total cpu=0:00:00.0, real=0:00:00.0, peak res=1552.3M, current mem=1552.3M)
+% Begin Save clock tree data ... (date=01/04 22:02:25, mem=1552.5M)
+% End Save clock tree data ... (date=01/04 22:02:25, total cpu=0:00:00.0, real=0:00:00.0, peak res=1552.6M, current mem=1552.6M)
+Saving preference file kf_top_padframe.dat/gui.pref.tcl ...
+Saving mode setting ...
+Saving global file ...
+% Begin Save floorplan data ... (date=01/04 22:02:25, mem=1552.9M)
+Saving floorplan file ...
+% End Save floorplan data ... (date=01/04 22:02:26, total cpu=0:00:00.1, real=0:00:01.0, peak res=1553.0M, current mem=1553.0M)
+Saving Drc markers ...
+... No Drc file written since there is no markers found.
+% Begin Save placement data ... (date=01/04 22:02:26, mem=1553.0M)
+** Saving stdCellPlacement_binary (version# 2) ...
+% End Save placement data ... (date=01/04 22:02:26, total cpu=0:00:00.0, real=0:00:00.0, peak res=1553.9M, current mem=1553.9M)
+% Begin Save routing data ... (date=01/04 22:02:26, mem=1553.9M)
+Saving route file ...
+*** Completed saveRoute (cpu=0:00:00.5 real=0:00:01.0 mem=1678.2M) ***
+% End Save routing data ... (date=01/04 22:02:27, total cpu=0:00:00.5, real=0:00:01.0, peak res=1554.0M, current mem=1554.0M)
+Saving property file kf_top_padframe.dat/kf_top_padframe.prop
+*** Completed saveProperty (cpu=0:00:00.0 real=0:00:00.0 mem=1678.2M) ***
+#Saving pin access data to file kf_top_padframe.dat/kf_top_padframe.apa ...
+#
+% Begin Save power constraints data ... (date=01/04 22:02:27, mem=1554.3M)
+% End Save power constraints data ... (date=01/04 22:02:27, total cpu=0:00:00.0, real=0:00:00.0, peak res=1554.3M, current mem=1554.3M)
+worst best typical
+Generated self-contained design kf_top_padframe.dat
+#% End save design ... (date=01/04 22:02:28, total cpu=0:00:01.9, real=0:00:03.0, peak res=1554.3M, current mem=1518.5M)
+*** Message Summary: 0 warning(s), 0 error(s)
+
+<CMD> globalNetConnect VDD -type pgpin -pin AVDD -inst pad_VDD_*
+**ERROR: (IMPDB-1221):	A global net connection rule was specified to connect power pins with the name pattern 'AVDD' to a global net.  But the connections cannot be made because there is no such power pin with name matching the pattern in any cell.  Check the pin name pattern and make sure it is correct.
+<CMD> globalNetConnect VDD -type pgpin -pin VDD -inst *
+<CMD> globalNetConnect VDD -pin AVDD -inst pad_VDD_*
+**ERROR: (IMPDB-1221):	A global net connection rule was specified to connect power pins with the name pattern 'AVDD' to a global net.  But the connections cannot be made because there is no such power pin with name matching the pattern in any cell.  Check the pin name pattern and make sure it is correct.
+<CMD> sroute -connect {padPin padRing corePin} -nets {VDD VSS} -layerChangeRange {M1 AP} -allowJogging 1 -allowLayerChange 1
+#% Begin sroute (date=01/04 22:06:10, mem=1518.8M)
+*** Begin SPECIAL ROUTE on Sun Jan  4 22:06:10 2026 ***
+SPECIAL ROUTE ran on directory: /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/layout_top_innovus_padframe
+SPECIAL ROUTE ran on machine: ug253 (Linux 6.1.0-37-amd64 Xeon 800Mhz)
+
+Begin option processing ...
+srouteConnectPowerBump set to false
+routeSelectNet set to "VDD VSS"
+routeSpecial set to true
+srouteBottomLayerLimit set to 1
+srouteConnectBlockPin set to false
+srouteConnectConverterPin set to false
+srouteConnectStripe set to false
+srouteFollowCorePinEnd set to 3
+srouteJogControl set to "preferWithChanges differentLayer"
+srouteNoViaOnWireShape set to "stripe blockpin coverpin noshape blockwire corewire followpin iowire"
+sroutePadPinAllPorts set to true
+sroutePreserveExistingRoutes set to true
+srouteRoutePowerBarPortOnBothDir set to true
+srouteTopLayerLimit set to 10
+End option processing: cpu: 0:00:00, real: 0:00:00, peak: 2449.00 megs.
+
+Reading DB technology information...
+Finished reading DB technology information.
+Reading floorplan and netlist information...
+Finished reading floorplan and netlist information.
+Read in 21 layers, 10 routing layers, 1 overlap layer
+Read in 860 macros, 75 used
+Read in 47765 components
+  47661 core components: 0 unplaced, 47661 placed, 0 fixed
+  100 pad components: 0 unplaced, 0 placed, 100 fixed
+  4 other components: 0 unplaced, 0 placed, 4 fixed
+Read in 103 logical pins
+Read in 103 nets
+Read in 2 special nets, 2 routed
+Read in 47661 terminals
+2 nets selected.
+
+Begin power routing ...
+**WARN: (IMPSR-1256):	Cannot find any CORE class pad pin of net VDD. Change routing area or layer to include the expected pin, or check netlist, or change port class in the technology file.
+Type 'man IMPSR-1256' for more detail.
+Cannot find any AREAIO class pad pin of net VDD. Check net list, or change port class in the technology file, or change option to include pin in given range.
+**WARN: (IMPSR-1253):	Cannot find any standard cell pin connected to net VSS.
+Run globalNetConnect command or change CPF file to make sure that the netlist reflects the correct power ground connections. The standard cell pins must be defined as 'USE POWER' or 'USE GROUND'.
+**WARN: (IMPSR-1256):	Cannot find any CORE class pad pin of net VSS. Change routing area or layer to include the expected pin, or check netlist, or change port class in the technology file.
+Type 'man IMPSR-1256' for more detail.
+Cannot find any AREAIO class pad pin of net VSS. Check net list, or change port class in the technology file, or change option to include pin in given range.
+CPU time for FollowPin 0 seconds
+  Number of IO ports routed: 0
+  Number of Core ports routed: 0
+  Number of Pad ports routed: 0
+End power routing: cpu: 0:00:01, real: 0:00:01, peak: 2452.00 megs.
+
+
+
+ Begin updating DB with routing results ...
+ Updating DB with 0 via definition ...
+sroute created 0 wire.
+ViaGen created 0 via, deleted 0 via to avoid violation.
+#% End sroute (date=01/04 22:06:12, total cpu=0:00:01.5, real=0:00:02.0, peak res=1558.6M, current mem=1558.6M)
+<CMD> sroute -connect padPin -nets {VDD VSS} -layerChangeRange {M1 AP} -padPinPortConnect {allPort allGeom}
+#% Begin sroute (date=01/04 22:07:07, mem=1558.6M)
+*** Begin SPECIAL ROUTE on Sun Jan  4 22:07:08 2026 ***
+SPECIAL ROUTE ran on directory: /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/layout_top_innovus_padframe
+SPECIAL ROUTE ran on machine: ug253 (Linux 6.1.0-37-amd64 Xeon 800Mhz)
+
+Begin option processing ...
+srouteConnectPowerBump set to false
+routeSelectNet set to "VDD VSS"
+routeSpecial set to true
+srouteBottomLayerLimit set to 1
+srouteConnectBlockPin set to false
+srouteConnectConverterPin set to false
+srouteConnectCorePin set to false
+srouteConnectStripe set to false
+srouteFollowCorePinEnd set to 3
+srouteFollowPadPin set to false
+srouteJogControl set to "preferWithChanges differentLayer"
+srouteNoViaOnWireShape set to "stripe blockpin coverpin noshape blockwire corewire followpin iowire"
+sroutePadPinAllGeoms set to true
+sroutePadPinAllPorts set to true
+sroutePreserveExistingRoutes set to true
+srouteRoutePowerBarPortOnBothDir set to true
+srouteTopLayerLimit set to 10
+End option processing: cpu: 0:00:00, real: 0:00:00, peak: 2452.00 megs.
+
+Reading DB technology information...
+Finished reading DB technology information.
+Reading floorplan and netlist information...
+Finished reading floorplan and netlist information.
+Read in 21 layers, 10 routing layers, 1 overlap layer
+Read in 75 macros, 75 used
+Read in 174 components
+  70 core components: 0 unplaced, 70 placed, 0 fixed
+  100 pad components: 0 unplaced, 0 placed, 100 fixed
+  4 other components: 0 unplaced, 0 placed, 4 fixed
+Read in 103 logical pins
+Read in 103 nets
+Read in 2 special nets, 2 routed
+Read in 70 terminals
+2 nets selected.
+
+Begin power routing ...
+**WARN: (IMPSR-1256):	Cannot find any CORE class pad pin of net VDD. Change routing area or layer to include the expected pin, or check netlist, or change port class in the technology file.
+Type 'man IMPSR-1256' for more detail.
+Cannot find any AREAIO class pad pin of net VDD. Check net list, or change port class in the technology file, or change option to include pin in given range.
+**WARN: (IMPSR-1256):	Cannot find any CORE class pad pin of net VSS. Change routing area or layer to include the expected pin, or check netlist, or change port class in the technology file.
+Type 'man IMPSR-1256' for more detail.
+Cannot find any AREAIO class pad pin of net VSS. Check net list, or change port class in the technology file, or change option to include pin in given range.
+  Number of IO ports routed: 0
+End power routing: cpu: 0:00:00, real: 0:00:00, peak: 2452.00 megs.
+
+
+
+ Begin updating DB with routing results ...
+ Updating DB with 0 via definition ...
+sroute created 0 wire.
+ViaGen created 0 via, deleted 0 via to avoid violation.
+#% End sroute (date=01/04 22:07:08, total cpu=0:00:00.4, real=0:00:01.0, peak res=1558.6M, current mem=1528.3M)
+<CMD> verifyConnectivity -nets {VDD VSS}
+VERIFY_CONNECTIVITY use new engine.
+
+******** Start: VERIFY CONNECTIVITY ********
+Start Time: Sun Jan  4 22:08:39 2026
+
+Design Name: kf_top_padframe
+Database Units: 2000
+Design Boundary: (0.0000, 0.0000) (2700.8000, 2700.4000)
+Error Limit = 1000; Warning Limit = 50
+Check specified nets
+*** Checking Net VDD
+*** Checking Net VSS
+
+Begin Summary 
+  Found no problems or warnings.
+End Summary
+
+End Time: Sun Jan  4 22:08:40 2026
+Time Elapsed: 0:00:01.0
+
+******** End: VERIFY CONNECTIVITY ********
+  Verification Complete : 0 Viols.  0 Wrngs.
+  (CPU Time: 0:00:00.4  MEM: -0.410M)
+
+<CMD> zoomBox 1266.526 1577.350 1325.936 1524.930
+<CMD> uiSetTool addWire
+<CMD> set layerNameNoAbbreviation 0
+<CMD> getEditMode -quiet -force_patch
+<CMD> getEditMode -quiet -layer_horizontal
+<CMD> getEditMode -quiet -layer_vertical
+<CMD> set layerNameNoAbbreviation 1
+**ERROR: (IMPSPR-55):	<e> to open Edit Route form to input net name(s).
+**ERROR: (IMPSPR-55):	<e> to open Edit Route form to input net name(s).
+<CMD> setEditMode -layer_horizontal M1
+<CMD> setEditMode -layer_vertical M2
+<CMD> setEditMode -layer M1
+<CMD> setEditMode -layer_minimum M1
+<CMD> setEditMode -layer_maximum AP
+<CMD> getEditMode -quiet -snap_to_track_regular
+<CMD> getEditMode -quiet -snap_to_pin
+<CMD> setEditMode -type regular
+**ERROR: (IMPSPR-55):	<e> to open Edit Route form to input net name(s).
+<CMD> setEditMode -type special
+<CMD> setEditMode -type regular
+**ERROR: (IMPSPR-55):	<e> to open Edit Route form to input net name(s).
+<CMD> uiSetTool select
+<CMD> fit
+<CMD> saveDesign kf_top_padframe
+#% Begin save design ... (date=01/04 22:21:23, mem=1566.2M)
+% Begin Save ccopt configuration ... (date=01/04 22:21:23, mem=1566.2M)
+% End Save ccopt configuration ... (date=01/04 22:21:24, total cpu=0:00:00.0, real=0:00:00.0, peak res=1566.2M, current mem=1566.2M)
+% Begin Save netlist data ... (date=01/04 22:21:24, mem=1566.2M)
+Writing Binary DB to kf_top_padframe.dat.tmp/kf_top_padframe.v.bin in single-threaded mode...
+% End Save netlist data ... (date=01/04 22:21:24, total cpu=0:00:00.1, real=0:00:00.0, peak res=1570.5M, current mem=1570.5M)
+Saving congestion map file kf_top_padframe.dat.tmp/kf_top_padframe.route.congmap.gz ...
+% Begin Save AAE data ... (date=01/04 22:21:24, mem=1570.5M)
+Saving AAE Data ...
+% End Save AAE data ... (date=01/04 22:21:24, total cpu=0:00:00.0, real=0:00:00.0, peak res=1570.5M, current mem=1570.5M)
+% Begin Save clock tree data ... (date=01/04 22:21:24, mem=1570.5M)
+% End Save clock tree data ... (date=01/04 22:21:24, total cpu=0:00:00.0, real=0:00:00.0, peak res=1570.5M, current mem=1570.5M)
+Saving preference file kf_top_padframe.dat.tmp/gui.pref.tcl ...
+Saving mode setting ...
+Saving global file ...
+% Begin Save floorplan data ... (date=01/04 22:21:24, mem=1570.5M)
+Saving floorplan file ...
+% End Save floorplan data ... (date=01/04 22:21:25, total cpu=0:00:00.1, real=0:00:01.0, peak res=1572.5M, current mem=1572.5M)
+Saving Drc markers ...
+... No Drc file written since there is no markers found.
+% Begin Save placement data ... (date=01/04 22:21:25, mem=1572.5M)
+** Saving stdCellPlacement_binary (version# 2) ...
+% End Save placement data ... (date=01/04 22:21:25, total cpu=0:00:00.0, real=0:00:00.0, peak res=1572.7M, current mem=1572.7M)
+% Begin Save routing data ... (date=01/04 22:21:25, mem=1572.7M)
+Saving route file ...
+*** Completed saveRoute (cpu=0:00:00.5 real=0:00:01.0 mem=1710.4M) ***
+% End Save routing data ... (date=01/04 22:21:26, total cpu=0:00:00.6, real=0:00:01.0, peak res=1572.7M, current mem=1572.7M)
+Saving property file kf_top_padframe.dat.tmp/kf_top_padframe.prop
+*** Completed saveProperty (cpu=0:00:00.0 real=0:00:00.0 mem=1710.4M) ***
+#Saving pin access data to file kf_top_padframe.dat.tmp/kf_top_padframe.apa ...
+#
+% Begin Save power constraints data ... (date=01/04 22:21:26, mem=1572.7M)
+% End Save power constraints data ... (date=01/04 22:21:26, total cpu=0:00:00.0, real=0:00:00.0, peak res=1572.7M, current mem=1572.7M)
+worst best typical
+Generated self-contained design kf_top_padframe.dat.tmp
+#% End save design ... (date=01/04 22:21:26, total cpu=0:00:02.0, real=0:00:03.0, peak res=1572.7M, current mem=1532.2M)
+*** Message Summary: 0 warning(s), 0 error(s)
+
+<CMD> saveDesign kf_top_padframe
+#% Begin save design ... (date=01/04 22:21:29, mem=1532.3M)
+% Begin Save ccopt configuration ... (date=01/04 22:21:29, mem=1532.3M)
+% End Save ccopt configuration ... (date=01/04 22:21:29, total cpu=0:00:00.0, real=0:00:00.0, peak res=1532.3M, current mem=1532.3M)
+% Begin Save netlist data ... (date=01/04 22:21:29, mem=1532.3M)
+Writing Binary DB to kf_top_padframe.dat.tmp/kf_top_padframe.v.bin in single-threaded mode...
+% End Save netlist data ... (date=01/04 22:21:29, total cpu=0:00:00.1, real=0:00:00.0, peak res=1538.4M, current mem=1538.4M)
+Saving congestion map file kf_top_padframe.dat.tmp/kf_top_padframe.route.congmap.gz ...
+% Begin Save AAE data ... (date=01/04 22:21:30, mem=1538.4M)
+Saving AAE Data ...
+% End Save AAE data ... (date=01/04 22:21:30, total cpu=0:00:00.0, real=0:00:00.0, peak res=1538.4M, current mem=1538.4M)
+% Begin Save clock tree data ... (date=01/04 22:21:30, mem=1538.4M)
+% End Save clock tree data ... (date=01/04 22:21:30, total cpu=0:00:00.0, real=0:00:00.0, peak res=1538.4M, current mem=1538.4M)
+Saving preference file kf_top_padframe.dat.tmp/gui.pref.tcl ...
+Saving mode setting ...
+Saving global file ...
+% Begin Save floorplan data ... (date=01/04 22:21:30, mem=1538.4M)
+Saving floorplan file ...
+% End Save floorplan data ... (date=01/04 22:21:30, total cpu=0:00:00.1, real=0:00:00.0, peak res=1538.4M, current mem=1538.4M)
+Saving Drc markers ...
+... No Drc file written since there is no markers found.
+% Begin Save placement data ... (date=01/04 22:21:30, mem=1538.4M)
+** Saving stdCellPlacement_binary (version# 2) ...
+% End Save placement data ... (date=01/04 22:21:30, total cpu=0:00:00.0, real=0:00:00.0, peak res=1538.9M, current mem=1538.9M)
+% Begin Save routing data ... (date=01/04 22:21:30, mem=1538.9M)
+Saving route file ...
+*** Completed saveRoute (cpu=0:00:00.5 real=0:00:02.0 mem=1711.4M) ***
+% End Save routing data ... (date=01/04 22:21:32, total cpu=0:00:00.5, real=0:00:02.0, peak res=1540.0M, current mem=1540.0M)
+Saving property file kf_top_padframe.dat.tmp/kf_top_padframe.prop
+*** Completed saveProperty (cpu=0:00:00.0 real=0:00:00.0 mem=1711.4M) ***
+#Saving pin access data to file kf_top_padframe.dat.tmp/kf_top_padframe.apa ...
+#
+% Begin Save power constraints data ... (date=01/04 22:21:32, mem=1540.0M)
+% End Save power constraints data ... (date=01/04 22:21:32, total cpu=0:00:00.0, real=0:00:00.0, peak res=1540.0M, current mem=1540.0M)
+worst best typical
+Generated self-contained design kf_top_padframe.dat.tmp
+#% End save design ... (date=01/04 22:21:32, total cpu=0:00:01.9, real=0:00:03.0, peak res=1540.0M, current mem=1532.3M)
+*** Message Summary: 0 warning(s), 0 error(s)
+
+<CMD> summaryReport -outdir summaryReport
+Creating directory summaryReport.
+Start to collect the design information.
+Build netlist information for Cell kf_top_padframe.
+Finished collecting the design information.
+Generating standard cells used in the design report.
+Generating IO cells used in the design report.
+Analyze library ... 
+** NOTE: Created directory path 'kf_top_padframe_via_layer_RV.htmsummaryReport' for file 'kf_top_padframe_via_layer_RV.htmsummaryReport/kf_top_padframe_via_layer_VIA8.htm'.
+** NOTE: Created directory path 'kf_top_padframe_via_layer_VIA8.htmsummaryReport' for file 'kf_top_padframe_via_layer_VIA8.htmsummaryReport/kf_top_padframe_via_layer_VIA7.htm'.
+** NOTE: Created directory path 'kf_top_padframe_via_layer_VIA7.htmsummaryReport' for file 'kf_top_padframe_via_layer_VIA7.htmsummaryReport/kf_top_padframe_via_layer_VIA6.htm'.
+** NOTE: Created directory path 'kf_top_padframe_via_layer_VIA6.htmsummaryReport' for file 'kf_top_padframe_via_layer_VIA6.htmsummaryReport/kf_top_padframe_via_layer_VIA5.htm'.
+** NOTE: Created directory path 'kf_top_padframe_via_layer_VIA5.htmsummaryReport' for file 'kf_top_padframe_via_layer_VIA5.htmsummaryReport/kf_top_padframe_via_layer_VIA4.htm'.
+** NOTE: Created directory path 'kf_top_padframe_via_layer_VIA4.htmsummaryReport' for file 'kf_top_padframe_via_layer_VIA4.htmsummaryReport/kf_top_padframe_via_layer_VIA3.htm'.
+** NOTE: Created directory path 'kf_top_padframe_via_layer_VIA3.htmsummaryReport' for file 'kf_top_padframe_via_layer_VIA3.htmsummaryReport/kf_top_padframe_via_layer_VIA2.htm'.
+** NOTE: Created directory path 'kf_top_padframe_via_layer_VIA2.htmsummaryReport' for file 'kf_top_padframe_via_layer_VIA2.htmsummaryReport/kf_top_padframe_via_layer_VIA1.htm'.
+** NOTE: Created directory path 'kf_top_padframe_via_layer_VIA1.htmsummaryReport' for file 'kf_top_padframe_via_layer_VIA1.htmsummaryReport/kf_top_padframe_via_layer_CO.htm'.
+Analyze netlist ... 
+Generating HFO information report.
+Generate no-driven nets information report.
+Analyze timing ... 
+Analyze floorplan/placement ... 
+Analysis Routing ...
+Report saved in file summaryReport/kf_top_padframe.main.htm.ascii.
+
+--------------------------------------------------------------------------------
+Exiting Innovus on Sun Jan  4 22:21:44 2026
+  Total CPU time:     0:17:05
+  Total real time:    0:55:55
+  Peak memory (main): 1567.37MB
+
+
+*** Memory Usage v#1 (Current mem = 1703.418M, initial mem = 258.629M) ***
+*** Message Summary: 391 warning(s), 9 error(s)
+
+--- Ending "Innovus" (totcpu=0:17:01, real=0:55:54, mem=1703.4M) ---
