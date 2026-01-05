@@ -4,7 +4,7 @@ set ::IMEX::libVar ${::IMEX::dataVar}/libs
 
 create_library_set -name worst\
    -timing\
-    [list ${::IMEX::libVar}/lib/typ/tcbn65gpluswc.lib]
+    [list /nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/layout_top/kf_top.dat/libs/lib/typ/tcbn65gpluswc.lib]
 create_library_set -name best\
    -timing\
     [list ${::IMEX::libVar}/mmmc/tcbn65gplusbc.lib]
