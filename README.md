@@ -1,157 +1,92 @@
-# Kalman-Filter-ASIC
-ECE1388 course project: a simple 2x2 Kalman Filter ASIC design
+# Kalman Filter ASIC
+
+A 2-state, 16-bit fixed-point Kalman Filter ASIC implementation in TSMC 65nm technology, based on the architecture proposed in:
+
+> R. Chávez-Bracamontes, M.A. Gurrola-Navarro, H.J. Jiménez-Flores, and M. Bandala-Sánchez, "VLSI architecture of a Kalman filter optimized for real-time applications," *IEICE Electronics Express*, Vol.13, No.6, pp.1-11, 2016. [DOI: 10.1587/elex.13.20160043](https://doi.org/10.1587/elex.13.20160043)
+
+## Project Overview
+
+The Kalman Filter is a recursive algorithm that estimates the state of a linear dynamic system from noisy measurements. This ASIC implementation targets real-time applications such as inertial navigation systems, where low power consumption and deterministic latency are critical.
+
+### Kalman Filter Algorithm
+
+The implementation follows the conventional discrete-time Kalman Filter formulation:
+
+**Time Update (Predict)**
+```
+x̂⁻ₖ = Φₖ₋₁ x̂⁺ₖ₋₁ + Gₖ₋₁ uₖ₋₁        (State prediction)
+P⁻ₖ = Φₖ₋₁ P⁺ₖ₋₁ Φᵀₖ₋₁ + Qₖ₋₁        (Covariance prediction)
+```
+
+**Measurement Update (Correct)**
+```
+Kₖ = P⁻ₖ Hᵀₖ (Hₖ P⁻ₖ Hᵀₖ + Rₖ)⁻¹     (Kalman gain)
+x̂⁺ₖ = x̂⁻ₖ + Kₖ (yₖ - Hₖ x̂⁻ₖ)        (State update)
+P⁺ₖ = (I - Kₖ Hₖ) P⁻ₖ               (Covariance update)
+```
+
+Where:
+- **x**: State vector (position, velocity)
+- **P**: Error covariance matrix
+- **Φ**: State transition matrix
+- **Q**: Process noise covariance
+- **H**: Measurement matrix
+- **R**: Measurement noise covariance
+- **K**: Kalman gain
+- **y**: Measurement
+
+## Architecture
+
+![Architecture](architecture.png)
+
+### Key Features
+
+- **2-state, 1-measurement Kalman Filter** (expandable architecture)
+- **24-bit fixed-point arithmetic** (Q9.14: 1 sign + 9 integer + 14 fractional bits)
+- **Single-cycle operations** for ADD, SUB, MUL
+- **24-cycle multiplicative inverse** using successive approximation
+- **~196 clock cycles per KF iteration** (2-state configuration)
+- **TSMC 65nm** standard cell implementation
+
+### Instruction Set
 
 ## RTL Simulation
 
-All simulation is run from the `sim_rtl/` directory:
+The ASIC design was validated against a Python reference implementation over 500 iterations. The plot below shows the Kalman Filter tracking a noisy position signal:
 
-```bash
-cd sim_rtl
-```
+![Simulation Results](sim_rtl/kf_results.png)
 
-### Usage
+The ASIC output closely matches the Python reference, demonstrating correct fixed-point implementation of the Kalman Filter algorithm.
 
-```bash
-./sim_rtl.sh              # Run basic module tests (AU, router, mem, sequencer)
-./sim_rtl.sh -t <mem>     # Run top-level KF test with specified .mem file
-./sim_rtl.sh -e <N>       # Run extended test with N iterations
-./sim_rtl.sh -a           # Run all tests
-./sim_rtl.sh -h           # Show help
-```
+## Synthesis
 
-### Examples
+- **Top**
 
-```bash
-# Basic module tests
-./sim_rtl.sh
+![Top](syn_top/top.png)
 
-# Top-level KF tests
-./sim_rtl.sh -t ../src/kf_1d.mem    # 1D Kalman Filter test
-./sim_rtl.sh -t ../src/kf_2d.mem    # 2D Kalman Filter test
+- **Submodules**
 
-# Extended tests with configurable iterations
-./sim_rtl.sh -e 200                  # Run 200 iterations
-./sim_rtl.sh -e 50                   # Run 50 iterations
-./sim_rtl.sh -e 20                   # Run 20 iterations
+|  ![Router A](syn/router_a.png)  |  ![Router B](syn/router_b.png)  |  ![Mem Reg](syn/mem_reg.png)  |  ![AU](syn/au.png)  |  ![Sequencer](syn/sequencer.png)  | ![ROM](syn/rom.png) |
+| :-----------------------------: | :-----------------------------: | :---------------------------: | :-----------------: | :-------------------------------: | :-----------------: |
+| [Router A](/syn/router_a_syn.v) | [Router B](/syn/router_b_syn.v) | [Mem Reg](/syn/mem_reg_syn.v) | [AU](/syn/au_syn.v) | [Sequencer](/syn/sequencer_syn.v) |         ROM         |
 
-# Run everything
-./sim_rtl.sh -a
-```
+### Summary
 
-### Extended Test Flow (`-e`)
-
-The extended test verifies the ASIC against a Python reference implementation:
-
-1. **Generate test data** - Python script creates:
-   - `truth.txt` - ground truth positions
-   - `measurements.txt` - noisy measurements
-   - `kf_expected.txt` - expected KF outputs from Python
-
-2. **Run ASIC simulation** - Verilog testbench:
-   - Loads test data from files
-   - Runs N KF iterations
-   - Compares ASIC output vs Python reference
-   - Exports ASIC results to `kf_asic.txt`
-
-3. **Generate plot** - Python creates comparison plot:
-   - Position estimation: truth vs measurements vs Python KF vs ASIC KF
-   - Error analysis: raw error vs KF error
-   - Saves to `kf_results.png`
-
-### Output Files
-
-| File | Description |
-|------|-------------|
-| `au.log` | Arithmetic Unit test results |
-| `router_a.log` | Router A test results |
-| `router_b.log` | Router B test results |
-| `mem_reg.log` | Memory Register test results |
-| `sequencer.log` | Sequencer test results |
-| `kf_1d.log` | 1D Kalman Filter test results |
-| `kf_2d.log` | 2D Kalman Filter test results |
-| `kf_ext.log` | Extended test results |
-| `kf_results.png` | Visual comparison plot |
+| Module     |  Cells | Comb. Area (µm²) | Seq. Area (µm²) |                               Total Area (µm²) |                           Critical Path (ns) |
+| ---------- | -----: | ---------------: | --------------: | ---------------------------------------------: | -------------------------------------------: |
+| **kf_top** | 18,770 |         37,458.7 |        34,480.4 |   [71,939.2](/syn_top/syn_report_area_top.txt) |   [6.90](/syn_top/syn_report_timing_top.txt) |
+| Router A   |     63 |            136.4 |             0.0 |     [136.4](/syn/syn_report_area_router_a.txt) |  [0.48](/syn/syn_report_timing_router_a.txt) |
+| Router B   |    153 |            341.3 |             0.0 |     [341.3](/syn/syn_report_area_router_b.txt) |  [0.58](/syn/syn_report_timing_router_b.txt) |
+| Mem Reg    |  2,804 |          5,084.6 |         5,702.4 |   [10,787.0](/syn/syn_report_area_mem_reg.txt) |   [1.15](/syn/syn_report_timing_mem_reg.txt) |
+| AU         |  3,897 |         12,093.8 |           943.2 |        [13,037.0](/syn/syn_report_area_au.txt) |        [6.43](/syn/syn_report_timing_au.txt) |
+| Sequencer  | 11,742 |         19,804.3 |        28,078.2 | [47,882.5](/syn/syn_report_area_sequencer.txt) | [1.53](/syn/syn_report_timing_sequencer.txt) |
 
 ## Post-Synthesis Simulation
 
-Post-synthesis simulation verifies the synthesized gate-level netlist against the standard cell library.
+## Layout
 
-All simulation is run from the `sim_post_syn/` directory:
+### Core Layout
+![Core Layout](layout_top/top_core.png)
 
-```bash
-cd sim_post_syn
-```
-
-### Prerequisites
-
-- Synthesized netlists in `syn/` (sub-modules) and `syn_top/` (kf_top)
-- TSMC 65nm standard cell library (`tcbn65gplus.v`) in `sim_post_syn/`
-
-### Usage
-
-```bash
-./sim_post_syn.sh              # Run all sub-module post-syn tests
-./sim_post_syn.sh -m <module>  # Run specific module test
-./sim_post_syn.sh -t           # Run kf_top post-syn test
-./sim_post_syn.sh -h           # Show help
-```
-
-### Examples
-
-```bash
-# Run all sub-module tests (au, router_a, router_b, mem_reg, sequencer)
-./sim_post_syn.sh
-
-# Test specific module
-./sim_post_syn.sh -m au        # Test AU module only
-./sim_post_syn.sh -m router_a  # Test Router A only
-
-# Test full top-level design
-./sim_post_syn.sh -t           # Run kf_top post-syn test
-```
-
-### Output Files
-
-| File | Description |
-|------|-------------|
-| `au_post_syn.log` | AU post-syn test results |
-| `router_a_post_syn.log` | Router A post-syn test results |
-| `router_b_post_syn.log` | Router B post-syn test results |
-| `mem_reg_post_syn.log` | Memory Register post-syn test results |
-| `sequencer_post_syn.log` | Sequencer post-syn test results |
-| `kf_top_post_syn.log` | Top-level KF post-syn test results |
-
-### Notes
-
-- Sub-module tests use `+define+POST_SYN` to handle parameter differences between RTL and synthesized netlists
-- The kf_top test loads ROM contents via the programming port (since `$readmemh` doesn't work on synthesized ROM)
-- Post-syn tests cannot probe internal signals; they verify functionality through external I/O only
-
-## Project Structure
-
-```
-Kalman-Filter-ASIC/
-├── src/                    # RTL source files
-│   ├── kf_top.v           # Top-level KF module
-│   ├── kf_top_tb.v        # Unified testbench (RTL + post-syn)
-│   ├── au.v               # Arithmetic Unit
-│   ├── sequencer.v        # Instruction sequencer
-│   ├── router_a.v         # Router A
-│   ├── router_b.v         # Router B
-│   ├── mem_reg.v          # Memory registers
-│   ├── *_tb.v             # Sub-module testbenches
-│   ├── kf_1d.mem          # 1D KF instruction ROM
-│   └── kf_2d.mem          # 2D KF instruction ROM
-├── sim_rtl/               # RTL simulation
-│   ├── sim_rtl.sh         # RTL simulation runner
-│   └── kf_gen_test.py     # Test data generator
-├── syn/                   # Sub-module synthesis outputs
-│   └── *_syn.v            # Synthesized sub-module netlists
-├── syn_top/               # Top-level synthesis
-│   ├── synthesis_kf_top.tcl  # DC synthesis script
-│   └── kf_top_syn.v       # Synthesized top-level netlist
-├── sim_post_syn/          # Post-synthesis simulation
-│   ├── sim_post_syn.sh    # Post-syn simulation runner
-│   └── tcbn65gplus.v      # TSMC 65nm standard cell library
-└── README.md
-```
+### Full Chip with Padframe
+![Full Chip](layout_top_innovus_padframe/top_fullchip.png)
