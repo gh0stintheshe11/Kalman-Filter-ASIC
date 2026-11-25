@@ -1,0 +1,34 @@
+# LibreLane 3 configuration: kf_top hardened as a macro on IHP SG13G2
+# (130 nm, 1.2 V core).  Run from the repository root:
+#     make flow            (see Makefile; needs the LibreLane environment)
+DESIGN_NAME: kf_top
+VERILOG_FILES:
+  - dir::../../rtl/kf_top.v
+  - dir::../../rtl/kf_sequencer.v
+  - dir::../../rtl/kf_rom.v
+  - dir::../../rtl/kf_regfile.v
+  - dir::../../rtl/kf_au.v
+
+# ---- synthesis -------------------------------------------------------------
+# Booth-encoded multiplier with a Wallace tree: in pre-placement STA it is
+# ~6 ns faster at the slow corner and ~6 % smaller than Yosys' default array.
+SYNTH_MUL_BOOTH: true
+
+# ---- timing ----------------------------------------------------------------
+PNR_SDC_FILE: dir::kf_top.sdc
+SIGNOFF_SDC_FILE: dir::kf_top.sdc
+CLOCK_PORT: clk
+CLOCK_PERIOD: 20              # ns, 50 MHz
+# Sign off setup, hold, max-slew and max-cap at every corner:
+# slow 1.08 V/125 C, typical 1.20 V/25 C, fast 1.32 V/-40 C.
+# (The IHP default only checks setup at the typical corner.)
+TIMING_VIOLATION_CORNERS: ["*"]
+MAX_SLEW_VIOLATION_CORNERS: ["*"]
+MAX_CAP_VIOLATION_CORNERS: ["*"]
+RUN_POST_GRT_RESIZER_TIMING: true
+
+# ---- floorplan -------------------------------------------------------------
+FP_SIZING: relative
+FP_CORE_UTIL: 45
+PL_TARGET_DENSITY_PCT: 55
+IO_PIN_ORDER_CFG: dir::pin_order.cfg
