@@ -22,10 +22,10 @@ and reports.  These are the findings, with what the redo does about each.
 |---|---|---|---|
 | 7 | **No timing constraints**: the SDC holds only `set_units`; no clock was defined. | `syn_top/kf_top_syn.sdc`; DC report says "Path is unconstrained". The quoted 6.90 ns / 144 MHz is an unconstrained path through the loop of #2. | Real clock, I/O and load constraints; setup, hold, slew and capacitance signed off at three corners. |
 | 8 | **No clock tree, no timing optimization, no GDS**: no CTS, `optDesign` or `streamOut` in any Innovus session; ~5000 clock sinks were routed as a plain net. | `layout_top*/innovus.cmd*`. | Full flow: CTS, post-CTS and post-route repair, fill, GDS from two tools with XOR check. |
-| 9 | **DRC/LVS claims**: only Innovus `verifyGeometry` was run; LVS never ran. | `layout_top/kf_top.geom.rpt`. | KLayout and Magic DRC with the PDK rule decks, Netgen LVS. |
-| 10 | **Analog pads for digital I/O**: all 91 signal pads were `PDB2A` from `tpan65gpgv2od3` (analog pass-through, one `AIO` pin), wired straight to core pins. | `layout_top_innovus_padframe/kf_top_padframe.v`. | Hardened as a block; pad ring left to the integrating chip. |
+| 9 | **DRC/LVS claims**: only Innovus `verifyGeometry` was run; LVS never ran. | `layout_top/kf_top.geom.rpt`. | Magic and KLayout DRC in the flow, and IHP's full KLayout deck (including density and antenna) on the whole chip; Netgen LVS, transistor-level LVS with IHP's KLayout deck, and a short and open check of the pad ring on the full layout. The routed netlists are also proven equivalent to the RTL. |
+| 10 | **Analog pads for digital I/O**: all 91 signal pads were `PDB2A` from `tpan65gpgv2od3` (analog pass-through, one `AIO` pin), wired straight to core pins. | `layout_top_innovus_padframe/kf_top_padframe.v`. | Digital I/O cells (`sg13g2_IOPadIn`, `sg13g2_IOPadOut16mA`, `sg13g2_IOPadTriOut16mA`) and an SPI host interface: 8 signal and 8 supply pads, with pad ring, bond pads, seal ring and fill in the GDS ([chip.md](chip.md)). |
 | 11 | **"ROM" was 4096 flip-flops**: a debug write port made it a register file (81 % of all flops, ~2/3 of the area). | DC area reports; Yosys statistics. | Hard-wired ROM generated from the assembler. |
-| 12 | Three 23×23 multipliers in the AU (the paper reuses one). | `src/au.v`. | One shared Booth multiplier. |
+| 12 | Three 23×23 multipliers in the AU (the paper reuses one). | `src/au.v`. | Two Booth multipliers, both busy in every instruction (each instruction is a two-term dot product). |
 | 13 | Mixed reset styles (`initial` + synchronous in the sequencer, asynchronous elsewhere). | Verilator `SYNCASYNCNET`. | Asynchronous reset with a synchronizer everywhere. |
 
 ## Repository
@@ -38,7 +38,7 @@ outside the university environment.
 
 | | Course version | This version |
 |---|---|---|
-| Flip-flops (Yosys generic synthesis) | 5,054, all clocked every cycle | 1,072, behind 43 clock gates |
-| Generic cells (Yosys) | 25,096 | 12,355 |
-| Signal pins | 91 | 58 |
-| Cycles per iteration | 195 | 38 (+1 input register) |
+| Flip-flops (Yosys generic synthesis of the core) | 5,054, all clocked every cycle | 1,240, behind 43 clock gates |
+| Generic cells (Yosys) | 25,096 | 21,130 (two multipliers) |
+| Signal pads | 91 | 8 (SPI, START, READY, clock, reset) |
+| Cycles per iteration | 195 | 24 (+1 input register) |
