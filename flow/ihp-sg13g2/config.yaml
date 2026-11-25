@@ -30,7 +30,7 @@ SYNTH_STRATEGY: AREA 3
 PNR_SDC_FILE: dir::kf_top.sdc
 SIGNOFF_SDC_FILE: dir::kf_top.sdc
 CLOCK_PORT: clk
-CLOCK_PERIOD: 10              # ns
+CLOCK_PERIOD: 8.25            # ns
 # Sign off setup, hold, max-slew and max-cap at every corner:
 # slow 1.08 V/125 C, typical 1.20 V/25 C, fast 1.32 V/-40 C.
 # (The IHP default only checks setup at the typical corner.)
@@ -38,16 +38,20 @@ TIMING_VIOLATION_CORNERS: ["*"]
 MAX_SLEW_VIOLATION_CORNERS: ["*"]
 MAX_CAP_VIOLATION_CORNERS: ["*"]
 RUN_POST_GRT_RESIZER_TIMING: true
+# Design repair (fanout, slew, capacitance) once more after global routing:
+# timing repair inserts buffers late in the flow, and without this a few of
+# them exceeded the library's fanout guideline of 8.
+RUN_POST_GRT_DESIGN_REPAIR: true
 
 # ---- clock tree ------------------------------------------------------------
 # The IHP default builds every level of every tree, including the many
-# small gated trees, from 16x buffers and adds 16x delay buffers to align
-# the ungated flip-flops with the gated ones.  Smaller buffers and no
-# latency-balancing buffers cut clock power several-fold; the resulting
-# skew between gated and ungated flip-flops is covered by STA.
+# small gated trees, from 16x buffers; 4x and 2x buffers cut clock power
+# several-fold.  OpenROAD's latency balancing, which delays the ungated
+# flip-flops to match the gated ones, is kept: without it, hold repair of
+# the host-address -> addend path put delay cells into the read port that
+# data_out shares.
 CTS_ROOT_BUFFER: sg13g2_buf_4
 CTS_CLK_BUFFERS: [sg13g2_buf_4, sg13g2_buf_2]
-CTS_DELAY_BUFFER_DERATE_PCT: 0
 
 # ---- floorplan -------------------------------------------------------------
 FP_SIZING: relative
