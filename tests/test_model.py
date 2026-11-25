@@ -11,6 +11,7 @@ from kfasic import fixed
 from kfasic import reference as ref
 from kfasic.asm import AsmError, assemble, assemble_file, decode, to_verilog
 from kfasic.iss import RCP_CYCLES, Iss, UninitializedRead, execute_float
+from kfasic.randprog import random_program
 
 ROOT = Path(__file__).resolve().parents[1]
 PROG = assemble_file(ROOT / "fw" / "kf_2d.s")
@@ -102,9 +103,45 @@ def test_reciprocal_times_value_error_bound():
 
 def test_assembler_encodings():
     p = assemble(".reg a 3\n.reg b 7\n.reg t 9\nmul acc, a, b\nmac t, a, rinv\n"
-                 "lda t, b\nsub acc, a, b\nrcp b\nnop\nhalt\n")
+                 "lda t, b\nsub acc, a, b\nrcp b\nnop\nhalt\n", optimize=False)
     assert p.words == [0x0400CE, 0x0748C1, 0x0F49C0, 0x0C00CE, 0x10000E, 0x000000, 0x020000]
     assert decode(0x0748C1) == {"op": 3, "wr": 1, "dst": 9, "a": 3, "b": 0, "bi": 1}
+
+
+def test_low_power_encoding_exchanges_operands():
+    # sub is not commutative; the mac's operands follow it on the same ports
+    x = [decode(w) for w in assemble(".reg a 3\n.reg b 7\nsub db[9], a, b\n"
+                                     "mac acc, b, a\nhalt\n").words]
+    assert [(w["op"], w["a"], w["b"]) for w in x] == [(6, 3, 7), (3, 3, 7), (1, 3, 7)]
+
+
+def test_low_power_encoding_fills_unused_fields():
+    x = [decode(w) for w in assemble(".reg a 3\n.reg b 7\nsub db[9], a, b\nlda acc, b\n"
+                                     "rcp a\nhalt\n").words]
+    assert (x[1]["a"], x[1]["b"], x[1]["dst"]) == (7, 7, 9)   # lda: b and dst kept
+    assert (x[2]["a"], x[2]["b"]) == (7, 3)                    # rcp: a kept
+    assert {k: x[3][k] for k in ("op", "wr", "dst", "a", "b")} == \
+        {"op": 1, "wr": 0, "dst": 9, "a": 7, "b": 3}           # halt: everything kept
+
+
+def test_low_power_encoding_preserves_behavior():
+    """Re-encoded random programs give the same registers, cycle counts and
+    stalls as the plain encoding."""
+    r = np.random.default_rng(11)
+    for n in range(40):
+        src = random_program(r)
+        plain, opt = assemble(src, optimize=False), assemble(src)
+        assert plain.words != opt.words
+        for _ in range(3):
+            init = [int(v) for v in r.integers(0, 1 << 24, size=32)]
+            out = []
+            for prog in (plain, opt):
+                iss = Iss(prog.words, strict=False)
+                for addr, word in enumerate(init):
+                    iss.write(addr, word)
+                cycles = iss.run()
+                out.append((cycles, iss.stalls, [iss.read(a) for a in range(32)]))
+            assert out[0] == out[1], f"program {n}"
 
 
 def test_committed_rom_is_up_to_date():

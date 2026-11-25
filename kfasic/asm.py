@@ -140,7 +140,9 @@ def _split_comment(line: str) -> tuple[str, str]:
     return line[: m.start()].strip(), m.group(2).strip()
 
 
-def assemble(text: str, source: str = "<string>") -> Program:
+def assemble(text: str, source: str = "<string>", optimize: bool = True) -> Program:
+    """Assemble a program.  With ``optimize`` the words are re-encoded by
+    reduce_toggles(): same behavior, less switching in the hardware."""
     prog = Program(source=source)
 
     def err(lineno: int, msg: str) -> AsmError:
@@ -219,12 +221,92 @@ def assemble(text: str, source: str = "<string>") -> Program:
 
     if not prog.instrs or prog.instrs[-1].word != WORD_HALT:
         raise AsmError(f"{source}: program must end with 'halt'")
+    if optimize:
+        for instr, word in zip(prog.instrs, reduce_toggles(prog.words)):
+            old, new = decode(instr.word), decode(word)
+            if old["op"] in TWO_OPERAND_OPS and old["a"] != new["a"]:
+                mnem, _, rest = instr.text.partition(" ")      # operands exchanged
+                d, a, b = (s.strip() for s in rest.split(","))
+                instr.text = f"{mnem} {d}, {b}, {a}"
+            instr.word = word
     return prog
 
 
-def assemble_file(path: str | Path) -> Program:
+def assemble_file(path: str | Path, optimize: bool = True) -> Program:
     path = Path(path)
-    return assemble(path.read_text(), source=str(path))
+    return assemble(path.read_text(), source=str(path), optimize=optimize)
+
+
+# --------------------------------------------------------------------------
+# Low-power encoding
+# --------------------------------------------------------------------------
+
+COMMUTATIVE_OPS = MUL_OPS + (OP_ADD,)     # A and B can be exchanged
+
+# Relative costs used by reduce_toggles(): a port that reads a different
+# register makes the read multiplexers and the operand register toggle; an
+# address bit that flips drives a high-fanout select line.
+_COST_PORT_CHANGE = 6
+_COST_ADDR_BIT = 1
+_COST_MUL_OPERAND = 6
+_COST_DST_BIT = 0.5
+
+
+def _used_fields(x: dict[str, int]) -> tuple[bool, bool, bool]:
+    """Whether the a, b and (wr, dst) fields of an instruction matter."""
+    op = x["op"]
+    a_used = op in TWO_OPERAND_OPS or op == OP_LDA
+    b_used = (op in TWO_OPERAND_OPS and not x["bi"]) or op == OP_RCP
+    return a_used, b_used, op in ACC_OPS
+
+
+def reduce_toggles(words: list[int]) -> list[int]:
+    """Re-encode a program so that it executes identically but makes the
+    hardware toggle less.
+
+    * Fields an instruction does not use (a, b, bi, wr/dst) repeat the
+      previous instruction's values, so the read addresses and the pipeline
+      control registers do not change.
+    * The operands of MUL, MAC, MSB and ADD are commutative (exactly, in the
+      fixed-point arithmetic too); their order is chosen so that a register
+      read on consecutive cycles stays on the same port, and the multiplier
+      operand registers change as little as possible.
+
+    The choice is a shortest path over the program (dynamic programming over
+    the field values each instruction leaves behind).  Read sets, written
+    registers and therefore pipeline timing are unchanged.
+    """
+    # state: (a, b, bi, wr, dst, ma, mb) -> (cost, encoded words so far)
+    states: dict[tuple, tuple[float, list[int]]] = {(0, 0, 0, 0, 0, None, None): (0.0, [])}
+    for word in words:
+        x = decode(word)
+        a_used, b_used, acc_op = _used_fields(x)
+        nxt: dict[tuple, tuple[float, list[int]]] = {}
+        for (pa, pb, pbi, pwr, pdst, ma, mb), (cost, enc) in states.items():
+            orders = [(x["a"], x["b"])]
+            if x["op"] in COMMUTATIVE_OPS and not x["bi"] and x["a"] != x["b"]:
+                orders.append((x["b"], x["a"]))
+            for oa, ob in orders:
+                a = oa if a_used else pa
+                b = ob if b_used else pb
+                bi = x["bi"] if x["op"] in TWO_OPERAND_OPS else pbi
+                wr = x["wr"] if acc_op else pwr
+                dst = x["dst"] if acc_op and x["wr"] else pdst
+                c = cost
+                for new, old in ((a, pa), (b, pb)):
+                    if new != old:
+                        c += _COST_PORT_CHANGE + _COST_ADDR_BIT * bin(new ^ old).count("1")
+                c += _COST_DST_BIT * (bin(dst ^ pdst).count("1") + (wr != pwr) + (bi != pbi))
+                nma, nmb = ma, mb
+                if x["op"] in MUL_OPS:
+                    nma, nmb = a, ("rinv" if bi else b)
+                    c += _COST_MUL_OPERAND * ((nma != ma) + (nmb != mb))
+                key = (a, b, bi, wr, dst, nma, nmb)
+                w = encode(x["op"], wr, dst, a, b, bi)
+                if key not in nxt or c < nxt[key][0]:
+                    nxt[key] = (c, enc + [w])
+        states = nxt
+    return min(states.values(), key=lambda v: v[0])[1]
 
 
 # --------------------------------------------------------------------------
