@@ -17,13 +17,13 @@ on the **IHP SG13G2** 130 nm open PDK.
 
 | Stage | Tools | Result |
 |---|---|---|
-| Microcode | `kfasic.asm` (this repo) | 47 instructions, **49 cycles** per filter iteration (original: 188) |
+| Microcode | `kfasic.asm` (this repo) | 36 instructions, **38 cycles** per filter iteration, no stall (original: 188) |
 | Lint | Verilator `-Wall`, Yosys `check -assert` | clean, no combinational loops |
 | RTL verification | cocotb 2.1 on Icarus Verilog **and** Verilator | bit- and cycle-exact against the golden model; random-program differential tests of the pipeline; bit-exact against the original design's 5000-iteration run |
-| RTL → GDS | LibreLane 3.0.17 (Yosys, OpenROAD) | 0.34 mm² macro, **100 MHz** |
-| Signoff | OpenSTA (3 corners), KLayout + Magic DRC, Netgen LVS | timing met at all corners; DRC, LVS, antenna clean |
-| Gate-level simulation | cocotb + Icarus on the routed netlist | the same black-box tests pass, also with back-annotated delays at 100 MHz |
-| Power | OpenSTA with SDF-annotated simulated activity | **2.15 nJ per iteration** (glitches included), 0.15 mW idle |
+| RTL → GDS | LibreLane 3.0.17 (Yosys, OpenROAD) | 0.35 mm² macro, **121 MHz** |
+| Signoff | OpenSTA (3 corners), KLayout + Magic DRC, Netgen LVS | timing, slew, capacitance and fanout met at all corners; DRC, LVS, antenna clean |
+| Gate-level simulation | cocotb + Icarus on the routed netlist | the same black-box tests pass, also with typical- and fast-corner delays at 121 MHz |
+| Power | OpenSTA with SDF-annotated simulated activity | **1.97 nJ per iteration** (glitches included), 0.17 mW idle |
 
 ## The filter
 
@@ -49,30 +49,34 @@ golden model that the RTL matches bit for bit.*
 ## Architecture
 
 A microcoded multiply-accumulate machine derived from the paper's design.
-A sequencer reads a 256 × 21 ROM into an instruction register (prefetched,
+A sequencer reads a 256 × 26 ROM into an instruction register (prefetched,
 so no cycle is lost). A 32 × 24-bit register file holds the state, the
-parameters and temporaries; it has two read ports for the datapath and one
-for the host. The datapath is a three-stage pipeline:
+parameters and temporaries. Every instruction is a fused multiply-add,
+ACC ← {0, ACC, C} ± A·B with B a register, 1/S or 1.0, executed by a
+three-stage pipeline:
 
-1. read two operands;
-2. multiply, or add/subtract;
+1. read operands A and B;
+2. multiply, and read the addend C;
 3. accumulate and write back.
 
-A separate radix-8 unit computes 1/S in 8 cycles while the pipeline keeps
-working.  Numbers are 24-bit sign-magnitude Q9.14, as in the paper.
+Results are forwarded from the last stage, so an instruction only waits if
+it needs the result of the one just before it.  A separate radix-8 unit
+computes 1/S in 7 cycles while the pipeline keeps working.  Numbers are
+24-bit sign-magnitude Q9.14, as in the paper.
 
 The microcode uses the symmetry of the covariance matrices and evaluates
-P⁺ = P⁻ − K(P⁻Hᵀ)ᵀ.  In exact arithmetic this is identical to the textbook
-equations, and it needs 49 cycles per iteration instead of 188.
+P⁺ = P⁻ − K(P⁻Hᵀ)ᵀ; in exact arithmetic this is identical to the textbook
+equations.  Fusing the additions of Q, R, y, x⁻ and P⁻ into the multiply-adds
+and ordering the dot products so that nothing waits gives 36 instructions
+and 38 cycles per iteration, instead of 188.
 
 For low power, every register group is clock-gated (one gate per
 register-file entry, gates for the operand, result, accumulator, reciprocal
 and control registers) behind a core clock gate that stops the clock while
-idle.  The multiplier and the adder have separate operand registers, so only
-the unit in use sees new data.  The register-file read ports decode their
-address one-hot, so a new address toggles two select lines instead of
-select lines that reach every bit, and the instruction register keeps the
-ROM's glitches out of them.  The assembler encodes unused instruction fields
+idle.  The register-file read ports decode their address one-hot, so a
+new address toggles two select lines instead of select lines that reach
+every bit, and the instruction register keeps the ROM's glitches out of
+them.  The assembler encodes unused instruction fields
 and the order of commutative operands so that as few bits as possible change
 from one instruction to the next.
 
@@ -104,9 +108,9 @@ for bit and `kfasic/iss.py` models the pipeline cycle for cycle.
   Inputs change on the falling clock edge, and the tests pass on both Icarus
   and Verilator, so they do not depend on simulator event ordering.
 * The same black-box tests run on the final gate-level netlist (`make gls`),
-  and on the netlist back-annotated with the typical-corner delays at the
-  design's clock period (`make gls SDF=1`), which exercises the clock gating,
-  resets and hold paths with real timing.
+  and on the netlist back-annotated with the typical- and the fast-corner
+  delays at the design's clock period (`make gls SDF=1`, `SDF_CORNER=...`),
+  which exercises the clock gating, resets and hold paths with real timing.
 * The cell-level register-file read port used in the IHP flow is proven
   equal to its RTL with a SAT miter (`make equiv`).
 
@@ -117,32 +121,67 @@ Hardened as a standalone macro (no pad ring) with LibreLane 3.0.17: Yosys
 1.5.316, on the IHP SG13G2 PDK as pinned by LibreLane.  The clock gates map to
 the PDK's integrated clock-gating cell `sg13g2_lgcp_1`.  Configuration and
 constraints: [`flow/ihp-sg13g2/`](flow/ihp-sg13g2/).  Synthesis uses ABC's
-`AREA 3` script (delay-driven mapping); the clock trees are built from
-small buffers without latency-balancing buffers, which cut clock power
-several-fold.
+`AREA 3` script (delay-driven mapping); the clock trees are built from 4x
+and 2x buffers instead of the 16x buffers of the IHP default, which cuts
+clock power several-fold.
 
 | Metric | Value |
 |---|---|
-| Clock | 10 ns (100 MHz) |
-| Die | 0.342 mm², 50.8 % core utilization |
-| Cells | 29,781 including fill, decap and tap cells; 161,222 µm² |
-| Setup / hold WNS, slow 1.08 V / 125 °C | +0.19 / +0.23 ns |
-| Setup / hold WNS, typical 1.20 V / 25 °C | +3.04 / +0.28 ns |
-| Setup / hold WNS, fast 1.32 V / −40 °C | +4.68 / +0.11 ns |
+| Clock | 8.25 ns (121 MHz) |
+| Die | 0.346 mm² (579 × 598 µm), 50.0 % core utilization |
+| Cells | 30,792 including fill, decap and tap cells; 160,705 µm² |
+| Setup / hold WNS, slow 1.08 V / 125 °C | +0.11 / +0.11 ns |
+| Setup / hold WNS, typical 1.20 V / 25 °C | +2.51 / +0.26 ns |
+| Setup / hold WNS, fast 1.32 V / −40 °C | +3.84 / +0.09 ns |
 | Max slew / max capacitance violations | 0 / 0 |
+| Nets above the library's fanout guideline (8) | 0 |
 | Routing DRC, Magic DRC, KLayout DRC | 0, 0, 0 |
 | LVS (Netgen) | clean |
 | Antenna violations | 0 |
 | Magic vs KLayout GDS (XOR) | identical |
-| Worst IR drop | 1.8 mV |
-| Throughput | 50 cycles per iteration (START to READY) → 2.0 M iterations/s |
+| Worst IR drop | 2.5 mV |
+| Throughput | 39 cycles per iteration (START to READY) → 3.1 M iterations/s |
 
 Timing includes ±5 % derate and 0.25 ns clock uncertainty and is signed off
 at all three corners (the IHP default checks setup only at typical).
+Besides the asynchronous reset input, the constraints
+([`kf_top.sdc`](flow/ihp-sg13g2/kf_top.sdc)) contain one exception: hold
+checks from the register file to the operand registers are waived, because
+forwarding guarantees that an operand register never captures a register
+on the edge that writes it; without the waiver, hold repair put delay cells
+into the read ports on the critical path.  Gate-level simulation with
+fast-corner delays confirms it.  At 8 ns only the multiplier path
+(operand register → Booth/Wallace multiplier → result register) still
+fails; the other pipeline stages have been brought to the same length.
 `make summary` regenerates this table from a run.
+
+![Layout](docs/img/layout.png)
+
+*The routed macro, rendered from the final GDS with KLayout
+(`flow/render_gds.py`).*
 
 For comparison, the paper's chip (0.5 µm, 3 metal layers) ran at up to
 20 MHz in 5.6 mm² and needed 113 cycles per iteration.
+
+### Tapeout readiness
+
+The macro passes every check that applies to a hardened block:
+
+* static timing at all three corners (setup, hold, slew, capacitance), with
+  on-chip-variation derate and clock uncertainty;
+* DRC with IHP's KLayout deck (FEOL and BEOL rules; recommended rules off,
+  as in LibreLane's IHP flow) and with Magic, LVS with Netgen, antenna
+  rules, Magic-vs-KLayout GDS XOR, IR drop;
+* dynamic checks: the routed netlist, back-annotated with the typical- and
+  the fast-corner delays, passes the black-box tests at the design clock
+  (`make gls SDF=1`), and the hand-instantiated read-port cells are
+  formally equivalent to their RTL (`make equiv`).
+
+For a shuttle submission it still has to be integrated into a chip: pad
+ring (IHP's `sg13g2_io` cells), seal ring, and metal/active fill checked
+against the density rules (IHP's `density.drc`), all of which apply to the
+whole die.  With 58 signal pins, a pad-limited die would also call for a
+narrower host interface (for example byte-wide or serial).
 
 ## Power
 
@@ -151,20 +190,37 @@ with the typical-corner SDF delays so that the recorded switching activity
 includes glitches, and has OpenSTA compute power with the extracted
 parasitics at the typical corner.  (Zero-delay activity, `--zero-delay`,
 misses them and underestimates the combinational power by 35–65 % for these
-designs.)  All
-versions below are measured this way: the first open-source version
-(single-cycle datapath, 188-cycle microcode, no clock gating; commit
+designs.)  All versions below are measured this way: the first open-source
+version (single-cycle datapath, 188-cycle microcode, no clock gating; commit
 `5330f70`), the first pipelined version (commit `2160277`) and the current
 one.
 
 | | first version | pipelined | current |
 |---|---|---|---|
-| Clock | 50 MHz | 66.7 MHz | 100 MHz |
-| Cycles per iteration (incl. host write of y) | 191 | 53 | 52 |
-| Power while filtering | 6.61 mW | 3.65 mW | 4.14 mW |
-| **Energy per iteration** | **25.3 nJ** | **2.90 nJ** | **2.15 nJ** (11.7× less than the first) |
-| Idle power (clock running) | 3.13 mW | 0.36 mW | 0.15 mW |
-| Leakage | 8.6 µW | 9.4 µW | 10.8 µW |
+| Clock | 50 MHz | 66.7 MHz | 121 MHz |
+| Cycles per iteration (incl. host write of y) | 191 | 53 | 41 |
+| Power while filtering | 6.61 mW | 3.65 mW | 5.82 mW |
+| **Energy per iteration** | **25.3 nJ** | **2.90 nJ** | **1.97 nJ** (12.8× less than the first) |
+| Idle power (clock running) | 3.13 mW | 0.36 mW | 0.17 mW |
+| Leakage | 8.6 µW | 9.4 µW | 11.0 µW |
+
+Where the 1.97 nJ of an iteration go (`make power`, which attributes each
+cell to a block by the registers in its fan-in cone):
+
+| Block | pJ | Share |
+|---|---|---|
+| Multiplier | 659 | 33 % |
+| Flip-flops | 454 | 23 % |
+| Clock trees and clock gates | 254 | 13 % |
+| ROM, decode, register reads | 174 | 9 % |
+| Accumulate (WB adder) | 168 | 9 % |
+| Write-back, forwarding and data-in multiplexers | 145 | 7 % |
+| Reciprocal unit | 73 | 4 % |
+| Hold-fix delay cells, control, fill, I/O | 42 | 2 % |
+
+Most of the multiplier's share is glitching in the Wallace tree.  Before
+the one-hot read ports and the instruction register (the RTL of commit
+`f94aa72`, hardened at 100 MHz), the ROM and the register reads took 40 %.
 
 ## Quick start
 
