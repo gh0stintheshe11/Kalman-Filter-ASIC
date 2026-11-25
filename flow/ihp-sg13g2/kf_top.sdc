@@ -14,12 +14,16 @@ set_clock_transition  0.15 [get_clocks clk]
 set_timing_derate -early 0.95
 set_timing_derate -late  1.05
 
-# I/O: 20 % of the period is budgeted outside the block on both sides.
-# All inputs except clk and rst_n are registered right at the boundary.
+# I/O: 20 % of the period is budgeted outside the block for the inputs
+# (all except clk and rst_n are registered right at the boundary) and for
+# READY.  data_out is read combinationally from the register file and in
+# the chip goes straight into a register of the SPI slave (rtl/kf_spi.v),
+# so it gets the whole period.
 set io_delay [expr {0.2 * $period}]
 set data_inputs [get_ports {start write dir[*] data_in[*]}]
 set_input_delay  $io_delay -clock clk $data_inputs
-set_output_delay $io_delay -clock clk [all_outputs]
+set_output_delay $io_delay -clock clk [get_ports ready]
+set_output_delay 0 -clock clk [get_ports {data_out[*]}]
 set_driving_cell -lib_cell sg13g2_buf_4 -pin X $data_inputs
 set_driving_cell -lib_cell sg13g2_buf_4 -pin X [get_ports {clk rst_n}]
 set_load 0.006 [all_outputs]
@@ -30,9 +34,9 @@ set_load 0.006 [all_outputs]
 set_false_path -from [get_ports rst_n]
 
 # Register file -> operand registers: hold paths are false.  An operand
-# register (ma, mb, xc, or the reciprocal unit's load registers d, r, q,
-# sgn, sat) captures data from the register file only when an instruction
-# issues.  If that instruction reads the register that is being written on
+# register (ma, mb, md, me, ms1, ms2 in S1, the base register xc in EX)
+# captures data from the register file only when an instruction issues or
+# enters EX.  If that instruction reads the register that is being written on
 # the same clock edge, the forwarding multiplexer selects the value being
 # written (acc_next), not the register; for any other register the AND-OR
 # read port blocks it (select 0).  So a register-file flip-flop that
@@ -46,12 +50,12 @@ set_false_path -from [get_ports rst_n]
 set rf_flops [get_cells -quiet -of_objects [get_pins -quiet -filter "direction == output" \
     -of_objects [get_nets -quiet {u_rf.g_reg*.r*}]]]
 set opnd_flops [get_cells -quiet -of_objects [get_pins -quiet -filter "direction == output" \
-    -of_objects [get_nets -quiet {ma[*] mb[*] xc[*] u_rcp.d[*] u_rcp.r[*] u_rcp.q[*] u_rcp.sgn u_rcp.sat}]]]
+    -of_objects [get_nets -quiet {ma[*] mb[*] md[*] me[*] ms1 ms2 xc[*]}]]]
 if {[llength $rf_flops] > 0 && [llength $opnd_flops] > 0} {
     set_false_path -hold -from $rf_flops -to $opnd_flops
 }
 
-# Fanout guideline (LibreLane's MAX_FANOUT_CONSTRAINT).  The IHP library's
-# default_max_fanout of 8 is tighter and is what design repair and the
-# signoff check apply in practice.
+# Fanout guideline (LibreLane's MAX_FANOUT_CONSTRAINT, the target of design
+# repair).  The signoff check also applies the IHP library's
+# default_max_fanout of 8.
 set_max_fanout $::env(MAX_FANOUT_CONSTRAINT) [current_design]

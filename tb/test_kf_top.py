@@ -155,7 +155,7 @@ async def reset_during_run(dut):
     await load(host, iss, ref.tracking_params())
     await host.write(REG["y"], fixed.from_float(1.0))
     dut.start.value = 1
-    await ClockCycles(dut.clk, 30)                 # reciprocal unit busy
+    await ClockCycles(dut.clk, 15)                 # reciprocal unit busy
     await FallingEdge(dut.clk)
     dut.start.value = 0
     await host.reset()

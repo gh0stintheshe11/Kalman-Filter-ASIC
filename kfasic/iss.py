@@ -2,23 +2,29 @@
 
 Pipeline, one instruction issued per cycle at most:
 
-    S1  decode + operand read   operands A and B (register, RINV or 1.0) read
-    EX  multiply                A * B -> XR; the addend C of MAD/MSD is read
-    WB  accumulate + write      ACC <- XR, ACC +/- XR or C +/- XR, optional
-                                register write
+    S1  decode + operand read   A, D (register, RINV or 1.0), B, E (registers)
+    EX  two multiplications     A*B and D*E; the addend C is read
+    WB  sum + write back        ACC <- sat(base +/- A*B +/- D*E), optional
+                                register write; optionally the reciprocal
+                                unit is started with the result
 
 (The fetch of the next instruction into the instruction register overlaps
 with S1 and never costs a cycle.)  The result in WB is forwarded to the
 operand reads in S1 and EX of the same cycle.
 
 S1 stalls (bubble into EX) while
-  * it reads a register as A or B (or as the divisor of RCP) that the
-    instruction in EX will write,
-  * it reads RINV, or is an RCP, while the reciprocal unit is busy.
-RCP does not enter EX/WB: at issue the reciprocal unit takes the divisor and
-runs for RCP_CYCLES cycles; RINV is valid the cycle after.  HALT completes
-once EX and the reciprocal unit are empty; an instruction in WB commits on
-that same clock edge.
+  * it reads a register as A, B, D or E that the instruction in EX will
+    write,
+  * it reads RINV while an instruction that starts the reciprocal unit is in
+    EX or WB, or the unit is busy and not in its last cycle (in the last
+    cycle the new RINV is forwarded),
+  * it starts the reciprocal unit while another such instruction is in EX or
+    WB or the unit is busy.
+The reciprocal unit takes the result of the instruction that starts it at
+the end of its WB cycle and works for RCP_CYCLES cycles; RINV is written at
+the end of the last.  HALT ends the run once no reciprocal is pending: the
+instruction in EX at that point, if any, commits one cycle after the run (it
+is in WB while READY is already 1; the host cannot observe the difference).
 
 The arithmetic is kfasic.fixed; tests require the RTL to match this model
 bit for bit and cycle for cycle.
@@ -29,11 +35,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from . import fixed
-from .asm import (ACC_OPS, BS_REG, BS_RINV, OP_HALT, OP_MAC, OP_MSB, OP_MSD, OP_MUL, OP_RCP,
-                  ROM_DEPTH, WORD_HALT, addend, decode, reads)
+from .asm import (BASE_ACC, BASE_ZERO, OP_ALU_RCP, OP_HALT, ROM_DEPTH, SRC_REG, SRC_RINV,
+                  WORD_HALT, addend, decode, is_alu, reads)
 
 NUM_REGS = 32
-RCP_CYCLES = 7          # radix-8 reciprocal: 8 digits, the first while loading S
+RCP_CYCLES = 4          # radix-8 reciprocal: 8 digits, two per cycle
 
 
 class UninitializedRead(RuntimeError):
@@ -42,26 +48,37 @@ class UninitializedRead(RuntimeError):
 
 @dataclass
 class _Slot:
-    op: int
-    wr: int
-    dst: int
-    va: int                    # operands captured in S1
+    x: dict                      # decoded instruction
+    va: int                      # operands captured in S1
     vb: int
-    c: int | None = None       # addend register, read in EX
-    vc: int | None = None
-    xr: int | None = None      # EX result
+    vd: int | None
+    ve: int | None
+    vc: int | None = None        # addend, read in EX
+    p1: int | None = None        # signed products, formed in EX
+    p2: int | None = None
+
+    @property
+    def rc(self) -> bool:
+        return self.x["op"] == OP_ALU_RCP
+
+    @property
+    def writes(self) -> int | None:
+        return self.x["dst"] if self.x["wr"] else None
 
 
-def wb_result(op: int, acc: int | None, vc: int | None, xr: int) -> int:
-    if op == OP_MUL:
-        return xr
-    if op in (OP_MAC, OP_MSB):
+def alu_result(x: dict, acc: int | None, vc: int | None, p1: int, p2: int | None) -> int:
+    if x["base"] == BASE_ZERO:
+        base = 0
+    elif x["base"] == BASE_ACC:
         if acc is None:
-            raise UninitializedRead("MAC/MSB with uninitialized ACC")
-        base = acc
+            raise UninitializedRead("ACC used before it was written")
+        base = fixed.to_int(acc)
     else:
-        base = vc
-    return fixed.sub(base, xr) if op in (OP_MSB, OP_MSD) else fixed.add(base, xr)
+        base = fixed.to_int(vc)
+    terms = [-p1 if x["n1"] else p1]
+    if x["m2"]:
+        terms.append(-p2 if x["n2"] else p2)
+    return fixed.dot(base, *terms)
 
 
 class Iss:
@@ -94,6 +111,12 @@ class Iss:
             raise UninitializedRead(f"read of uninitialized register {addr}")
         return v
 
+    def _commit(self, wb: _Slot) -> int:
+        self.acc = alu_result(wb.x, self.acc, wb.vc, wb.p1, wb.p2)
+        if wb.writes is not None:
+            self.bank[wb.writes] = self.acc
+        return self.acc
+
     # -- execution -----------------------------------------------------------
     def run(self, max_cycles: int = 100_000) -> int:
         """Run from PC 0 until HALT completes.
@@ -111,55 +134,59 @@ class Iss:
                 raise RuntimeError("program did not halt")
             word = self.rom[pc] if pc < len(self.rom) else WORD_HALT
             x = decode(word)
-            op = x["op"]
             regs, uses_rinv = reads(x)
 
-            owed = {ex.dst} if ex is not None and ex.wr else set()
-            busy = rcp_cnt > 0
-            stall = bool(regs & owed) or ((uses_rinv or op == OP_RCP) and busy)
-            halting = op == OP_HALT
-            issue = not halting and not stall
-            # an instruction still in WB commits on the edge that ends the run
-            done = halting and ex is None and not busy
-            if not issue and not halting:
+            owed = {ex.writes} if ex is not None and ex.writes is not None else set()
+            rc_pending = (ex is not None and ex.rc) or (wb is not None and wb.rc)
+            stall = (bool(regs & owed)
+                     or (uses_rinv and (rc_pending or rcp_cnt > 1))
+                     or (x["op"] == OP_ALU_RCP and (rc_pending or rcp_cnt > 0)))
+            halting = x["op"] == OP_HALT
+            issue = is_alu(x) and not stall
+            advance = (not halting and not stall)          # pc moves on (also NOP)
+            done = halting and not rc_pending and rcp_cnt == 0
+            if not advance and not halting:
                 stalls += 1
 
             # WB: its result is forwarded to this cycle's operand reads
-            if wb is not None:
-                self.acc = wb_result(wb.op, self.acc, wb.vc, wb.xr)
-                if wb.wr:
-                    self.bank[wb.dst] = self.acc
+            result = self._commit(wb) if wb is not None else None
             # S1 operand reads, EX addend read
-            va = vb = None
             if issue:
-                if op in ACC_OPS:
-                    va = self._reg(x["a"])
-                if uses_rinv:
-                    if self.rinv is None:
-                        raise UninitializedRead("read of RINV before any RCP")
-                    vb = self.rinv
-                elif op in ACC_OPS and x["bs"] != BS_REG:
-                    vb = fixed.ONE
-                elif op in ACC_OPS or op == OP_RCP:
-                    vb = self._reg(x["b"])
-            if ex is not None and ex.c is not None:
-                ex.vc = self._reg(ex.c)
+                def src(r: int, s: int) -> int:
+                    if s == SRC_REG:
+                        return self._reg(r)
+                    if s == SRC_RINV:
+                        v = rcp_val if rcp_cnt == 1 else self.rinv
+                        if v is None:
+                            raise UninitializedRead("read of RINV before any reciprocal")
+                        return v
+                    return fixed.ONE
+                va, vb = src(x["a"], x["asrc"]), self._reg(x["b"])
+                vd = ve = None
+                if x["m2"]:
+                    vd, ve = src(x["d"], x["dsrc"]), self._reg(x["e"])
+            if ex is not None and addend(ex.x) is not None:
+                ex.vc = self._reg(addend(ex.x))
 
             # ---- clock edge ----
             if ex is not None:
-                ex.xr = fixed.mul(ex.va, ex.vb)
-            wb, ex = ex, None
+                ex.p1 = fixed.product(ex.va, ex.vb)
+                if ex.x["m2"]:
+                    ex.p2 = fixed.product(ex.vd, ex.ve)
             if rcp_cnt > 0:
                 rcp_cnt -= 1
                 if rcp_cnt == 0:
                     self.rinv = rcp_val
+            if wb is not None and wb.rc:
+                rcp_cnt, rcp_val = RCP_CYCLES, fixed.rcp(result)
+            wb, ex = ex, None
             if issue:
-                if op in ACC_OPS:
-                    ex = _Slot(op, x["wr"], x["dst"], va, vb, addend(x))
-                elif op == OP_RCP:
-                    rcp_cnt, rcp_val = RCP_CYCLES, fixed.rcp(vb)
+                ex = _Slot(x, va, vb, vd, ve)
+            if advance:
                 pc = (pc + 1) % ROM_DEPTH
             if done:
+                if wb is not None:            # commits on the edge after the run
+                    self._commit(wb)
                 self.stalls = stalls
                 return cycles
 
@@ -172,18 +199,20 @@ def execute_float(words: list[int], bank: list[float]) -> list[float]:
     acc = rinv = 0.0
     for word in words:
         x = decode(word)
-        op = x["op"]
-        if op == OP_HALT:
+        if x["op"] == OP_HALT:
             break
-        if op == OP_RCP:
-            rinv = 1.0 / bank[x["b"]]
+        if not is_alu(x):
             continue
-        if op not in ACC_OPS:
-            continue
-        b = bank[x["b"]] if x["bs"] == BS_REG else rinv if x["bs"] == BS_RINV else 1.0
-        p = bank[x["a"]] * b
-        base = 0.0 if op == OP_MUL else acc if op in (OP_MAC, OP_MSB) else bank[x["c"]]
-        acc = base - p if op in (OP_MSB, OP_MSD) else base + p
+        src = lambda r, s: bank[r] if s == SRC_REG else rinv if s == SRC_RINV else 1.0  # noqa: E731
+        base = 0.0 if x["base"] == BASE_ZERO else acc if x["base"] == BASE_ACC else bank[x["c"]]
+        p1 = src(x["a"], x["asrc"]) * bank[x["b"]]
+        total = base - p1 if x["n1"] else base + p1
+        if x["m2"]:
+            p2 = src(x["d"], x["dsrc"]) * bank[x["e"]]
+            total = total - p2 if x["n2"] else total + p2
+        acc = total
         if x["wr"]:
             bank[x["dst"]] = acc
+        if x["op"] == OP_ALU_RCP:
+            rinv = 1.0 / acc
     return bank

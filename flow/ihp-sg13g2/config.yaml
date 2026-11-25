@@ -6,9 +6,12 @@ VERILOG_FILES:
   - dir::../../rtl/kf_top.v
   - dir::../../rtl/kf_rom.v
   - dir::../../rtl/kf_regfile.v
+  - dir::../../rtl/kf_booth.v
   - dir::../../rtl/kf_mul.v
-  - dir::../../rtl/kf_addsub.v
+  - dir::../../rtl/kf_dot.v
   - dir::../../rtl/kf_rcp.v
+  - dir::../../rtl/kf_add.v
+  - dir::../../rtl/kf_prefix.v
   - dir::kf_clkgate_ihp.v       # kf_clkgate -> sg13g2_lgcp_1 (replaces rtl/kf_clkgate.v)
   - dir::kf_rdport_ihp.v        # read-port AND-OR from cells (replaces rtl/kf_rdport.v)
 
@@ -19,9 +22,9 @@ PNR_EXCLUDED_CELL_FILE: dir::pnr_exclude.cells
 LINTER_INCLUDE_PDK_MODELS: true
 
 # ---- synthesis -------------------------------------------------------------
-# Booth-encoded multiplier with a Wallace tree (shorter and smaller than
-# Yosys' default array multiplier).
-SYNTH_MUL_BOOTH: true
+# The multipliers and adders are written out as structures (Booth, Wallace
+# tree, Kogge-Stone; rtl/kf_mul.v, kf_prefix.v): synthesis keeps their
+# logarithmic depth, where its own adders are Brent-Kung or ripple.
 # ABC script with delay-driven mapping and buffering; of all strategies it
 # gave the fastest routed result (DELAY 4 was larger and slower after P&R).
 SYNTH_STRATEGY: AREA 3
@@ -30,7 +33,11 @@ SYNTH_STRATEGY: AREA 3
 PNR_SDC_FILE: dir::kf_top.sdc
 SIGNOFF_SDC_FILE: dir::kf_top.sdc
 CLOCK_PORT: clk
-CLOCK_PERIOD: 8.25            # ns
+CLOCK_PERIOD: 8.0             # ns, 125 MHz at the slow corner
+# The write-back stage (35-bit sign-magnitude sum, saturation, fan-out to
+# the register file, forwarding and the reciprocal unit) sets the period.
+# Tighter targets do not pay off: at 7.5 ns timing repair over-buffered and
+# the routed design ended near 7.95 ns; at 8.0 ns it closes with margin.
 # Sign off setup, hold, max-slew and max-cap at every corner:
 # slow 1.08 V/125 C, typical 1.20 V/25 C, fast 1.32 V/-40 C.
 # (The IHP default only checks setup at the typical corner.)
@@ -42,6 +49,9 @@ RUN_POST_GRT_RESIZER_TIMING: true
 # timing repair inserts buffers late in the flow, and without this a few of
 # them exceeded the library's fanout guideline of 8.
 RUN_POST_GRT_DESIGN_REPAIR: true
+# Repair fanout to the cell library's limit (8; the IHP default target is
+# 10, which left a few nets with fanout 9 to 17).
+MAX_FANOUT_CONSTRAINT: 8
 
 # ---- clock tree ------------------------------------------------------------
 # The IHP default builds every level of every tree, including the many
@@ -52,6 +62,15 @@ RUN_POST_GRT_DESIGN_REPAIR: true
 # data_out shares.
 CTS_ROOT_BUFFER: sg13g2_buf_4
 CTS_CLK_BUFFERS: [sg13g2_buf_4, sg13g2_buf_2]
+
+# ---- placement ---------------------------------------------------------------
+# Before routing, estimate signal wires with the RC of Metal2/Metal3, where
+# they are routed (LibreLane's default averages all routing layers,
+# including the thick top metals, so placement-stage timing repair saw
+# wires several times too fast), and place timing-driven.
+SIGNAL_WIRE_RC_LAYERS: [Metal2, Metal3]
+CLOCK_WIRE_RC_LAYERS: [Metal4, Metal5]
+PL_TIMING_DRIVEN: true
 
 # ---- floorplan -------------------------------------------------------------
 FP_SIZING: relative

@@ -6,15 +6,18 @@
 ;
 ; P and Q are covariance matrices, hence symmetric: only p11, p12, p22 and
 ; q11, q12, q22 are used (p21 and q21 are ignored), and (I - K H) P- is
-; evaluated as P- - K (P- H^T)^T, reusing P- H^T from the gain.  MAD/MSD add
-; a register to a product, so no instruction is needed to preload ACC.
+; evaluated as P- - K (P- H^T)^T, reusing P- H^T from the gain.  Every
+; instruction is a dot product of up to two terms plus an addend, so each
+; matrix element is one instruction.  The products are exactly those of the
+; original course design (the sums are exact), so on its test case the
+; results are identical bit for bit.
 ;
-; Scheduling: an instruction should not read a register as A or B that the
-; instruction just before it writes (the pipeline would stall for a cycle;
-; results are forwarded from WB, so the one before that is fine, and so is
-; any addend C).  RINV is valid 7 cycles after RCP issues; 1/S is computed
-; while x- and the innovation are evaluated.  This order runs without a
-; single stall: 36 instructions, 38 cycles.
+; Scheduling: an instruction should not read a register as a factor that
+; the instruction just before it writes (the pipeline would stall for a
+; cycle; results are forwarded from WB, so the one before that is fine, and
+; so is an addend).  The reciprocal unit is started by S and delivers 1/S
+; to the instruction issued six cycles later; x- and the innovation fill
+; the gap.  22 instructions, 24 cycles (one stall).
 ;
 ; Host protocol: while READY=1 write the parameters once, then for every
 ; sample write y and pulse START; read x1, x2, p11, p12, p22 when READY
@@ -55,52 +58,38 @@
 .reg k1    23
 .reg k2    24
 
-; ==== A = Phi P (A21, A22 first: P- below needs them last) ================
-    mul  acc, phi21, p11
-    mac  a21, phi22, p12
-    mul  acc, phi21, p12
-    mac  a22, phi22, p22
-    mul  acc, phi11, p11
-    mac  a11, phi12, p12
-    mul  acc, phi11, p12
-    mac  a12, phi12, p22
+; ==== A = Phi P ==============================================================
+    a11  = phi11*p11 + phi12*p12
+    a12  = phi11*p12 + phi12*p22
+    a21  = phi21*p11 + phi22*p12
+    a22  = phi21*p12 + phi22*p22
 
-; ==== P- = A Phi^T + Q (overwrites P), interleaved with P- H^T ===============
-    mad  acc, a11, phi11, q11
-    mac  p11, a12, phi12
-    mad  acc, a11, phi21, q12
-    mac  p12, a12, phi22
-    mul  acc, p11, h1           ; P- H^T, first row
-    mac  pht1, p12, h2
-    mad  acc, a21, phi21, q22
-    mac  p22, a22, phi22
-    mul  acc, p12, h1           ; P- H^T, second row
-    mac  pht2, p22, h2
+; ==== P- = A Phi^T + Q (overwrites P) ========================================
+    p11  = q11 + a11*phi11 + a12*phi12
+    p12  = q12 + a11*phi21 + a12*phi22
+    p22  = q22 + a21*phi21 + a22*phi22
 
-; ==== S = H P- H^T + R ======================================================
-    mad  acc, pht1, h1, r11
-    mac  s, pht2, h2
+; ==== P- H^T, S = H P- H^T + R, RINV <- 1/S ==================================
+    pht1 = p11*h1 + p12*h2
+    pht2 = p12*h1 + p22*h2
+    x1m  = g1*u                     ; x- (below) while S waits for pht2
+    s    = r11 + h1*pht1 + h2*pht2, rcp
 
-; ==== x- = Phi x + G u, innovation; 1/S in the background ==================
-    mul  acc, phi11, x1
-    rcp  s                      ; RINV <- 1/S
-    mac  acc, phi12, x2
-    mac  x1m, g1, u
-    mul  acc, phi21, x1
-    mac  acc, phi22, x2
-    mac  x2m, g2, u
-    msd  acc, h1, x1m, y
-    msb  inn, h2, x2m
+; ==== x- = Phi x + G u, innovation (while 1/S is computed) ===================
+    x1m  = x1m + phi11*x1 + phi12*x2
+    x2m  = g2*u
+    x2m  = x2m + phi21*x1 + phi22*x2
+    inn  = y - h1*x1m - h2*x2m
 
-; ==== K = P- H^T / S =======================================================
-    mul  k2, pht2, rinv
-    mul  k1, pht1, rinv
+; ==== K = P- H^T / S =========================================================
+    k1   = pht1*rinv
+    k2   = pht2*rinv
 
-; ==== x+ = x- + K inn, P+ = P- - K (P- H^T)^T ==============================
-    mad  x2, k2, inn, x2m
-    mad  x1, k1, inn, x1m
-    msd  p22, k2, pht2, p22
-    msd  p11, k1, pht1, p11
-    msd  p12, k1, pht2, p12
+; ==== x+ = x- + K inn, P+ = P- - K (P- H^T)^T ================================
+    p11  = p11 - k1*pht1
+    p12  = p12 - k1*pht2
+    p22  = p22 - k2*pht2
+    x1   = x1m + k1*inn
+    x2   = x2m + k2*inn
 
     halt

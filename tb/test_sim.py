@@ -26,8 +26,8 @@ from kfasic.randprog import random_program
 
 ROOT = Path(__file__).resolve().parents[1]
 TB = ROOT / "tb"
-RTL_CORE = [ROOT / "rtl" / f for f in
-            ("kf_top.v", "kf_regfile.v", "kf_rdport.v", "kf_mul.v", "kf_addsub.v", "kf_rcp.v", "kf_clkgate.v")]
+ARITH = ("kf_booth.v", "kf_mul.v", "kf_dot.v", "kf_rcp.v", "kf_add.v", "kf_prefix.v", "kf_clkgate.v")
+RTL_CORE = [ROOT / "rtl" / f for f in ("kf_top.v", "kf_regfile.v", "kf_rdport.v", *ARITH)]
 RTL = RTL_CORE + [ROOT / "rtl" / "kf_rom.v"]
 SIM = os.environ.get("SIM", "icarus")
 GL_NETLIST = os.environ.get("GL_NETLIST")
@@ -86,8 +86,7 @@ def run(runner, build_dir, top, module, env=None, plusargs=(), results="results.
 
 @rtl_only
 def test_units():
-    sources = [TB / "kf_units_tb.v", *(ROOT / "rtl" / f for f in
-               ("kf_mul.v", "kf_addsub.v", "kf_rcp.v", "kf_clkgate.v"))]
+    sources = [TB / "kf_units_tb.v", *(ROOT / "rtl" / f for f in ARITH)]
     runner, bdir = build("kf_units_tb", sources, "units")
     run(runner, bdir, "kf_units_tb", "test_units")
 
@@ -127,18 +126,27 @@ def test_kf_top_5000_iterations():
 
 
 DIRECTED = {
-    "raw-distance-1": "lda db[2], db[1]\nlda acc, db[2]\nmac db[3], db[2], db[2]\nhalt",
-    "raw-distance-2": "lda db[2], db[1]\nnop\nlda acc, db[2]\nhalt",
-    "forward-b": "mul db[2], db[1], db[1]\nnop\nmul db[3], db[4], db[2]\nhalt",
-    "forward-addend": "lda db[2], db[1]\nmad db[3], db[4], db[5], db[2]\n"
-                      "msd db[6], db[4], one, db[3]\nhalt",
-    "forward-divisor": "lda db[2], db[1]\nrcp db[2]\nmul db[5], db[1], rinv\nhalt",
-    "rinv-wait": "rcp db[1]\nmul db[5], db[1], rinv\nhalt",
-    "rcp-back-to-back": "rcp db[1]\nrcp db[2]\nmul db[6], db[3], rinv\nhalt",
-    "halt-waits-for-rcp": "lda acc, db[0]\nrcp db[1]\nhalt",
-    "acc-chain": "mul acc, db[1], db[2]\nmac acc, db[3], db[4]\nmsb acc, db[5], db[6]\n"
-                 "add db[7], db[1], db[2]\nsub acc, db[8], db[9]\nmac db[10], db[11], db[12]\n"
-                 "mad acc, db[1], one, db[10]\nmsd db[13], db[2], db[3], db[7]\nhalt",
+    "raw-distance-1": "db[2] = db[1]*one\nacc = db[2]*one\ndb[3] = acc + db[2]*db[2]\nhalt",
+    "raw-distance-2": "db[2] = db[1]*one\nnop\nacc = db[2]*one\nhalt",
+    "forward-b": "db[2] = db[1]*db[1]\nnop\ndb[3] = db[4]*db[2]\nhalt",
+    "forward-d": "db[2] = db[1]*db[1]\nnop\ndb[3] = db[4]*db[5] - db[2]*db[6]\nhalt",
+    "forward-e": "db[2] = db[1]*db[1]\ndb[3] = db[4]*db[5] - db[6]*db[2]\nhalt",
+    "forward-base": "db[2] = db[1]*one\ndb[3] = db[2] + db[4]*db[5]\n"
+                    "db[6] = db[3] - db[4]\nhalt",
+    "acc-after-bubble": "acc = db[1]*db[2]\nnop\ndb[3] = acc + db[4]*db[5]\n"
+                        "db[6] = db[3]*one\ndb[7] = acc - db[6]*db[1]\nhalt",
+    "acc-chain": "rcp db[13]\nacc = db[1]*db[2] + db[3]*db[4]\nacc = acc - db[5]*db[6]\n"
+                 "db[7] = acc + db[1]*db[2] - db[8]*db[9]\ndb[10] = db[11] - db[12]\n"
+                 "acc = db[10]*one + db[1]*rinv\nhalt",
+    "forward-divisor": "db[2] = db[1]*one\nrcp db[2]\ndb[5] = db[1]*rinv\nhalt",
+    "rinv-wait": "rcp db[1]\ndb[5] = db[1]*rinv\nhalt",
+    "rinv-on-d": "rcp db[1]\ndb[5] = db[2]*db[3] - db[4]*rinv\nhalt",
+    "rcp-of-result": "db[2] = db[3] + db[1]*db[1], rcp\ndb[4] = db[2]*rinv + db[5]*db[6]\nhalt",
+    "rcp-back-to-back": "rcp db[1]\nrcp db[2]\ndb[6] = db[3]*rinv\nhalt",
+    "halt-waits-for-rcp": "acc = db[0]*one\nrcp db[1]\nhalt",
+    "last-commits-after-run": "db[7] = db[1]*db[2] + db[3]*db[4]\nhalt",
+    "saturation": "db[7] = db[1]*db[2] + db[3]*db[4]\ndb[8] = db[7] - db[7]*db[7]\n"
+                  "db[9] = -db[8]*db[8] - db[7]*db[7]\nhalt",
 }
 N_RANDOM = int(os.environ.get("KF_RANDOM_PROGRAMS", "24"))
 

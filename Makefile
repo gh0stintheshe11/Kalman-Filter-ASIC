@@ -15,7 +15,8 @@ PDK       ?= ihp-sg13g2
 RUN_TAG   ?= main
 SIM       ?= icarus
 
-RTL      := rtl/kf_top.v rtl/kf_rom.v rtl/kf_regfile.v rtl/kf_rdport.v rtl/kf_mul.v rtl/kf_addsub.v rtl/kf_rcp.v rtl/kf_clkgate.v
+RTL      := rtl/kf_top.v rtl/kf_rom.v rtl/kf_regfile.v rtl/kf_rdport.v rtl/kf_booth.v rtl/kf_mul.v \
+            rtl/kf_dot.v rtl/kf_rcp.v rtl/kf_add.v rtl/kf_prefix.v rtl/kf_clkgate.v
 FLOW_DIR := flow/$(PDK)
 RUN_DIR  := $(FLOW_DIR)/runs/$(RUN_TAG)
 

@@ -83,6 +83,23 @@ def mul(r: int, s: int) -> int:
     return _scale_product(mag_of(r) * mag_of(s), sign_of(r) ^ sign_of(s))
 
 
+def product(r: int, s: int) -> int:
+    """R * S as a signed LSB count: the magnitude |R| |S| truncated to 14
+    fractional bits, *not* saturated, with the sign of R * S.  Its magnitude
+    is below 2^32."""
+    mag = (mag_of(r) * mag_of(s)) >> FRAC
+    return -mag if sign_of(r) ^ sign_of(s) else mag
+
+
+def dot(base: int, *terms: int) -> int:
+    """The arithmetic instruction: base + the signed products in terms,
+    computed exactly and saturated once.  base is a signed LSB count (0,
+    ACC or a register via to_int), terms are product() values, negated for
+    subtraction.  Equal to a chain of mul/add/sub whenever no intermediate
+    result of that chain saturates."""
+    return from_int(base + sum(terms))
+
+
 def reciprocal_mag(s: int) -> int:
     """Magnitude of 1/S as built by the successive-approximation unit.
 

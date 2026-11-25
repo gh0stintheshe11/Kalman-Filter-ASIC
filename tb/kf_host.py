@@ -2,10 +2,12 @@
 
 Only the chip's pins are used, so the same code drives the RTL and
 gate-level netlists, with or without back-annotated delays.  Inputs change
-on the falling clock edge and outputs are sampled on the falling edge, half
-a cycle after the rising edge that updates them: results do not depend on
-the simulator's event ordering, and cell delays up to half a period are
-tolerated.
+on the falling clock edge.  READY is sampled on the falling edge, half a
+cycle after the rising edge that updates it; data_out at 90 % of the cycle,
+because the read port may take the whole cycle (flow/ihp-sg13g2/kf_top.sdc:
+in the chip, the SPI slave captures data_out on the next rising edge).
+Results do not depend on the simulator's event ordering, and real cell
+delays are tolerated.
 
 Environment:  KF_CLK_NS  clock period in ns (default 20)
 """
@@ -14,7 +16,7 @@ import os
 
 import cocotb
 from cocotb.clock import Clock
-from cocotb.triggers import ClockCycles, FallingEdge
+from cocotb.triggers import ClockCycles, FallingEdge, Timer
 
 CLK_NS = float(os.environ.get("KF_CLK_NS", "20"))
 INPUT_LATENCY = 1      # host inputs are registered once in kf_top
@@ -54,11 +56,15 @@ class Host:
         d.write.value = 0
 
     async def read(self, addr):
-        """data_out = DB[dir] one cycle after dir is presented."""
+        """data_out = DB[dir] in the cycle after dir is presented, sampled at
+        the end of that cycle; returns on the next falling edge."""
         d = self.dut
         d.dir.value = addr
+        await FallingEdge(d.clk)                  # dir captured on the rising edge before
+        await Timer(0.4 * CLK_NS, unit="ns")      # 90 % of the cycle
+        value = int(d.data_out.value)
         await FallingEdge(d.clk)
-        return int(d.data_out.value)
+        return value
 
     async def run(self, max_cycles=2000):
         """Pulse START; return the clock edges from the one that captures

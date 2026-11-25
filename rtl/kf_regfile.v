@@ -1,6 +1,6 @@
-// kf_regfile.v -- data bank: N x W registers, one write port, three
-// asynchronous read ports (operands A and B for the datapath, H for the
-// host).
+// kf_regfile.v -- data bank: N x W registers, one write port, five
+// asynchronous read ports (operands A, B, D and E of the two products, and
+// H for the addend and the host).
 //
 // Each register has its own clock gate, so a write clocks only the 24
 // flip-flops being written and the bank draws no clock power otherwise (this
@@ -23,9 +23,13 @@ module kf_regfile #(
     input  wire [W-1:0]  wdata,
     input  wire [AW-1:0] raddr_a,
     input  wire [AW-1:0] raddr_b,
+    input  wire [AW-1:0] raddr_d,
+    input  wire [AW-1:0] raddr_e,
     input  wire [AW-1:0] raddr_h,
     output wire [W-1:0]  rdata_a,
     output wire [W-1:0]  rdata_b,
+    output wire [W-1:0]  rdata_d,
+    output wire [W-1:0]  rdata_e,
     output wire [W-1:0]  rdata_h
 );
     wire [W*N-1:0] q;
@@ -44,6 +48,8 @@ module kf_regfile #(
 
     kf_rdport #(.W(W), .N(N), .AW(AW)) u_rd_a (.addr(raddr_a), .q(q), .data(rdata_a));
     kf_rdport #(.W(W), .N(N), .AW(AW)) u_rd_b (.addr(raddr_b), .q(q), .data(rdata_b));
+    kf_rdport #(.W(W), .N(N), .AW(AW)) u_rd_d (.addr(raddr_d), .q(q), .data(rdata_d));
+    kf_rdport #(.W(W), .N(N), .AW(AW)) u_rd_e (.addr(raddr_e), .q(q), .data(rdata_e));
     kf_rdport #(.W(W), .N(N), .AW(AW)) u_rd_h (.addr(raddr_h), .q(q), .data(rdata_h));
 
 endmodule

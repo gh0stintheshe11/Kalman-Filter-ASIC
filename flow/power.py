@@ -73,7 +73,9 @@ def sdf_for_icarus(src: Path, dst: Path) -> None:
     Icarus cannot parse the COND expressions OpenSTA writes for
     state-dependent delays; every such arc also has an unconditional
     IOPATH, which is kept.  The operating-condition header entries (with an
-    empty typical value) are dropped.
+    empty typical value) are dropped, and so are wires with zero delay:
+    there is nothing to annotate, and Icarus cannot annotate a wire that
+    ends at a port through an assignment or on the pad side of an I/O cell.
     """
     out, skip = [], False
     for line in src.read_text().splitlines():
@@ -84,6 +86,8 @@ def sdf_for_icarus(src: Path, dst: Path) -> None:
             skip = True
             continue
         if re.match(r"\s*\((VOLTAGE|PROCESS|TEMPERATURE)\b", line):
+            continue
+        if re.fullmatch(r"\s*\(INTERCONNECT \S+ \S+( \(0\.000:0\.000:0\.000\))+\)\s*", line):
             continue
         out.append(line)
     dst.write_text("\n".join(out) + "\n")
@@ -148,8 +152,14 @@ def sta_power(run: Path, cfg: dict, vcd: Path, work: Path, tag: str,
 # output nets); clock-tree cells, clock gates, flip-flops and hold-fix delay
 # cells are counted separately.  The result is an approximate breakdown.
 _REG_GROUPS = (
-    ("u_rf.", "register file"), ("ma[", "operands"), ("mb[", "operands"),
-    ("xr[", "product"), ("u_acc.b[", "product"), ("xc[", "addend"), ("acc[", "accumulator"),
+    ("u_rf.", "register file"),
+    # multiplier operands (Booth-recoded B and E) and the terms' signs
+    ("ma[", "operands"), ("mb[", "operands"), ("md[", "operands"), ("me[", "operands"),
+    ("ms1", "operands"), ("ms2", "operands"),
+    # products, base, accumulator (also under the names of kf_dot's inputs)
+    ("xr1[", "product"), ("xr2[", "product"), ("u_dot.x1[", "product"), ("u_dot.x2[", "product"),
+    ("xc[", "addend"), ("u_dot.base[", "addend"), ("xe1", "addend"), ("xe2", "addend"),
+    ("u_dot.e1", "addend"), ("u_dot.e2", "addend"), ("acc[", "accumulator"),
     ("u_rcp.", "reciprocal"), ("rinv[", "reciprocal"), ("ir[", "instruction"),
     ("pc[", "instruction"), ("data_in_q", "host"), ("dir_q", "host"), ("write_q", "host"),
     ("start_q", "host"), ("busy", "host"), ("rst_", "host"),
@@ -181,7 +191,7 @@ def _block(cell: str, name: str, groups: set[str]) -> str:
     if not g:
         return "sequencer and pipeline control"
     if g <= {"operands"}:
-        return "multiplier"
+        return "multipliers"
     if "reciprocal" in g:
         return "reciprocal unit"
     if g <= _WB:

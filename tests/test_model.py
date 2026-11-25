@@ -86,6 +86,31 @@ def test_mul_truncates_toward_zero():
             assert fixed.to_int(fixed.mul(r, s)) == (mag if exact >= 0 else -mag)
 
 
+def test_product_is_mul_without_saturation():
+    for r in random_words(200):
+        for s in random_words(20):
+            p = fixed.product(r, s)
+            assert abs(p) < 1 << 32
+            assert fixed.from_int(p) == fixed.mul(r, s)
+
+
+def test_dot_is_exact_and_saturates_once():
+    """dot() sums exactly and saturates once; it equals the chain of
+    saturating add/sub whenever no partial sum of the chain saturates."""
+    clip = lambda v: max(-fixed.MAG_MAX, min(fixed.MAG_MAX, v))  # noqa: E731
+    words = random_words(60)
+    for base in words[::3]:
+        for a in words[::7]:
+            for b in words[::11]:
+                p1, p2 = fixed.product(a, b), fixed.product(b, base)
+                v = fixed.to_int(base) + p1 - p2
+                assert fixed.to_int(fixed.dot(fixed.to_int(base), p1, -p2)) == clip(v)
+                partial = fixed.to_int(base) + p1
+                if abs(partial) <= fixed.MAG_MAX and max(abs(p1), abs(p2)) <= fixed.MAG_MAX:
+                    chain = fixed.sub(fixed.add(base, fixed.mul(a, b)), fixed.mul(b, base))
+                    assert fixed.dot(fixed.to_int(base), p1, -p2) == chain
+
+
 def test_reciprocal_times_value_error_bound():
     # R * (1/S): 1/S truncated to 1 LSB, then the product truncated again,
     # so |error| <= (|R| + 1) LSB.  (Kalman gain range: |R| <= |S|.)
@@ -102,33 +127,49 @@ def test_reciprocal_times_value_error_bound():
 # ----------------------------------------------------------------- assembler
 
 def test_assembler_encodings():
-    p = assemble(".reg a 3\n.reg b 7\n.reg t 9\nmul acc, a, b\nmac t, a, rinv\n"
-                 "lda t, b\nsub acc, a, b\nrcp b\nnop\nhalt\n", optimize=False)
-    assert p.words == [0x1003380, 0x1D23020, 0x1527040, 0x3007043, 0x3800380, 0x0000000, 0x0800000]
-    assert decode(0x1D23020) == {"op": 3, "wr": 1, "dst": 9, "a": 3, "b": 0, "bs": 1, "c": 0}
-    # lda t, b = mul t, b, one;  sub acc, a, b = msd acc, b, one, a
-    assert decode(0x1527040)["bs"] == 2 and decode(0x3007043)["c"] == 3
+    p = assemble(".reg a 3\n.reg b 7\n.reg t 9\nt = a*b\nacc = acc + a*rinv - b*one\n"
+                 "t = b - a*b, rcp\nacc = a + b\nnop\nhalt\n", optimize=False)
+    assert p.words == [0x205230E0000, 0x258004608E0, 0x3A5230E0007, 0x280008E0003,
+                       0x00000000000, 0x10000000000]
+    assert decode(0x258004608E0) == {"op": 2, "base": 1, "n1": 0, "m2": 1, "n2": 1, "wr": 0,
+                                     "dst": 0, "a": 0, "asrc": 1, "b": 3, "d": 0, "dsrc": 2,
+                                     "e": 7, "c": 0}
+    # t = b - a*b: base register b, subtract;  acc = a + b: a is the base, b*1.0
+    assert decode(0x3A5230E0007)["c"] == 7 and decode(0x280008E0003)["asrc"] == 2
 
 
-def test_assembler_moves_constant_operands_to_b():
-    p = assemble(".reg a 3\nmul acc, rinv, a\nmac acc, one, a\nhalt\n", optimize=False)
-    assert [(decode(w)["a"], decode(w)["bs"]) for w in p.words[:2]] == [(3, 1), (3, 2)]
+def test_assembler_puts_constants_on_the_a_side():
+    p = assemble(".reg a 3\nacc = rinv*a\nacc = a*one + one*a\nhalt\n", optimize=False)
+    x = [decode(w) for w in p.words[:2]]
+    assert (x[0]["asrc"], x[0]["b"]) == (1, 3)
+    assert (x[1]["asrc"], x[1]["b"], x[1]["dsrc"], x[1]["e"]) == (2, 3, 2, 3)
 
 
 def test_low_power_encoding_exchanges_operands():
-    # after the mul, a stays on port A if the mac's operands are exchanged
-    x = [decode(w) for w in assemble(".reg a 3\n.reg b 7\nmul db[9], a, rinv\n"
-                                     "mac acc, b, a\nhalt\n").words]
-    assert [(w["op"], w["a"], w["b"]) for w in x] == [(2, 3, 0), (3, 3, 7), (1, 3, 7)]
+    # after the first instruction, a stays on port A and b on port B if the
+    # factors of the second product are exchanged
+    x = [decode(w) for w in assemble(".reg a 3\n.reg b 7\ndb[9] = a*b\n"
+                                     "acc = b*a\nhalt\n").words]
+    assert (x[0]["a"], x[0]["b"]) == (x[1]["a"], x[1]["b"])
+
+
+def test_low_power_encoding_exchanges_products():
+    # the second instruction's products are exchanged so that both
+    # multipliers keep their operands
+    x = [decode(w) for w in assemble(".reg a 3\n.reg b 7\n.reg c 5\n.reg d 6\n"
+                                     "db[9] = a*b + c*d\nacc = c*d - a*b\nhalt\n").words]
+    ports = lambda w: (w["a"], w["b"], w["d"], w["e"])  # noqa: E731
+    assert ports(x[0]) == ports(x[1])
+    # the product of 3 and 7 is subtracted, wherever it went
+    assert x[1]["n1" if {x[1]["a"], x[1]["b"]} == {3, 7} else "n2"] == 1
 
 
 def test_low_power_encoding_fills_unused_fields():
-    x = [decode(w) for w in assemble(".reg a 3\n.reg b 7\nsub db[9], a, b\nlda acc, b\n"
-                                     "rcp a\nhalt\n").words]
-    assert (x[1]["a"], x[1]["b"], x[1]["c"], x[1]["dst"]) == (7, 0, 3, 9)  # lda: b, c, dst kept
-    assert (x[2]["a"], x[2]["b"]) == (7, 3)                                # rcp: a kept
-    assert {k: x[3][k] for k in ("op", "wr", "dst", "a", "b", "bs", "c")} == \
-        {"op": 1, "wr": 0, "dst": 9, "a": 7, "b": 3, "bs": 2, "c": 3}     # halt: all kept
+    x = [decode(w) for w in assemble(".reg a 3\n.reg b 7\ndb[9] = a + b*b - a*b\n"
+                                     "acc = b*rinv\nhalt\n").words]
+    # the second instruction keeps c, d, e, dst; HALT keeps everything
+    assert (x[1]["c"], x[1]["d"], x[1]["e"], x[1]["dst"]) == (x[0]["c"], x[0]["d"], x[0]["e"], 9)
+    assert {k: v for k, v in x[2].items() if k != "op"} == {k: v for k, v in x[1].items() if k != "op"}
 
 
 def test_low_power_encoding_preserves_behavior():
@@ -157,15 +198,17 @@ def test_committed_rom_is_up_to_date():
 
 
 @pytest.mark.parametrize("src, msg", [
-    ("mul acc, rinv, one\nhalt", "'rinv' can only be operand B"),
-    ("rcp rinv\nhalt", "'rinv' can only be operand B"),
-    ("mad acc, db[1], db[2]\nhalt", "'mad' expects 4 operands"),
-    ("mac acc, db[1], db[2], db[3]\nhalt", "'mac' expects 3 operands"),
-    ("add sr, db[1], db[2]\nhalt", "unknown register"),
-    ("lda acc, db[1], db[2]\nhalt", "lda expects"),
-    ("add acc, db[1], db[2]", "must end with 'halt'"),
+    ("acc = rinv*one\nhalt", "one factor must be a register"),
+    ("db[1] = db[2] + acc*db[3]\nhalt", "'acc' can only be"),
+    ("acc = db[1]*db[2] + db[3]*db[4] + db[5]*db[6]\nhalt", "at most two products"),
+    ("acc = db[1] + db[2] + acc\nhalt", "the addend"),
+    ("acc = acc\nhalt", "at least one product"),
+    ("acc = db[1]*db[2] db[3]\nhalt", "expected '\\+' or '-'"),
+    ("sr = db[1]*db[2]\nhalt", "unknown register"),
+    ("rcp db[1], db[2]\nhalt", "rcp expects one register"),
+    ("acc = db[1]*db[2]", "must end with 'halt'"),
     (".reg x 40\nhalt", "out of range"),
-    ("jmp db[1]\nhalt", "unknown mnemonic"),
+    ("jmp db[1]\nhalt", "unknown instruction"),
 ])
 def test_assembler_rejects(src, msg):
     with pytest.raises(AsmError, match=msg):
@@ -175,24 +218,29 @@ def test_assembler_rejects(src, msg):
 # ----------------------------------------------------------- pipeline timing
 
 @pytest.mark.parametrize("src, cycles, stalls", [
-    # one instruction: issue, EX, then HALT completes while it commits in WB
-    ("lda acc, db[1]\nhalt", 3, 0),
-    # operand A/B written by the instruction just ahead: one stall, then the
-    # result is forwarded from WB
-    ("lda db[2], db[1]\nlda acc, db[2]\nhalt", 5, 1),
-    ("lda db[2], db[1]\nmul acc, db[1], db[2]\nhalt", 5, 1),
+    # one instruction: HALT ends the run while it is in EX (it commits on
+    # the next edge, before the host can see the register file)
+    ("acc = db[1]*one\nhalt", 2, 0),
+    # operand written by the instruction just ahead: one stall, then the
+    # result is forwarded from WB; on any of the four factors
+    ("db[2] = db[1]*one\nacc = db[2]*one\nhalt", 4, 1),
+    ("db[2] = db[1]*one\nacc = db[1]*db[2]\nhalt", 4, 1),
+    ("db[2] = db[1]*one\nacc = db[1]*db[1] + db[2]*rinv\nhalt", 4, 1),
+    ("db[2] = db[1]*one\nacc = db[1]*db[1] - db[1]*db[2]\nhalt", 4, 1),
     # ... written two instructions ahead: forwarded, no stall
-    ("lda db[2], db[1]\nnop\nlda acc, db[2]\nhalt", 5, 0),
-    ("lda db[2], db[1]\nnop\nnop\nlda acc, db[2]\nhalt", 6, 0),
-    # the addend C is read in EX: never a stall
-    ("lda db[2], db[1]\nmad acc, db[1], db[1], db[2]\nhalt", 4, 0),
-    # RINV is valid RCP_CYCLES cycles after RCP issues
-    ("rcp db[1]\nmul acc, db[1], rinv\nhalt", 1 + RCP_CYCLES + 3, RCP_CYCLES),
-    # the divisor of RCP is an operand B
-    ("lda db[2], db[1]\nrcp db[2]\nhalt", 3 + RCP_CYCLES + 1, 1),
-    ("lda db[2], db[1]\nnop\nrcp db[2]\nhalt", 3 + RCP_CYCLES + 1, 0),
-    # HALT also waits for the reciprocal unit
-    ("rcp db[1]\nhalt", 1 + RCP_CYCLES + 1, 0),
+    ("db[2] = db[1]*one\nnop\nacc = db[2]*one\nhalt", 4, 0),
+    ("db[2] = db[1]*one\nnop\nnop\nacc = db[2]*one\nhalt", 5, 0),
+    # the base is read in EX: never a stall
+    ("db[2] = db[1]*one\ndb[3] = db[2] + db[1]*db[1]\nhalt", 3, 0),
+    ("acc = db[1]*one\nacc = acc + db[1]*db[1]\nhalt", 3, 0),
+    # RINV: the reciprocal unit takes the result in WB, works RCP_CYCLES
+    # cycles and forwards RINV in the last
+    ("rcp db[1]\nacc = db[1]*rinv\nhalt", 2 + RCP_CYCLES + 2, 1 + RCP_CYCLES),
+    # starting the unit while it is busy or about to start waits for it
+    ("rcp db[1]\nrcp db[2]\nhalt", 2 * (2 + RCP_CYCLES) + 3, 2 + RCP_CYCLES),
+    # HALT waits for the reciprocal unit
+    ("rcp db[1]\nhalt", 2 + RCP_CYCLES + 2, 0),
+    ("db[2] = db[1]*one\nrcp db[2]\nhalt", 2 + 2 + RCP_CYCLES + 2, 1),
 ])
 def test_pipeline_timing(src, cycles, stalls):
     iss = Iss(assemble(src).words, strict=False)
@@ -201,28 +249,31 @@ def test_pipeline_timing(src, cycles, stalls):
     assert iss.stalls == stalls
 
 
-def test_accumulator_semantics():
-    p = assemble(".reg a 1\n.reg b 2\n.reg d 3\nmul acc, a, b\nmac acc, a, b\nmsb acc, a, a\n"
-                 "mac d, b, b\nrcp b\nmul db[4], a, rinv\nmad db[5], a, b, d\n"
-                 "msd db[6], b, b, d\nadd db[7], a, b\nsub db[8], a, b\nlda db[9], b\n"
-                 "mad db[10], a, one, db[5]\nhalt")
+def test_instruction_semantics():
+    p = assemble(".reg a 1\n.reg b 2\n.reg d 3\nacc = a*b\nacc = acc + a*b - a*a\n"
+                 "d = acc + b*b\nrcp b\ndb[4] = a*rinv\ndb[5] = d + a*b\n"
+                 "db[6] = d - b*b\ndb[7] = a + b\ndb[8] = a - b\ndb[9] = b\n"
+                 "db[10] = db[5] + a*one\ndb[11] = -a*b - d*rinv\n"
+                 "db[12] = a*b + d*one, rcp\ndb[13] = b*rinv\nhalt")
     iss = Iss(p.words, strict=False)
     a, b = fixed.from_float(1.5), fixed.from_float(-2.25)
     iss.write(1, a)
     iss.write(2, b)
     iss.run()
-    acc = fixed.mul(a, b)
-    acc = fixed.add(acc, fixed.mul(a, b))
-    acc = fixed.sub(acc, fixed.mul(a, a))
-    d = fixed.add(acc, fixed.mul(b, b))
+    P = fixed.product
+    acc = fixed.dot(P(a, b) + P(a, b), -P(a, a))
+    d = fixed.dot(fixed.to_int(acc), P(b, b))
     assert iss.read(3) == d
     assert iss.read(4) == fixed.mul(a, fixed.rcp(b))
-    assert iss.read(5) == fixed.add(d, fixed.mul(a, b))
-    assert iss.read(6) == fixed.sub(d, fixed.mul(b, b))
+    assert iss.read(5) == fixed.dot(fixed.to_int(d), P(a, b))
+    assert iss.read(6) == fixed.dot(fixed.to_int(d), -P(b, b))
     assert iss.read(7) == fixed.add(a, b)
     assert iss.read(8) == fixed.sub(a, b)
     assert iss.read(9) == b
     assert iss.read(10) == fixed.add(iss.read(5), a)
+    assert iss.read(11) == fixed.dot(-P(a, b), -P(d, fixed.rcp(b)))
+    assert iss.read(12) == fixed.dot(P(a, b), fixed.to_int(d))
+    assert iss.read(13) == fixed.mul(b, fixed.rcp(iss.read(12)))
 
 
 # ----------------------------------------------------------------- microcode
@@ -247,16 +298,16 @@ def test_no_uninitialized_reads_and_cycle_count():
     iss = Iss(PROG.words, strict=True)
     load(iss, ref.tracking_params())
     iss.write(REG["y"], fixed.from_float(0.5))
-    assert iss.run() == 38
-    assert iss.stalls == 0
+    assert iss.run() == 24
+    assert iss.stalls == 1
     with pytest.raises(UninitializedRead):
         Iss(PROG.words, strict=True).run()
 
 
 def test_matches_original_course_rtl():
     """On the original project's test case (h1 = 1, h2 = 0, phi21 = 0,
-    G = 0) the optimized program forms exactly the truncated products the
-    original microcode formed, and fixed-point additions are exact, so it
+    G = 0) the program forms exactly the truncated products the original
+    microcode formed, and the sums are exact (no saturation), so it
     reproduces all 5000 outputs of the original NC-Verilog run bit for bit
     (tests/data, branch legacy-tsmc65)."""
     with gzip.open(ROOT / "tests" / "data" / "legacy_rtl_states.txt.gz", "rt") as f:
