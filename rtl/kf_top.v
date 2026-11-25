@@ -3,7 +3,8 @@
 // A microcoded multiply-accumulate machine derived from the architecture of
 // Chavez-Bracamontes et al., IEICE ELEX 13(6), 2016:
 //
-//   S1  PC -> ROM -> decode -> register (or RINV) read   -> operand registers
+//   F   ROM[PC]                                          -> IR (prefetched)
+//   S1  IR -> decode -> register (or RINV) read          -> operand registers
 //   EX  multiply, or add / subtract / load               -> XR
 //   WB  ACC <- XR or ACC +/- XR, optional register write
 //   kf_rcp computes RINV = 1/S in the background (8 cycles).
@@ -89,10 +90,17 @@ module kf_top (
     always @(posedge g_din)
         data_in_q <= data_in;
 
-    // ---- S1: fetch, decode, interlock -------------------------------------
+    // ---- fetch: ROM[pc] -> IR ------------------------------------------------
+    // The instruction register keeps the ROM's switching (and its glitches)
+    // away from the decode logic and the register-file read ports.  pc is
+    // the address of the next instruction; it returns to 0 when a run ends,
+    // so the edge that starts a run loads ROM[0] and no cycle is lost.
     reg  [7:0]  pc;
-    wire [20:0] ir;
-    kf_rom u_rom (.addr(pc), .data(ir));
+    reg  [20:0] ir;
+    wire [20:0] rom_q;
+    kf_rom u_rom (.addr(pc), .data(rom_q));
+
+    // ---- S1: decode, interlock, register read ---------------------------------
 
     wire [3:0] s1_op  = ir[20:17];
     wire       s1_wr  = ir[16];
@@ -125,6 +133,15 @@ module kf_top (
     // instruction still in WB commits on the same clock edge.
     assign done = running & s1_halt & ~ex_v & ~rcp_busy;
 
+    // instruction register: loaded when the run starts and on every issue
+    wire g_ir;
+    kf_clkgate cg_ir (.clk(cclk), .en(start_q | issue), .gclk(g_ir));
+    always @(posedge g_ir or negedge rst_n_i)
+        if (!rst_n_i)
+            ir <= 21'd0;                              // NOP
+        else
+            ir <= rom_q;
+
     // sequencer and pipeline control (clocked only while running)
     wire g_ctl;
     kf_clkgate cg_ctl (.clk(cclk), .en(running | start_q), .gclk(g_ctl));
@@ -142,11 +159,13 @@ module kf_top (
             wb_dst  <= 5'd0;
         end else begin
             if (!running) begin
-                running <= 1'b1;                      // start_q is set
+                running <= 1'b1;                      // start_q is set, pc is 0
+                pc      <= 8'd1;
+            end else if (done) begin
+                running <= 1'b0;
                 pc      <= 8'd0;
-            end else begin
-                if (done)  running <= 1'b0;
-                if (issue) pc <= pc + 8'd1;
+            end else if (issue) begin
+                pc      <= pc + 8'd1;
             end
             ex_v   <= issue & (s1_mul | s1_alu);
             ex_wr  <= s1_wr;
