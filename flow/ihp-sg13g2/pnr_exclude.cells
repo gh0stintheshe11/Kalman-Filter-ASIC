@@ -1,0 +1,6 @@
+# pnr_exclude.cells: the IHP SG13G2 list shipped with LibreLane 3.0.17, minus
+# sg13g2_lgcp_1 (integrated clock gate), which kf_clkgate_ihp.v instantiates.
+sg13g2_sighold
+sg13g2_slgcp_1
+sg13g2_sdfbbp_1
+sg13g2_dfrbp_2
