@@ -1,1 +1,0 @@
-/nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/layout/layout_mem_reg/mem_reg_syn.sdc

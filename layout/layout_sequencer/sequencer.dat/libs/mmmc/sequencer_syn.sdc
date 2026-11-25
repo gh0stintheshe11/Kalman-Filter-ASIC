@@ -1,1 +1,0 @@
-/nfs/ug/homes-0/s/sunlang/Kalman-Filter-ASIC/layout/layout_sequencer/sequencer_syn.sdc
