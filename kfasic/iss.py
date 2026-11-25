@@ -2,12 +2,18 @@
 
 Pipeline, one instruction issued per cycle at most:
 
-    S1  fetch + operand read   ROM[PC] decoded, registers A/B (or RINV) read
-    EX  execute                multiply, or add/subtract/load -> XR
-    WB  accumulate + write     ACC <- XR or ACC +/- XR, optional register write
+    S1  decode + operand read   operands A and B (register, RINV or 1.0) read
+    EX  multiply                A * B -> XR; the addend C of MAD/MSD is read
+    WB  accumulate + write      ACC <- XR, ACC +/- XR or C +/- XR, optional
+                                register write
+
+(The fetch of the next instruction into the instruction register overlaps
+with S1 and never costs a cycle.)  The result in WB is forwarded to the
+operand reads in S1 and EX of the same cycle.
 
 S1 stalls (bubble into EX) while
-  * it reads a register that the instruction in EX or WB will write,
+  * it reads a register as A or B (or as the divisor of RCP) that the
+    instruction in EX will write,
   * it reads RINV, or is an RCP, while the reciprocal unit is busy.
 RCP does not enter EX/WB: at issue the reciprocal unit takes the divisor and
 runs for RCP_CYCLES cycles; RINV is valid the cycle after.  HALT completes
@@ -23,11 +29,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from . import fixed
-from .asm import (ACC_OPS, OP_ADD, OP_HALT, OP_LDA, OP_MAC, OP_MSB, OP_RCP,
-                  OP_SUB, ROM_DEPTH, TWO_OPERAND_OPS, WORD_HALT, decode, reads)
+from .asm import (ACC_OPS, BS_REG, BS_RINV, OP_HALT, OP_MAC, OP_MSB, OP_MSD, OP_MUL, OP_RCP,
+                  ROM_DEPTH, WORD_HALT, addend, decode, reads)
 
 NUM_REGS = 32
-RCP_CYCLES = 8          # radix-8 reciprocal: 24 quotient bits, 3 per cycle
+RCP_CYCLES = 7          # radix-8 reciprocal: 8 digits, the first while loading S
 
 
 class UninitializedRead(RuntimeError):
@@ -39,27 +45,23 @@ class _Slot:
     op: int
     wr: int
     dst: int
-    va: int | None = None     # operand values captured in S1
-    vb: int | None = None
-    xr: int | None = None     # EX result
+    va: int                    # operands captured in S1
+    vb: int
+    c: int | None = None       # addend register, read in EX
+    vc: int | None = None
+    xr: int | None = None      # EX result
 
 
-def ex_result(op: int, va: int, vb: int | None) -> int:
-    if op == OP_ADD:
-        return fixed.add(va, vb)
-    if op == OP_SUB:
-        return fixed.sub(va, vb)
-    if op == OP_LDA:
-        return va
-    return fixed.mul(va, vb)                 # MUL, MAC, MSB
-
-
-def wb_result(op: int, acc: int | None, xr: int) -> int:
+def wb_result(op: int, acc: int | None, vc: int | None, xr: int) -> int:
+    if op == OP_MUL:
+        return xr
     if op in (OP_MAC, OP_MSB):
         if acc is None:
             raise UninitializedRead("MAC/MSB with uninitialized ACC")
-        return fixed.add(acc, xr) if op == OP_MAC else fixed.sub(acc, xr)
-    return xr
+        base = acc
+    else:
+        base = vc
+    return fixed.sub(base, xr) if op in (OP_MSB, OP_MSD) else fixed.add(base, xr)
 
 
 class Iss:
@@ -112,9 +114,9 @@ class Iss:
             op = x["op"]
             regs, uses_rinv = reads(x)
 
-            pending = {s.dst for s in (ex, wb) if s is not None and s.wr}
+            owed = {ex.dst} if ex is not None and ex.wr else set()
             busy = rcp_cnt > 0
-            stall = bool(regs & pending) or ((uses_rinv or op == OP_RCP) and busy)
+            stall = bool(regs & owed) or ((uses_rinv or op == OP_RCP) and busy)
             halting = op == OP_HALT
             issue = not halting and not stall
             # an instruction still in WB commits on the edge that ends the run
@@ -122,25 +124,30 @@ class Iss:
             if not issue and not halting:
                 stalls += 1
 
-            # S1 reads happen before this cycle's WB write
+            # WB: its result is forwarded to this cycle's operand reads
+            if wb is not None:
+                self.acc = wb_result(wb.op, self.acc, wb.vc, wb.xr)
+                if wb.wr:
+                    self.bank[wb.dst] = self.acc
+            # S1 operand reads, EX addend read
             va = vb = None
             if issue:
-                if op in TWO_OPERAND_OPS or op == OP_LDA:
+                if op in ACC_OPS:
                     va = self._reg(x["a"])
                 if uses_rinv:
                     if self.rinv is None:
                         raise UninitializedRead("read of RINV before any RCP")
                     vb = self.rinv
-                elif op in TWO_OPERAND_OPS or op == OP_RCP:
+                elif op in ACC_OPS and x["bs"] != BS_REG:
+                    vb = fixed.ONE
+                elif op in ACC_OPS or op == OP_RCP:
                     vb = self._reg(x["b"])
+            if ex is not None and ex.c is not None:
+                ex.vc = self._reg(ex.c)
 
             # ---- clock edge ----
-            if wb is not None:
-                self.acc = wb_result(wb.op, self.acc, wb.xr)
-                if wb.wr:
-                    self.bank[wb.dst] = self.acc
             if ex is not None:
-                ex.xr = ex_result(ex.op, ex.va, ex.vb)
+                ex.xr = fixed.mul(ex.va, ex.vb)
             wb, ex = ex, None
             if rcp_cnt > 0:
                 rcp_cnt -= 1
@@ -148,7 +155,7 @@ class Iss:
                     self.rinv = rcp_val
             if issue:
                 if op in ACC_OPS:
-                    ex = _Slot(op, x["wr"], x["dst"], va, vb)
+                    ex = _Slot(op, x["wr"], x["dst"], va, vb, addend(x))
                 elif op == OP_RCP:
                     rcp_cnt, rcp_val = RCP_CYCLES, fixed.rcp(vb)
                 pc = (pc + 1) % ROM_DEPTH
@@ -168,15 +175,15 @@ def execute_float(words: list[int], bank: list[float]) -> list[float]:
         op = x["op"]
         if op == OP_HALT:
             break
-        a = bank[x["a"]]
-        b = rinv if x["bi"] else bank[x["b"]]
         if op == OP_RCP:
-            rinv = 1.0 / b
+            rinv = 1.0 / bank[x["b"]]
             continue
         if op not in ACC_OPS:
             continue
-        acc = {OP_ADD: a + b, OP_SUB: a - b, OP_LDA: a,
-               OP_MAC: acc + a * b, OP_MSB: acc - a * b}.get(op, a * b)
+        b = bank[x["b"]] if x["bs"] == BS_REG else rinv if x["bs"] == BS_RINV else 1.0
+        p = bank[x["a"]] * b
+        base = 0.0 if op == OP_MUL else acc if op in (OP_MAC, OP_MSB) else bank[x["c"]]
+        acc = base - p if op in (OP_MSB, OP_MSD) else base + p
         if x["wr"]:
             bank[x["dst"]] = acc
     return bank

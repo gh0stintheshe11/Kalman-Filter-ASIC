@@ -1,8 +1,10 @@
 // kf_rcp.v -- reciprocal unit: rinv <- 1/S (kfasic.fixed.rcp).
 //
 // Radix-8 restoring division of 2^28 by |S|: 24 quotient bits, three per
-// cycle, so rinv is updated 8 cycles after start and busy is high for those
-// 8 cycles.  Exact: rinv = floor(2^28 / |S|), saturated to the largest
+// step.  The dividend is a constant, so the first step only compares |S|
+// with constants and is done while S is loaded; the other seven take one
+// cycle each, so rinv is updated 7 cycles after start and busy is high for
+// those 7 cycles.  Exact: rinv = floor(2^28 / |S|), saturated to the largest
 // magnitude for |S| <= 32 LSB (where 1/S would exceed the range), with the
 // sign of S.  It runs in parallel with the main datapath.
 `default_nettype none
@@ -71,6 +73,21 @@ module kf_rcp #(
     wire [M:0] q_next = {q, digit};               // 24-bit quotient; bit 23 is 0 unless sat
     /* verilator lint_on UNUSEDSIGNAL */
 
+    // ---- first step, at load: 128 / |S| ----------------------------------
+    // The partial remainder starts at 2^28 >> 21 = 128.  For |S| > 32 the
+    // first digit is 3 (|S| <= 42), 2 (<= 64), 1 (<= 128) or 0, and the
+    // remainder 128 - digit*|S| fits in 8 bits.  (For |S| <= 32 the result
+    // is saturated and the digits do not matter.)
+    wire [M-1:0] s_mag = s[M-1:0];
+    wire         le128 = (s_mag <= 128);
+    wire         le64  = (s_mag <= 64);
+    wire         le42  = (s_mag <= 42);
+    wire [7:0]   s8    = s_mag[7:0];
+    wire [2:0]   dig1  = le42 ? 3'd3 : le64 ? 3'd2 : le128 ? 3'd1 : 3'd0;
+    wire [7:0]   r1    = le42 ? 8'd128 - (s8 + {s8[6:0], 1'b0}) :
+                         le64 ? 8'd128 - {s8[6:0], 1'b0} :
+                         le128 ? 8'd128 - s8 : 8'd128;
+
     // ---- registers (clock-gated) ------------------------------------------
     wire g_ld, g_it, g_out;
     kf_clkgate cg_ld  (.clk(clk), .en(start),                    .gclk(g_ld));
@@ -87,14 +104,14 @@ module kf_rcp #(
         if (!rst_n)
             cnt <= 4'd0;
         else if (start)
-            cnt <= 4'd8;
+            cnt <= 4'd7;
         else
             cnt <= cnt - 4'd1;
 
     always @(posedge g_it) begin
         if (start) begin
-            r <= 16;                              // 2^28 >> 24: the bits above the quotient
-            q <= {(M - 2){1'b0}};
+            r <= {{(M - 8){1'b0}}, r1};
+            q <= {{(M - 5){1'b0}}, dig1};
         end else begin
             r <= r_next[M-1:0];
             q <= q_next[M-3:0];

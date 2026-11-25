@@ -4,14 +4,16 @@
 // Chavez-Bracamontes et al., IEICE ELEX 13(6), 2016:
 //
 //   F   ROM[PC]                                          -> IR (prefetched)
-//   S1  IR -> decode -> register (or RINV) read          -> operand registers
-//   EX  multiply, or add / subtract / load               -> XR
-//   WB  ACC <- XR or ACC +/- XR, optional register write
-//   kf_rcp computes RINV = 1/S in the background (8 cycles).
+//   S1  IR -> decode -> read A and B (register, RINV or 1.0) -> operand registers
+//   EX  A * B -> XR;  read the addend C of MAD/MSD          -> XC
+//   WB  ACC <- XR, ACC +/- XR or XC +/- XR, optional register write
+//   kf_rcp computes RINV = 1/S in the background (7 cycles).
 //
-// Read-after-write hazards and RINV use are interlocked in S1; the exact
-// timing is modelled by kfasic/iss.py and the microcode is scheduled so that
-// the interlocks rarely fire.
+// The WB result is forwarded to the operand reads in S1 and EX, so only an
+// operand A or B written by the instruction just ahead stalls (one cycle);
+// RINV use waits for the reciprocal unit.  The exact timing is modelled by
+// kfasic/iss.py and the microcode is scheduled so that the interlocks rarely
+// fire.
 //
 // Host protocol, all signals synchronous to clk, inputs registered once:
 //   * READY = 1 (idle) two cycles after rst_n is released, and after HALT
@@ -21,10 +23,10 @@
 //   * start: run the microcode; READY drops on the next clock edge and rises
 //     again once HALT has completed
 //
-// Low power: every register group is clock-gated (kf_clkgate), the
-// multiplier and the adder have separate operand registers so only the unit
-// in use sees new data, and nothing but the host input registers is clocked
-// while idle.
+// Low power: every register group is clock-gated (kf_clkgate) behind a core
+// clock gate, so nothing but the host input registers is clocked while
+// idle; register-file reads are decoded one-hot (kf_rdport); the
+// instruction register keeps the ROM's glitches out of the datapath.
 `default_nettype none
 
 module kf_top (
@@ -37,8 +39,10 @@ module kf_top (
     output wire        ready,
     output wire [23:0] data_out
 );
-    localparam [3:0] OP_HALT = 4'd1, OP_MUL = 4'd2, OP_MAC = 4'd3, OP_MSB = 4'd4,
-                     OP_ADD  = 4'd5, OP_SUB = 4'd6, OP_LDA = 4'd7, OP_RCP = 4'd8;
+    // opcodes (OP_MAC = 3 needs no decoding of its own)
+    localparam [2:0] OP_HALT = 3'd1, OP_MUL = 3'd2, OP_MSB = 3'd4,
+                     OP_MAD  = 3'd5, OP_MSD = 3'd6, OP_RCP = 3'd7;
+    localparam [23:0] ONE = 24'h004000;               // 1.0 in Q9.14
 
     // ---- reset synchronizer ----------------------------------------------
     reg rst_meta, rst_n_i;
@@ -96,37 +100,36 @@ module kf_top (
     // the address of the next instruction; it returns to 0 when a run ends,
     // so the edge that starts a run loads ROM[0] and no cycle is lost.
     reg  [7:0]  pc;
-    reg  [20:0] ir;
-    wire [20:0] rom_q;
+    reg  [25:0] ir;
+    wire [25:0] rom_q;
     kf_rom u_rom (.addr(pc), .data(rom_q));
 
-    // ---- S1: decode, interlock, register read ---------------------------------
+    // ---- S1: decode, interlock, operand read ----------------------------------
+    wire [2:0] s1_op  = ir[25:23];
+    wire       s1_wr  = ir[22];
+    wire [4:0] s1_dst = ir[21:17];
+    wire [4:0] s1_a   = ir[16:12];
+    wire [4:0] s1_b   = ir[11:7];
+    wire [1:0] s1_bs  = ir[6:5];                      // B: register, RINV, 1.0
+    wire [4:0] s1_c   = ir[4:0];
 
-    wire [3:0] s1_op  = ir[20:17];
-    wire       s1_wr  = ir[16];
-    wire [4:0] s1_dst = ir[15:11];
-    wire [4:0] s1_a   = ir[10:6];
-    wire [4:0] s1_b   = ir[5:1];
-    wire       s1_bi  = ir[0];
-
-    wire s1_mul  = (s1_op == OP_MUL) | (s1_op == OP_MAC) | (s1_op == OP_MSB);
-    wire s1_alu  = (s1_op == OP_ADD) | (s1_op == OP_SUB) | (s1_op == OP_LDA);
-    wire s1_two  = s1_mul | (s1_op == OP_ADD) | (s1_op == OP_SUB);
+    wire s1_acc  = (s1_op != 3'd0) & (s1_op != OP_HALT) & (s1_op != OP_RCP);
     wire s1_rcp  = (s1_op == OP_RCP);
     wire s1_halt = (s1_op == OP_HALT);
-    wire s1_ra   = s1_two | (s1_op == OP_LDA);        // reads register a
-    wire s1_rb   = (s1_two & ~s1_bi) | s1_rcp;        // reads register b
-    wire s1_ri   = s1_two & s1_bi;                    // reads RINV
+    wire s1_rb   = (s1_acc & (s1_bs == 2'd0)) | s1_rcp;   // reads register b
+    wire s1_ri   = s1_acc & (s1_bs == 2'd1);              // reads RINV
 
     reg       ex_v, ex_wr, wb_v, wb_wr;
-    reg [3:0] ex_op, wb_op;
-    reg [4:0] ex_dst, wb_dst;
+    reg [2:0] ex_op, wb_op;
+    reg [4:0] ex_dst, ex_c, wb_dst;
     wire      rcp_busy;
 
     wire ex_w  = ex_v & ex_wr;
     wire wb_w  = wb_v & wb_wr;
-    wire hz_a  = s1_ra & ((ex_w & (ex_dst == s1_a)) | (wb_w & (wb_dst == s1_a)));
-    wire hz_b  = s1_rb & ((ex_w & (ex_dst == s1_b)) | (wb_w & (wb_dst == s1_b)));
+    // only the instruction in EX can still owe a register to S1; one in WB
+    // forwards its result
+    wire hz_a  = s1_acc & ex_w & (ex_dst == s1_a);
+    wire hz_b  = s1_rb  & ex_w & (ex_dst == s1_b);
     wire stall = hz_a | hz_b | ((s1_ri | s1_rcp) & rcp_busy);
     wire issue = running & ~s1_halt & ~stall;
     // HALT completes once EX and the reciprocal unit are empty; an
@@ -138,7 +141,7 @@ module kf_top (
     kf_clkgate cg_ir (.clk(cclk), .en(start_q | issue), .gclk(g_ir));
     always @(posedge g_ir or negedge rst_n_i)
         if (!rst_n_i)
-            ir <= 21'd0;                              // NOP
+            ir <= 26'd0;                              // NOP
         else
             ir <= rom_q;
 
@@ -151,11 +154,12 @@ module kf_top (
             pc      <= 8'd0;
             ex_v    <= 1'b0;
             ex_wr   <= 1'b0;
-            ex_op   <= 4'd0;
+            ex_op   <= 3'd0;
             ex_dst  <= 5'd0;
+            ex_c    <= 5'd0;
             wb_v    <= 1'b0;
             wb_wr   <= 1'b0;
-            wb_op   <= 4'd0;
+            wb_op   <= 3'd0;
             wb_dst  <= 5'd0;
         end else begin
             if (!running) begin
@@ -167,10 +171,11 @@ module kf_top (
             end else if (issue) begin
                 pc      <= pc + 8'd1;
             end
-            ex_v   <= issue & (s1_mul | s1_alu);
+            ex_v   <= issue & s1_acc;
             ex_wr  <= s1_wr;
             ex_op  <= s1_op;
             ex_dst <= s1_dst;
+            ex_c   <= s1_c;
             wb_v   <= ex_v;
             wb_wr  <= ex_wr;
             wb_op  <= ex_op;
@@ -178,8 +183,8 @@ module kf_top (
         end
 
     // ---- register file ----------------------------------------------------
-    // Ports A and B serve the datapath, port H the host: there is no path
-    // from the sequencer or the microcode ROM to data_out.
+    // Ports A and B serve S1.  Port H serves the host while idle and reads
+    // the addend C in EX while running; data_out is forced to 0 then.
     wire [23:0] rd_a, rd_b, rd_h, rinv;
     wire [23:0] acc_next;
     wire        rf_we    = running ? wb_w     : write_q;
@@ -193,7 +198,7 @@ module kf_top (
         .wdata   (rf_wdata),
         .raddr_a (s1_a),
         .raddr_b (s1_b),
-        .raddr_h (dir_q),
+        .raddr_h (busy ? ex_c : dir_q),
         .rdata_a (rd_a),
         .rdata_b (rd_b),
         .rdata_h (rd_h)
@@ -201,41 +206,42 @@ module kf_top (
 
     assign data_out = rd_h & {24{~busy}};
 
-    // ---- S1 -> EX operand registers (separate, so only one unit toggles) --
-    wire [23:0] opnd_b = s1_bi ? rinv : rd_b;
-    reg  [23:0] ma, mb;                               // multiplier operands
-    reg  [23:0] aa, ab;                               // adder operands
-    wire        g_mop, g_aop;
-    kf_clkgate cg_mop (.clk(cclk), .en(issue & s1_mul), .gclk(g_mop));
-    kf_clkgate cg_aop (.clk(cclk), .en(issue & s1_alu), .gclk(g_aop));
+    // ---- S1 -> EX operand registers -------------------------------------
+    wire [23:0] opnd_a = (wb_w & (wb_dst == s1_a)) ? acc_next : rd_a;
+    wire [23:0] reg_b  = (wb_w & (wb_dst == s1_b)) ? acc_next : rd_b;
+    wire [23:0] opnd_b = s1_bs[1] ? ONE : s1_bs[0] ? rinv : reg_b;
+    reg  [23:0] ma, mb;
+    wire        g_mop;
+    kf_clkgate cg_mop (.clk(cclk), .en(issue & s1_acc), .gclk(g_mop));
     always @(posedge g_mop) begin
-        ma <= rd_a;
+        ma <= opnd_a;
         mb <= opnd_b;
-    end
-    always @(posedge g_aop) begin
-        aa <= rd_a;
-        ab <= opnd_b;
     end
 
     // ---- EX ---------------------------------------------------------------
-    wire [23:0] mul_y, alu_y;
-    kf_mul    u_mul (.a(ma), .b(mb), .y(mul_y));
-    kf_addsub u_alu (.a(aa), .b(ab), .sub(ex_op == OP_SUB), .y(alu_y));
-
-    wire        ex_mul = (ex_op == OP_MUL) | (ex_op == OP_MAC) | (ex_op == OP_MSB);
-    wire [23:0] ex_y   = ex_mul ? mul_y : (ex_op == OP_LDA) ? aa : alu_y;
+    wire [23:0] mul_y;
+    kf_mul u_mul (.a(ma), .b(mb), .y(mul_y));
 
     reg  [23:0] xr;
     wire        g_xr;
     kf_clkgate cg_xr (.clk(cclk), .en(ex_v), .gclk(g_xr));
     always @(posedge g_xr)
-        xr <= ex_y;
+        xr <= mul_y;
+
+    wire        ex_addend = (ex_op == OP_MAD) | (ex_op == OP_MSD);
+    reg  [23:0] xc;
+    wire        g_xc;
+    kf_clkgate cg_xc (.clk(cclk), .en(ex_v & ex_addend), .gclk(g_xc));
+    always @(posedge g_xc)
+        xc <= (wb_w & (wb_dst == ex_c)) ? acc_next : rd_h;
 
     // ---- WB ---------------------------------------------------------------
     reg  [23:0] acc;
     wire [23:0] acc_sum;
-    kf_addsub u_acc (.a(acc), .b(xr), .sub(wb_op == OP_MSB), .y(acc_sum));
-    assign acc_next = ((wb_op == OP_MAC) | (wb_op == OP_MSB)) ? acc_sum : xr;
+    wire        wb_addend = (wb_op == OP_MAD) | (wb_op == OP_MSD);
+    kf_addsub u_acc (.a(wb_addend ? xc : acc), .b(xr),
+                     .sub((wb_op == OP_MSB) | (wb_op == OP_MSD)), .y(acc_sum));
+    assign acc_next = (wb_op == OP_MUL) ? xr : acc_sum;
 
     wire g_acc;
     kf_clkgate cg_acc (.clk(cclk), .en(wb_v), .gclk(g_acc));
@@ -247,7 +253,7 @@ module kf_top (
         .clk   (cclk),
         .rst_n (rst_n_i),
         .start (issue & s1_rcp),
-        .s     (rd_b),
+        .s     (reg_b),
         .busy  (rcp_busy),
         .rinv  (rinv)
     );

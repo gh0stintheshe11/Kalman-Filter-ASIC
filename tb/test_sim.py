@@ -129,10 +129,16 @@ def test_kf_top_5000_iterations():
 DIRECTED = {
     "raw-distance-1": "lda db[2], db[1]\nlda acc, db[2]\nmac db[3], db[2], db[2]\nhalt",
     "raw-distance-2": "lda db[2], db[1]\nnop\nlda acc, db[2]\nhalt",
+    "forward-b": "mul db[2], db[1], db[1]\nnop\nmul db[3], db[4], db[2]\nhalt",
+    "forward-addend": "lda db[2], db[1]\nmad db[3], db[4], db[5], db[2]\n"
+                      "msd db[6], db[4], one, db[3]\nhalt",
+    "forward-divisor": "lda db[2], db[1]\nrcp db[2]\nmul db[5], db[1], rinv\nhalt",
     "rinv-wait": "rcp db[1]\nmul db[5], db[1], rinv\nhalt",
     "rcp-back-to-back": "rcp db[1]\nrcp db[2]\nmul db[6], db[3], rinv\nhalt",
     "halt-waits-for-rcp": "lda acc, db[0]\nrcp db[1]\nhalt",
-    "acc-chain": "mul acc, db[1], db[2]\nmac acc, db[3], db[4]\nmsb acc, db[5], db[6]\nadd db[7], db[1], db[2]\nsub acc, db[8], db[9]\nmac db[10], db[11], db[12]\nhalt",
+    "acc-chain": "mul acc, db[1], db[2]\nmac acc, db[3], db[4]\nmsb acc, db[5], db[6]\n"
+                 "add db[7], db[1], db[2]\nsub acc, db[8], db[9]\nmac db[10], db[11], db[12]\n"
+                 "mad acc, db[1], one, db[10]\nmsd db[13], db[2], db[3], db[7]\nhalt",
 }
 N_RANDOM = int(os.environ.get("KF_RANDOM_PROGRAMS", "24"))
 

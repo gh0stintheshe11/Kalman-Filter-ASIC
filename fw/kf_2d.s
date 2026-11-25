@@ -6,12 +6,15 @@
 ;
 ; P and Q are covariance matrices, hence symmetric: only p11, p12, p22 and
 ; q11, q12, q22 are used (p21 and q21 are ignored), and (I - K H) P- is
-; evaluated as P- - K (P- H^T)^T, reusing P- H^T from the gain.
+; evaluated as P- - K (P- H^T)^T, reusing P- H^T from the gain.  MAD/MSD add
+; a register to a product, so no instruction is needed to preload ACC.
 ;
-; Scheduling: an instruction must not read a register written by either of
-; the two instructions before it (the pipeline would stall), and RINV is
-; valid 8 cycles after RCP issues.  1/S is computed while x- and the
-; innovation are evaluated.
+; Scheduling: an instruction should not read a register as A or B that the
+; instruction just before it writes (the pipeline would stall for a cycle;
+; results are forwarded from WB, so the one before that is fine, and so is
+; any addend C).  RINV is valid 7 cycles after RCP issues; 1/S is computed
+; while x- and the innovation are evaluated.  This order runs without a
+; single stall: 36 instructions, 38 cycles.
 ;
 ; Host protocol: while READY=1 write the parameters once, then for every
 ; sample write y and pulse START; read x1, x2, p11, p12, p22 when READY
@@ -52,64 +55,52 @@
 .reg k1    23
 .reg k2    24
 
-; ==== A = Phi P ============================================================
-    mul  acc, phi11, p11
-    mac  a11, phi12, p12
-    mul  acc, phi11, p12
-    mac  a12, phi12, p22
+; ==== A = Phi P (A21, A22 first: P- below needs them last) ================
     mul  acc, phi21, p11
     mac  a21, phi22, p12
     mul  acc, phi21, p12
     mac  a22, phi22, p22
+    mul  acc, phi11, p11
+    mac  a11, phi12, p12
+    mul  acc, phi11, p12
+    mac  a12, phi12, p22
 
-; ==== P- = A Phi^T + Q (overwrites P) ======================================
-    lda  acc, q11
-    mac  acc, a11, phi11
+; ==== P- = A Phi^T + Q (overwrites P), interleaved with P- H^T ===============
+    mad  acc, a11, phi11, q11
     mac  p11, a12, phi12
-    lda  acc, q12
-    mac  acc, a11, phi21
+    mad  acc, a11, phi21, q12
     mac  p12, a12, phi22
-    lda  acc, q22
-    mac  acc, a21, phi21
-    mac  p22, a22, phi22
-
-; ==== P- H^T and S = H P- H^T + R ==========================================
-    mul  acc, p11, h1
+    mul  acc, p11, h1           ; P- H^T, first row
     mac  pht1, p12, h2
-    mul  acc, p12, h1
+    mad  acc, a21, phi21, q22
+    mac  p22, a22, phi22
+    mul  acc, p12, h1           ; P- H^T, second row
     mac  pht2, p22, h2
-    lda  acc, r11
-    mac  acc, pht1, h1
+
+; ==== S = H P- H^T + R ======================================================
+    mad  acc, pht1, h1, r11
     mac  s, pht2, h2
 
 ; ==== x- = Phi x + G u, innovation; 1/S in the background ==================
     mul  acc, phi11, x1
-    mac  acc, phi12, x2
     rcp  s                      ; RINV <- 1/S
+    mac  acc, phi12, x2
     mac  x1m, g1, u
     mul  acc, phi21, x1
     mac  acc, phi22, x2
     mac  x2m, g2, u
-    lda  acc, y
-    msb  acc, h1, x1m
+    msd  acc, h1, x1m, y
     msb  inn, h2, x2m
 
 ; ==== K = P- H^T / S =======================================================
-    mul  k1, pht1, rinv
     mul  k2, pht2, rinv
+    mul  k1, pht1, rinv
 
-; ==== x+ = x- + K inn ======================================================
-    lda  acc, x1m
-    mac  x1, k1, inn
-    lda  acc, x2m
-    mac  x2, k2, inn
-
-; ==== P+ = P- - K (P- H^T)^T ===============================================
-    lda  acc, p11
-    msb  p11, k1, pht1
-    lda  acc, p12
-    msb  p12, k1, pht2
-    lda  acc, p22
-    msb  p22, k2, pht2
+; ==== x+ = x- + K inn, P+ = P- - K (P- H^T)^T ==============================
+    mad  x2, k2, inn, x2m
+    mad  x1, k1, inn, x1m
+    msd  p22, k2, pht2, p22
+    msd  p11, k1, pht1, p11
+    msd  p12, k1, pht2, p12
 
     halt

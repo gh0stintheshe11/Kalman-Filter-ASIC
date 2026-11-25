@@ -104,24 +104,31 @@ def test_reciprocal_times_value_error_bound():
 def test_assembler_encodings():
     p = assemble(".reg a 3\n.reg b 7\n.reg t 9\nmul acc, a, b\nmac t, a, rinv\n"
                  "lda t, b\nsub acc, a, b\nrcp b\nnop\nhalt\n", optimize=False)
-    assert p.words == [0x0400CE, 0x0748C1, 0x0F49C0, 0x0C00CE, 0x10000E, 0x000000, 0x020000]
-    assert decode(0x0748C1) == {"op": 3, "wr": 1, "dst": 9, "a": 3, "b": 0, "bi": 1}
+    assert p.words == [0x1003380, 0x1D23020, 0x1527040, 0x3007043, 0x3800380, 0x0000000, 0x0800000]
+    assert decode(0x1D23020) == {"op": 3, "wr": 1, "dst": 9, "a": 3, "b": 0, "bs": 1, "c": 0}
+    # lda t, b = mul t, b, one;  sub acc, a, b = msd acc, b, one, a
+    assert decode(0x1527040)["bs"] == 2 and decode(0x3007043)["c"] == 3
+
+
+def test_assembler_moves_constant_operands_to_b():
+    p = assemble(".reg a 3\nmul acc, rinv, a\nmac acc, one, a\nhalt\n", optimize=False)
+    assert [(decode(w)["a"], decode(w)["bs"]) for w in p.words[:2]] == [(3, 1), (3, 2)]
 
 
 def test_low_power_encoding_exchanges_operands():
-    # sub is not commutative; the mac's operands follow it on the same ports
-    x = [decode(w) for w in assemble(".reg a 3\n.reg b 7\nsub db[9], a, b\n"
+    # after the mul, a stays on port A if the mac's operands are exchanged
+    x = [decode(w) for w in assemble(".reg a 3\n.reg b 7\nmul db[9], a, rinv\n"
                                      "mac acc, b, a\nhalt\n").words]
-    assert [(w["op"], w["a"], w["b"]) for w in x] == [(6, 3, 7), (3, 3, 7), (1, 3, 7)]
+    assert [(w["op"], w["a"], w["b"]) for w in x] == [(2, 3, 0), (3, 3, 7), (1, 3, 7)]
 
 
 def test_low_power_encoding_fills_unused_fields():
     x = [decode(w) for w in assemble(".reg a 3\n.reg b 7\nsub db[9], a, b\nlda acc, b\n"
                                      "rcp a\nhalt\n").words]
-    assert (x[1]["a"], x[1]["b"], x[1]["dst"]) == (7, 7, 9)   # lda: b and dst kept
-    assert (x[2]["a"], x[2]["b"]) == (7, 3)                    # rcp: a kept
-    assert {k: x[3][k] for k in ("op", "wr", "dst", "a", "b")} == \
-        {"op": 1, "wr": 0, "dst": 9, "a": 7, "b": 3}           # halt: everything kept
+    assert (x[1]["a"], x[1]["b"], x[1]["c"], x[1]["dst"]) == (7, 0, 3, 9)  # lda: b, c, dst kept
+    assert (x[2]["a"], x[2]["b"]) == (7, 3)                                # rcp: a kept
+    assert {k: x[3][k] for k in ("op", "wr", "dst", "a", "b", "bs", "c")} == \
+        {"op": 1, "wr": 0, "dst": 9, "a": 7, "b": 3, "bs": 2, "c": 3}     # halt: all kept
 
 
 def test_low_power_encoding_preserves_behavior():
@@ -150,8 +157,10 @@ def test_committed_rom_is_up_to_date():
 
 
 @pytest.mark.parametrize("src, msg", [
-    ("mul acc, rinv, db[1]\nhalt", "rinv can only be operand B"),
-    ("rcp rinv\nhalt", "rcp expects one register"),
+    ("mul acc, rinv, one\nhalt", "'rinv' can only be operand B"),
+    ("rcp rinv\nhalt", "'rinv' can only be operand B"),
+    ("mad acc, db[1], db[2]\nhalt", "'mad' expects 4 operands"),
+    ("mac acc, db[1], db[2], db[3]\nhalt", "'mac' expects 3 operands"),
     ("add sr, db[1], db[2]\nhalt", "unknown register"),
     ("lda acc, db[1], db[2]\nhalt", "lda expects"),
     ("add acc, db[1], db[2]", "must end with 'halt'"),
@@ -168,13 +177,20 @@ def test_assembler_rejects(src, msg):
 @pytest.mark.parametrize("src, cycles, stalls", [
     # one instruction: issue, EX, then HALT completes while it commits in WB
     ("lda acc, db[1]\nhalt", 3, 0),
-    # read-after-write at distance 1 stalls two cycles (EX, then WB)
-    ("lda db[2], db[1]\nlda acc, db[2]\nhalt", 6, 2),
-    # ... at distance 2 one cycle, at distance 3 none
-    ("lda db[2], db[1]\nnop\nlda acc, db[2]\nhalt", 6, 1),
+    # operand A/B written by the instruction just ahead: one stall, then the
+    # result is forwarded from WB
+    ("lda db[2], db[1]\nlda acc, db[2]\nhalt", 5, 1),
+    ("lda db[2], db[1]\nmul acc, db[1], db[2]\nhalt", 5, 1),
+    # ... written two instructions ahead: forwarded, no stall
+    ("lda db[2], db[1]\nnop\nlda acc, db[2]\nhalt", 5, 0),
     ("lda db[2], db[1]\nnop\nnop\nlda acc, db[2]\nhalt", 6, 0),
+    # the addend C is read in EX: never a stall
+    ("lda db[2], db[1]\nmad acc, db[1], db[1], db[2]\nhalt", 4, 0),
     # RINV is valid RCP_CYCLES cycles after RCP issues
     ("rcp db[1]\nmul acc, db[1], rinv\nhalt", 1 + RCP_CYCLES + 3, RCP_CYCLES),
+    # the divisor of RCP is an operand B
+    ("lda db[2], db[1]\nrcp db[2]\nhalt", 3 + RCP_CYCLES + 1, 1),
+    ("lda db[2], db[1]\nnop\nrcp db[2]\nhalt", 3 + RCP_CYCLES + 1, 0),
     # HALT also waits for the reciprocal unit
     ("rcp db[1]\nhalt", 1 + RCP_CYCLES + 1, 0),
 ])
@@ -187,7 +203,9 @@ def test_pipeline_timing(src, cycles, stalls):
 
 def test_accumulator_semantics():
     p = assemble(".reg a 1\n.reg b 2\n.reg d 3\nmul acc, a, b\nmac acc, a, b\nmsb acc, a, a\n"
-                 "mac d, b, b\nrcp b\nmul db[4], a, rinv\nhalt")
+                 "mac d, b, b\nrcp b\nmul db[4], a, rinv\nmad db[5], a, b, d\n"
+                 "msd db[6], b, b, d\nadd db[7], a, b\nsub db[8], a, b\nlda db[9], b\n"
+                 "mad db[10], a, one, db[5]\nhalt")
     iss = Iss(p.words, strict=False)
     a, b = fixed.from_float(1.5), fixed.from_float(-2.25)
     iss.write(1, a)
@@ -196,9 +214,15 @@ def test_accumulator_semantics():
     acc = fixed.mul(a, b)
     acc = fixed.add(acc, fixed.mul(a, b))
     acc = fixed.sub(acc, fixed.mul(a, a))
-    acc = fixed.add(acc, fixed.mul(b, b))
-    assert iss.read(3) == acc
+    d = fixed.add(acc, fixed.mul(b, b))
+    assert iss.read(3) == d
     assert iss.read(4) == fixed.mul(a, fixed.rcp(b))
+    assert iss.read(5) == fixed.add(d, fixed.mul(a, b))
+    assert iss.read(6) == fixed.sub(d, fixed.mul(b, b))
+    assert iss.read(7) == fixed.add(a, b)
+    assert iss.read(8) == fixed.sub(a, b)
+    assert iss.read(9) == b
+    assert iss.read(10) == fixed.add(iss.read(5), a)
 
 
 # ----------------------------------------------------------------- microcode
@@ -223,8 +247,8 @@ def test_no_uninitialized_reads_and_cycle_count():
     iss = Iss(PROG.words, strict=True)
     load(iss, ref.tracking_params())
     iss.write(REG["y"], fixed.from_float(0.5))
-    assert iss.run() == 49
-    assert iss.stalls == 1
+    assert iss.run() == 38
+    assert iss.stalls == 0
     with pytest.raises(UninitializedRead):
         Iss(PROG.words, strict=True).run()
 

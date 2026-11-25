@@ -1,30 +1,39 @@
 """Assembler for the KF ASIC microcode.
 
-Instruction word (21 bits):
+Instruction word (26 bits):
 
-    20..17  op    0 NOP  1 HALT  2 MUL  3 MAC  4 MSB  5 ADD  6 SUB  7 LDA  8 RCP
-        16  wr    also write the new ACC value to register dst
-    15..11  dst   destination register
-    10..6   a     operand A register
-     5..1   b     operand B register
-         0  bi    operand B is RINV instead of register b
+    25..23  op    0 NOP  1 HALT  2 MUL  3 MAC  4 MSB  5 MAD  6 MSD  7 RCP
+        22  wr    also write the new ACC value to register dst
+    21..17  dst   destination register
+    16..12  a     operand A register
+    11..7   b     operand B register (the divisor of RCP)
+     6..5   bs    operand B source: 0 register b, 1 RINV, 2 the constant 1.0
+     4..0   c     addend register of MAD and MSD
 
-Semantics (ACC accumulator, RINV reciprocal register):
+Semantics (ACC accumulator, RINV reciprocal register, B = reg[b], RINV or
+1.0 as selected by bs):
 
-    MUL  ACC <- A * B        MAC  ACC <- ACC + A * B      MSB  ACC <- ACC - A * B
-    ADD  ACC <- A + B        SUB  ACC <- A - B            LDA  ACC <- A
-    RCP  RINV <- 1 / B       (separate unit, runs in the background for 8 cycles)
+    MUL  ACC <- A * B              MAD  ACC <- C + A * B
+    MAC  ACC <- ACC + A * B        MSD  ACC <- C - A * B
+    MSB  ACC <- ACC - A * B        RCP  RINV <- 1 / reg[b]  (background, 7 cycles)
 
 Assembly syntax (';', '#' or '//' start a comment):
 
     .reg  NAME  INDEX       name a data-bank register (0..31)
     mul   acc, A, B         result in ACC only
     mac   d, A, B           result in ACC and in register d
-    msb   acc, A, rinv      operand B may be RINV
-    lda   acc, A            (lda d, A also copies A to register d)
+    mad   d, A, B, C        ACC <- C + A * B
+    msb   acc, A, rinv      operand B may be rinv or one (the constant 1.0)
     rcp   B                 RINV <- 1/B
     nop
     halt
+
+    lda   d, A              pseudo-instruction: mul d, A, one
+    add   d, X, Y           pseudo-instruction: mad d, Y, one, X   (X + Y)
+    sub   d, X, Y           pseudo-instruction: msd d, Y, one, X   (X - Y)
+
+A * 1.0 is exact in the fixed-point format, so the pseudo-instructions are
+exact too.
 
 Usage:
     python -m kfasic.asm fw/kf_2d.s --verilog rtl/kf_rom.v \
@@ -41,46 +50,65 @@ from pathlib import Path
 
 ROM_DEPTH = 256
 NUM_REGS = 32
-WORD_BITS = 21
+WORD_BITS = 26
 
-OPCODES = {"nop": 0, "halt": 1, "mul": 2, "mac": 3, "msb": 4,
-           "add": 5, "sub": 6, "lda": 7, "rcp": 8}
+OPCODES = {"nop": 0, "halt": 1, "mul": 2, "mac": 3, "msb": 4, "mad": 5, "msd": 6, "rcp": 7}
 OPNAMES = {v: k for k, v in OPCODES.items()}
-OP_NOP, OP_HALT, OP_MUL, OP_MAC, OP_MSB, OP_ADD, OP_SUB, OP_LDA, OP_RCP = range(9)
+OP_NOP, OP_HALT, OP_MUL, OP_MAC, OP_MSB, OP_MAD, OP_MSD, OP_RCP = range(8)
 
-MUL_OPS = (OP_MUL, OP_MAC, OP_MSB)        # use the multiplier
-ALU_OPS = (OP_ADD, OP_SUB, OP_LDA)        # use the adder
-TWO_OPERAND_OPS = MUL_OPS + (OP_ADD, OP_SUB)
-ACC_OPS = MUL_OPS + ALU_OPS               # write ACC
+ACC_OPS = (OP_MUL, OP_MAC, OP_MSB, OP_MAD, OP_MSD)   # multiply, write ACC
+ADDEND_OPS = (OP_MAD, OP_MSD)                        # read register c
+SUB_OPS = (OP_MSB, OP_MSD)                           # subtract the product
 
-WORD_HALT = OP_HALT << 17
+BS_REG, BS_RINV, BS_ONE = 0, 1, 2
+
+WORD_HALT = OP_HALT << 23
 WORD_NOP = 0
 
 
-def encode(op: int, wr: int = 0, dst: int = 0, a: int = 0, b: int = 0, bi: int = 0) -> int:
-    return (op << 17) | (wr << 16) | (dst << 11) | (a << 6) | (b << 1) | bi
+def encode(op: int, wr: int = 0, dst: int = 0, a: int = 0, b: int = 0, bs: int = 0,
+           c: int = 0) -> int:
+    return (op << 23) | (wr << 22) | (dst << 17) | (a << 12) | (b << 7) | (bs << 5) | c
 
 
 def decode(word: int) -> dict[str, int]:
     return {
-        "op": (word >> 17) & 15,
-        "wr": (word >> 16) & 1,
-        "dst": (word >> 11) & 31,
-        "a": (word >> 6) & 31,
-        "b": (word >> 1) & 31,
-        "bi": word & 1,
+        "op": (word >> 23) & 7,
+        "wr": (word >> 22) & 1,
+        "dst": (word >> 17) & 31,
+        "a": (word >> 12) & 31,
+        "b": (word >> 7) & 31,
+        "bs": (word >> 5) & 3,
+        "c": word & 31,
+    }
+
+
+def used_fields(x: dict[str, int]) -> dict[str, bool]:
+    """Which fields of a decoded instruction matter."""
+    op = x["op"]
+    acc = op in ACC_OPS
+    return {
+        "a": acc,
+        "b": (acc and x["bs"] == BS_REG) or op == OP_RCP,
+        "bs": acc,
+        "c": op in ADDEND_OPS,
+        "wr": acc,
+        "dst": acc and bool(x["wr"]),
     }
 
 
 def reads(x: dict[str, int]) -> tuple[set[int], bool]:
-    """Registers read by a decoded instruction, and whether it reads RINV."""
-    op = x["op"]
-    regs: set[int] = set()
-    if op in TWO_OPERAND_OPS or op == OP_LDA:
-        regs.add(x["a"])
-    if (op in TWO_OPERAND_OPS and not x["bi"]) or op == OP_RCP:
-        regs.add(x["b"])
-    return regs, op in TWO_OPERAND_OPS and bool(x["bi"])
+    """Registers read in S1 (operands A and B, the divisor of RCP) by a
+    decoded instruction, and whether it reads RINV.  The addend C of
+    MAD/MSD is read one stage later (see addend())."""
+    u = used_fields(x)
+    regs = {x[f] for f in ("a", "b") if u[f]}
+    return regs, x["op"] in ACC_OPS and x["bs"] == BS_RINV
+
+
+def addend(x: dict[str, int]) -> int | None:
+    """Register read as the addend C (in EX), or None."""
+    return x["c"] if x["op"] in ADDEND_OPS else None
 
 
 def disassemble(word: int, names: dict[int, str] | None = None) -> str:
@@ -88,15 +116,12 @@ def disassemble(word: int, names: dict[int, str] | None = None) -> str:
     reg = lambda i: names.get(i, f"db[{i}]")  # noqa: E731
     x = decode(word)
     op = x["op"]
-    if op not in OPNAMES:
-        return f".word 0x{word:06X}"
     name = OPNAMES[op]
-    dst = reg(x["dst"]) if x["wr"] else "acc"
-    if op in TWO_OPERAND_OPS:
-        b = "rinv" if x["bi"] else reg(x["b"])
-        return f"{name:<4} {dst}, {reg(x['a'])}, {b}"
-    if op == OP_LDA:
-        return f"lda  {dst}, {reg(x['a'])}"
+    if op in ACC_OPS:
+        dst = reg(x["dst"]) if x["wr"] else "acc"
+        b = {BS_REG: reg(x["b"]), BS_RINV: "rinv"}.get(x["bs"], "one")
+        args = [dst, reg(x["a"]), b] + ([reg(x["c"])] if op in ADDEND_OPS else [])
+        return f"{name:<4} " + ", ".join(args)
     if op == OP_RCP:
         return f"rcp  {reg(x['b'])}"
     return name
@@ -131,6 +156,7 @@ class Program:
 
 
 _COMMENT = re.compile(r"\s*(;|#|//)(.*)$")
+_SPECIAL_B = {"rinv": BS_RINV, "one": BS_ONE}
 
 
 def _split_comment(line: str) -> tuple[str, str]:
@@ -155,6 +181,8 @@ def assemble(text: str, source: str = "<string>", optimize: bool = True) -> Prog
             idx = int(m.group(1))
         elif tok in prog.regs:
             idx = prog.regs[tok]
+        elif tok.lower() in _SPECIAL_B:
+            raise err(lineno, f"'{tok}' can only be operand B")
         else:
             raise err(lineno, f"unknown register '{tok}'")
         if not 0 <= idx < NUM_REGS:
@@ -163,6 +191,20 @@ def assemble(text: str, source: str = "<string>", optimize: bool = True) -> Prog
 
     def dest(tok: str, lineno: int) -> tuple[int, int]:
         return (0, 0) if tok.lower() == "acc" else (1, reg(tok, lineno))
+
+    def operand_b(tok: str, lineno: int) -> tuple[int, int]:
+        """(b, bs) for operand B."""
+        if tok.lower() in _SPECIAL_B:
+            return 0, _SPECIAL_B[tok.lower()]
+        return reg(tok, lineno), BS_REG
+
+    def acc_op(op: int, d: str, a: str, b: str, c: str | None, lineno: int) -> int:
+        if a.lower() in _SPECIAL_B and b.lower() not in _SPECIAL_B:
+            a, b = b, a                                # A * B is commutative
+        wr, dd = dest(d, lineno)
+        bb, bs = operand_b(b, lineno)
+        cc = reg(c, lineno) if c is not None else 0
+        return encode(op, wr, dd, reg(a, lineno), bb, bs, cc)
 
     for lineno, raw in enumerate(text.splitlines(), start=1):
         code, comment = _split_comment(raw)
@@ -177,7 +219,7 @@ def assemble(text: str, source: str = "<string>", optimize: bool = True) -> Prog
             if len(parts) != 2:
                 raise err(lineno, ".reg expects: .reg NAME INDEX")
             name, idx = parts[0], int(parts[1], 0)
-            if not re.fullmatch(r"[A-Za-z_]\w*", name) or name.lower() in ("acc", "rinv"):
+            if not re.fullmatch(r"[A-Za-z_]\w*", name) or name.lower() in ("acc", "rinv", "one"):
                 raise err(lineno, f"invalid register name '{name}'")
             if name in prog.regs:
                 raise err(lineno, f"register '{name}' defined twice")
@@ -186,33 +228,35 @@ def assemble(text: str, source: str = "<string>", optimize: bool = True) -> Prog
             prog.regs[name] = idx
             continue
 
-        if mnem not in OPCODES:
-            raise err(lineno, f"unknown mnemonic '{mnem}'")
-        op = OPCODES[mnem]
-        if op in TWO_OPERAND_OPS:
+        if mnem in ("mul", "mac", "msb"):
             if len(args) != 3:
                 raise err(lineno, f"'{mnem}' expects 3 operands: dst, A, B")
-            wr, d = dest(args[0], lineno)
-            if args[1].lower() == "rinv":
-                raise err(lineno, "rinv can only be operand B")
-            bi = int(args[2].lower() == "rinv")
-            b = 0 if bi else reg(args[2], lineno)
-            word = encode(op, wr, d, reg(args[1], lineno), b, bi)
-        elif op == OP_LDA:
+            word = acc_op(OPCODES[mnem], *args, None, lineno)
+        elif mnem in ("mad", "msd"):
+            if len(args) != 4:
+                raise err(lineno, f"'{mnem}' expects 4 operands: dst, A, B, C")
+            word = acc_op(OPCODES[mnem], *args, lineno)
+        elif mnem == "lda":
             if len(args) != 2:
                 raise err(lineno, "lda expects: lda dst, A")
-            wr, d = dest(args[0], lineno)
-            word = encode(op, wr, d, a=reg(args[1], lineno))
-        elif op == OP_RCP:
+            word = acc_op(OP_MUL, args[0], args[1], "one", None, lineno)
+        elif mnem in ("add", "sub"):
+            if len(args) != 3:
+                raise err(lineno, f"'{mnem}' expects 3 operands: dst, X, Y")
+            op = OP_MAD if mnem == "add" else OP_MSD
+            word = acc_op(op, args[0], args[2], "one", args[1], lineno)
+        elif mnem == "rcp":
             if len(args) == 2 and args[0].lower() == "rinv":
                 args = args[1:]
-            if len(args) != 1 or args[0].lower() == "rinv":
+            if len(args) != 1:
                 raise err(lineno, "rcp expects one register operand: rcp B")
-            word = encode(op, b=reg(args[0], lineno))
-        else:
+            word = encode(OP_RCP, b=reg(args[0], lineno))
+        elif mnem in ("nop", "halt"):
             if args:
                 raise err(lineno, f"'{mnem}' takes no operands")
-            word = encode(op)
+            word = encode(OPCODES[mnem])
+        else:
+            raise err(lineno, f"unknown mnemonic '{mnem}'")
 
         pc = len(prog.instrs)
         if pc >= ROM_DEPTH:
@@ -224,10 +268,11 @@ def assemble(text: str, source: str = "<string>", optimize: bool = True) -> Prog
     if optimize:
         for instr, word in zip(prog.instrs, reduce_toggles(prog.words)):
             old, new = decode(instr.word), decode(word)
-            if old["op"] in TWO_OPERAND_OPS and old["a"] != new["a"]:
-                mnem, _, rest = instr.text.partition(" ")      # operands exchanged
-                d, a, b = (s.strip() for s in rest.split(","))
-                instr.text = f"{mnem} {d}, {b}, {a}"
+            if old["op"] in ACC_OPS and old["a"] != new["a"]:   # A and B exchanged
+                mnem, _, rest = instr.text.partition(" ")
+                args = [s.strip() for s in rest.split(",")]
+                args[1], args[2] = args[2], args[1]
+                instr.text = f"{mnem:<4} " + ", ".join(args)
             instr.word = word
     return prog
 
@@ -241,68 +286,59 @@ def assemble_file(path: str | Path, optimize: bool = True) -> Program:
 # Low-power encoding
 # --------------------------------------------------------------------------
 
-COMMUTATIVE_OPS = MUL_OPS + (OP_ADD,)     # A and B can be exchanged
-
 # Relative costs used by reduce_toggles(): a port that reads a different
-# register makes the read multiplexers and the operand register toggle; an
-# address bit that flips drives a high-fanout select line.
+# register makes the read port and the operand register toggle; an address
+# bit that flips drives select logic; a new multiplier operand makes the
+# multiplier toggle.
 _COST_PORT_CHANGE = 6
 _COST_ADDR_BIT = 1
 _COST_MUL_OPERAND = 6
-_COST_DST_BIT = 0.5
+_COST_CTRL_BIT = 0.5
 
-
-def _used_fields(x: dict[str, int]) -> tuple[bool, bool, bool]:
-    """Whether the a, b and (wr, dst) fields of an instruction matter."""
-    op = x["op"]
-    a_used = op in TWO_OPERAND_OPS or op == OP_LDA
-    b_used = (op in TWO_OPERAND_OPS and not x["bi"]) or op == OP_RCP
-    return a_used, b_used, op in ACC_OPS
+_FIELDS = ("a", "b", "bs", "c", "wr", "dst")
 
 
 def reduce_toggles(words: list[int]) -> list[int]:
     """Re-encode a program so that it executes identically but makes the
     hardware toggle less.
 
-    * Fields an instruction does not use (a, b, bi, wr/dst) repeat the
-      previous instruction's values, so the read addresses and the pipeline
-      control registers do not change.
-    * The operands of MUL, MAC, MSB and ADD are commutative (exactly, in the
-      fixed-point arithmetic too); their order is chosen so that a register
-      read on consecutive cycles stays on the same port, and the multiplier
-      operand registers change as little as possible.
+    * Fields an instruction does not use repeat the previous instruction's
+      values, so the read addresses and the pipeline control registers do
+      not change.
+    * Operands A and B are exchanged where both are registers (the product
+      is exactly commutative, also in fixed point) if that keeps a register
+      read on consecutive cycles on the same port or leaves a multiplier
+      operand register unchanged.
 
     The choice is a shortest path over the program (dynamic programming over
     the field values each instruction leaves behind).  Read sets, written
     registers and therefore pipeline timing are unchanged.
     """
-    # state: (a, b, bi, wr, dst, ma, mb) -> (cost, encoded words so far)
-    states: dict[tuple, tuple[float, list[int]]] = {(0, 0, 0, 0, 0, None, None): (0.0, [])}
+    start = (0, 0, 0, 0, 0, 0, None, None)          # a, b, bs, c, wr, dst, ma, mb
+    states: dict[tuple, tuple[float, list[int]]] = {start: (0.0, [])}
     for word in words:
         x = decode(word)
-        a_used, b_used, acc_op = _used_fields(x)
+        u = used_fields(x)
+        variants = [x]
+        if x["op"] in ACC_OPS and x["bs"] == BS_REG and x["a"] != x["b"]:
+            variants.append(dict(x, a=x["b"], b=x["a"]))
         nxt: dict[tuple, tuple[float, list[int]]] = {}
-        for (pa, pb, pbi, pwr, pdst, ma, mb), (cost, enc) in states.items():
-            orders = [(x["a"], x["b"])]
-            if x["op"] in COMMUTATIVE_OPS and not x["bi"] and x["a"] != x["b"]:
-                orders.append((x["b"], x["a"]))
-            for oa, ob in orders:
-                a = oa if a_used else pa
-                b = ob if b_used else pb
-                bi = x["bi"] if x["op"] in TWO_OPERAND_OPS else pbi
-                wr = x["wr"] if acc_op else pwr
-                dst = x["dst"] if acc_op and x["wr"] else pdst
+        for prev, (cost, enc) in states.items():
+            p = dict(zip(_FIELDS, prev[:6]))
+            ma, mb = prev[6], prev[7]
+            for v in variants:
+                f = {k: (v[k] if u[k] else p[k]) for k in _FIELDS}
                 c = cost
-                for new, old in ((a, pa), (b, pb)):
-                    if new != old:
-                        c += _COST_PORT_CHANGE + _COST_ADDR_BIT * bin(new ^ old).count("1")
-                c += _COST_DST_BIT * (bin(dst ^ pdst).count("1") + (wr != pwr) + (bi != pbi))
+                for port in ("a", "b", "c"):
+                    if f[port] != p[port]:
+                        c += _COST_PORT_CHANGE + _COST_ADDR_BIT * bin(f[port] ^ p[port]).count("1")
+                c += _COST_CTRL_BIT * sum(bin(f[k] ^ p[k]).count("1") for k in ("bs", "wr", "dst"))
                 nma, nmb = ma, mb
-                if x["op"] in MUL_OPS:
-                    nma, nmb = a, ("rinv" if bi else b)
+                if x["op"] in ACC_OPS:
+                    nma, nmb = f["a"], (f["b"] if f["bs"] == BS_REG else -1 - f["bs"])
                     c += _COST_MUL_OPERAND * ((nma != ma) + (nmb != mb))
-                key = (a, b, bi, wr, dst, nma, nmb)
-                w = encode(x["op"], wr, dst, a, b, bi)
+                key = (*(f[k] for k in _FIELDS), nma, nmb)
+                w = encode(x["op"], f["wr"], f["dst"], f["a"], f["b"], f["bs"], f["c"])
                 if key not in nxt or c < nxt[key][0]:
                     nxt[key] = (c, enc + [w])
         states = nxt
@@ -314,14 +350,14 @@ def reduce_toggles(words: list[int]) -> list[int]:
 # --------------------------------------------------------------------------
 
 def to_hex(prog: Program) -> str:
-    return "".join(f"{w:06X}\n" for w in prog.words)
+    return "".join(f"{w:07X}\n" for w in prog.words)
 
 
 def to_listing(prog: Program) -> str:
-    out = [f"; listing of {prog.source}", ";  PC  word    instruction"]
+    out = [f"; listing of {prog.source}", ";  PC  word     instruction"]
     for i in prog.instrs:
         tail = f"  ; {i.comment}" if i.comment else ""
-        out.append(f"{i.pc:5d}  {i.word:06X}  {i.text}{tail}")
+        out.append(f"{i.pc:5d}  {i.word:07X}  {i.text}{tail}")
     return "\n".join(out) + "\n"
 
 
@@ -343,9 +379,9 @@ def to_verilog(prog: Program, module: str = "kf_rom") -> str:
         "    case (addr)",
     ]
     for i in prog.instrs:
-        lines.append(f"      8'd{i.pc:<3d}: data = {w}'h{i.word:06X};  // {i.text}")
+        lines.append(f"      8'd{i.pc:<3d}: data = {w}'h{i.word:07X};  // {i.text}")
     lines += [
-        f"      default: data = {w}'h{WORD_HALT:06X};  // halt",
+        f"      default: data = {w}'h{WORD_HALT:07X};  // halt",
         "    endcase",
         "  end",
         "endmodule",
