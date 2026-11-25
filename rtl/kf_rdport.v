@@ -8,7 +8,7 @@
 //
 // Behavioral model, used for simulation.  Synthesis would turn this back
 // into multiplexers, so the IHP flow uses flow/ihp-sg13g2/kf_rdport_ihp.v,
-// the same function built from AOI22/NAND4/OR4 cells.
+// the same function built from AOI22, NAND2, NOR2 and OR2 cells.
 `default_nettype none
 
 module kf_rdport #(

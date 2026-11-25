@@ -21,7 +21,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-CELLS = ("sg13g2_a22oi_1", "sg13g2_nand4_1", "sg13g2_or4_1")
+CELLS = ("sg13g2_a22oi_1", "sg13g2_nand2_1", "sg13g2_nor2_1", "sg13g2_or2_1")
 
 
 def main(argv: list[str]) -> int:

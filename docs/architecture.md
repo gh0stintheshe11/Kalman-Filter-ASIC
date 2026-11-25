@@ -37,7 +37,7 @@ flowchart LR
 | Top level, pipeline control | `rtl/kf_top.v` | host interface, instruction register, decode, interlocks, forwarding, operand/result registers |
 | Microcode ROM | `rtl/kf_rom.v` | hard-wired logic generated from `fw/kf_2d.s` by `kfasic.asm` |
 | Data bank | `rtl/kf_regfile.v` | 32 x 24 flip-flops, one write and three asynchronous read ports (A, B for operands, H for the addend and the host), one clock gate per register |
-| Read port | `rtl/kf_rdport.v` | one-hot address decode and AND-OR; built from AOI22/NAND4/OR4 cells in the IHP flow (`flow/ihp-sg13g2/kf_rdport_ihp.v`, proven equal by `make equiv`) |
+| Read port | `rtl/kf_rdport.v` | one-hot address decode and AND-OR; built from AOI22/NAND2/NOR2/OR2 cells in the IHP flow (`flow/ihp-sg13g2/kf_rdport_ihp.v`, proven equal by `make equiv`) |
 | Multiplier | `rtl/kf_mul.v` | 23 x 23 magnitude product, truncated and saturated (Booth/Wallace in synthesis) |
 | Adder/subtractor | `rtl/kf_addsub.v` | in WB: ACC ± XR or C ± XR |
 | Reciprocal unit | `rtl/kf_rcp.v` | 1/S by radix-8 restoring division, 7 cycles, runs alongside the datapath |
@@ -80,7 +80,10 @@ stalls (inserting a bubble) only when
 * it reads RINV, or is an RCP, while the reciprocal unit is busy.
 
 The addend C never stalls: it is read one stage later, when its producer
-has reached WB.  The reciprocal unit takes S when an RCP issues and delivers
+has reached WB.  Port H is addressed straight from a register: the host
+address register, which during a run takes the addend field of the
+instruction entering EX, so neither the host read path to `data_out` nor
+the addend read has a multiplexer in front of the decoder.  The reciprocal unit takes S when an RCP issues and delivers
 RINV 7 cycles later while the pipeline keeps executing other instructions;
 as the dividend is the constant 2²⁸, the first of the eight radix-8 quotient
 digits only compares |S| with constants and is computed while S is loaded.

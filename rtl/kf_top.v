@@ -67,6 +67,7 @@ module kf_top (
     // running: its clock does not pass through the core clock gates, so
     // these paths start early in the cycle.
     assign ready = rst_n_i & ~(busy | start_q);
+    wire   busy_next = busy ? ~done : start_q;    // next state of running
 
     always @(posedge clk or negedge rst_n_i)
         if (!rst_n_i) begin
@@ -76,11 +77,15 @@ module kf_top (
         end else begin
             start_q <= start & ready;
             write_q <= write & ready;
-            busy    <= busy ? ~done : start_q;    // next state of running
+            busy    <= busy_next;
         end
 
+    // dir_q addresses read port H straight from a register: the host's
+    // address while idle, and during a run the addend register of the
+    // instruction that enters EX.
+    wire [4:0] s1_c;
     always @(posedge clk)
-        dir_q <= dir;
+        dir_q <= busy_next ? s1_c : dir;
 
     // ---- core clock: everything below runs only while there is work ------
     // (a run, or a host write).  While idle, only the reset synchronizer and
@@ -111,7 +116,7 @@ module kf_top (
     wire [4:0] s1_a   = ir[16:12];
     wire [4:0] s1_b   = ir[11:7];
     wire [1:0] s1_bs  = ir[6:5];                      // B: register, RINV, 1.0
-    wire [4:0] s1_c   = ir[4:0];
+    assign     s1_c   = ir[4:0];
 
     wire s1_acc  = (s1_op != 3'd0) & (s1_op != OP_HALT) & (s1_op != OP_RCP);
     wire s1_rcp  = (s1_op == OP_RCP);
@@ -121,7 +126,7 @@ module kf_top (
 
     reg       ex_v, ex_wr, wb_v, wb_wr;
     reg [2:0] ex_op, wb_op;
-    reg [4:0] ex_dst, ex_c, wb_dst;
+    reg [4:0] ex_dst, wb_dst;
     wire      rcp_busy;
 
     wire ex_w  = ex_v & ex_wr;
@@ -156,7 +161,6 @@ module kf_top (
             ex_wr   <= 1'b0;
             ex_op   <= 3'd0;
             ex_dst  <= 5'd0;
-            ex_c    <= 5'd0;
             wb_v    <= 1'b0;
             wb_wr   <= 1'b0;
             wb_op   <= 3'd0;
@@ -175,7 +179,6 @@ module kf_top (
             ex_wr  <= s1_wr;
             ex_op  <= s1_op;
             ex_dst <= s1_dst;
-            ex_c   <= s1_c;
             wb_v   <= ex_v;
             wb_wr  <= ex_wr;
             wb_op  <= ex_op;
@@ -184,7 +187,8 @@ module kf_top (
 
     // ---- register file ----------------------------------------------------
     // Ports A and B serve S1.  Port H serves the host while idle and reads
-    // the addend C in EX while running; data_out is forced to 0 then.
+    // the addend C in EX while running (dir_q holds its address); data_out
+    // is forced to 0 then.
     wire [23:0] rd_a, rd_b, rd_h, rinv;
     wire [23:0] acc_next;
     wire        rf_we    = running ? wb_w     : write_q;
@@ -198,7 +202,7 @@ module kf_top (
         .wdata   (rf_wdata),
         .raddr_a (s1_a),
         .raddr_b (s1_b),
-        .raddr_h (busy ? ex_c : dir_q),
+        .raddr_h (dir_q),
         .rdata_a (rd_a),
         .rdata_b (rd_b),
         .rdata_h (rd_h)
@@ -233,7 +237,7 @@ module kf_top (
     wire        g_xc;
     kf_clkgate cg_xc (.clk(cclk), .en(ex_v & ex_addend), .gclk(g_xc));
     always @(posedge g_xc)
-        xc <= (wb_w & (wb_dst == ex_c)) ? acc_next : rd_h;
+        xc <= (wb_w & (wb_dst == dir_q)) ? acc_next : rd_h;
 
     // ---- WB ---------------------------------------------------------------
     reg  [23:0] acc;
