@@ -10,8 +10,9 @@ S1 stalls (bubble into EX) while
   * it reads a register that the instruction in EX or WB will write,
   * it reads RINV, or is an RCP, while the reciprocal unit is busy.
 RCP does not enter EX/WB: at issue the reciprocal unit takes the divisor and
-runs for RCP_CYCLES cycles; RINV is valid the cycle after.  HALT waits until
-EX, WB and the reciprocal unit are empty.
+runs for RCP_CYCLES cycles; RINV is valid the cycle after.  HALT completes
+once EX and the reciprocal unit are empty; an instruction in WB commits on
+that same clock edge.
 
 The arithmetic is kfasic.fixed; tests require the RTL to match this model
 bit for bit and cycle for cycle.
@@ -116,7 +117,8 @@ class Iss:
             stall = bool(regs & pending) or ((uses_rinv or op == OP_RCP) and busy)
             halting = op == OP_HALT
             issue = not halting and not stall
-            done = halting and ex is None and wb is None and not busy
+            # an instruction still in WB commits on the edge that ends the run
+            done = halting and ex is None and not busy
             if not issue and not halting:
                 stalls += 1
 

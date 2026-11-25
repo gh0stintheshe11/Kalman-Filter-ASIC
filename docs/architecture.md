@@ -9,7 +9,7 @@ multiply and reciprocal, configured for n = 2 states, r = 1 measurement and
 m = 1 control input.  The paper's single-cycle datapath with a 16-bit
 instruction word is reworked here into a pipelined multiply-accumulate
 machine with a reciprocal unit that runs in parallel, which cuts one filter
-iteration from 188 to 50 cycles and lets the clock run faster; aggressive
+iteration from 188 to 49 cycles and lets the clock run faster; aggressive
 clock gating removes almost all idle power.
 
 ```mermaid
@@ -75,7 +75,8 @@ S1 stalls (inserting a bubble) when
   (read-after-write at distance 1 or 2), or
 * it reads RINV, or is an RCP, while the reciprocal unit is busy.
 
-HALT waits until EX, WB and the reciprocal unit are empty.  The interlocks
+HALT completes once EX and the reciprocal unit are empty; the instruction
+in WB commits on that same clock edge.  The interlocks
 make every program correct; the microcode is scheduled so that they hardly
 ever fire.  `kfasic/iss.py` models this cycle for cycle, and random programs
 are run on the RTL and the model to check that they agree.
@@ -136,10 +137,10 @@ known and hidden behind x⁻ and the innovation.
 |---|---|
 | 46 instructions issued (MUL/MAC/MSB/LDA/RCP) | 46 |
 | interlock stall (K waits for RINV) | 1 |
-| HALT: drain EX and WB, return to idle | 3 |
-| **Program** | **50** |
+| HALT: drain EX; the last instruction commits as the run ends | 2 |
+| **Program** | **49** |
 | host input register (START) | 1 |
-| **START to READY** | **51** |
+| **START to READY** | **50** |
 
 The original microcode needed 188 cycles (196 in the course version).
 
@@ -161,7 +162,7 @@ once inside `kf_top`; there are no input-to-output combinational paths.
 
 A request (`start` or `write`) is accepted only if `ready` = 1 in the cycle
 it is presented; anything presented while `ready` = 0 is ignored.  `ready`
-drops on the clock edge that captures `start` and rises again 51 cycles
+drops on the clock edge that captures `start` and rises again 50 cycles
 later.
 
 Using the filter:
@@ -178,6 +179,10 @@ power went into flip-flops and the clock tree, because every flip-flop was
 clocked every cycle while at most one register changes per cycle, and that
 idle power was 72 % of active power.  The current design therefore:
 
+* puts a core clock gate in front of everything except the host input
+  registers: it opens only for a run or a host write, so while idle the
+  clock stops there and the 40 gates below it and their clock tree do not
+  toggle;
 * gives every register-file entry its own clock gate (32 gates instead of
   768 enable multiplexers);
 * gates every other register group by its use: multiplier operands, adder
@@ -190,6 +195,6 @@ idle power was 72 % of active power.  The current design therefore:
 * drives `data_out` combinationally from the register file and forces it to
   0 while busy, so the outputs do not toggle during a run.
 
-While idle only the reset synchronizer and the host input registers are
-clocked.  `flow/power.py` measures power from simulated activity on the
+While idle only the reset synchronizer, the host input registers and the
+core clock gate are clocked.  `flow/power.py` measures power from simulated activity on the
 routed netlist (see the README for the numbers).

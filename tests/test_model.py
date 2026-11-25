@@ -129,15 +129,15 @@ def test_assembler_rejects(src, msg):
 # ----------------------------------------------------------- pipeline timing
 
 @pytest.mark.parametrize("src, cycles, stalls", [
-    # one instruction: issue, two cycles to drain EX and WB, HALT completes
-    ("lda acc, db[1]\nhalt", 4, 0),
+    # one instruction: issue, EX, then HALT completes while it commits in WB
+    ("lda acc, db[1]\nhalt", 3, 0),
     # read-after-write at distance 1 stalls two cycles (EX, then WB)
-    ("lda db[2], db[1]\nlda acc, db[2]\nhalt", 7, 2),
+    ("lda db[2], db[1]\nlda acc, db[2]\nhalt", 6, 2),
     # ... at distance 2 one cycle, at distance 3 none
-    ("lda db[2], db[1]\nnop\nlda acc, db[2]\nhalt", 7, 1),
-    ("lda db[2], db[1]\nnop\nnop\nlda acc, db[2]\nhalt", 7, 0),
+    ("lda db[2], db[1]\nnop\nlda acc, db[2]\nhalt", 6, 1),
+    ("lda db[2], db[1]\nnop\nnop\nlda acc, db[2]\nhalt", 6, 0),
     # RINV is valid RCP_CYCLES cycles after RCP issues
-    ("rcp db[1]\nmul acc, db[1], rinv\nhalt", 1 + RCP_CYCLES + 4, RCP_CYCLES),
+    ("rcp db[1]\nmul acc, db[1], rinv\nhalt", 1 + RCP_CYCLES + 3, RCP_CYCLES),
     # HALT also waits for the reciprocal unit
     ("rcp db[1]\nhalt", 1 + RCP_CYCLES + 1, 0),
 ])
@@ -186,7 +186,7 @@ def test_no_uninitialized_reads_and_cycle_count():
     iss = Iss(PROG.words, strict=True)
     load(iss, ref.tracking_params())
     iss.write(REG["y"], fixed.from_float(0.5))
-    assert iss.run() == 50
+    assert iss.run() == 49
     assert iss.stalls == 1
     with pytest.raises(UninitializedRead):
         Iss(PROG.words, strict=True).run()

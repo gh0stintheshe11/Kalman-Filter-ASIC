@@ -17,7 +17,7 @@ on the **IHP SG13G2** 130 nm open PDK.
 
 | Stage | Tools | Result |
 |---|---|---|
-| Microcode | `kfasic.asm` (this repo) | 47 instructions, **50 cycles** per filter iteration (original: 188) |
+| Microcode | `kfasic.asm` (this repo) | 47 instructions, **49 cycles** per filter iteration (original: 188) |
 | Lint | Verilator `-Wall`, Yosys `check -assert` | clean, no combinational loops |
 | RTL verification | cocotb 2.1 on Icarus Verilog **and** Verilator | bit- and cycle-exact against the golden model; random-program differential tests of the pipeline; bit-exact against the original design's 5000-iteration run |
 | RTL → GDS | LibreLane 3.0.17 (Yosys, OpenROAD) | 0.31 mm² macro, **66.7 MHz** |
@@ -62,7 +62,7 @@ working.  Numbers are 24-bit sign-magnitude Q9.14, as in the paper.
 
 The microcode uses the symmetry of the covariance matrices and evaluates
 P⁺ = P⁻ − K(P⁻Hᵀ)ᵀ.  In exact arithmetic this is identical to the textbook
-equations, and it needs 50 cycles per iteration instead of 188.
+equations, and it needs 49 cycles per iteration instead of 188.
 
 Every register group is clock-gated: one gate per register-file entry, and
 gates for the operand registers, the result and accumulator registers, the
@@ -120,7 +120,7 @@ constraints: [`flow/ihp-sg13g2/`](flow/ihp-sg13g2/).
 | Antenna violations | 0 |
 | Magic vs KLayout GDS (XOR) | identical |
 | Worst IR drop | 1.2 mV |
-| Throughput | 51 cycles per iteration (START to READY) → 1.31 M iterations/s |
+| Throughput | 50 cycles per iteration (START to READY) → 1.33 M iterations/s |
 
 Timing includes ±5 % derate and 0.25 ns clock uncertainty and is signed off
 at all three corners (the IHP default checks setup only at typical).

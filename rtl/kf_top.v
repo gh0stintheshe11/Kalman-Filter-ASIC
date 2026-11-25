@@ -70,8 +70,15 @@ module kf_top (
     always @(posedge clk)
         dir_q <= dir;
 
+    // ---- core clock: everything below runs only while there is work ------
+    // (a run, or a host write).  While idle, only the reset synchronizer and
+    // the host input registers above are clocked.
+    wire cclk;
+    kf_clkgate cg_core (.clk(clk), .en(running | start_q | write_q | (write & ready)),
+                        .gclk(cclk));
+
     wire g_din;
-    kf_clkgate cg_din (.clk(clk), .en(write & ready), .gclk(g_din));
+    kf_clkgate cg_din (.clk(cclk), .en(write & ready), .gclk(g_din));
     always @(posedge g_din)
         data_in_q <= data_in;
 
@@ -107,11 +114,13 @@ module kf_top (
     wire hz_b  = s1_rb & ((ex_w & (ex_dst == s1_b)) | (wb_w & (wb_dst == s1_b)));
     wire stall = hz_a | hz_b | ((s1_ri | s1_rcp) & rcp_busy);
     wire issue = running & ~s1_halt & ~stall;
-    wire done  = running & s1_halt & ~ex_v & ~wb_v & ~rcp_busy;
+    // HALT completes once EX and the reciprocal unit are empty; an
+    // instruction still in WB commits on the same clock edge.
+    wire done  = running & s1_halt & ~ex_v & ~rcp_busy;
 
     // sequencer and pipeline control (clocked only while running)
     wire g_ctl;
-    kf_clkgate cg_ctl (.clk(clk), .en(running | start_q), .gclk(g_ctl));
+    kf_clkgate cg_ctl (.clk(cclk), .en(running | start_q), .gclk(g_ctl));
     always @(posedge g_ctl or negedge rst_n_i)
         if (!rst_n_i) begin
             running <= 1'b0;
@@ -150,7 +159,7 @@ module kf_top (
     wire [23:0] rf_wdata = running ? acc_next : data_in_q;
 
     kf_regfile u_rf (
-        .clk     (clk),
+        .clk     (cclk),
         .we      (rf_we),
         .waddr   (rf_waddr),
         .wdata   (rf_wdata),
@@ -167,8 +176,8 @@ module kf_top (
     reg  [23:0] ma, mb;                               // multiplier operands
     reg  [23:0] aa, ab;                               // adder operands
     wire        g_mop, g_aop;
-    kf_clkgate cg_mop (.clk(clk), .en(issue & s1_mul), .gclk(g_mop));
-    kf_clkgate cg_aop (.clk(clk), .en(issue & s1_alu), .gclk(g_aop));
+    kf_clkgate cg_mop (.clk(cclk), .en(issue & s1_mul), .gclk(g_mop));
+    kf_clkgate cg_aop (.clk(cclk), .en(issue & s1_alu), .gclk(g_aop));
     always @(posedge g_mop) begin
         ma <= rd_a;
         mb <= opnd_b;
@@ -188,7 +197,7 @@ module kf_top (
 
     reg  [23:0] xr;
     wire        g_xr;
-    kf_clkgate cg_xr (.clk(clk), .en(ex_v), .gclk(g_xr));
+    kf_clkgate cg_xr (.clk(cclk), .en(ex_v), .gclk(g_xr));
     always @(posedge g_xr)
         xr <= ex_y;
 
@@ -199,13 +208,13 @@ module kf_top (
     assign acc_next = ((wb_op == OP_MAC) | (wb_op == OP_MSB)) ? acc_sum : xr;
 
     wire g_acc;
-    kf_clkgate cg_acc (.clk(clk), .en(wb_v), .gclk(g_acc));
+    kf_clkgate cg_acc (.clk(cclk), .en(wb_v), .gclk(g_acc));
     always @(posedge g_acc)
         acc <= acc_next;
 
     // ---- reciprocal unit --------------------------------------------------
     kf_rcp u_rcp (
-        .clk   (clk),
+        .clk   (cclk),
         .rst_n (rst_n_i),
         .start (issue & s1_rcp),
         .s     (rd_b),
