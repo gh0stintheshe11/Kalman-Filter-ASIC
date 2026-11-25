@@ -38,7 +38,7 @@ outside the university environment.
 
 | | Course version | This version |
 |---|---|---|
-| Flip-flops (Yosys generic synthesis) | 5,054 | 889 |
-| Generic cells (Yosys) | 25,096 | 7,155 |
+| Flip-flops (Yosys generic synthesis) | 5,054, all clocked every cycle | 1,072, behind 41 clock gates |
+| Generic cells (Yosys) | 25,096 | 9,539 |
 | Signal pins | 91 | 58 |
-| Cycles per iteration | 195 | 188 (+1 input register) |
+| Cycles per iteration | 195 | 50 (+1 input register) |
