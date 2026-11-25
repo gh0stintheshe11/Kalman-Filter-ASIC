@@ -15,11 +15,11 @@ PDK       ?= ihp-sg13g2
 RUN_TAG   ?= main
 SIM       ?= icarus
 
-RTL      := rtl/kf_top.v rtl/kf_rom.v rtl/kf_regfile.v rtl/kf_mul.v rtl/kf_addsub.v rtl/kf_rcp.v rtl/kf_clkgate.v
+RTL      := rtl/kf_top.v rtl/kf_rom.v rtl/kf_regfile.v rtl/kf_rdport.v rtl/kf_mul.v rtl/kf_addsub.v rtl/kf_rcp.v rtl/kf_clkgate.v
 FLOW_DIR := flow/$(PDK)
 RUN_DIR  := $(FLOW_DIR)/runs/$(RUN_TAG)
 
-.PHONY: help venv rom lint test test-verilator test-long synth flow summary gls power clean
+.PHONY: help venv rom lint test test-verilator test-long synth flow summary gls equiv power clean
 
 help:
 	@echo "make venv            create .venv with the Python tooling (uses uv)"
@@ -31,6 +31,7 @@ help:
 	@echo "make flow            RTL-to-GDS with LibreLane on $(PDK) -> $(RUN_DIR)"
 	@echo "make summary         signoff table of $(RUN_DIR)"
 	@echo "make gls             gate-level simulation of the final netlist of $(RUN_DIR)"
+	@echo "make equiv           prove the cell-level read port equal to rtl/kf_rdport.v"
 	@echo "make power           activity-based power of the final netlist of $(RUN_DIR)"
 	@echo "make clean           remove build/"
 
@@ -73,6 +74,12 @@ gls:
 	GL_NETLIST=$(RUN_DIR)/final/nl/kf_top.nl.v \
 	GL_CELLS=$$($(PYTHON) -c "import json; c = json.load(open('$(RUN_DIR)/resolved.json'))['CELL_VERILOG_MODELS']; print(':'.join(c))") \
 	SIM=icarus $(PYTHON) -m pytest tb -k kf_top -m "not slow"
+
+# The PDK cell models come from a run's resolved config.
+equiv:
+	@test -f $(RUN_DIR)/resolved.json || { echo "no run in $(RUN_DIR); run 'make flow' first"; exit 1; }
+	$(PYTHON) $(FLOW_DIR)/equiv_rdport.py \
+		$$($(PYTHON) -c "import json; print(json.load(open('$(RUN_DIR)/resolved.json'))['CELL_VERILOG_MODELS'][0])")
 
 power:
 	STA="$(STA)" $(PYTHON) flow/power.py $(RUN_DIR)

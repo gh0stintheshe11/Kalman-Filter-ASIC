@@ -23,7 +23,7 @@ from kfasic.randprog import random_program
 ROOT = Path(__file__).resolve().parents[1]
 TB = ROOT / "tb"
 RTL_CORE = [ROOT / "rtl" / f for f in
-            ("kf_top.v", "kf_regfile.v", "kf_mul.v", "kf_addsub.v", "kf_rcp.v", "kf_clkgate.v")]
+            ("kf_top.v", "kf_regfile.v", "kf_rdport.v", "kf_mul.v", "kf_addsub.v", "kf_rcp.v", "kf_clkgate.v")]
 RTL = RTL_CORE + [ROOT / "rtl" / "kf_rom.v"]
 SIM = os.environ.get("SIM", "icarus")
 GL_NETLIST = os.environ.get("GL_NETLIST")

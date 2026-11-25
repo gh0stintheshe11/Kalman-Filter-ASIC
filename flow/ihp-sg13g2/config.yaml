@@ -10,6 +10,7 @@ VERILOG_FILES:
   - dir::../../rtl/kf_addsub.v
   - dir::../../rtl/kf_rcp.v
   - dir::kf_clkgate_ihp.v       # kf_clkgate -> sg13g2_lgcp_1 (replaces rtl/kf_clkgate.v)
+  - dir::kf_rdport_ihp.v        # read-port AND-OR from cells (replaces rtl/kf_rdport.v)
 
 # The IHP lists exclude the integrated clock gate from synthesis and P&R;
 # these copies allow it so that kf_clkgate_ihp.v can instantiate it.

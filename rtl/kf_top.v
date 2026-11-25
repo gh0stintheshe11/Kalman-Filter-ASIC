@@ -51,20 +51,27 @@ module kf_top (
         end
 
     // ---- host input registers --------------------------------------------
-    reg        running;
+    reg        running;            // sequencer running (core clock domain)
+    reg        busy;               // equal to running, on the free-running clock
     reg        start_q, write_q;
     reg [4:0]  dir_q;
     reg [23:0] data_in_q;
+    wire       done;
 
-    assign ready = rst_n_i & ~(running | start_q);
+    // The host-side outputs and input qualifiers use busy rather than
+    // running: its clock does not pass through the core clock gates, so
+    // these paths start early in the cycle.
+    assign ready = rst_n_i & ~(busy | start_q);
 
     always @(posedge clk or negedge rst_n_i)
         if (!rst_n_i) begin
             start_q <= 1'b0;
             write_q <= 1'b0;
+            busy    <= 1'b0;
         end else begin
             start_q <= start & ready;
             write_q <= write & ready;
+            busy    <= busy ? ~done : start_q;    // next state of running
         end
 
     always @(posedge clk)
@@ -116,7 +123,7 @@ module kf_top (
     wire issue = running & ~s1_halt & ~stall;
     // HALT completes once EX and the reciprocal unit are empty; an
     // instruction still in WB commits on the same clock edge.
-    wire done  = running & s1_halt & ~ex_v & ~rcp_busy;
+    assign done = running & s1_halt & ~ex_v & ~rcp_busy;
 
     // sequencer and pipeline control (clocked only while running)
     wire g_ctl;
@@ -152,7 +159,9 @@ module kf_top (
         end
 
     // ---- register file ----------------------------------------------------
-    wire [23:0] rd_a, rd_b, rinv;
+    // Ports A and B serve the datapath, port H the host: there is no path
+    // from the sequencer or the microcode ROM to data_out.
+    wire [23:0] rd_a, rd_b, rd_h, rinv;
     wire [23:0] acc_next;
     wire        rf_we    = running ? wb_w     : write_q;
     wire [4:0]  rf_waddr = running ? wb_dst   : dir_q;
@@ -163,13 +172,15 @@ module kf_top (
         .we      (rf_we),
         .waddr   (rf_waddr),
         .wdata   (rf_wdata),
-        .raddr_a (running ? s1_a : dir_q),
+        .raddr_a (s1_a),
         .raddr_b (s1_b),
+        .raddr_h (dir_q),
         .rdata_a (rd_a),
-        .rdata_b (rd_b)
+        .rdata_b (rd_b),
+        .rdata_h (rd_h)
     );
 
-    assign data_out = running ? 24'd0 : rd_a;
+    assign data_out = rd_h & {24{~busy}};
 
     // ---- S1 -> EX operand registers (separate, so only one unit toggles) --
     wire [23:0] opnd_b = s1_bi ? rinv : rd_b;
