@@ -96,8 +96,14 @@ def reciprocal_mag(s: int) -> int:
     return min((1 << (2 * FRAC)) // sm, MAG_MAX)
 
 
+def rcp(s: int) -> int:
+    """1/S as produced by the reciprocal unit: sign of S, magnitude
+    reciprocal_mag(S).  The magnitude is never zero (>= 32 LSB)."""
+    return pack(sign_of(s), reciprocal_mag(s))
+
+
 def div(r: int, s: int) -> int:
-    """R / S computed as R * (1/S), exactly like the hardware."""
+    """R / S = R * (1/S); identical to mul(r, rcp(s))."""
     return _scale_product(mag_of(r) * reciprocal_mag(s), sign_of(r) ^ sign_of(s))
 
 

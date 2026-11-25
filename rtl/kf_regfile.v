@@ -1,9 +1,10 @@
-// kf_regfile.v -- data bank: N x W registers, 1 write + 2 asynchronous reads
+// kf_regfile.v -- data bank: N x W registers, one write port, two
+// asynchronous read ports.
 //
-// Port A's address is also the write address (paper Fig. 3, "dira").  There
-// is deliberately no write-to-read forwarding: the original design forwarded
-// the write data to port B, which formed a combinational loop through the
-// arithmetic unit.  Registers have no reset; the host initializes them.
+// Each register has its own clock gate, so a write clocks only the 24
+// flip-flops being written and the bank draws no clock power otherwise (this
+// also replaces the per-bit enable multiplexers).  No reset: the host
+// initializes the registers it uses.
 `default_nettype none
 
 module kf_regfile #(
@@ -13,19 +14,29 @@ module kf_regfile #(
 ) (
     input  wire          clk,
     input  wire          we,
-    input  wire [AW-1:0] addr_a,    // read port A and write address
+    input  wire [AW-1:0] waddr,
     input  wire [W-1:0]  wdata,
-    input  wire [AW-1:0] addr_b,    // read port B
+    input  wire [AW-1:0] raddr_a,
+    input  wire [AW-1:0] raddr_b,
     output wire [W-1:0]  rdata_a,
     output wire [W-1:0]  rdata_b
 );
-    reg [W-1:0] mem [0:N-1];
+    wire [W*N-1:0] q;
 
-    always @(posedge clk)
-        if (we) mem[addr_a] <= wdata;
+    genvar i;
+    generate
+        for (i = 0; i < N; i = i + 1) begin : g_reg
+            localparam [AW-1:0] IDX = i;
+            wire        gclk;
+            reg [W-1:0] r;
+            kf_clkgate u_cg (.clk(clk), .en(we & (waddr == IDX)), .gclk(gclk));
+            always @(posedge gclk) r <= wdata;
+            assign q[i*W +: W] = r;
+        end
+    endgenerate
 
-    assign rdata_a = mem[addr_a];
-    assign rdata_b = mem[addr_b];
+    assign rdata_a = q[raddr_a*W +: W];
+    assign rdata_b = q[raddr_b*W +: W];
 
 endmodule
 
