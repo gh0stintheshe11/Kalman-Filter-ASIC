@@ -61,11 +61,20 @@ def main(run_dir: str) -> int:
         ("Magic DRC", g("magic__drc_error__count")),
         ("KLayout DRC", g("klayout__drc_error__count")),
         ("LVS errors (Netgen)", g("design__lvs_error__count")),
+        ("Magic extraction: illegal overlaps", f"{g('magic__illegal_overlap__count')}"
+         + ("" if not g("magic__illegal_overlap__count", 0) or cfg.get("ERROR_ON_ILLEGAL_OVERLAPS", True)
+            else " (warning only: I/O cell abstracts)")),
         ("Antenna violating nets", g("antenna__violating__nets")),
         ("Magic vs KLayout GDS XOR differences", g("design__xor_difference__count")),
-        ("Worst IR drop", f"{1000 * float(g('ir__drop__worst', 0)):.2f} mV"),
-        ("Total power (typical)", f"{1000 * float(g('power__total', 0)):.3f} mW"),
+        ("Worst IR drop (flow: vectorless activity, default supply model)",
+         f"{1000 * float(g('ir__drop__worst', 0)):.2f} mV"),
+        ("Total power (typical, vectorless activity)", f"{1000 * float(g('power__total', 0)):.3f} mW"),
     ]
+    # chip flow only: KLayout antenna and density checks
+    for key, label in (("klayout__antenna_error__count", "KLayout antenna violations"),
+                       ("klayout__density_error__count", "KLayout density violations")):
+        if key in m:
+            rows.append((label, m[key]))
     width = max(len(r[0]) for r in rows)
     print(f"| {'Metric'.ljust(width)} | Value |\n|{'-' * (width + 2)}|-------|")
     for k, v in rows:

@@ -1,0 +1,103 @@
+# LibreLane 3 configuration: the complete kf_chip die on IHP SG13G2 --
+# pad ring, SPI slave and Kalman filter core, flat.  The Chip flow adds to
+# the block flow the pad ring, the seal ring, metal/active fill, the density
+# check and KLayout's antenna check.  Run from the repository root:
+#     make chip            (see Makefile; needs the LibreLane environment)
+meta:
+  version: 3
+  flow: Chip
+
+DESIGN_NAME: kf_chip
+VERILOG_FILES:
+  - dir::../../rtl/kf_chip.v
+  - dir::../../rtl/kf_spi.v
+  - dir::../../rtl/kf_top.v
+  - dir::../../rtl/kf_rom.v
+  - dir::../../rtl/kf_regfile.v
+  - dir::../../rtl/kf_booth.v
+  - dir::../../rtl/kf_mul.v
+  - dir::../../rtl/kf_dot.v
+  - dir::../../rtl/kf_rcp.v
+  - dir::../../rtl/kf_add.v
+  - dir::../../rtl/kf_prefix.v
+  - dir::../ihp-sg13g2/kf_clkgate_ihp.v   # kf_clkgate -> sg13g2_lgcp_1
+  - dir::../ihp-sg13g2/kf_rdport_ihp.v    # read-port AND-OR from cells
+
+VERILOG_POWER_DEFINE: USE_POWER_PINS
+VDD_NETS: [VDD]
+GND_NETS: [VSS]
+# Several pads on the same supply net
+MAGIC_EXT_UNIQUE: notopports
+# Waiver: Magic extracts the I/O cells for LVS from their LEF abstracts,
+# whose obstructions (OBS) cover the cells' interior.  The straps from the
+# core ring down to every I/O cell's vdd/vss pins, and the route to one
+# pad's core-side pin, overlap these obstructions, which Magic reports as
+# illegal overlaps (about 3200; IHP's chip template disables the check).
+# The count stays in the flow log as a warning.  `make chip-shorts` checks
+# the same regions on the full layout: no two pad nets are shorted.
+ERROR_ON_ILLEGAL_OVERLAPS: false
+
+SYNTH_EXCLUDED_CELL_FILE: dir::../ihp-sg13g2/synth_exclude.cells
+PNR_EXCLUDED_CELL_FILE: dir::../ihp-sg13g2/pnr_exclude.cells
+LINTER_INCLUDE_PDK_MODELS: true
+SYNTH_STRATEGY: AREA 3
+PRIMARY_GDSII_STREAMOUT_TOOL: klayout
+
+# ---- timing (as the core macro, flow/ihp-sg13g2/config.yaml) -------------------
+PNR_SDC_FILE: dir::kf_chip.sdc
+SIGNOFF_SDC_FILE: dir::kf_chip.sdc
+CLOCK_PORT: clk_PAD
+CLOCK_NET: clk_pad/p2c
+CLOCK_PERIOD: 8.0             # ns
+TIMING_VIOLATION_CORNERS: ["*"]
+MAX_SLEW_VIOLATION_CORNERS: ["*"]
+MAX_CAP_VIOLATION_CORNERS: ["*"]
+RUN_POST_GRT_RESIZER_TIMING: true
+RUN_POST_GRT_DESIGN_REPAIR: true
+# The fanout target stays at the IHP default (10), unlike the core macro's 8:
+# with 8, OpenROAD's CTS latency balancer (CTS-0033) left the clock pin of a
+# register-file clock gate unconnected in every placement tried (caught by
+# Checker.DisconnectedPins).
+CTS_ROOT_BUFFER: sg13g2_buf_4
+CTS_CLK_BUFFERS: [sg13g2_buf_4, sg13g2_buf_2]
+SIGNAL_WIRE_RC_LAYERS: [Metal2, Metal3]
+CLOCK_WIRE_RC_LAYERS: [Metal4, Metal5]
+PL_TIMING_DRIVEN: true
+
+# ---- floorplan -----------------------------------------------------------------
+# Die 1.4 x 1.4 mm.  From the die edge: 140 um for the seal ring and the bond
+# pads (PAD_EDGE_SPACING), 180 um of I/O cells, then the core power ring.
+FP_SIZING: absolute
+DIE_AREA: [0, 0, 1400, 1400]
+CORE_AREA: [365, 365, 1035, 1035]
+PL_TARGET_DENSITY_PCT: 55
+
+# ---- pad ring: four pads per side, west to east (north, south) and south to
+# north (east, west); docs/chip.md has the pinout
+PAD_NORTH: [vdd_pad_n, clk_pad, rst_n_pad, vss_pad_n]
+PAD_EAST:  [iovdd_pad_e, sclk_pad, cs_n_pad, iovss_pad_e]
+PAD_SOUTH: [vdd_pad_s, mosi_pad, miso_pad, vss_pad_s]
+PAD_WEST:  [iovdd_pad_w, start_pad, ready_pad, iovss_pad_w]
+
+# I/O ring fillers without IHP's 1 um sg13g2_Filler200: it holds a strip of
+# guard-ring diffusion without a contact, which Magic's DRC reports as a
+# latch-up violation (LU.d: tie diffusion more than 6 um from a contact;
+# IHP's KLayout rule only measures from existing contacts and misses an
+# island without one).  Without it and the 5 um filler, every 88 um gap
+# between the pads (168 um pitch) is 50 + 20 + 10 + 4 x 2 um.
+PAD_FILLERS: [sg13g2_Filler10000, sg13g2_Filler4000, sg13g2_Filler2000, sg13g2_Filler400]
+
+# 70 x 70 um bond pads from the PDK's PCell (flow/chip/make_bondpad.py)
+PAD_BONDPAD_NAME: bondpad_70x70
+EXTRA_LEFS: [dir::bondpad_70x70.lef]
+EXTRA_GDS: [dir::bondpad_70x70.gds]
+IGNORE_DISCONNECTED_MODULES: [bondpad_70x70]
+
+# ---- power: core ring on the pads' supply connections, standard-cell grid ------
+PDN_CORE_RING: true
+PDN_CORE_RING_VWIDTH: 15
+PDN_CORE_RING_HWIDTH: 15
+PDN_CORE_RING_VSPACING: 5
+PDN_CORE_RING_HSPACING: 5
+PDN_CORE_RING_CONNECT_TO_PADS: true
+PDN_ENABLE_PINS: false

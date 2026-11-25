@@ -3,6 +3,12 @@
     pytest tb                         RTL, Icarus Verilog
     SIM=verilator pytest tb           RTL, Verilator
     pytest tb -m slow                 5000-iteration regression
+    pytest tb -k chip                 the chip (pads, SPI, core); needs the
+                                      IHP PDK (PDK_ROOT/PDK or LibreLane's
+                                      ciel cache) for the pad models
+    GL_CHIP_NETLIST=... GL_CELLS=... [GL_CHIP_SDF=...] pytest tb -k chip
+                                      the chip's gate-level netlist (with
+                                      back-annotated delays)
     GL_NETLIST=... GL_CELLS=... pytest tb -k kf_top
                                       gate-level netlist (see Makefile 'gls')
     ... GL_SDF=<OpenSTA SDF> KF_CLK_NS=<period> pytest tb -k kf_top
@@ -10,8 +16,10 @@
                                       delays, at the given clock period
 """
 
+import glob
 import json
 import os
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -29,11 +37,23 @@ TB = ROOT / "tb"
 ARITH = ("kf_booth.v", "kf_mul.v", "kf_dot.v", "kf_rcp.v", "kf_add.v", "kf_prefix.v", "kf_clkgate.v")
 RTL_CORE = [ROOT / "rtl" / f for f in ("kf_top.v", "kf_regfile.v", "kf_rdport.v", *ARITH)]
 RTL = RTL_CORE + [ROOT / "rtl" / "kf_rom.v"]
+CHIP_RTL = RTL + [ROOT / "rtl" / "kf_spi.v", ROOT / "rtl" / "kf_chip.v"]
 SIM = os.environ.get("SIM", "icarus")
 GL_NETLIST = os.environ.get("GL_NETLIST")
 GL_CELLS = [p for p in os.environ.get("GL_CELLS", "").split(":") if p]
 GL_SDF = os.environ.get("GL_SDF")
 rtl_only = pytest.mark.skipif(GL_NETLIST is not None, reason="runs on RTL only")
+
+
+def find_pdk() -> Path | None:
+    """The ihp-sg13g2 PDK: $PDK_ROOT/$PDK, or the version in LibreLane's
+    ciel cache (the newest if there are several)."""
+    if os.environ.get("PDK_ROOT"):
+        p = Path(os.environ["PDK_ROOT"]) / os.environ.get("PDK", "ihp-sg13g2")
+        return p if p.is_dir() else None
+    found = sorted(glob.glob(os.path.expanduser("~/.ciel/ciel/ihp-sg13g2/versions/*/ihp-sg13g2")),
+                   key=os.path.getmtime)
+    return Path(found[-1]) if found else None
 
 
 def _unwrap_oss_cad_suite_vvp():
@@ -116,6 +136,47 @@ def test_kf_top():
     else:
         runner, bdir = build(top, RTL, "rtl")
     run(runner, bdir, top, "test_kf_top")
+
+
+def test_chip():
+    """kf_chip through its pads (RTL with the IHP pad models, or the chip's
+    gate-level netlist with GL_CHIP_NETLIST and GL_CELLS, optionally with
+    the delays of GL_CHIP_SDF)."""
+    netlist = os.environ.get("GL_CHIP_NETLIST")
+    chip_sdf = os.environ.get("GL_CHIP_SDF")
+    if GL_NETLIST and not netlist:
+        pytest.skip("core gate-level run")
+    pdk = find_pdk()
+    if pdk is None:
+        pytest.skip("IHP PDK not found (set PDK_ROOT/PDK)")
+    pads = pdk / "libs.ref" / "sg13g2_io" / "verilog" / "sg13g2_io.v"
+    top, extra = "kf_chip", []
+    if netlist and chip_sdf:
+        assert SIM == "icarus", "back-annotated simulation needs Icarus Verilog"
+        sys.path.insert(0, str(ROOT / "flow"))
+        from power import sdf_for_icarus
+        sdf = ROOT / "build" / "sim" / "chip-gl.sdf"
+        sdf.parent.mkdir(parents=True, exist_ok=True)
+        sdf_for_icarus(Path(chip_sdf), sdf)
+        # The PDK's model of the tristate pad does not declare its enable
+        # arc c2p_en -> pad (only c2p => pad), so that entry is dropped;
+        # MISO's enable follows CS_N and is not timing critical.
+        sdf.write_text(re.sub(r"^\s*\(IOPATH c2p_en pad .*\)\n", "", sdf.read_text(), flags=re.M))
+        top, tag = "kf_chip_sdf", "chip-gl-sdf"
+        sources = [*GL_CELLS, pads, TB / "bondpad_70x70.v", netlist, TB / "kf_chip_sdf.v"]
+        extra = ["-gspecify", "-ginterconnect", f'-DKF_SDF="{sdf}"']
+    elif netlist:
+        sources, tag = [*GL_CELLS, pads, TB / "bondpad_70x70.v", netlist], "chip-gl"
+    else:
+        sources, tag = [*CHIP_RTL, pads], "chip"
+    runner, bdir = build(top, sources, tag, extra_args=extra)
+    log = bdir / "sim.log"
+    try:
+        run(runner, bdir, top, "test_chip", log_file=log)
+    finally:
+        text = log.read_text() if log.exists() else ""
+        print(text[-4000:])
+    assert "SDF ERROR" not in text, "SDF back-annotation failed"
 
 
 @pytest.mark.slow
