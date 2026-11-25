@@ -1,0 +1,18 @@
+# Python
+/.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+
+# simulation and scratch output
+/build/
+*.vcd
+*.fst
+results.xml
+
+# LibreLane runs (large; results are summarized in docs/)
+/flow/*/runs/
+
+# editors / OS
+.DS_Store
+*.swp
