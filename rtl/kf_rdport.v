@@ -21,7 +21,8 @@ module kf_rdport #(
     output wire [W-1:0]   data
 );
     // heap-ordered tree: node k = node 2k | node 2k+1, leaves N..2N-1
-    wire [W-1:0] node [1:2*N-1];
+    // (split_var: each node its own signal for Verilator, see kf_prefix.v)
+    wire [W-1:0] node [1:2*N-1] /* verilator split_var */;
     genvar i;
     generate
         for (i = 0; i < N; i = i + 1) begin : g_leaf

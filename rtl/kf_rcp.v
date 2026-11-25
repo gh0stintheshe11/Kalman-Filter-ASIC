@@ -64,7 +64,7 @@ module kf_rcp #(
     // The comparisons are monotonic in k (ge[k] implies ge[k-1]), so the
     // digit is the thermometer count of ge and the new remainder is
     // 8r - digit*d, selected one-hot.
-    wire [M-1:0] rs [0:2];                        // remainder before each step
+    wire [M-1:0] rs [0:2] /* verilator split_var */;  // remainder before each step
     wire [2:0]   qs [0:1];                        // the two digits
     assign rs[0] = r;
 

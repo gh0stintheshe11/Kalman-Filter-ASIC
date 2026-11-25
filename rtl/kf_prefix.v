@@ -17,8 +17,10 @@ module kf_prefix #(
 );
     localparam integer L = $clog2(N);
 
-    wire [N-1:0] gl [0:L];
-    wire [N-1:0] pl [0:L];
+    // split_var: each level is its own signal for Verilator (one array would
+    // look like a combinational loop to it, UNOPTFLAT)
+    wire [N-1:0] gl [0:L] /* verilator split_var */;
+    wire [N-1:0] pl [0:L] /* verilator split_var */;
     assign gl[0] = g;
     assign pl[0] = p;
 
