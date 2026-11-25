@@ -22,12 +22,15 @@ LINTER_INCLUDE_PDK_MODELS: true
 # Booth-encoded multiplier with a Wallace tree (shorter and smaller than
 # Yosys' default array multiplier).
 SYNTH_MUL_BOOTH: true
+# ABC script with delay-driven mapping and buffering; of all strategies it
+# gave the fastest routed result (DELAY 4 was larger and slower after P&R).
+SYNTH_STRATEGY: AREA 3
 
 # ---- timing ----------------------------------------------------------------
 PNR_SDC_FILE: dir::kf_top.sdc
 SIGNOFF_SDC_FILE: dir::kf_top.sdc
 CLOCK_PORT: clk
-CLOCK_PERIOD: 15              # ns
+CLOCK_PERIOD: 10              # ns
 # Sign off setup, hold, max-slew and max-cap at every corner:
 # slow 1.08 V/125 C, typical 1.20 V/25 C, fast 1.32 V/-40 C.
 # (The IHP default only checks setup at the typical corner.)
@@ -35,6 +38,16 @@ TIMING_VIOLATION_CORNERS: ["*"]
 MAX_SLEW_VIOLATION_CORNERS: ["*"]
 MAX_CAP_VIOLATION_CORNERS: ["*"]
 RUN_POST_GRT_RESIZER_TIMING: true
+
+# ---- clock tree ------------------------------------------------------------
+# The IHP default builds every level of every tree, including the many
+# small gated trees, from 16x buffers and adds 16x delay buffers to align
+# the ungated flip-flops with the gated ones.  Smaller buffers and no
+# latency-balancing buffers cut clock power several-fold; the resulting
+# skew between gated and ungated flip-flops is covered by STA.
+CTS_ROOT_BUFFER: sg13g2_buf_4
+CTS_CLK_BUFFERS: [sg13g2_buf_4, sg13g2_buf_2]
+CTS_DELAY_BUFFER_DERATE_PCT: 0
 
 # ---- floorplan -------------------------------------------------------------
 FP_SIZING: relative

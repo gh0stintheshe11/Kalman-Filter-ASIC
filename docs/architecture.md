@@ -17,8 +17,8 @@ flowchart LR
     host([host]) -- "write, dir, data_in" --> HIF["input registers"]
     subgraph kf_top
         HIF --> RF
-        PC["PC"] --> ROM["kf_rom<br/>256 x 21"]
-        ROM -- "a, b" --> RF["kf_regfile<br/>32 x 24, 1 clock gate per register"]
+        PC["PC"] --> ROM["kf_rom<br/>256 x 21"] --> IR["IR"]
+        IR -- "a, b" --> RF["kf_regfile<br/>32 x 24, 1 clock gate per register,<br/>read ports A, B, H"]
         RF -- "A, B" --> MOP["mult. operands"] --> MUL["kf_mul"]
         RF -- "A, B" --> AOP["adder operands"] --> ALU["kf_addsub"]
         RF -- "S" --> RCP["kf_rcp<br/>radix-8, 8 cycles"]
@@ -28,14 +28,15 @@ flowchart LR
         XR --> WB["kf_addsub<br/>ACC +/- XR"] --> ACC["ACC"]
         WB -- "write back" --> RF
     end
-    RF -- "DB[dir]" --> DOUT[(data_out)]
+    RF -- "port H: DB[dir]" --> DOUT[(data_out)]
 ```
 
 | Block | File | Notes |
 |---|---|---|
-| Top level, pipeline control | `rtl/kf_top.v` | host interface, S1 decode and interlocks, operand/result registers |
+| Top level, pipeline control | `rtl/kf_top.v` | host interface, instruction register, S1 decode and interlocks, operand/result registers |
 | Microcode ROM | `rtl/kf_rom.v` | hard-wired logic generated from `fw/kf_2d.s` by `kfasic.asm` |
-| Data bank | `rtl/kf_regfile.v` | 32 x 24 flip-flops, one write and two asynchronous read ports, one clock gate per register |
+| Data bank | `rtl/kf_regfile.v` | 32 x 24 flip-flops, one write and three asynchronous read ports (A, B for the datapath, H for the host), one clock gate per register |
+| Read port | `rtl/kf_rdport.v` | one-hot address decode and AND-OR; built from AOI22/NAND4/OR4 cells in the IHP flow (`flow/ihp-sg13g2/kf_rdport_ihp.v`, proven equal by `make equiv`) |
 | Multiplier | `rtl/kf_mul.v` | 23 x 23 magnitude product, truncated and saturated (Booth/Wallace in synthesis) |
 | Adder/subtractor | `rtl/kf_addsub.v` | used twice: A ± B in EX, ACC ± XR in WB |
 | Reciprocal unit | `rtl/kf_rcp.v` | 1/S by radix-8 restoring division, 8 cycles, runs alongside the datapath |
@@ -60,12 +61,14 @@ RTL is tested against it bit for bit.
 
 | Stage | Work |
 |---|---|
-| S1 | `ROM[PC]` is decoded; registers A and B (or RINV) are read into the operand registers of the unit the instruction uses |
+| F | `ROM[PC]` is loaded into the instruction register IR (overlapped with S1) |
+| S1 | IR is decoded; registers A and B (or RINV) are read into the operand registers of the unit the instruction uses |
 | EX | multiply, or add / subtract / load → XR |
 | WB | ACC ← XR, or ACC ± XR for MAC/MSB; optionally also written to register `dst` |
 
-There is no instruction register and no fetch cycle: the ROM output drives
-the register-file read addresses directly, as in the paper.  The reciprocal
+The instruction register is loaded on every issue and holds on a stall; PC
+returns to 0 when a run ends, so the edge that starts a run already loads
+`ROM[0]` and fetching costs no cycle.  The reciprocal
 unit takes S when an RCP instruction issues and delivers RINV 8 cycles later,
 while the pipeline keeps executing other instructions.
 
@@ -181,7 +184,7 @@ idle power was 72 % of active power.  The current design therefore:
 
 * puts a core clock gate in front of everything except the host input
   registers: it opens only for a run or a host write, so while idle the
-  clock stops there and the 40 gates below it and their clock tree do not
+  clock stops there and the gates below it and their clock trees do not
   toggle;
 * gives every register-file entry its own clock gate (32 gates instead of
   768 enable multiplexers);
@@ -192,9 +195,20 @@ idle power was 72 % of active power.  The current design therefore:
   multiplier sees no new data during add/subtract/load and vice versa;
 * computes 1/S with a small radix-8 divider instead of 23 passes through the
   multiplier;
-* drives `data_out` combinationally from the register file and forces it to
-  0 while busy, so the outputs do not toggle during a run.
+* decodes the register-file read addresses one-hot and AND-ORs the
+  registers: a new address toggles the select lines of the old and the new
+  register only, where a binary multiplexer tree toggles select lines that
+  reach every bit (fanout 192, buffered);
+* loads the instruction into a register, so the ROM's glitches do not reach
+  the decode logic and the read ports;
+* encodes the microcode for few toggles: fields an instruction does not use
+  repeat the previous instruction's values, and commutative operands are
+  ordered so that a register read on consecutive cycles stays on the same
+  port (`kfasic.asm.reduce_toggles`);
+* gives the host its own read port and forces `data_out` to 0 while busy, so
+  the outputs do not toggle during a run.
 
 While idle only the reset synchronizer, the host input registers and the
-core clock gate are clocked.  `flow/power.py` measures power from simulated activity on the
-routed netlist (see the README for the numbers).
+core clock gate are clocked.  `flow/power.py` measures power from simulated
+activity, with back-annotated delays, on the routed netlist (see the README
+for the numbers).

@@ -20,10 +20,10 @@ on the **IHP SG13G2** 130 nm open PDK.
 | Microcode | `kfasic.asm` (this repo) | 47 instructions, **49 cycles** per filter iteration (original: 188) |
 | Lint | Verilator `-Wall`, Yosys `check -assert` | clean, no combinational loops |
 | RTL verification | cocotb 2.1 on Icarus Verilog **and** Verilator | bit- and cycle-exact against the golden model; random-program differential tests of the pipeline; bit-exact against the original design's 5000-iteration run |
-| RTL → GDS | LibreLane 3.0.17 (Yosys, OpenROAD) | 0.31 mm² macro, **66.7 MHz** |
+| RTL → GDS | LibreLane 3.0.17 (Yosys, OpenROAD) | 0.34 mm² macro, **100 MHz** |
 | Signoff | OpenSTA (3 corners), KLayout + Magic DRC, Netgen LVS | timing met at all corners; DRC, LVS, antenna clean |
-| Gate-level simulation | cocotb + Icarus on the routed netlist | the same black-box tests pass |
-| Power | OpenSTA with simulated activity | **2.2 nJ per iteration**, 0.36 mW idle |
+| Gate-level simulation | cocotb + Icarus on the routed netlist | the same black-box tests pass, also with back-annotated delays at 100 MHz |
+| Power | OpenSTA with SDF-annotated simulated activity | **2.15 nJ per iteration** (glitches included), 0.15 mW idle |
 
 ## The filter
 
@@ -49,9 +49,10 @@ golden model that the RTL matches bit for bit.*
 ## Architecture
 
 A microcoded multiply-accumulate machine derived from the paper's design.
-A sequencer reads a 256 × 21 ROM, with no fetch cycle and no instruction
-register. A 32 × 24-bit register file holds the state, the parameters and
-temporaries. The datapath is a three-stage pipeline:
+A sequencer reads a 256 × 21 ROM into an instruction register (prefetched,
+so no cycle is lost). A 32 × 24-bit register file holds the state, the
+parameters and temporaries; it has two read ports for the datapath and one
+for the host. The datapath is a three-stage pipeline:
 
 1. read two operands;
 2. multiply, or add/subtract;
@@ -64,10 +65,16 @@ The microcode uses the symmetry of the covariance matrices and evaluates
 P⁺ = P⁻ − K(P⁻Hᵀ)ᵀ.  In exact arithmetic this is identical to the textbook
 equations, and it needs 49 cycles per iteration instead of 188.
 
-Every register group is clock-gated: one gate per register-file entry, and
-gates for the operand registers, the result and accumulator registers, the
-reciprocal unit and the control.  The multiplier and the adder have separate
-operand registers, so only the unit in use sees new data.
+For low power, every register group is clock-gated (one gate per
+register-file entry, gates for the operand, result, accumulator, reciprocal
+and control registers) behind a core clock gate that stops the clock while
+idle.  The multiplier and the adder have separate operand registers, so only
+the unit in use sees new data.  The register-file read ports decode their
+address one-hot, so a new address toggles two select lines instead of
+select lines that reach every bit, and the instruction register keeps the
+ROM's glitches out of them.  The assembler encodes unused instruction fields
+and the order of commutative operands so that as few bits as possible change
+from one instruction to the next.
 
 The host writes parameters and each new measurement while `ready` is high,
 pulses `start`, and reads the updated state back when `ready` returns.
@@ -96,7 +103,12 @@ for bit and `kfasic/iss.py` models the pipeline cycle for cycle.
 
   Inputs change on the falling clock edge, and the tests pass on both Icarus
   and Verilator, so they do not depend on simulator event ordering.
-* The same black-box tests run on the final gate-level netlist (`make gls`).
+* The same black-box tests run on the final gate-level netlist (`make gls`),
+  and on the netlist back-annotated with the typical-corner delays at the
+  design's clock period (`make gls SDF=1`), which exercises the clock gating,
+  resets and hold paths with real timing.
+* The cell-level register-file read port used in the IHP flow is proven
+  equal to its RTL with a SAT miter (`make equiv`).
 
 ## Physical implementation (IHP SG13G2)
 
@@ -104,23 +116,26 @@ Hardened as a standalone macro (no pad ring) with LibreLane 3.0.17: Yosys
 0.62, OpenROAD/OpenSTA (2026-02), Magic 8.3.623, KLayout 0.30.7 and Netgen
 1.5.316, on the IHP SG13G2 PDK as pinned by LibreLane.  The clock gates map to
 the PDK's integrated clock-gating cell `sg13g2_lgcp_1`.  Configuration and
-constraints: [`flow/ihp-sg13g2/`](flow/ihp-sg13g2/).
+constraints: [`flow/ihp-sg13g2/`](flow/ihp-sg13g2/).  Synthesis uses ABC's
+`AREA 3` script (delay-driven mapping); the clock trees are built from
+small buffers without latency-balancing buffers, which cut clock power
+several-fold.
 
 | Metric | Value |
 |---|---|
-| Clock | 15 ns (66.7 MHz) |
-| Die | 0.306 mm², 52.6 % core utilization |
-| Cells | 24,322 including fill, decap and tap cells; 148,142 µm² |
-| Setup / hold WNS, slow 1.08 V / 125 °C | +1.87 / +0.60 ns |
-| Setup / hold WNS, typical 1.20 V / 25 °C | +5.72 / +0.29 ns |
-| Setup / hold WNS, fast 1.32 V / −40 °C | +7.78 / +0.11 ns |
+| Clock | 10 ns (100 MHz) |
+| Die | 0.342 mm², 50.8 % core utilization |
+| Cells | 29,781 including fill, decap and tap cells; 161,222 µm² |
+| Setup / hold WNS, slow 1.08 V / 125 °C | +0.19 / +0.23 ns |
+| Setup / hold WNS, typical 1.20 V / 25 °C | +3.04 / +0.28 ns |
+| Setup / hold WNS, fast 1.32 V / −40 °C | +4.68 / +0.11 ns |
 | Max slew / max capacitance violations | 0 / 0 |
 | Routing DRC, Magic DRC, KLayout DRC | 0, 0, 0 |
 | LVS (Netgen) | clean |
 | Antenna violations | 0 |
 | Magic vs KLayout GDS (XOR) | identical |
-| Worst IR drop | 1.2 mV |
-| Throughput | 50 cycles per iteration (START to READY) → 1.33 M iterations/s |
+| Worst IR drop | 1.8 mV |
+| Throughput | 50 cycles per iteration (START to READY) → 2.0 M iterations/s |
 
 Timing includes ±5 % derate and 0.25 ns clock uncertainty and is signed off
 at all three corners (the IHP default checks setup only at typical).
@@ -131,20 +146,25 @@ For comparison, the paper's chip (0.5 µm, 3 metal layers) ran at up to
 
 ## Power
 
-`flow/power.py` replays a workload on the routed netlist (Icarus, zero
-delay), records the switching activity and has OpenSTA compute power with
-the extracted parasitics, at the typical corner.  It does not include glitch
-power.  The first open-source version (single-cycle datapath, 188-cycle
-microcode, no clock gating; commit `5330f70`) was measured the same way.
+`flow/power.py` replays a workload on the routed netlist, back-annotated
+with the typical-corner SDF delays so that the recorded switching activity
+includes glitches, and has OpenSTA compute power with the extracted
+parasitics at the typical corner.  (Zero-delay activity, `--zero-delay`,
+misses them and underestimates the combinational power by 35–65 % for these
+designs.)  All
+versions below are measured this way: the first open-source version
+(single-cycle datapath, 188-cycle microcode, no clock gating; commit
+`5330f70`), the first pipelined version (commit `2160277`) and the current
+one.
 
-| | first version | current |
-|---|---|---|
-| Clock | 50 MHz | 66.7 MHz |
-| Cycles per iteration (incl. host write of y) | 191 | 53 |
-| Power while filtering | 4.35 mW | 2.72 mW |
-| **Energy per iteration** | **16.6 nJ** | **2.17 nJ** (7.7× less) |
-| Idle power (clock running) | 3.13 mW | 0.36 mW (8.6× less) |
-| Leakage | 8.6 µW | 9.4 µW |
+| | first version | pipelined | current |
+|---|---|---|---|
+| Clock | 50 MHz | 66.7 MHz | 100 MHz |
+| Cycles per iteration (incl. host write of y) | 191 | 53 | 52 |
+| Power while filtering | 6.61 mW | 3.65 mW | 4.14 mW |
+| **Energy per iteration** | **25.3 nJ** | **2.90 nJ** | **2.15 nJ** (11.7× less than the first) |
+| Idle power (clock running) | 3.13 mW | 0.36 mW | 0.15 mW |
+| Leakage | 8.6 µW | 9.4 µW | 10.8 µW |
 
 ## Quick start
 
@@ -162,7 +182,8 @@ make test-long            # 5000-iteration RTL regression
 LL=$HOME/tools/librelane/squashfs-root/AppRun
 make flow LIBRELANE="$LL -- librelane"
 make summary              # signoff table
-make gls                  # gate-level simulation of the final netlist
+make gls                  # gate-level simulation of the final netlist (SDF=1: with delays)
+make equiv                # formal check of the cell-level read port
 make power STA="$LL -- sta"
 ```
 
@@ -172,7 +193,7 @@ Changing the program: edit `fw/kf_2d.s`, then `make rom` regenerates
 ## Repository layout
 
 ```text
-rtl/        Verilog: kf_top, kf_rom (generated), kf_regfile, kf_mul, kf_addsub, kf_rcp, kf_clkgate
+rtl/        Verilog: kf_top, kf_rom (generated), kf_regfile, kf_rdport, kf_mul, kf_addsub, kf_rcp, kf_clkgate
 fw/         microcode (assembly source)
 kfasic/     Python: fixed-point model, assembler, ISS, random programs, reference filter, plots
 tests/      fast model tests (pytest)

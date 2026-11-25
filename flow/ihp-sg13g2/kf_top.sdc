@@ -29,4 +29,7 @@ set_load 0.006 [all_outputs]
 # recovery/removal checks remain timed).
 set_false_path -from [get_ports rst_n]
 
-set_max_fanout 10 [current_design]
+# Fanout guideline (LibreLane's MAX_FANOUT_CONSTRAINT).  The IHP library's
+# default_max_fanout of 8 is tighter and is what design repair and the
+# signoff check apply in practice.
+set_max_fanout $::env(MAX_FANOUT_CONSTRAINT) [current_design]
