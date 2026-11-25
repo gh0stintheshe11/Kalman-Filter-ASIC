@@ -5,11 +5,15 @@
     pytest tb -m slow                 5000-iteration regression
     GL_NETLIST=... GL_CELLS=... pytest tb -k kf_top
                                       gate-level netlist (see Makefile 'gls')
+    ... GL_SDF=<OpenSTA SDF> KF_CLK_NS=<period> pytest tb -k kf_top
+                                      gate-level netlist with back-annotated
+                                      delays, at the given clock period
 """
 
 import json
 import os
 import shutil
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -28,6 +32,7 @@ RTL = RTL_CORE + [ROOT / "rtl" / "kf_rom.v"]
 SIM = os.environ.get("SIM", "icarus")
 GL_NETLIST = os.environ.get("GL_NETLIST")
 GL_CELLS = [p for p in os.environ.get("GL_CELLS", "").split(":") if p]
+GL_SDF = os.environ.get("GL_SDF")
 rtl_only = pytest.mark.skipif(GL_NETLIST is not None, reason="runs on RTL only")
 
 
@@ -58,22 +63,23 @@ if SIM == "icarus":
     _unwrap_oss_cad_suite_vvp()
 
 
-def build(top, sources, tag, defines=None):
+def build(top, sources, tag, defines=None, extra_args=()):
     build_dir = ROOT / "build" / "sim" / f"{SIM}-{tag}"
     runner = get_runner(SIM)
     build_args = ["-Wno-fatal"] if SIM == "verilator" else []
     runner.build(sources=sources, hdl_toplevel=top, build_dir=build_dir,
                  always=True, timescale=("1ns", "1ps"), defines=defines or {},
-                 build_args=build_args)
+                 build_args=[*build_args, *extra_args])
     return runner, build_dir
 
 
-def run(runner, build_dir, top, module, env=None, plusargs=(), results="results.xml"):
+def run(runner, build_dir, top, module, env=None, plusargs=(), results="results.xml",
+        log_file=None):
     env = dict(env or {})
     env["PYTHONPATH"] = os.pathsep.join(p for p in (str(TB), os.environ.get("PYTHONPATH")) if p)
     xml = runner.test(hdl_toplevel=top, test_module=module, build_dir=build_dir,
                       test_dir=build_dir, extra_env=env, plusargs=list(plusargs),
-                      results_xml=str(build_dir / results))
+                      results_xml=str(build_dir / results), log_file=log_file)
     n_tests, n_failed = get_results(xml)
     assert n_tests > 0 and n_failed == 0, f"{n_failed} of {n_tests} cocotb tests failed"
 
@@ -87,11 +93,30 @@ def test_units():
 
 
 def test_kf_top():
-    if GL_NETLIST:
-        runner, bdir = build("kf_top", [*GL_CELLS, GL_NETLIST], "gl")
+    top = "kf_top"
+    if GL_NETLIST and GL_SDF:
+        assert SIM == "icarus", "back-annotated simulation needs Icarus Verilog"
+        sys.path.insert(0, str(ROOT / "flow"))
+        from power import sdf_for_icarus
+        sdf = ROOT / "build" / "sim" / "gl.sdf"
+        sdf.parent.mkdir(parents=True, exist_ok=True)
+        sdf_for_icarus(Path(GL_SDF), sdf)
+        top = "kf_top_sdf"
+        runner, bdir = build(top, [*GL_CELLS, GL_NETLIST, TB / "kf_top_sdf.v"], "gl-sdf",
+                             extra_args=["-gspecify", "-ginterconnect", f'-DKF_SDF="{sdf}"'])
+        log = bdir / "sim.log"
+        try:
+            run(runner, bdir, top, "test_kf_top", log_file=log)
+        finally:
+            text = log.read_text() if log.exists() else ""
+            print(text[-4000:])
+        assert "SDF ERROR" not in text, "SDF back-annotation failed"
+        return
+    elif GL_NETLIST:
+        runner, bdir = build(top, [*GL_CELLS, GL_NETLIST], "gl")
     else:
-        runner, bdir = build("kf_top", RTL, "rtl")
-    run(runner, bdir, "kf_top", "test_kf_top")
+        runner, bdir = build(top, RTL, "rtl")
+    run(runner, bdir, top, "test_kf_top")
 
 
 @pytest.mark.slow

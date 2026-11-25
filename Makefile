@@ -30,7 +30,7 @@ help:
 	@echo "make synth           quick generic Yosys synthesis with statistics"
 	@echo "make flow            RTL-to-GDS with LibreLane on $(PDK) -> $(RUN_DIR)"
 	@echo "make summary         signoff table of $(RUN_DIR)"
-	@echo "make gls             gate-level simulation of the final netlist of $(RUN_DIR)"
+	@echo "make gls [SDF=1]     gate-level simulation of the final netlist of $(RUN_DIR)"
 	@echo "make equiv           prove the cell-level read port equal to rtl/kf_rdport.v"
 	@echo "make power           activity-based power of the final netlist of $(RUN_DIR)"
 	@echo "make clean           remove build/"
@@ -69,10 +69,15 @@ summary:
 	$(PYTHON) flow/summary.py $(RUN_DIR)
 
 # The netlist and the PDK cell models come from the run's resolved config.
+# SDF=1 back-annotates the typical-corner delays and runs at the run's clock
+# period (dynamic check of the clock gating, resets and hold paths).
+RUN_CFG = $(PYTHON) -c "import json, sys; c = json.load(open('$(RUN_DIR)/resolved.json')); print(eval(sys.argv[1]))"
 gls:
 	@test -f $(RUN_DIR)/resolved.json || { echo "no run in $(RUN_DIR); run 'make flow' first"; exit 1; }
 	GL_NETLIST=$(RUN_DIR)/final/nl/kf_top.nl.v \
-	GL_CELLS=$$($(PYTHON) -c "import json; c = json.load(open('$(RUN_DIR)/resolved.json'))['CELL_VERILOG_MODELS']; print(':'.join(c))") \
+	GL_CELLS=$$($(RUN_CFG) "':'.join(c['CELL_VERILOG_MODELS'])") \
+	$(if $(SDF),GL_SDF=$(RUN_DIR)/final/sdf/$$($(RUN_CFG) "c['DEFAULT_CORNER']")/kf_top__$$($(RUN_CFG) "c['DEFAULT_CORNER']").sdf \
+	KF_CLK_NS=$$($(RUN_CFG) "c['CLOCK_PERIOD']")) \
 	SIM=icarus $(PYTHON) -m pytest tb -k kf_top -m "not slow"
 
 # The PDK cell models come from a run's resolved config.

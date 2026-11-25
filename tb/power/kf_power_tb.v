@@ -27,6 +27,12 @@ module kf_power_tb;
         .data_in(data_in), .ready(ready), .data_out(data_out)
     );
 
+`ifdef KF_SDF
+    // Back-annotated cell and wire delays (compile with -gspecify): the
+    // activity then includes glitches.
+    initial $sdf_annotate(`KF_SDF, dut);
+`endif
+
     always #(PERIOD / 2.0) clk = ~clk;
 
     reg  [31:0]      script [0:65535];

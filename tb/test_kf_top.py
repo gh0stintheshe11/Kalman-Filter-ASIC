@@ -15,7 +15,7 @@ from pathlib import Path
 
 import cocotb
 import numpy as np
-from cocotb.triggers import ClockCycles, FallingEdge, ReadOnly, RisingEdge
+from cocotb.triggers import ClockCycles, FallingEdge
 
 from kf_host import INPUT_LATENCY, Host
 from kfasic import fixed
@@ -129,21 +129,16 @@ async def host_ignored_while_running(dut):
     d = dut
     rnd = random.Random(4)
     d.start.value = 1
-    await RisingEdge(d.clk)
+    await FallingEdge(d.clk)                       # START captured on the edge before
     cycles = 0
-    while True:
-        await FallingEdge(d.clk)
+    while d.ready.value != 1:
         d.write.value = 1                          # hostile host traffic
         d.dir.value = rnd.randrange(32)
         d.data_in.value = rnd.getrandbits(24)
         d.start.value = rnd.getrandbits(1)
-        await RisingEdge(d.clk)
+        await FallingEdge(d.clk)
         cycles += 1
-        await ReadOnly()
-        if d.ready.value == 1:
-            break
         assert cycles < 1000
-    await FallingEdge(d.clk)
     d.write.value = 0
     d.start.value = 0
     for n in STATE:
@@ -161,6 +156,7 @@ async def reset_during_run(dut):
     await host.write(REG["y"], fixed.from_float(1.0))
     dut.start.value = 1
     await ClockCycles(dut.clk, 30)                 # reciprocal unit busy
+    await FallingEdge(dut.clk)
     dut.start.value = 0
     await host.reset()
     iss = Iss(PROG.words)
