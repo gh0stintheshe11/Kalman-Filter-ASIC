@@ -69,14 +69,16 @@ summary:
 	$(PYTHON) flow/summary.py $(RUN_DIR)
 
 # The netlist and the PDK cell models come from the run's resolved config.
-# SDF=1 back-annotates the typical-corner delays and runs at the run's clock
-# period (dynamic check of the clock gating, resets and hold paths).
+# SDF=1 back-annotates the delays of the typical corner (or SDF_CORNER, e.g.
+# nom_fast_1p32V_m40C for the shortest paths) and runs at the run's clock
+# period: a dynamic check of the clock gating, resets and hold paths.
 RUN_CFG = $(PYTHON) -c "import json, sys; c = json.load(open('$(RUN_DIR)/resolved.json')); print(eval(sys.argv[1]))"
+SDF_CORNER ?= $$($(RUN_CFG) "c['DEFAULT_CORNER']")
 gls:
 	@test -f $(RUN_DIR)/resolved.json || { echo "no run in $(RUN_DIR); run 'make flow' first"; exit 1; }
 	GL_NETLIST=$(RUN_DIR)/final/nl/kf_top.nl.v \
 	GL_CELLS=$$($(RUN_CFG) "':'.join(c['CELL_VERILOG_MODELS'])") \
-	$(if $(SDF),GL_SDF=$(RUN_DIR)/final/sdf/$$($(RUN_CFG) "c['DEFAULT_CORNER']")/kf_top__$$($(RUN_CFG) "c['DEFAULT_CORNER']").sdf \
+	$(if $(SDF),GL_SDF=$(RUN_DIR)/final/sdf/$(SDF_CORNER)/kf_top__$(SDF_CORNER).sdf \
 	KF_CLK_NS=$$($(RUN_CFG) "c['CLOCK_PERIOD']")) \
 	SIM=icarus $(PYTHON) -m pytest tb -k kf_top -m "not slow"
 
@@ -87,7 +89,7 @@ equiv:
 		$$($(PYTHON) -c "import json; print(json.load(open('$(RUN_DIR)/resolved.json'))['CELL_VERILOG_MODELS'][0])")
 
 power:
-	STA="$(STA)" $(PYTHON) flow/power.py $(RUN_DIR)
+	STA="$(STA)" $(PYTHON) flow/power.py --breakdown $(RUN_DIR)
 
 clean:
 	rm -rf build
